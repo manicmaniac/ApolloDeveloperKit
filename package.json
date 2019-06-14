@@ -1,0 +1,23 @@
+{
+  "name": "apollodeveloperkit",
+  "version": "1.0.0",
+  "description": "Visual debug your app, that is based on Apollo iOS",
+  "repository": "https://github.com/manicmaniac/ApolloDeveloperKit",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryosuke Ito <rito.0305@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^6.0.2",
+    "typescript": "^3.5.2",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
+  },
+  "dependencies": {
+    "apollo-cache": "^1.3.2",
+    "apollo-client": "^2.6.2",
+    "graphql": "^14.3.1"
+  }
+}

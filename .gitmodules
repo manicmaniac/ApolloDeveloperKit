@@ -1,0 +1,12 @@
+[submodule "Carthage/Checkouts/SQLite.swift"]
+	path = Carthage/Checkouts/SQLite.swift
+	url = https://github.com/stephencelis/SQLite.swift.git
+[submodule "Carthage/Checkouts/GCDWebServer"]
+	path = Carthage/Checkouts/GCDWebServer
+	url = https://github.com/swisspol/GCDWebServer.git
+[submodule "Carthage/Checkouts/apollo-ios"]
+	path = Carthage/Checkouts/apollo-ios
+	url = https://github.com/apollographql/apollo-ios.git
+[submodule "Carthage/Checkouts/starscream"]
+	path = Carthage/Checkouts/starscream
+	url = https://github.com/daltoniam/starscream.git
