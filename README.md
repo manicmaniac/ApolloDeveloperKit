@@ -30,7 +30,18 @@ github "apollographql/apollo-ios"
 github "manicmaniac/ApolloDeveloperKit"
 ```
 
-Then run `carthage update --platform iOS`
+Then run `carthage update --platform iOS`.
+
+### Install from CocoaPods
+
+Add the following lines to your Podfile.
+
+```
+pod 'Apollo'
+pod 'ApolloDeveloperKit'
+```
+
+Then run `pod install`.
 
 Setup
 -----
