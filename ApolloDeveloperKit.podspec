@@ -3,6 +3,7 @@ Pod::Spec.new do |spec|
   spec.version      = "0.0.1"
   spec.summary      = "Visual debug your app, that is based on Apollo iOS"
   spec.description  = <<-DESC
+                   Visual debug your app, that is based on Apollo iOS.
                    Apollo Client Devtools bridge for Apollo iOS.
                    DESC
   spec.homepage     = "https://github.com/manicmaniac/ApolloDeveloperKit"
