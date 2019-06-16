@@ -7,7 +7,13 @@
 //
 
 import Apollo
+
+// https://github.com/swisspol/GCDWebServer/issues/316
+#if COCOAPODS
+import GCDWebServer
+#else
 import GCDWebServers
+#endif
 
 public class ApolloDebugServer: DebuggableInMemoryNormalizedCacheDelegate, DebuggableNetworkTransportDelegate {
     private let server: GCDWebServer
