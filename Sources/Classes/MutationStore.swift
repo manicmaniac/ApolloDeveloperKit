@@ -16,10 +16,10 @@ struct MutationStoreValue: JSONEncodable {
 
     var jsonValue: JSONValue {
         return [
-            "mutation": mutation.jsonValue,
+            "mutation": mutation,
             "variables": variables.jsonValue,
-            "loading": loading.jsonValue,
-            "error": error.jsonValue
+            "loading": loading,
+            "error": error.flatMap(JSError.init(error:)).jsonValue
         ]
     }
 }

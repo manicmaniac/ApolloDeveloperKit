@@ -17,11 +17,11 @@ struct QueryStoreValue: JSONEncodable {
 
     var jsonValue: JSONValue {
         return [
-            "document": document.jsonValue,
+            "document": document,
             "variables": variables.jsonValue,
             "previousVariables": previousVariables.jsonValue,
-            "networkError": networkError.jsonValue,
-            "graphQLErrors": graphQLErrors.jsonValue
+            "networkError": networkError.flatMap(JSError.init(error:)).jsonValue,
+            "graphQLErrors": graphQLErrors.map(JSError.init(error:)).jsonValue
         ]
     }
 }
