@@ -45,6 +45,9 @@ export default class ApolloClientProxy {
     Object.keys(event.state.queries).forEach(key => {
       event.state.queries[key].document = parse(event.state.queries[key].document);
     });
+    Object.keys(event.state.mutations).forEach(key => {
+      event.state.mutations[key].mutation = parse(event.state.mutations[key].mutation);
+    })
     return event;
   }
 }
