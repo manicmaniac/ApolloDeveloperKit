@@ -122,10 +122,6 @@ Known Bugs
 
 It's not been implemented yet.
 
-### Lost connection to browser after idling for a long time
-
-Reloading browser may fix it.
-
 ### Other bugs and glitches
 
 Don't hesitate to report me from issues.
