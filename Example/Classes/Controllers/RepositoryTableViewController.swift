@@ -64,7 +64,11 @@ class RepositoryTableViewController: UITableViewController, UISearchBarDelegate 
     private func presentAlertController(error: Error) {
         let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        if searchController.isActive {
+            searchController.present(alertController, animated: true, completion: nil)
+        } else {
+            present(alertController, animated: true, completion: nil)
+        }
     }
 
     // MARK: - UISearchBarDelegate
