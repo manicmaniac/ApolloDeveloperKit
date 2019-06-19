@@ -23,10 +23,9 @@ export default class ApolloClientProxy {
     this.eventSource.onmessage = message => {
       const event = this.transformEvent(JSON.parse(message.data));
       console.log(event);
-      this.devToolsHookCb(event);
-    };
-    this.eventSource.onerror = error => {
-      console.error(error);
+      if (this.devToolsHookCb) {
+        this.devToolsHookCb(event);
+      }
     };
   }
 
