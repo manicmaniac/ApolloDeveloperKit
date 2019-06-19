@@ -233,18 +233,42 @@
 		5B2F84E322B431920025A211 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5B7C983522BAB9F2000F4D7B /* EventStream */,
+				5B7C983622BABA06000F4D7B /* JSON */,
+				5B7C983422BAB9E3000F4D7B /* Store */,
+				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
 				5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */,
 				5B2F84E422B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift */,
-				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
-				5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		5B7C983422BAB9E3000F4D7B /* Store */ = {
+			isa = PBXGroup;
+			children = (
 				5B630E3F22B60C990000994D /* QueryManager.swift */,
 				5B630E3D22B60A210000994D /* MutationStore.swift */,
 				5B630E3922B575DA0000994D /* QueryStore.swift */,
-				5BF045FC22B6E62D0083A52D /* JSError.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		5B7C983522BAB9F2000F4D7B /* EventStream */ = {
+			isa = PBXGroup;
+			children = (
 				5B7C983022BA85AB000F4D7B /* EventStreamQueue.swift */,
 				5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */,
 			);
-			path = Classes;
+			path = EventStream;
+			sourceTree = "<group>";
+		};
+		5B7C983622BABA06000F4D7B /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */,
+				5BF045FC22B6E62D0083A52D /* JSError.swift */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
