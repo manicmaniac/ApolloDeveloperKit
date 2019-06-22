@@ -9,8 +9,8 @@
 import Apollo
 
 struct MutationStoreValue: JSONEncodable {
-    var mutation: String
-    var variables: GraphQLMap?
+    let mutation: String
+    let variables: GraphQLMap?
     var loading: Bool
     var error: Error?
 
