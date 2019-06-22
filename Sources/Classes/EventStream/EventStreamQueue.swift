@@ -7,8 +7,8 @@
 //
 
 struct EventStreamQueue<Key: AnyObject> {
-    private var queuesByKey = NSMapTable<Key, NSMutableArray>.weakToStrongObjects()
-    private var lock = NSLock()
+    private let queuesByKey = NSMapTable<Key, NSMutableArray>.weakToStrongObjects()
+    private let lock = NSLock()
 
     mutating func enqueue(chunk: EventStreamChunk, forKey key: Key) {
         lock.lock()

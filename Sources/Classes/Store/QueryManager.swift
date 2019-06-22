@@ -11,7 +11,7 @@ import Apollo
 class QueryManager: DebuggableNetworkTransportDelegate {
     let mutationStore = MutationStore()
     let queryStore = QueryStore()
-    var queries = [String: AnyObject]()
+    private var queries = [String: AnyObject]()
     private let operationQueue = OperationQueue()
     private var counter = 0
 
