@@ -2,15 +2,13 @@ import { parse } from 'graphql/language/parser';
 import { ApolloLink } from 'apollo-link';
 
 export default class ApolloClientProxy {
-  public version: string;
-  public link: any;
+  public readonly version = '2.0.0';
+  public readonly link: any;
 
-  private devToolsHookCb: Function;
+  private devToolsHookCb?: Function;
   private eventSource?: EventSource;
 
   constructor() {
-    this.version = '2.0.0';
-    this.eventSource = null;
     this.link = ApolloLink.empty();
   }
 
@@ -42,7 +40,6 @@ export default class ApolloClientProxy {
   public stopListening() {
     if (this.eventSource) {
       this.eventSource.close();
-      this.eventSource = null;
     }
   }
 
