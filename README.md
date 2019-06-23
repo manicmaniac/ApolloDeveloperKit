@@ -8,8 +8,6 @@ ApolloDeveloperKit
 
 [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools) bridge for [Apollo iOS](https://github.com/apollographql/apollo-ios).
 
-**Warning: Currently this program is at the early stage. See [Known Bugs](#known-bugs).**
-
 Screenshots
 -----------
 
@@ -119,17 +117,6 @@ Since Example app uses [Github GraphQL API](https://developer.github.com/v4/), y
 1. Get Github API token from [here](https://github.com/settings/tokens).
 2. Open Example/Info.plist and set your token as `GithubAPIToken`.
 3. Open Xcode and run ApolloDeveloperKitExample app.
-
-Known Bugs
-----------
-
-### GraphiQL tab doesn't work
-
-It's not been implemented yet.
-
-### Other bugs and glitches
-
-Don't hesitate to report me from issues.
 
 License
 -------
