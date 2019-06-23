@@ -70,6 +70,30 @@ public class ApolloDebugServer: DebuggableInMemoryNormalizedCacheDelegate, Debug
                 completion(Data(), nil) // finish event stream
             })
         }
+        server.addHandler(forMethod: "POST", path: "/request", request: GCDWebServerDataRequest.self) { [weak self] request, completion in
+            let request = request as! GCDWebServerDataRequest
+            do {
+                let jsonValue = try JSONSerializationFormat.deserialize(data: request.data)
+                let request = try GraphQLRequest(jsonValue: jsonValue)
+                _ = self?.networkTransport.send(operation: request) { response, error in
+                    do {
+                        if let error = error {
+                            throw error
+                        }
+                        guard let response = response else { fatalError("response must exist when error is nil") }
+                        // Cannot use JSONSerializationFormat.serialize(value:) here because
+                        // response.body may contain an Objective-C type like `NSString`,
+                        // that is not convertible to JSONValue directly.
+                        let data = try JSONSerialization.data(withJSONObject: response.body, options: [])
+                        completion(GCDWebServerDataResponse(data: data, contentType: "application/json"))
+                    } catch let error {
+                        completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
+                    }
+                }
+            } catch let error {
+                completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
+            }
+        }
     }
 
     private func chunkForCurrentState() -> EventStreamChunk {
@@ -95,12 +119,16 @@ public class ApolloDebugServer: DebuggableInMemoryNormalizedCacheDelegate, Debug
     // MARK: - DebuggableHTTPNetworkTransportDelegate
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation : GraphQLOperation {
-        queryManager.networkTransport(networkTransport, willSendOperation: operation)
-        eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+        if !(operation is GraphQLRequest) {
+            queryManager.networkTransport(networkTransport, willSendOperation: operation)
+            eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+        }
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation : GraphQLOperation {
-        queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
-        eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+        if !(operation is GraphQLRequest) {
+            queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
+            eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+        }
     }
 }

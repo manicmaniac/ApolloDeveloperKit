@@ -37,6 +37,8 @@
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
 		5B630E3E22B60A210000994D /* MutationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3D22B60A210000994D /* MutationStore.swift */; };
 		5B630E4022B60C990000994D /* QueryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3F22B60C990000994D /* QueryManager.swift */; };
+		5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* GraphQLRequest.swift */; };
+		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
 		5B7C983122BA85AB000F4D7B /* EventStreamQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983022BA85AB000F4D7B /* EventStreamQueue.swift */; };
 		5B7C983322BA9325000F4D7B /* EventStreamChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
@@ -83,6 +85,8 @@
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
 		5B630E3F22B60C990000994D /* QueryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryManager.swift; sourceTree = "<group>"; };
+		5B67343922BFC53A00A09DF7 /* GraphQLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLRequest.swift; sourceTree = "<group>"; };
+		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B7C983022BA85AB000F4D7B /* EventStreamQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueue.swift; sourceTree = "<group>"; };
 		5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunk.swift; sourceTree = "<group>"; };
 		5BF045FC22B6E62D0083A52D /* JSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
@@ -233,6 +237,7 @@
 		5B2F84E322B431920025A211 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5B67343D22BFF02200A09DF7 /* GraphQL */,
 				5B7C983522BAB9F2000F4D7B /* EventStream */,
 				5B7C983622BABA06000F4D7B /* JSON */,
 				5B7C983422BAB9E3000F4D7B /* Store */,
@@ -241,6 +246,15 @@
 				5B2F84E422B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				5B67343922BFC53A00A09DF7 /* GraphQLRequest.swift */,
+				5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */,
+			);
+			path = GraphQL;
 			sourceTree = "<group>";
 		};
 		5B7C983422BAB9E3000F4D7B /* Store */ = {
@@ -466,6 +480,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */,
 				5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */,
 				5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */,
 				5B2F84E522B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift in Sources */,
@@ -476,6 +491,7 @@
 				5B630E4022B60C990000994D /* QueryManager.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,
+				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
