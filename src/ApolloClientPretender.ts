@@ -1,15 +1,19 @@
 import { parse } from 'graphql/language/parser';
 import { print } from 'graphql/language/printer';
 import { ApolloLink, Observable } from 'apollo-link';
+import { ApolloCache, DataProxy } from 'apollo-cache';
+import ApolloCachePretender from './ApolloCachePretender';
 
-export default class ApolloClientProxy {
-  public readonly version = '2.0.0';
-  public readonly link: ApolloLink;
+export default class ApolloClientPretender implements DataProxy {
+  public version = '2.0.0';
+  public link: ApolloLink;
+  public cache: ApolloCache<object>
 
   private devToolsHookCb?: Function;
   private eventSource?: EventSource;
 
   constructor() {
+    this.cache = new ApolloCachePretender(this.startListening.bind(this));
     this.link = new ApolloLink((operation, forward) => {
       return new Observable(observer => {
         const body = {
@@ -37,21 +41,27 @@ export default class ApolloClientProxy {
     });
   }
 
-  public get cache() {
-    const self = this;
-    return {
-      extract(optimistic: boolean = false): object {
-        self.startListening();
-        return {};
-      },
-
-      readQuery(options: any, optimistic: boolean = false): null {
-        return null;
-      }
-    };
+  public readQuery(options: DataProxy.Query<any>, optimistic: boolean = false): null {
+    return this.cache.readQuery(options, optimistic);
   }
 
-  public startListening() {
+  public readFragment(options: DataProxy.Fragment<any>, optimistic: boolean = false): null {
+    return this.cache.readFragment(options, optimistic);
+  }
+
+  public writeQuery(options: DataProxy.WriteQueryOptions<any, any>): void {
+    this.cache.writeQuery(options);
+  }
+
+  public writeFragment(options: DataProxy.WriteFragmentOptions<any, any>): void {
+    this.cache.writeFragment(options);
+  }
+
+  public writeData(options: DataProxy.WriteDataOptions<any>): void {
+    this.cache.writeData(options);
+  }
+
+  public startListening(): void {
     this.eventSource = new EventSource('/events');
     this.eventSource.onmessage = message => {
       const event = this.transformEvent(JSON.parse(message.data));
@@ -62,13 +72,13 @@ export default class ApolloClientProxy {
     };
   }
 
-  public stopListening() {
+  public stopListening(): void {
     if (this.eventSource) {
       this.eventSource.close();
     }
   }
 
-  public __actionHookForDevTools(cb: () => any) {
+  public __actionHookForDevTools(cb: () => any): void {
     this.devToolsHookCb = cb;
   }
 
