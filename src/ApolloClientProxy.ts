@@ -1,4 +1,3 @@
-// import { Cache } from 'apollo-cache';
 import { parse } from 'graphql/language/parser';
 import { ApolloLink } from 'apollo-link';
 
