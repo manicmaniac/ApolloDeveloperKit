@@ -1,10 +1,19 @@
 {
   "compilerOptions": {
-    "outDir": "./Sources/Assets/javascripts/",
+    "outDir": "./Sources/Assets/",
     "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
-    "allowJs": true
-  }
+    "lib": [
+      "dom",
+      "es6",
+      "esnext.asynciterable"
+    ],
+    "removeComments": true,
+    "module": "commonjs",
+    "target": "es6",
+    "strict": true,
+    "noImplicitAny": true
+  },
+  "files": [
+    "src/index.ts"
+  ]
 }
