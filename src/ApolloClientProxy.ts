@@ -1,11 +1,9 @@
 // import { Cache } from 'apollo-cache';
 import { parse } from 'graphql/language/parser';
 import { ApolloLink } from 'apollo-link';
-import ApolloCacheProxy from './ApolloCacheProxy';
 
 export default class ApolloClientProxy {
   public version: string;
-  public cache: ApolloCacheProxy;
   public link: any;
 
   private devToolsHookCb: Function;
@@ -13,9 +11,22 @@ export default class ApolloClientProxy {
 
   constructor() {
     this.version = '2.0.0';
-    this.cache = new ApolloCacheProxy();
     this.eventSource = null;
     this.link = ApolloLink.empty();
+  }
+
+  public get cache() {
+    const self = this;
+    return {
+      extract(optimistic: boolean = false): object {
+        self.startListening();
+        return {};
+      },
+
+      readQuery(options: any, optimistic: boolean = false): null {
+        return null;
+      }
+    };
   }
 
   public startListening() {
@@ -46,7 +57,7 @@ export default class ApolloClientProxy {
     });
     Object.keys(event.state.mutations).forEach(key => {
       event.state.mutations[key].mutation = parse(event.state.mutations[key].mutation);
-    })
+    });
     return event;
   }
 }
