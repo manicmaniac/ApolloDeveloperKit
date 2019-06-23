@@ -1,15 +1,40 @@
 import { parse } from 'graphql/language/parser';
-import { ApolloLink } from 'apollo-link';
+import { print } from 'graphql/language/printer';
+import { ApolloLink, Observable } from 'apollo-link';
 
 export default class ApolloClientProxy {
   public readonly version = '2.0.0';
-  public readonly link: any;
+  public readonly link: ApolloLink;
 
   private devToolsHookCb?: Function;
   private eventSource?: EventSource;
 
   constructor() {
-    this.link = ApolloLink.empty();
+    this.link = new ApolloLink((operation, forward) => {
+      return new Observable(observer => {
+        const body = {
+          variables: operation.variables,
+          extensions: operation.extensions,
+          operationName: operation.operationName,
+          query: print(operation.query)
+        };
+        const options = {
+          method: "POST",
+          body: JSON.stringify(body)
+        };
+        fetch('/request', options)
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw Error(response.statusText);
+            }
+          })
+          .then(json => observer.next(json))
+          .then(() => observer.complete())
+          .catch(error => observer.error(error))
+      });
+    });
   }
 
   public get cache() {
