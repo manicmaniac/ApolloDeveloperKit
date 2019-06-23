@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
-    "outDir": "./Sources/Assets/javascripts/",
+    "outDir": "./Sources/Assets/",
     "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
-    "allowJs": true
-  }
+    "lib": [
+      "dom",
+      "es6"
+    ],
+    "removeComments": true,
+    "target": "es5"
+  },
+  "files": [
+    "src/index.ts"
+  ]
 }
