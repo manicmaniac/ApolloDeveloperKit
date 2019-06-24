@@ -21,13 +21,12 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     private let cache: DebuggableNormalizedCache
     private let queryManager = QueryManager()
     private var eventStreamQueue = EventStreamQueue<GCDWebServerRequest>()
-    private var timer: Timer!
+    private weak var timer: Timer?
 
     public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
         self.networkTransport = networkTransport
         self.cache = cache
         self.server = GCDWebServer()
-        self.timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
         cache.delegate = self
         networkTransport.delegate = self
         configureHandlers()
@@ -39,16 +38,18 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
 
     public func start(port: UInt) {
         server.start(withPort: port, bonjourName: nil)
+        let timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
+        self.timer = timer
         RunLoop.current.add(timer, forMode: .default)
     }
 
     public func stop() {
+        timer?.invalidate()
         server.stop()
-        timer.invalidate()
     }
 
     @objc private func timerDidFire(_ timer: Timer) {
-        let ping = EventStreamChunk(data: ":".data(using: .ascii)!, error: nil)
+        let ping = EventStreamChunk(data: Data([0x3A]), error: nil)
         eventStreamQueue.enqueueForAllKeys(chunk: ping)
     }
 
