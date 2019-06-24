@@ -24,7 +24,7 @@
 		5B2F821622B430A80025A211 /* ApolloWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821122B430A80025A211 /* ApolloWebSocket.framework */; };
 		5B2F821722B430A80025A211 /* ApolloSQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821222B430A80025A211 /* ApolloSQLite.framework */; };
 		5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
-		5B2F84E522B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E422B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift */; };
+		5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */; };
 		5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */; };
 		5B2F84EF22B4373C0025A211 /* GCDWebServers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F84EE22B4373C0025A211 /* GCDWebServers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */; };
@@ -74,7 +74,7 @@
 		5B2F821122B430A80025A211 /* ApolloWebSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloWebSocket.framework; path = Carthage/Build/iOS/ApolloWebSocket.framework; sourceTree = "<group>"; };
 		5B2F821222B430A80025A211 /* ApolloSQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloSQLite.framework; path = Carthage/Build/iOS/ApolloSQLite.framework; sourceTree = "<group>"; };
 		5B2F821322B430A80025A211 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
-		5B2F84E422B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableInMemoryNormalizedCache.swift; sourceTree = "<group>"; };
+		5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCache.swift; sourceTree = "<group>"; };
 		5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransport.swift; sourceTree = "<group>"; };
 		5B2F84EE22B4373C0025A211 /* GCDWebServers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GCDWebServers.framework; path = Carthage/Build/iOS/GCDWebServers.framework; sourceTree = "<group>"; };
 		5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServer.swift; sourceTree = "<group>"; };
@@ -228,7 +228,7 @@
 				5B7C983422BAB9E3000F4D7B /* Store */,
 				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
 				5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */,
-				5B2F84E422B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift */,
+				5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -471,7 +471,7 @@
 				5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */,
 				5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */,
 				5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */,
-				5B2F84E522B4321E0025A211 /* DebuggableInMemoryNormalizedCache.swift in Sources */,
+				5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */,
 				5B630E3E22B60A210000994D /* MutationStore.swift in Sources */,
 				5B7C983322BA9325000F4D7B /* EventStreamChunk.swift in Sources */,
 				5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */,

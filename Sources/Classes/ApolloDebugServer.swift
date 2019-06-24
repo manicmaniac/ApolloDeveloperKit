@@ -15,17 +15,17 @@ import GCDWebServer
 import GCDWebServers
 #endif
 
-public class ApolloDebugServer: DebuggableInMemoryNormalizedCacheDelegate, DebuggableNetworkTransportDelegate {
+public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNetworkTransportDelegate {
     private let server: GCDWebServer
-    private let cache: DebuggableInMemoryNormalizedCache
     private let networkTransport: DebuggableNetworkTransport
+    private let cache: DebuggableNormalizedCache
     private let queryManager = QueryManager()
     private var eventStreamQueue = EventStreamQueue<GCDWebServerRequest>()
     private var timer: Timer!
 
-    public init(cache: DebuggableInMemoryNormalizedCache, networkTransport: DebuggableNetworkTransport) {
-        self.cache = cache
+    public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
         self.networkTransport = networkTransport
+        self.cache = cache
         self.server = GCDWebServer()
         self.timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
         cache.delegate = self
@@ -112,7 +112,7 @@ public class ApolloDebugServer: DebuggableInMemoryNormalizedCacheDelegate, Debug
 
     // MARK: - DebuggableInMemoryNormalizedCacheDelegate
 
-    func normalizedCache(_ normalizedCache: DebuggableInMemoryNormalizedCache, didChangeRecords records: RecordSet) {
+    func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
         eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
     }
 
