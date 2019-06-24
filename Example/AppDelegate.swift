@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Change localhost to your machine's local IP address when running from a device
         let url = URL(string: "http://localhost:8080/graphql")!
         let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
-        let cache = DebuggableInMemoryNormalizedCache()
+        let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         let store = ApolloStore(cache: cache)
         apollo = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(cache: cache, networkTransport: networkTransport)
