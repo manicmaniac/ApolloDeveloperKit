@@ -68,7 +68,7 @@ Finally, create `ApolloDebugServer` and run.
 ```swift
 let debugServer = ApolloDebugServer(cache: cache, networkTransport: networkTransport)
 self.debugServer = debugServer // Note: you need to retain debugServer's reference
-debugServer.start(port: 8080)
+debugServer.start(port: 8081)
 ```
 
 Full example:
@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 Usage
 -----
 
-Open browser after launching Simulator and jump to `http://localhost:8080` (or other specified port) on your Chrome.
+Open browser after launching Simulator and jump to `http://localhost:8081` (or other specified port) on your Chrome.
 Then [open developer tools](https://developers.google.com/web/tools/chrome-devtools/open) and select `Apollo` tab.
 
 Development
@@ -112,11 +112,11 @@ Development
 
 ### Run Example App
 
-Since Example app uses [Github GraphQL API](https://developer.github.com/v4/), you have to set your Github API token to Xcode Project.
+Since Example app is slightly modified version of [apollographql/frontpage-ios-app](https://github.com/apollographql/frontpage-ios-app),
+you need to start [apollographql/frontpage-server](https://github.com/apollographql/frontpage-server) before runnning the app.
 
-1. Get Github API token from [here](https://github.com/settings/tokens).
-2. Open Example/Info.plist and set your token as `GithubAPIToken`.
-3. Open Xcode and run ApolloDeveloperKitExample app.
+1. Open Xcode and select ApolloDeveloperKitExample scheme.
+2. Run and open `http://localhost:8081` in Google Chrome.
 
 License
 -------
