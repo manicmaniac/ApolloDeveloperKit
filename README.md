@@ -88,11 +88,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let url = URL(string: "https://example.com/graphql")!
         #if DEBUG
             let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
-            let cache = DebuggableInMemoryNormalizedCache()
+            let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
             let store = ApolloStore(cache: cache)
             client = ApolloClient(networkTransport: networkTransport, store: store)
-            debugServer = ApolloDebugServer(cache: cache, networkTransport: networkTransport)
-            debugServer.start(port: 8080)
+            debugServer = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
+            debugServer.start(port: 8081)
         #else
             client = ApolloClient(url: url)
         #endif
