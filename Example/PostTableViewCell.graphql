@@ -1,0 +1,16 @@
+fragment PostDetails on Post {
+  id
+  title
+  votes
+  author {
+    firstName
+    lastName
+  }
+}
+
+mutation UpvotePost($postId: Int!) {
+  upvotePost(postId: $postId) {
+    id
+    votes
+  }
+}
