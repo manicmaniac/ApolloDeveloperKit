@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         let store = ApolloStore(cache: cache)
         apollo = ApolloClient(networkTransport: networkTransport, store: store)
-        server = ApolloDebugServer(cache: cache, networkTransport: networkTransport)
+        server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
