@@ -45,9 +45,7 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     }
 
     public func start(port: UInt) {
-        if isRunning {
-            stop()
-        }
+        stop()
         server.start(withPort: port, bonjourName: nil)
         let timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
         self.timer = timer
@@ -55,8 +53,10 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     }
 
     public func stop() {
-        timer?.invalidate()
-        server.stop()
+        if isRunning {
+            timer?.invalidate()
+            server.stop()
+        }
     }
 
     @objc private func timerDidFire(_ timer: Timer) {
