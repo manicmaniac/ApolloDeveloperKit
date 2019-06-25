@@ -23,6 +23,14 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     private var eventStreamQueue = EventStreamQueue<GCDWebServerRequest>()
     private weak var timer: Timer?
 
+    public var isRunning: Bool {
+        return server.isRunning
+    }
+
+    public var serverURL: URL? {
+        return server.serverURL
+    }
+
     public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
         self.networkTransport = networkTransport
         self.cache = cache
@@ -37,6 +45,9 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     }
 
     public func start(port: UInt) {
+        if isRunning {
+            stop()
+        }
         server.start(withPort: port, bonjourName: nil)
         let timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
         self.timer = timer
