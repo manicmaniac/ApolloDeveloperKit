@@ -20,7 +20,7 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let queryManager = QueryManager()
-    private var eventStreamQueue = EventStreamQueue<GCDWebServerRequest>()
+    private var eventStreamQueue = EventStreamQueueMap<GCDWebServerRequest>()
     private weak var timer: Timer?
 
     public var isRunning: Bool {
@@ -73,12 +73,8 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
             }
             self.eventStreamQueue.enqueue(chunk: self.chunkForCurrentState(), forKey: request)
             return GCDWebServerStreamedResponse(contentType: "text/event-stream", asyncStreamBlock: { [weak self] completion in
-                while let self = self {
-                    if let chunk = self.eventStreamQueue.dequeue(key: request) {
-                        completion(chunk.data, chunk.error)
-                        return
-                    }
-                    Thread.sleep(forTimeInterval: 0.25)
+                if let chunk = self?.eventStreamQueue.dequeue(key: request) {
+                    return completion(chunk.data, chunk.error)
                 }
                 completion(Data(), nil) // finish event stream
             })
