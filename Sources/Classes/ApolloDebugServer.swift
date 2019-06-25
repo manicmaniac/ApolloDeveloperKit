@@ -78,6 +78,7 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
                         completion(chunk.data, chunk.error)
                         return
                     }
+                    Thread.sleep(forTimeInterval: 0.25)
                 }
                 completion(Data(), nil) // finish event stream
             })
