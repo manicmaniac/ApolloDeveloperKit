@@ -1,0 +1,27 @@
+html {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(179deg, #2c2f39 2%, #363944 14%, #32353d 100%);
+  color: white;
+  margin: 0;
+}
+
+main {
+  text-align: center;
+  padding: 0 16px;
+}
+
+a {
+  color: lightblue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: lightblue;
+}
