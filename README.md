@@ -11,7 +11,7 @@ ApolloDeveloperKit
 Screenshots
 -----------
 
-<img width="960" alt="apollo-developer-kit-queries-1920" src="https://user-images.githubusercontent.com/1672393/59568132-81a20180-90b1-11e9-9207-b2070b26e790.png">
+<img width="960" alt="apollo-developer-kit-queries-1920" src="https://user-images.githubusercontent.com/1672393/60062041-84949600-9732-11e9-9c70-ee45e5417db6.png">
 
 Prerequisites
 -------------
