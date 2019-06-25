@@ -20,7 +20,7 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let queryManager = QueryManager()
-    private var eventStreamQueue = EventStreamQueue<GCDWebServerRequest>()
+    private var eventStreamQueue = EventStreamQueueMap<GCDWebServerRequest>()
     private weak var timer: Timer?
 
     public var isRunning: Bool {
