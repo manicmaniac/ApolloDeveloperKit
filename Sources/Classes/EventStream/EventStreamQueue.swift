@@ -7,18 +7,28 @@
 //
 
 class EventStreamQueue {
-    private let lock = NSLock()
-    private var queue = [EventStreamChunk]()
-
-    func enqueue(chunk: EventStreamChunk) {
-        lock.lock()
-        defer { lock.unlock() }
-        queue.append(chunk)
+    private enum Condition {
+        static let empty = 0
+        static let nonempty = 1
     }
 
-    func dequeue() -> EventStreamChunk? {
-        lock.lock()
-        defer { lock.unlock() }
-        return queue.isEmpty ? nil : queue.removeFirst()
+    private var queue = [EventStreamChunk]()
+    private let condition = NSConditionLock(condition: Condition.empty)
+
+    func enqueue(chunk: EventStreamChunk) {
+        condition.lock()
+        queue.append(chunk)
+        condition.unlock(withCondition: Condition.nonempty)
+    }
+
+    func dequeue() -> EventStreamChunk {
+        condition.lock(whenCondition: Condition.nonempty)
+        let chunk = queue.removeFirst()
+        if queue.isEmpty {
+            condition.unlock(withCondition: Condition.empty)
+        } else {
+            condition.unlock()
+        }
+        return chunk
     }
 }
