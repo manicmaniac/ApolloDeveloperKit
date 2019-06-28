@@ -31,6 +31,7 @@
 		5B2F84F622B43BEB0025A211 /* GCDWebServers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F84EE22B4373C0025A211 /* GCDWebServers.framework */; };
 		5B2F84F822B4A81A0025A211 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = 5B2F84F722B4A8190025A211 /* Assets */; };
 		5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */; };
+		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
 		5B630E3E22B60A210000994D /* MutationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3D22B60A210000994D /* MutationStore.swift */; };
 		5B630E4022B60C990000994D /* QueryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3F22B60C990000994D /* QueryManager.swift */; };
@@ -81,6 +82,7 @@
 		5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServer.swift; sourceTree = "<group>"; };
 		5B2F84F722B4A8190025A211 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Record+JSONEncodable.swift"; sourceTree = "<group>"; };
+		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
 		5B630E3F22B60C990000994D /* QueryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryManager.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */,
+				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
+				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
