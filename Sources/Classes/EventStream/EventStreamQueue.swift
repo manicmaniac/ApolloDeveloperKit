@@ -6,7 +6,7 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-class EventStreamQueue {
+public class EventStreamQueue {
     private enum Condition {
         static let empty = 0
         static let nonempty = 1
