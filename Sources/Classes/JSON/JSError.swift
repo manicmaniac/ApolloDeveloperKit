@@ -8,7 +8,7 @@
 
 import Apollo
 
-struct JSError: JSONEncodable {
+public struct JSError: JSONEncodable {
     let message: String?
     let fileName: String? = nil
     let lineNumber: Int? = nil
@@ -19,7 +19,7 @@ struct JSError: JSONEncodable {
 
     // MARK: - JSONEncodable
 
-    var jsonValue: JSONValue {
+    public var jsonValue: JSONValue {
         return [
             "message": message.jsonValue,
             "fileName": fileName.jsonValue,

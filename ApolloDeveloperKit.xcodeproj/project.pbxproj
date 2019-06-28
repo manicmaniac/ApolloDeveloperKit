@@ -35,6 +35,7 @@
 		5B3A837622C6739A002B4FFB /* EventStreamQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A837522C6739A002B4FFB /* EventStreamQueueTests.swift */; };
 		5B3A837722C674C0002B4FFB /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5B3A838A22C67F06002B4FFB /* EventStreamQueueMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A838922C67F06002B4FFB /* EventStreamQueueMapTests.swift */; };
+		5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A838C22C6856D002B4FFB /* JSErrorTests.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
 		5B630E3E22B60A210000994D /* MutationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3D22B60A210000994D /* MutationStore.swift */; };
@@ -90,6 +91,7 @@
 		5B3A837222C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSetTests.swift; sourceTree = "<group>"; };
 		5B3A837522C6739A002B4FFB /* EventStreamQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueueTests.swift; sourceTree = "<group>"; };
 		5B3A838922C67F06002B4FFB /* EventStreamQueueMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueueMapTests.swift; sourceTree = "<group>"; };
+		5B3A838C22C6856D002B4FFB /* JSErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSErrorTests.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A837422C67386002B4FFB /* EventStream */,
+				5B3A838B22C6855C002B4FFB /* JSON */,
 				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */,
 				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */,
 			);
@@ -264,6 +267,14 @@
 				5B3A838922C67F06002B4FFB /* EventStreamQueueMapTests.swift */,
 			);
 			path = EventStream;
+			sourceTree = "<group>";
+		};
+		5B3A838B22C6855C002B4FFB /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				5B3A838C22C6856D002B4FFB /* JSErrorTests.swift */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
@@ -526,6 +537,7 @@
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
 				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
 				5B3A838A22C67F06002B4FFB /* EventStreamQueueMapTests.swift in Sources */,
+				5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */,
 				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
 			);
