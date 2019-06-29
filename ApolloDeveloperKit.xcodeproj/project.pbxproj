@@ -37,6 +37,8 @@
 		5B3A838A22C67F06002B4FFB /* EventStreamQueueMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A838922C67F06002B4FFB /* EventStreamQueueMapTests.swift */; };
 		5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A838C22C6856D002B4FFB /* JSErrorTests.swift */; };
 		5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A838E22C71F6F002B4FFB /* Record+JSONEncodableTests.swift */; };
+		5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */; };
+		5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
 		5B630E3E22B60A210000994D /* MutationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3D22B60A210000994D /* MutationStore.swift */; };
@@ -94,6 +96,8 @@
 		5B3A838922C67F06002B4FFB /* EventStreamQueueMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueueMapTests.swift; sourceTree = "<group>"; };
 		5B3A838C22C6856D002B4FFB /* JSErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSErrorTests.swift; sourceTree = "<group>"; };
 		5B3A838E22C71F6F002B4FFB /* Record+JSONEncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Record+JSONEncodableTests.swift"; sourceTree = "<group>"; };
+		5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+JSONEncodable.swift"; sourceTree = "<group>"; };
+		5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+JSONEncodableTests.swift"; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
@@ -276,6 +280,7 @@
 			children = (
 				5B3A838C22C6856D002B4FFB /* JSErrorTests.swift */,
 				5B3A838E22C71F6F002B4FFB /* Record+JSONEncodableTests.swift */,
+				5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -312,8 +317,9 @@
 		5B7C983622BABA06000F4D7B /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */,
 				5BF045FC22B6E62D0083A52D /* JSError.swift */,
+				5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */,
+				5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -527,6 +533,7 @@
 				5B7C983122BA85AB000F4D7B /* EventStreamQueueMap.swift in Sources */,
 				5B630E4022B60C990000994D /* QueryManager.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
+				5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,
 				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
 			);
@@ -541,6 +548,7 @@
 				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
 				5B3A838A22C67F06002B4FFB /* EventStreamQueueMapTests.swift in Sources */,
 				5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */,
+				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
 				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
