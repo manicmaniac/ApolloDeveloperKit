@@ -40,6 +40,7 @@
 		5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */; };
 		5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */; };
 		5B3A839622C72235002B4FFB /* MutationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839522C72235002B4FFB /* MutationStoreTests.swift */; };
+		5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839722C725BA002B4FFB /* QueryStoreTests.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
 		5B630E3E22B60A210000994D /* MutationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3D22B60A210000994D /* MutationStore.swift */; };
@@ -100,6 +101,7 @@
 		5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+JSONEncodable.swift"; sourceTree = "<group>"; };
 		5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+JSONEncodableTests.swift"; sourceTree = "<group>"; };
 		5B3A839522C72235002B4FFB /* MutationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStoreTests.swift; sourceTree = "<group>"; };
+		5B3A839722C725BA002B4FFB /* QueryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStoreTests.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				5B3A839522C72235002B4FFB /* MutationStoreTests.swift */,
+				5B3A839722C725BA002B4FFB /* QueryStoreTests.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
 				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
+				5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
