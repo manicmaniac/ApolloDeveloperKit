@@ -17,11 +17,14 @@ public class ApolloDebugServer {
     private weak var timer: Timer?
 
     public var isRunning: Bool {
-        return server.state == .running
+        if case .running = server.state {
+            return true
+        }
+        return false
     }
 
     public var serverURL: URL? {
-        return nil
+        return server.serverURL
     }
 
     public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
