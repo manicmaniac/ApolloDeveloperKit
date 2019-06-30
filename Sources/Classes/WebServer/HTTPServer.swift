@@ -6,7 +6,7 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public enum HTTPServerState {
     case idle
@@ -48,6 +48,7 @@ public class HTTPServer {
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
     private var incomingRequests = [FileHandle: CFHTTPMessage]()
+    private var backgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
 
     private var primaryIPAddress: String? {
         var addrs: UnsafeMutablePointer<ifaddrs>?
@@ -101,6 +102,7 @@ public class HTTPServer {
         self.listeningHandle = listeningHandle
         NotificationCenter.default.addObserver(self, selector: #selector(receiveIncomingConnectionNotification(_:)), name: .NSFileHandleConnectionAccepted, object: listeningHandle)
         listeningHandle.acceptConnectionInBackgroundAndNotify()
+        startBackgroundTaskIfNeeded()
         state = .running(port: port)
     }
 
@@ -134,6 +136,15 @@ public class HTTPServer {
             return nil
         }
         return String(cString: buffer, encoding: .ascii)
+    }
+
+    private func startBackgroundTaskIfNeeded() {
+        precondition(Thread.isMainThread)
+        guard backgroundTaskIdentifier == .invalid else { return }
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
+            self.backgroundTaskIdentifier = .invalid
+        }
     }
 
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
