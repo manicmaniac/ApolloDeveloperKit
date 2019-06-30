@@ -95,6 +95,11 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
                         // that is not convertible to JSONValue directly.
                         let data = try JSONSerialization.data(withJSONObject: response.body, options: [])
                         completion(GCDWebServerDataResponse(data: data, contentType: "application/json"))
+                    } catch let error as GraphQLHTTPResponseError {
+                        if let body = error.body, let jsonObject = try? JSONSerialization.jsonObject(with: body, options: []) {
+                            return completion(GCDWebServerErrorResponse(jsonObject: jsonObject))
+                        }
+                        completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
                     } catch let error {
                         completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
                     }
