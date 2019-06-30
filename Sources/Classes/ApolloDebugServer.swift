@@ -8,45 +8,38 @@
 
 import Apollo
 
-// https://github.com/swisspol/GCDWebServer/issues/316
-#if COCOAPODS
-import GCDWebServer
-#else
-import GCDWebServers
-#endif
-
-public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNetworkTransportDelegate {
-    private let server: GCDWebServer
+public class ApolloDebugServer {
+    private let server: HTTPServer
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let queryManager = QueryManager()
-    private var eventStreamQueue = EventStreamQueueMap<GCDWebServerRequest>()
+    private var eventStreamQueue = EventStreamQueueMap<FileHandle>()
     private weak var timer: Timer?
 
     public var isRunning: Bool {
-        return server.isRunning
+        return server.state == .running
     }
 
     public var serverURL: URL? {
-        return server.serverURL
+        return nil
     }
 
     public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
         self.networkTransport = networkTransport
         self.cache = cache
-        self.server = GCDWebServer()
+        self.server = HTTPServer()
+        server.requestHandler = self
         cache.delegate = self
         networkTransport.delegate = self
-        configureHandlers()
     }
 
     deinit {
         stop()
     }
 
-    public func start(port: UInt) {
+    public func start(port: UInt16) throws {
         stop()
-        server.start(withPort: port, bonjourName: nil)
+        try server.start(port: port)
         let timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
         self.timer = timer
         RunLoop.current.add(timer, forMode: .default)
@@ -64,52 +57,6 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
         eventStreamQueue.enqueueForAllKeys(chunk: ping)
     }
 
-    private func configureHandlers() {
-        let documentRootPath = Bundle(for: type(of: self)).path(forResource: "Assets", ofType: nil)!
-        server.addGETHandler(forBasePath: "/", directoryPath: documentRootPath, indexFilename: "index.html", cacheAge: 0, allowRangeRequests: false)
-        server.addHandler(forMethod: "GET", path: "/events", request: GCDWebServerRequest.self) { [weak self] request in
-            guard let self = self else {
-                return GCDWebServerErrorResponse(statusCode: 500)
-            }
-            self.eventStreamQueue.enqueue(chunk: self.chunkForCurrentState(), forKey: request)
-            return GCDWebServerStreamedResponse(contentType: "text/event-stream", asyncStreamBlock: { [weak self] completion in
-                if let chunk = self?.eventStreamQueue.dequeue(key: request) {
-                    return completion(chunk.data, chunk.error)
-                }
-                completion(Data(), nil) // finish event stream
-            })
-        }
-        server.addHandler(forMethod: "POST", path: "/request", request: GCDWebServerDataRequest.self) { [weak self] request, completion in
-            let request = request as! GCDWebServerDataRequest
-            do {
-                let jsonObject = try JSONSerialization.jsonObject(with: request.data, options: [])
-                let request = try GraphQLRequest(jsonObject: jsonObject)
-                _ = self?.networkTransport.send(operation: request) { response, error in
-                    do {
-                        if let error = error {
-                            throw error
-                        }
-                        guard let response = response else { fatalError("response must exist when error is nil") }
-                        // Cannot use JSONSerializationFormat.serialize(value:) here because
-                        // response.body may contain an Objective-C type like `NSString`,
-                        // that is not convertible to JSONValue directly.
-                        let data = try JSONSerialization.data(withJSONObject: response.body, options: [])
-                        completion(GCDWebServerDataResponse(data: data, contentType: "application/json"))
-                    } catch let error as GraphQLHTTPResponseError {
-                        if let body = error.body, let jsonObject = try? JSONSerialization.jsonObject(with: body, options: []) {
-                            return completion(GCDWebServerErrorResponse(jsonObject: jsonObject))
-                        }
-                        completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
-                    } catch let error {
-                        completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
-                    }
-                }
-            } catch let error {
-                completion(GCDWebServerErrorResponse(jsonObject: JSError(error: error).jsonValue))
-            }
-        }
-    }
-
     private func chunkForCurrentState() -> EventStreamChunk {
         var data = try! JSONSerialization.data(withJSONObject: [
             "action": [:],
@@ -123,15 +70,152 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
         data.append(contentsOf: "\n\n".data(using: .utf8)!)
         return EventStreamChunk(data: data, error: nil)
     }
+}
 
-    // MARK: - DebuggableInMemoryNormalizedCacheDelegate
+// MARK: - HTTPRequestHandler
 
+extension ApolloDebugServer: HTTPRequestHandler {
+    public func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
+        let method = CFHTTPMessageCopyRequestMethod(request)!.takeRetainedValue() as String
+        let url = CFHTTPMessageCopyRequestURL(request)!.takeRetainedValue() as URL
+        switch (method, url.path) {
+        case ("GET", "/events"):
+            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
+            CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
+            CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
+            let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+            fileHandle.write(data, ignoringBrokenPipe: true)
+            eventStreamQueue.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
+            Thread { [weak self] in
+                while let chunk = self?.eventStreamQueue.dequeue(key: fileHandle) {
+                    var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
+                    data.append(chunk.data)
+                    data.append("\r\n".data(using: .utf8)!)
+                    fileHandle.write(data, ignoringBrokenPipe: true)
+                }
+                fileHandle.write("0\r\n\r\n".data(using: .ascii)!, ignoringBrokenPipe: true)
+                completion()
+            }.start()
+        case ("GET", _):
+            var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
+            documentURL.appendPathComponent(url.path)
+            do {
+                var resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
+                if resourceValues.isDirectory! {
+                    documentURL.appendPathComponent("index.html")
+                    resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
+
+                }
+                let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, mimeType(for: documentURL.pathExtension) as CFString)
+                CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: resourceValues.fileSize!) as CFString)
+                let bodyData = try Data(contentsOf: documentURL)
+                CFHTTPMessageSetBody(response, bodyData as CFData)
+                let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                fileHandle.write(data, ignoringBrokenPipe: true)
+                completion()
+            } catch URLError.fileDoesNotExist {
+                let data = errorResponseData(for: 404)
+                fileHandle.write(data, ignoringBrokenPipe: true)
+                completion()
+            } catch let error {
+                print(error)
+                let data = errorResponseData(for: 500)
+                fileHandle.write(data, ignoringBrokenPipe: true)
+                completion()
+            }
+        case ("POST", "/request"):
+            let headerFields = CFHTTPMessageCopyAllHeaderFields(request)!.takeRetainedValue() as! [String: String]
+            guard headerFields["Content-Type"] == "application/json" else {
+                let data = errorResponseData(for: 406)
+                fileHandle.write(data, ignoringBrokenPipe: true)
+                return completion()
+            }
+            let body = CFHTTPMessageCopyBody(request)!.takeRetainedValue() as Data
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
+                let operation = try GraphQLRequest(jsonObject: jsonObject)
+                _ = networkTransport.send(operation: operation) { graphQLResponse, error in
+                    do {
+                        if let error = error {
+                            throw error
+                        }
+                        guard let graphQLResponse = graphQLResponse else { fatalError("response must exist when error is nil") }
+                        // Cannot use JSONSerializationFormat.serialize(value:) here because
+                        // response.body may contain an Objective-C type like `NSString`,
+                        // that is not convertible to JSONValue directly.
+                        let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
+                        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
+                        CFHTTPMessageSetBody(response, body as CFData)
+                        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                        fileHandle.write(data, ignoringBrokenPipe: true)
+                        completion()
+                    } catch let error {
+                        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+                        let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
+                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
+                        CFHTTPMessageSetBody(response, body as CFData)
+                        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                        fileHandle.write(data, ignoringBrokenPipe: true)
+                        completion()
+                    }
+                }
+            } catch let error {
+                let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+                let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
+                CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
+                CFHTTPMessageSetBody(response, body as CFData)
+                let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                fileHandle.write(data, ignoringBrokenPipe: true)
+                completion()
+            }
+        case (_, _):
+            let data = errorResponseData(for: 405)
+            fileHandle.write(data, ignoringBrokenPipe: true)
+            completion()
+        }
+    }
+
+    private func errorResponseData(for statusCode: Int) -> Data {
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
+        let bodyData = HTTPURLResponse.localizedString(forStatusCode: statusCode).data(using: .utf8)!
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: bodyData.count) as CFString)
+        CFHTTPMessageSetBody(response, bodyData as CFData)
+        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        return data
+    }
+
+    private func mimeType(for pathExtension: String) -> String {
+        switch pathExtension {
+        case "html":
+            return "text/html; charset=utf-8"
+        case "js":
+            return "application/javascript"
+        case "css":
+            return "text/css"
+        default:
+            return "application/octet-stream"
+        }
+    }
+}
+
+// MARK: - DebuggableNormalizedCacheDelegate
+
+extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
         eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
     }
+}
 
-    // MARK: - DebuggableHTTPNetworkTransportDelegate
+// MARK: - DebuggableNetworkTransportDelegate
 
+extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation : GraphQLOperation {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, willSendOperation: operation)

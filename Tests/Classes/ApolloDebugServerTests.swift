@@ -24,7 +24,7 @@ class ApolloDebugServerTests: XCTestCase {
         store = ApolloStore(cache: cache)
         client = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
-        server.start(port: 8081)
+        try! server.start(port: 8081)
     }
 
     override func tearDown() {
