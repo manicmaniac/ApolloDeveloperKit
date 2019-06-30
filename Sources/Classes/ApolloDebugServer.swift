@@ -83,115 +83,124 @@ extension ApolloDebugServer: HTTPRequestHandler {
         let url = CFHTTPMessageCopyRequestURL(request)!.takeRetainedValue() as URL
         switch (method, url.path) {
         case ("GET", "/events"):
-            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
-            CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
-            CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
-            let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-            fileHandle.write(data, ignoringBrokenPipe: true)
-            eventStreamQueue.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
-            Thread { [weak self] in
-                while let chunk = self?.eventStreamQueue.dequeue(key: fileHandle) {
-                    var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
-                    data.append(chunk.data)
-                    data.append("\r\n".data(using: .utf8)!)
-                    fileHandle.write(data, ignoringBrokenPipe: true)
-                }
-                fileHandle.write("0\r\n\r\n".data(using: .ascii)!, ignoringBrokenPipe: true)
-                completion()
-            }.start()
+            respondToRequestForEventSource(request, fileHandle: fileHandle, completion: completion)
+        case (_, "/events"):
+            respondToRequest(request, fileHandle: fileHandle, statusCode: 405, completion: completion)
         case ("GET", _):
-            var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
-            documentURL.appendPathComponent(url.path)
-            do {
-                var resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
-                if resourceValues.isDirectory! {
-                    documentURL.appendPathComponent("index.html")
-                    resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
-
-                }
-                let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
-                CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, mimeType(for: documentURL.pathExtension) as CFString)
-                CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: resourceValues.fileSize!) as CFString)
-                let bodyData = try Data(contentsOf: documentURL)
-                CFHTTPMessageSetBody(response, bodyData as CFData)
-                let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-                fileHandle.write(data, ignoringBrokenPipe: true)
-                completion()
-            } catch URLError.fileDoesNotExist {
-                let data = errorResponseData(for: 404)
-                fileHandle.write(data, ignoringBrokenPipe: true)
-                completion()
-            } catch let error {
-                print(error)
-                let data = errorResponseData(for: 500)
-                fileHandle.write(data, ignoringBrokenPipe: true)
-                completion()
-            }
+            respondToRequestForDocumentRoot(url: url, request: request, fileHandle: fileHandle, completion: completion)
         case ("POST", "/request"):
-            let headerFields = CFHTTPMessageCopyAllHeaderFields(request)!.takeRetainedValue() as! [String: String]
-            guard headerFields["Content-Type"] == "application/json" else {
-                let data = errorResponseData(for: 406)
-                fileHandle.write(data, ignoringBrokenPipe: true)
-                return completion()
-            }
-            let body = CFHTTPMessageCopyBody(request)!.takeRetainedValue() as Data
-            do {
-                let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
-                let operation = try GraphQLRequest(jsonObject: jsonObject)
-                _ = networkTransport.send(operation: operation) { graphQLResponse, error in
-                    do {
-                        if let error = error {
-                            throw error
-                        }
-                        guard let graphQLResponse = graphQLResponse else { fatalError("response must exist when error is nil") }
-                        // Cannot use JSONSerializationFormat.serialize(value:) here because
-                        // response.body may contain an Objective-C type like `NSString`,
-                        // that is not convertible to JSONValue directly.
-                        let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
-                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
-                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
-                        CFHTTPMessageSetBody(response, body as CFData)
-                        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-                        fileHandle.write(data, ignoringBrokenPipe: true)
-                        completion()
-                    } catch let error {
-                        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
-                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
-                        let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
-                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
-                        CFHTTPMessageSetBody(response, body as CFData)
-                        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-                        fileHandle.write(data, ignoringBrokenPipe: true)
-                        completion()
-                    }
-                }
-            } catch let error {
-                let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
-                CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
-                let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
-                CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
-                CFHTTPMessageSetBody(response, body as CFData)
-                let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-                fileHandle.write(data, ignoringBrokenPipe: true)
-                completion()
-            }
+            respondToRequestForGraphQLRequest(request, fileHandle: fileHandle, completion: completion)
+        case (_, "/request"):
+            respondToRequest(request, fileHandle: fileHandle, statusCode: 405, completion: completion)
         case (_, _):
-            let data = errorResponseData(for: 405)
-            fileHandle.write(data, ignoringBrokenPipe: true)
-            completion()
+            respondToRequest(request, fileHandle: fileHandle, statusCode: 404, completion: completion)
         }
     }
 
-    private func errorResponseData(for statusCode: Int) -> Data {
+    private func respondToRequest(_ request: CFHTTPMessage, fileHandle: FileHandle, statusCode: Int, completion: @escaping () -> Void) {
         let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
         let bodyData = HTTPURLResponse.localizedString(forStatusCode: statusCode).data(using: .utf8)!
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: bodyData.count) as CFString)
         CFHTTPMessageSetBody(response, bodyData as CFData)
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        return data
+        fileHandle.write(data, ignoringBrokenPipe: true)
+        completion()
+    }
+
+    private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
+        CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
+        CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
+        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        fileHandle.write(data, ignoringBrokenPipe: true)
+        eventStreamQueue.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
+        Thread { [weak self] in
+            while let chunk = self?.eventStreamQueue.dequeue(key: fileHandle) {
+                var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
+                data.append(chunk.data)
+                data.append("\r\n".data(using: .utf8)!)
+                fileHandle.write(data, ignoringBrokenPipe: true)
+            }
+            fileHandle.write("0\r\n\r\n".data(using: .ascii)!, ignoringBrokenPipe: true)
+            completion()
+        }.start()
+    }
+
+    private func respondToRequestForDocumentRoot(url: URL, request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
+        var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
+        documentURL.appendPathComponent(url.path)
+        do {
+            var resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
+            if resourceValues.isDirectory! {
+                documentURL.appendPathComponent("index.html")
+                resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
+
+            }
+            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, mimeType(for: documentURL.pathExtension) as CFString)
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: resourceValues.fileSize!) as CFString)
+            let bodyData = try Data(contentsOf: documentURL)
+            CFHTTPMessageSetBody(response, bodyData as CFData)
+            let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+            fileHandle.write(data, ignoringBrokenPipe: true)
+            completion()
+        } catch URLError.fileDoesNotExist {
+            respondToRequest(request, fileHandle: fileHandle, statusCode: 404, completion: completion)
+        } catch let error {
+            print(error)
+            respondToRequest(request, fileHandle: fileHandle, statusCode: 500, completion: completion)
+        }
+    }
+
+    private func respondToRequestForGraphQLRequest(_ request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
+        let headerFields = CFHTTPMessageCopyAllHeaderFields(request)!.takeRetainedValue() as! [String: String]
+        guard headerFields["Content-Type"] == "application/json" else {
+            return respondToRequest(request, fileHandle: fileHandle, statusCode: 406, completion: completion)
+        }
+        let body = CFHTTPMessageCopyBody(request)!.takeRetainedValue() as Data
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
+            let operation = try GraphQLRequest(jsonObject: jsonObject)
+            _ = networkTransport.send(operation: operation) { graphQLResponse, error in
+                do {
+                    if let error = error {
+                        throw error
+                    }
+                    guard let graphQLResponse = graphQLResponse else { fatalError("response must exist when error is nil") }
+                    // Cannot use JSONSerializationFormat.serialize(value:) here because
+                    // response.body may contain an Objective-C type like `NSString`,
+                    // that is not convertible to JSONValue directly.
+                    let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
+                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                    CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+                    CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
+                    CFHTTPMessageSetBody(response, body as CFData)
+                    let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                    fileHandle.write(data, ignoringBrokenPipe: true)
+                    completion()
+                } catch let error {
+                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                    CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+                    let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
+                    CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
+                    CFHTTPMessageSetBody(response, body as CFData)
+                    let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                    fileHandle.write(data, ignoringBrokenPipe: true)
+                    completion()
+                }
+            }
+        } catch let error {
+            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+            let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
+            CFHTTPMessageSetBody(response, body as CFData)
+            let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+            fileHandle.write(data, ignoringBrokenPipe: true)
+            completion()
+        }
     }
 
     private func mimeType(for pathExtension: String) -> String {
