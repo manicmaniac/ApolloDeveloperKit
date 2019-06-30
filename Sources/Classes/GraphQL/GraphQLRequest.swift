@@ -25,11 +25,11 @@ public class GraphQLRequest: GraphQLOperation, JSONDecodable {
         guard let value = value as? [String: Any] else { fatalError() }
         self.variables = value["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
         if let query = value["query"] as? String {
+            // Any kind of operations are recognized as GraphQLOperationType.query type even if they are mutations.
+            // It doesn't cause a problem for now because it matters only when operations are saved,
+            // and ApolloDeveloperKit won't save any operations given from GraphiQL.
             self.operationType = .query
             self.operationDefinition = query
-        } else if let mutation = value["mutation"] as? String {
-            self.operationType = .mutation
-            self.operationDefinition = mutation
         } else {
             throw JSONDecodingError.couldNotConvert(value: value, to: GraphQLRequest.self)
         }

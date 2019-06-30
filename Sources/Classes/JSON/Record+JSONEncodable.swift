@@ -23,14 +23,3 @@ extension Record: JSONEncodable {
         return jsonObject
     }
 }
-
-extension Reference: JSONEncodable {
-    public var jsonValue: JSONValue {
-        return [
-            "generated": true,
-            "id": key,
-            "type": "id",
-            "typename": "TODO"
-        ]
-    }
-}

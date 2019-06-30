@@ -6,7 +6,7 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-struct EventStreamChunk {
+public struct EventStreamChunk {
     let data: Data
     let error: Error?
 }

@@ -8,13 +8,13 @@
 
 import Apollo
 
-struct MutationStoreValue: JSONEncodable {
+public struct MutationStoreValue: JSONEncodable {
     let mutation: String
     let variables: GraphQLMap?
     var loading: Bool
     var error: Error?
 
-    var jsonValue: JSONValue {
+    public var jsonValue: JSONValue {
         return [
             "mutation": mutation,
             "variables": variables.jsonValue,
@@ -24,7 +24,7 @@ struct MutationStoreValue: JSONEncodable {
     }
 }
 
-class MutationStore {
+public class MutationStore {
     private(set) var store = [String: MutationStoreValue]()
 
     func get(mutationId: String) -> MutationStoreValue? {

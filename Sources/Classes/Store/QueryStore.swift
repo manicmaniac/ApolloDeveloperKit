@@ -8,14 +8,14 @@
 
 import Apollo
 
-struct QueryStoreValue: JSONEncodable {
+public struct QueryStoreValue: JSONEncodable {
     let document: String
     let variables: GraphQLMap?
     var previousVariables: GraphQLMap?
     var networkError: Error?
     var graphQLErrors: [Error]
 
-    var jsonValue: JSONValue {
+    public var jsonValue: JSONValue {
         return [
             "document": document,
             "variables": variables.jsonValue,
@@ -26,8 +26,12 @@ struct QueryStoreValue: JSONEncodable {
     }
 }
 
-class QueryStore {
+public class QueryStore {
     private(set) var store = [String: QueryStoreValue]()
+
+    func get(queryId: String) -> QueryStoreValue? {
+        return store[queryId]
+    }
 
     func initQuery<Operation: GraphQLOperation>(queryId: String, query: Operation) {
         let previousQuery = store[queryId]
