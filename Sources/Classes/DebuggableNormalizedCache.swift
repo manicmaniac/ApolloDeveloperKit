@@ -12,7 +12,7 @@ protocol DebuggableNormalizedCacheDelegate: class {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet)
 }
 
-public final class DebuggableNormalizedCache: NormalizedCache {
+public class DebuggableNormalizedCache: NormalizedCache {
     weak var delegate: DebuggableNormalizedCacheDelegate?
     private let cache: NormalizedCache
     private var records: RecordSet
