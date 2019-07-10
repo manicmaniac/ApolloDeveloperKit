@@ -82,8 +82,8 @@ public class ApolloDebugServer: DebuggableNormalizedCacheDelegate, DebuggableNet
         server.addHandler(forMethod: "POST", path: "/request", request: GCDWebServerDataRequest.self) { [weak self] request, completion in
             let request = request as! GCDWebServerDataRequest
             do {
-                let jsonValue = try JSONSerializationFormat.deserialize(data: request.data)
-                let request = try GraphQLRequest(jsonValue: jsonValue)
+                let jsonObject = try JSONSerialization.jsonObject(with: request.data, options: [])
+                let request = try GraphQLRequest(jsonObject: jsonObject)
                 _ = self?.networkTransport.send(operation: request) { response, error in
                     do {
                         if let error = error {

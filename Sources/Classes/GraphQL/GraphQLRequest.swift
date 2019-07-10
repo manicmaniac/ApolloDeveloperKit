@@ -8,7 +8,7 @@
 
 import Apollo
 
-public class GraphQLRequest: GraphQLOperation, JSONDecodable {
+public class GraphQLRequest: GraphQLOperation {
     public typealias Data = AnyGraphQLSelectionSet
 
     public let operationType: GraphQLOperationType
@@ -21,17 +21,17 @@ public class GraphQLRequest: GraphQLOperation, JSONDecodable {
         self.variables = variables
     }
 
-    public required init(jsonValue value: JSONValue) throws {
-        guard let value = value as? [String: Any] else { fatalError() }
-        self.variables = value["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
-        if let query = value["query"] as? String {
+    public init(jsonObject: Any) throws {
+        guard let jsonObject = jsonObject as? [String: Any] else { fatalError() }
+        self.variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
+        if let query = jsonObject["query"] as? String {
             // Any kind of operations are recognized as GraphQLOperationType.query type even if they are mutations.
             // It doesn't cause a problem for now because it matters only when operations are saved,
             // and ApolloDeveloperKit won't save any operations given from GraphiQL.
             self.operationType = .query
             self.operationDefinition = query
         } else {
-            throw JSONDecodingError.couldNotConvert(value: value, to: GraphQLRequest.self)
+            throw JSONDecodingError.couldNotConvert(value: jsonObject, to: GraphQLRequest.self)
         }
     }
 
