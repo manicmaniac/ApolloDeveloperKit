@@ -35,6 +35,31 @@ private let queryResponse = """
 
 private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: queryResponse, options: []) as! NSDictionary
 
+private let mutation = """
+    {
+        "query": "mutation AddEmployee($input: AddEmployeeInput) { addEmployee(input: $input) { id } }",
+        "variables": {
+            "input": {
+                "name": "New Joiner",
+                "age": 30,
+                "isManager": true
+            }
+        }
+    }
+    """.data(using: .utf8)!
+
+private let mutationJSONObject = try! JSONSerialization.jsonObject(with: mutation, options: []) as! NSDictionary
+
+private let mutationResponse = """
+    {
+        "employee": {
+            "id": "43",
+        }
+    }
+    """.data(using: .utf8)!
+
+private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse, options: []) as! NSDictionary
+
 class ApolloDebugServerTests: XCTestCase {
     private var store: ApolloStore!
     private var client: ApolloClient!
@@ -141,33 +166,64 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testPostRequest() {
-        let url = server.serverURL!.appendingPathComponent("request")
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = query
-        let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            defer { expectation.fulfill() }
-            if let error = error {
-                return XCTFail(String(describing: error))
+        XCTContext.runActivity(named: "with query") { _ in
+            let url = server.serverURL!.appendingPathComponent("request")
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = query
+            let expectation = self.expectation(description: "response should be received")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                defer { expectation.fulfill() }
+                if let error = error {
+                    return XCTFail(String(describing: error))
+                }
+                guard let response = response as? HTTPURLResponse else {
+                    return XCTFail("unexpected response type")
+                }
+                XCTAssertEqual(response.statusCode, 200)
+                XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/json")
+                guard let data = data else {
+                    fatalError("URLSession.dataTask(with:) must pass either of error or data")
+                }
+                guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
+                    return XCTFail("failed to parse JSON response")
+                }
+                XCTAssertEqual(jsonObject, queryResponseJSONObject)
             }
-            guard let response = response as? HTTPURLResponse else {
-                return XCTFail("unexpected response type")
-            }
-            XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/json")
-            guard let data = data else {
-                fatalError("URLSession.dataTask(with:) must pass either of error or data")
-            }
-            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
-                return XCTFail("failed to parse JSON response")
-            }
-            XCTAssertEqual(jsonObject, queryResponseJSONObject)
+            task.resume()
+            waitForExpectations(timeout: 0.25, handler: nil)
         }
-        task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
+        XCTContext.runActivity(named: "with mutation") { _ in
+            let url = server.serverURL!.appendingPathComponent("request")
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = mutation
+            let expectation = self.expectation(description: "response should be received")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                defer { expectation.fulfill() }
+                if let error = error {
+                    return XCTFail(String(describing: error))
+                }
+                guard let response = response as? HTTPURLResponse else {
+                    return XCTFail("unexpected response type")
+                }
+                XCTAssertEqual(response.statusCode, 200)
+                XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/json")
+                guard let data = data else {
+                    fatalError("URLSession.dataTask(with:) must pass either of error or data")
+                }
+                guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
+                    return XCTFail("failed to parse JSON response")
+                }
+                XCTAssertEqual(jsonObject, mutationResponseJSONObject)
+            }
+            task.resume()
+            waitForExpectations(timeout: 0.25, handler: nil)
+        }
     }
 }
 
@@ -207,15 +263,13 @@ private class MockHTTPURLProtocol: URLProtocol {
         guard let requestJSONObject = (try? JSONSerialization.jsonObject(with: requestBody, options: [])) as? NSDictionary else {
             return sendErrorResponse(url: url, statusCode: 400)
         }
-        guard requestJSONObject == queryJSONObject else {
-            return sendErrorResponse(url: url, statusCode: 400)
+        if requestJSONObject == queryJSONObject {
+            sendDataResponse(url: url, data: queryResponse)
+        } else if requestJSONObject == mutationJSONObject {
+            sendDataResponse(url: url, data: mutationResponse)
+        } else {
+            sendErrorResponse(url: url, statusCode: 400)
         }
-        let headerFields = ["Content-Type": "application/json"]
-        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: httpVersion, headerFields: headerFields)!
-        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        let responseBody = queryResponse
-        client?.urlProtocol(self, didLoad: responseBody)
-        client?.urlProtocolDidFinishLoading(self)
     }
 
     override func stopLoading() {
@@ -227,6 +281,15 @@ private class MockHTTPURLProtocol: URLProtocol {
         let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: httpVersion, headerFields: headerFields)!
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
         client?.urlProtocol(self, didLoad: HTTPURLResponse.localizedString(forStatusCode: statusCode).data(using: .utf8)!)
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    private func sendDataResponse(url: URL, data: Data) {
+        let headerFields = ["Content-Type": "application/json"]
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: httpVersion, headerFields: headerFields)!
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        let responseBody = data
+        client?.urlProtocol(self, didLoad: responseBody)
         client?.urlProtocolDidFinishLoading(self)
     }
 

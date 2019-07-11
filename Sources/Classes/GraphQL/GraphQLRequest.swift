@@ -43,12 +43,6 @@ public class GraphQLRequest: GraphQLOperation {
         switch jsonObject {
         case let value as String:
             return value
-        case let value as Int:
-            return value
-        case let value as Float:
-            return value
-        case let value as Double:
-            return value
         case let value as Array<Any>:
             return value.map(recursivelyConvertToJSONEncodable(_:))
         case let value as Dictionary<String, Any>:
