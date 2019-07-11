@@ -10,56 +10,6 @@ import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
 
-private let query = """
-    {
-        "query": "query Employee($id: ID!) { employee(id: $id) { id name department { name } } }",
-        "variables": {
-            "id": "42"
-        }
-    }
-    """.data(using: .utf8)!
-
-private let queryJSONObject = try! JSONSerialization.jsonObject(with: query, options: []) as! NSDictionary
-
-private let queryResponse = """
-    {
-        "employee": {
-            "id": "42",
-            "name": "John Doe",
-            "department": {
-                "name": "Human Resources"
-            }
-        }
-    }
-    """.data(using: .utf8)!
-
-private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: queryResponse, options: []) as! NSDictionary
-
-private let mutation = """
-    {
-        "query": "mutation AddEmployee($input: AddEmployeeInput) { addEmployee(input: $input) { id } }",
-        "variables": {
-            "input": {
-                "name": "New Joiner",
-                "age": 30,
-                "isManager": true
-            }
-        }
-    }
-    """.data(using: .utf8)!
-
-private let mutationJSONObject = try! JSONSerialization.jsonObject(with: mutation, options: []) as! NSDictionary
-
-private let mutationResponse = """
-    {
-        "employee": {
-            "id": "43",
-        }
-    }
-    """.data(using: .utf8)!
-
-private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse, options: []) as! NSDictionary
-
 class ApolloDebugServerTests: XCTestCase {
     private var store: ApolloStore!
     private var client: ApolloClient!
@@ -304,3 +254,56 @@ private class MockHTTPURLProtocol: URLProtocol {
         return data.subdata(in: 0..<totalRead)
     }
 }
+
+// MARK: Fixtures
+
+private let query = """
+    {
+        "query": "query Employee($id: ID!) { employee(id: $id) { id name department { name } } }",
+        "variables": {
+            "id": "42"
+        }
+    }
+    """.data(using: .utf8)!
+
+private let queryJSONObject = try! JSONSerialization.jsonObject(with: query, options: []) as! NSDictionary
+
+private let queryResponse = """
+    {
+        "employee": {
+            "id": "42",
+            "name": "John Doe",
+            "department": {
+                "name": "Human Resources"
+            }
+        }
+    }
+    """.data(using: .utf8)!
+
+private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: queryResponse, options: []) as! NSDictionary
+
+private let mutation = """
+    {
+        "query": "mutation AddEmployee($input: AddEmployeeInput) { addEmployee(input: $input) { id } }",
+        "variables": {
+            "input": {
+                "name": "New Joiner",
+                "age": 30,
+                "isManager": true
+            }
+        }
+    }
+    """.data(using: .utf8)!
+
+private let mutationJSONObject = try! JSONSerialization.jsonObject(with: mutation, options: []) as! NSDictionary
+
+private let mutationResponse = """
+    {
+        "employee": {
+            "id": "43",
+        }
+    }
+    """.data(using: .utf8)!
+
+private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse, options: []) as! NSDictionary
+
