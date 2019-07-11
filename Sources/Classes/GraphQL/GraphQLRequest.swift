@@ -36,36 +36,41 @@ public class GraphQLRequest: GraphQLOperation {
     }
 
     private static func convertToGraphQLMap(_ object: Any) -> GraphQLMap {
-        var map = GraphQLMap()
-        for (key, value) in object as? [String: Any] ?? [:] {
-            switch value {
-            case let value as String:
-                map[key] = value
-            case let value as Array<Any>:
-                map[key] = value
-            case let value as Dictionary<AnyHashable, Any>:
-                map[key] = value
-            case is NSNull:
-                map[key] = nil
-            case let value as NSNumber:
-                // https://stackoverflow.com/a/49641305
-                switch CFGetTypeID(value as CFTypeRef) {
-                case CFBooleanGetTypeID():
-                    map[key] = value.boolValue
-                case CFNumberGetTypeID():
-                    switch CFNumberGetType(value as CFNumber) {
-                    case .floatType, .doubleType:
-                        map[key] = value.doubleValue
-                    default:
-                        map[key] = value.intValue
-                    }
+        return recursivelyConvertToJSONEncodable(object) as! GraphQLMap
+    }
+
+    private static func recursivelyConvertToJSONEncodable(_ jsonObject: Any) -> JSONEncodable {
+        switch jsonObject {
+        case let value as String:
+            return value
+        case let value as Int:
+            return value
+        case let value as Float:
+            return value
+        case let value as Double:
+            return value
+        case let value as Array<Any>:
+            return value.map(recursivelyConvertToJSONEncodable(_:))
+        case let value as Dictionary<String, Any>:
+            return value.mapValues(recursivelyConvertToJSONEncodable(_:))
+        case is NSNull:
+            return Optional<JSONEncodable>.none
+        case let value as NSNumber:
+            switch CFGetTypeID(value) {
+            case CFBooleanGetTypeID():
+                return value.boolValue
+            case CFNumberGetTypeID():
+                switch CFNumberGetType(value) {
+                case .floatType, .doubleType, .float32Type, .float64Type, .cgFloatType:
+                    return value.doubleValue
                 default:
-                    fatalError("The underlying type of value must be CFBoolean or CFNumber")
+                    return value.intValue
                 }
             default:
-                continue
+                fatalError("The underlying type of value must be CFBoolean or CFNumber")
             }
+        default:
+            fatalError("invalid type of value: \(type(of: jsonObject))")
         }
-        return map
     }
 }
