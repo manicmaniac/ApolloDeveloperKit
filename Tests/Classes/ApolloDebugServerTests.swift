@@ -62,7 +62,7 @@ class ApolloDebugServerTests: XCTestCase {
             XCTAssertTrue(htmlString.hasPrefix("<!doctype html>"))
         }
         task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
+        waitForExpectations(timeout: 10.0, handler: nil)
     }
 
     func testGetBundleJS() {
@@ -87,7 +87,7 @@ class ApolloDebugServerTests: XCTestCase {
             XCTAssertFalse(jsString.isEmpty)
         }
         task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
+        waitForExpectations(timeout: 10.0, handler: nil)
     }
 
     func testGetStyleCSS() {
@@ -112,7 +112,7 @@ class ApolloDebugServerTests: XCTestCase {
             XCTAssertFalse(cssString.isEmpty)
         }
         task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
+        waitForExpectations(timeout: 10.0, handler: nil)
     }
 
     func testPostRequest() {
@@ -143,7 +143,7 @@ class ApolloDebugServerTests: XCTestCase {
                 XCTAssertEqual(jsonObject, queryResponseJSONObject)
             }
             task.resume()
-            waitForExpectations(timeout: 0.25, handler: nil)
+            waitForExpectations(timeout: 10.0, handler: nil)
         }
         XCTContext.runActivity(named: "with mutation") { _ in
             let url = server.serverURL!.appendingPathComponent("request")
@@ -172,7 +172,7 @@ class ApolloDebugServerTests: XCTestCase {
                 XCTAssertEqual(jsonObject, mutationResponseJSONObject)
             }
             task.resume()
-            waitForExpectations(timeout: 0.25, handler: nil)
+            waitForExpectations(timeout: 10.0, handler: nil)
         }
     }
 }
