@@ -52,7 +52,7 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/html")
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/html; charset=utf-8")
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
@@ -77,7 +77,7 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/javascript")
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/javascript")
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
