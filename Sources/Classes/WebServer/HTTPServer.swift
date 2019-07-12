@@ -107,6 +107,9 @@ public class HTTPServer {
     }
 
     public func stop() {
+        guard case .running = state else {
+            return
+        }
         state = .stopping
         NotificationCenter.default.removeObserver(self, name: .NSFileHandleConnectionAccepted, object: nil)
         listeningHandle?.closeFile()
