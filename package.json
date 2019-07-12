@@ -4,7 +4,8 @@
   "description": "Visual debug your app, that is based on Apollo iOS",
   "repository": "https://github.com/manicmaniac/ApolloDeveloperKit",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=development",
+    "dist": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ryosuke Ito <rito.0305@gmail.com>",
