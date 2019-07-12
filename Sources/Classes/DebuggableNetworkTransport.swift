@@ -13,7 +13,7 @@ protocol DebuggableNetworkTransportDelegate: class {
     func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?)
 }
 
-public final class DebuggableNetworkTransport: NetworkTransport {
+public class DebuggableNetworkTransport: NetworkTransport {
     weak var delegate: DebuggableNetworkTransportDelegate?
     private let networkTransport: NetworkTransport
 

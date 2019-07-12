@@ -11,13 +11,13 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class GraphQLRequestTests: XCTestCase {
-    func testInitWithJSONValue() throws {
-        let jsonValue: JSONObject = [
+    func testInitWithJSONObject() throws {
+        let jsonObject: JSONObject = [
             "variables": ["foo": 0],
             "operationName": NSNull(),
             "query": "query { posts { id } }"
         ]
-        let request = try GraphQLRequest(jsonValue: jsonValue)
+        let request = try GraphQLRequest(jsonObject: jsonObject)
         XCTAssertNil(request.operationIdentifier)
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")
