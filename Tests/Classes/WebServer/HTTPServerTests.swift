@@ -20,7 +20,6 @@ class HTTPServerTests: XCTestCase {
 
     override func tearDown() {
         server.stop()
-        CFRunLoopRunInMode(.defaultMode, 0.25, false)
     }
 
     func testIsRunning() {
