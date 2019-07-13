@@ -8,16 +8,6 @@
 
 import UIKit
 
-public enum HTTPServerError: Error, CustomNSError {
-    public static let domain: NSErrorDomain = "HTTPServerError"
-
-    case socketCreationFailed
-    case socketSetOptionFailed
-    case socketSetAddressFailed
-    case socketSetAddressTimeout
-    case socketListenFailed
-}
-
 public protocol HTTPRequestHandler: class {
     func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void)
 }

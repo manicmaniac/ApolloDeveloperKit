@@ -48,6 +48,8 @@
 		5B630E4022B60C990000994D /* QueryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3F22B60C990000994D /* QueryManager.swift */; };
 		5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* GraphQLRequest.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
+		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
+		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7C983122BA85AB000F4D7B /* EventStreamQueueMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */; };
 		5B7C983322BA9325000F4D7B /* EventStreamChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */; };
 		5B8F2B9122C059BC006922CE /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8A22C059BB006922CE /* schema.json */; };
@@ -112,6 +114,8 @@
 		5B630E3F22B60C990000994D /* QueryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryManager.swift; sourceTree = "<group>"; };
 		5B67343922BFC53A00A09DF7 /* GraphQLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLRequest.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
+		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
+		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
 		5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueueMap.swift; sourceTree = "<group>"; };
 		5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunk.swift; sourceTree = "<group>"; };
 		5B8F2B8A22C059BB006922CE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */,
+				5B71521F22DA007400002BA6 /* HTTPServerError.swift */,
 				5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */,
 			);
 			path = WebServer;
@@ -315,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
+				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */,
 				5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */,
+				5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,
 				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
 			);
@@ -582,6 +589,7 @@
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B3A839622C72235002B4FFB /* MutationStoreTests.swift in Sources */,
 				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,
+				5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */,
 				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
 				5B3A838A22C67F06002B4FFB /* EventStreamQueueMapTests.swift in Sources */,
 				5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */,
