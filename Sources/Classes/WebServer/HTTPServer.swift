@@ -74,29 +74,35 @@ public class HTTPServer {
 
         var reuse = 1
         let fileDescriptor = CFSocketGetNative(socket)
-        if setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) != 0 {
-            throw HTTPServerError.socketSetOptionFailed
-        }
-        var noSigPipe = 1
-        if setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) != 0 {
-            throw HTTPServerError.socketSetOptionFailed
-        }
-        var address = sockaddr_in(sin_len: __uint8_t(MemoryLayout<sockaddr_in>.size),
-                                  sin_family: sa_family_t(AF_INET),
-                                  sin_port: port.bigEndian,
-                                  sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
-                                  sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-        let addressData = Data(bytes: &address, count: MemoryLayout<sockaddr_in>.size)
-        switch CFSocketSetAddress(socket, addressData as CFData) {
-        case .success:
-            break
-        case .error:
-            throw HTTPServerError.socketSetAddressFailed
-        case .timeout:
-            throw HTTPServerError.socketSetAddressTimeout
-        }
-        if listen(fileDescriptor, 5) != 0 {
-            throw HTTPServerError.socketListenFailed
+        do {
+            if setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) != 0 {
+                throw HTTPServerError.socketSetOptionFailed
+            }
+            var noSigPipe = 1
+            if setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) != 0 {
+                throw HTTPServerError.socketSetOptionFailed
+            }
+            var address = sockaddr_in(sin_len: __uint8_t(MemoryLayout<sockaddr_in>.size),
+                                      sin_family: sa_family_t(AF_INET),
+                                      sin_port: port.bigEndian,
+                                      sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
+                                      sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
+            let addressData = Data(bytes: &address, count: MemoryLayout<sockaddr_in>.size)
+            switch CFSocketSetAddress(socket, addressData as CFData) {
+            case .success:
+                break
+            case .error:
+                throw HTTPServerError.socketSetAddressFailed
+            case .timeout:
+                throw HTTPServerError.socketSetAddressTimeout
+            }
+            if listen(fileDescriptor, 5) != 0 {
+                CFSocketInvalidate(socket)
+                throw HTTPServerError.socketListenFailed
+            }
+        } catch let error {
+            CFSocketInvalidate(socket)
+            throw error
         }
         let listeningHandle = FileHandle(fileDescriptor: fileDescriptor, closeOnDealloc: true)
         self.listeningHandle = listeningHandle
