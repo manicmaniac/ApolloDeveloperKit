@@ -10,24 +10,24 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class HTTPServerTests: XCTestCase {
-    private var server: HTTPServer!
+    private static let server = HTTPServer()
+    private static let mockHTTPRequestHandler = MockHTTPRequestHandler()
 
-    override func setUp() {
-        server = HTTPServer()
-        server.requestHandler = self
+    override class func setUp() {
+        server.requestHandler = mockHTTPRequestHandler
         try! server.start(port: 8085)
     }
 
-    override func tearDown() {
+    override class func tearDown() {
         server.stop()
     }
 
     func testIsRunning() {
-        XCTAssertTrue(server.isRunning)
+        XCTAssertTrue(type(of: self).server.isRunning)
     }
 
     func testServerURL() {
-        XCTAssertEqual(server.serverURL?.absoluteString, "http://127.0.0.1:8085/")
+        XCTAssertEqual(type(of: self).server.serverURL?.absoluteString, "http://127.0.0.1:8085/")
     }
 
     func testGetRequest() {
@@ -74,7 +74,7 @@ class HTTPServerTests: XCTestCase {
     }
 }
 
-extension HTTPServerTests: HTTPRequestHandler {
+class MockHTTPRequestHandler: HTTPRequestHandler {
     func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
         let url = CFHTTPMessageCopyRequestURL(request)!.takeRetainedValue()
         let method = CFHTTPMessageCopyRequestMethod(request)!.takeRetainedValue()
