@@ -19,7 +19,7 @@ public class HTTPServer {
         case running(port: UInt16)
         case stopping
     }
-
+    public let httpVersion = kCFHTTPVersion1_1
     public weak var requestHandler: HTTPRequestHandler?
 
     public var serverURL: URL? {

@@ -108,7 +108,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondWithInternalServerError(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 500
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
@@ -124,7 +124,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondWithNotFound(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 404
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
@@ -140,7 +140,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondWithMethodNotAllowed(fileHandle: FileHandle, allowedMethods: [String], withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 405
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
         CFHTTPMessageSetHeaderFieldValue(response, "Allow" as CFString, allowedMethods.joined(separator: ", ") as CFString)
@@ -156,7 +156,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     }
 
     private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, server.httpVersion).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
         if withBody {
@@ -190,7 +190,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
 
             }
-            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, server.httpVersion).takeRetainedValue()
             CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
             CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, mimeType(for: documentURL.pathExtension) as CFString)
             CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: resourceValues.fileSize!) as CFString)
@@ -225,7 +225,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     // response.body may contain an Objective-C type like `NSString`,
                     // that is not convertible to JSONValue directly.
                     let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, self.server.httpVersion).takeRetainedValue()
                     CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, self.currentHTTPDateCFString())
                     CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
                     CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: body.count) as CFString)
@@ -234,7 +234,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     fileHandle.write(data, ignoringBrokenPipe: true)
                     completion()
                 } catch let error {
-                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
+                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, self.server.httpVersion).takeRetainedValue()
                     CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, self.currentHTTPDateCFString())
                     CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
                     let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
@@ -246,7 +246,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 }
             }
         } catch let error {
-            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, kCFHTTPVersion1_1).takeRetainedValue()
+            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, nil, server.httpVersion).takeRetainedValue()
             CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
             CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
             let body = try! JSONSerializationFormat.serialize(value: JSError(error: error))
