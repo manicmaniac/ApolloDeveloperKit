@@ -11,11 +11,11 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class ApolloDebugServerTests: XCTestCase {
-    private var store: ApolloStore!
-    private var client: ApolloClient!
-    private var server: ApolloDebugServer!
+    private static var store: ApolloStore!
+    private static var client: ApolloClient!
+    private static var server: ApolloDebugServer!
 
-    override func setUp() {
+    override class func setUp() {
         let url = URL(string: "http://localhost/graphql")!
         let configuration = URLSessionConfiguration.ephemeral.copy() as! URLSessionConfiguration
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
@@ -27,21 +27,21 @@ class ApolloDebugServerTests: XCTestCase {
         try! server.start(port: 8081)
     }
 
-    override func tearDown() {
+    override class func tearDown() {
         server.stop()
     }
 
     func testIsRunning() {
-        XCTAssertTrue(server.isRunning)
+        XCTAssertTrue(type(of: self).server.isRunning)
     }
 
     func testServerURL() {
-        XCTAssertEqual(server.serverURL?.scheme, "http")
-        XCTAssertEqual(server.serverURL?.port, 8081)
+        XCTAssertEqual(type(of: self).server.serverURL?.scheme, "http")
+        XCTAssertEqual(type(of: self).server.serverURL?.port, 8081)
     }
 
     func testHeadIndex() {
-        let url = server.serverURL!
+        let url = type(of: self).server.serverURL!
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
@@ -62,7 +62,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testGetIndex() {
-        let url = server.serverURL!
+        let url = type(of: self).server.serverURL!
         let expectation = self.expectation(description: "response should be received")
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
@@ -87,7 +87,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testPostIndex() {
-        let url = server.serverURL!
+        let url = type(of: self).server.serverURL!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let expectation = self.expectation(description: "response should be received")
@@ -114,7 +114,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testHeadBundleJS() {
-        let url = server.serverURL!.appendingPathComponent("bundle.js")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("bundle.js")
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
@@ -135,7 +135,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testGetBundleJS() {
-        let url = server.serverURL!.appendingPathComponent("bundle.js")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("bundle.js")
         let expectation = self.expectation(description: "response should be received")
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
@@ -160,7 +160,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testHeadStyleCSS() {
-        let url = server.serverURL!.appendingPathComponent("style.css")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("style.css")
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
@@ -181,7 +181,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testGetStyleCSS() {
-        let url = server.serverURL!.appendingPathComponent("style.css")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("style.css")
         let expectation = self.expectation(description: "response should be received")
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
@@ -206,7 +206,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testGetInvalidURL() {
-        let url = server.serverURL!.appendingPathComponent("invalid")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("invalid")
         let expectation = self.expectation(description: "response should be received")
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
@@ -231,7 +231,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testHeadRequest() {
-        let url = server.serverURL!.appendingPathComponent("request")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("request")
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
@@ -258,7 +258,7 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testGetRequest() {
-        let url = server.serverURL!.appendingPathComponent("request")
+        let url = type(of: self).server.serverURL!.appendingPathComponent("request")
         let expectation = self.expectation(description: "response should be received")
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
@@ -284,7 +284,7 @@ class ApolloDebugServerTests: XCTestCase {
 
     func testPostRequest() {
         XCTContext.runActivity(named: "with query") { _ in
-            let url = server.serverURL!.appendingPathComponent("request")
+            let url = type(of: self).server.serverURL!.appendingPathComponent("request")
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -313,7 +313,7 @@ class ApolloDebugServerTests: XCTestCase {
             waitForExpectations(timeout: 10.0, handler: nil)
         }
         XCTContext.runActivity(named: "with mutation") { _ in
-            let url = server.serverURL!.appendingPathComponent("request")
+            let url = type(of: self).server.serverURL!.appendingPathComponent("request")
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Accept")
