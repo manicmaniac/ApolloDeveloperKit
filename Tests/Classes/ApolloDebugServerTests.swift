@@ -283,12 +283,12 @@ class ApolloDebugServerTests: XCTestCase {
     }
 
     func testPostRequest() {
+        let url = type(of: self).server.serverURL!.appendingPathComponent("request")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         XCTContext.runActivity(named: "with query") { _ in
-            let url = type(of: self).server.serverURL!.appendingPathComponent("request")
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = query
             let expectation = self.expectation(description: "response should be received")
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -313,11 +313,6 @@ class ApolloDebugServerTests: XCTestCase {
             waitForExpectations(timeout: 10.0, handler: nil)
         }
         XCTContext.runActivity(named: "with mutation") { _ in
-            let url = type(of: self).server.serverURL!.appendingPathComponent("request")
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = mutation
             let expectation = self.expectation(description: "response should be received")
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -337,6 +332,22 @@ class ApolloDebugServerTests: XCTestCase {
                     return XCTFail("failed to parse JSON response")
                 }
                 XCTAssertEqual(jsonObject, mutationResponseJSONObject)
+            }
+            task.resume()
+            waitForExpectations(timeout: 10.0, handler: nil)
+        }
+        XCTContext.runActivity(named: "with 0 byte data") { _ in
+            request.httpBody = Data()
+            let expectation = self.expectation(description: "response should be received")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                defer { expectation.fulfill() }
+                if let error = error {
+                    return XCTFail(String(describing: error))
+                }
+                guard let response = response as? HTTPURLResponse else {
+                    return XCTFail("unexpected response type")
+                }
+                XCTAssertEqual(response.statusCode, 400)
             }
             task.resume()
             waitForExpectations(timeout: 10.0, handler: nil)
