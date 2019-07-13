@@ -19,15 +19,15 @@ public class HTTPServer {
         case running(port: UInt16)
         case stopping
     }
-    public let httpVersion = kCFHTTPVersion1_1
-    public weak var requestHandler: HTTPRequestHandler?
+    let httpVersion = kCFHTTPVersion1_1
+    weak var requestHandler: HTTPRequestHandler?
 
-    public var serverURL: URL? {
+    var serverURL: URL? {
         guard case .running(port: let port) = state, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }
 
-    public var isRunning: Bool {
+    var isRunning: Bool {
         if case .running = state {
             return true
         }
@@ -55,7 +55,7 @@ public class HTTPServer {
         return nil
     }
 
-    public func start(port: UInt16) throws {
+    func start(port: UInt16) throws {
         state = .starting
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
             throw HTTPServerError.socketCreationFailed
@@ -102,7 +102,7 @@ public class HTTPServer {
         state = .running(port: port)
     }
 
-    public func stop() {
+    func stop() {
         guard case .running = state else {
             return
         }
