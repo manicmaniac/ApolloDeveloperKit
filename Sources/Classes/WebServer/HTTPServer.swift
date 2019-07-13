@@ -171,8 +171,8 @@ public class HTTPServer {
         guard CFHTTPMessageIsHeaderComplete(incomingRequest) else {
             return incomingFileHandle.waitForDataInBackgroundAndNotify()
         }
-        if let headerFields = CFHTTPMessageCopyAllHeaderFields(incomingRequest)?.takeRetainedValue() as? [String: String],
-            let contentLength = headerFields["Content-Length"].flatMap(Int.init(_:)) {
+        let contentLengthString = CFHTTPMessageCopyHeaderFieldValue(incomingRequest, "Content-Length" as CFString)?.takeRetainedValue() as String?
+        if let contentLength = contentLengthString.flatMap(Int.init(_:)) {
             let body = CFHTTPMessageCopyBody(incomingRequest)?.takeRetainedValue()
             let bodyLength = body.flatMap(CFDataGetLength) ?? 0
             if bodyLength < contentLength {
