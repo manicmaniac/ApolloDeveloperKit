@@ -82,53 +82,96 @@ extension ApolloDebugServer: HTTPRequestHandler {
         let method = CFHTTPMessageCopyRequestMethod(request)!.takeRetainedValue() as String
         let url = CFHTTPMessageCopyRequestURL(request)!.takeRetainedValue() as URL
         switch (method, url.path) {
+        case ("HEAD", "/events"):
+            respondToRequestForEventSource(request, fileHandle: fileHandle, withBody: false, completion: completion)
         case ("GET", "/events"):
-            respondToRequestForEventSource(request, fileHandle: fileHandle, completion: completion)
+            respondToRequestForEventSource(request, fileHandle: fileHandle, withBody: true, completion: completion)
         case (_, "/events"):
-            respondToRequest(request, fileHandle: fileHandle, statusCode: 405, completion: completion)
-        case ("GET", _):
-            respondToRequestForDocumentRoot(url: url, request: request, fileHandle: fileHandle, completion: completion)
+            respondWithMethodNotAllowed(fileHandle: fileHandle, allowedMethods: ["HEAD", "GET"], withBody: true, completion: completion)
         case ("POST", "/request"):
             respondToRequestForGraphQLRequest(request, fileHandle: fileHandle, completion: completion)
         case (_, "/request"):
-            respondToRequest(request, fileHandle: fileHandle, statusCode: 405, completion: completion)
+            respondWithMethodNotAllowed(fileHandle: fileHandle, allowedMethods: ["POST"], withBody: true, completion: completion)
+        case ("HEAD", _):
+            respondToRequestForDocumentRoot(url: url, request: request, fileHandle: fileHandle, withBody: false, completion: completion)
+        case ("GET", _):
+            respondToRequestForDocumentRoot(url: url, request: request, fileHandle: fileHandle, withBody: true, completion: completion)
         case (_, _):
-            respondToRequest(request, fileHandle: fileHandle, statusCode: 404, completion: completion)
+            respondWithMethodNotAllowed(fileHandle: fileHandle, allowedMethods: ["HEAD", "GET"], withBody: true, completion: completion)
         }
     }
 
-    private func respondToRequest(_ request: CFHTTPMessage, fileHandle: FileHandle, statusCode: Int, completion: @escaping () -> Void) {
+    private func respondWithInternalServerError(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
+        let statusCode = 500
         let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
-        let bodyData = HTTPURLResponse.localizedString(forStatusCode: statusCode).data(using: .utf8)!
+        let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
+        let bodyData = bodyString.data(using: .utf8)!
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: bodyData.count) as CFString)
-        CFHTTPMessageSetBody(response, bodyData as CFData)
+        if withBody {
+            CFHTTPMessageSetBody(response, bodyData as CFData)
+        }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
         fileHandle.write(data, ignoringBrokenPipe: true)
         completion()
     }
 
-    private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
-        CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
-        CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
+    private func respondWithNotFound(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
+        let statusCode = 404
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
+        let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
+        let bodyData = bodyString.data(using: .utf8)!
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: bodyData.count) as CFString)
+        if withBody {
+            CFHTTPMessageSetBody(response, bodyData as CFData)
+        }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
         fileHandle.write(data, ignoringBrokenPipe: true)
-        eventStreamQueue.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
-        Thread { [weak self] in
-            while let chunk = self?.eventStreamQueue.dequeue(key: fileHandle) {
-                var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
-                data.append(chunk.data)
-                data.append("\r\n".data(using: .utf8)!)
-                fileHandle.write(data, ignoringBrokenPipe: true)
-            }
-            fileHandle.write("0\r\n\r\n".data(using: .ascii)!, ignoringBrokenPipe: true)
-            completion()
-        }.start()
+        completion()
     }
 
-    private func respondToRequestForDocumentRoot(url: URL, request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
+    private func respondWithMethodNotAllowed(fileHandle: FileHandle, allowedMethods: [String], withBody: Bool, completion: @escaping () -> Void) {
+        let statusCode = 405
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
+        CFHTTPMessageSetHeaderFieldValue(response, "Allow" as CFString, allowedMethods.joined(separator: ", ") as CFString)
+        let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
+        let bodyData = bodyString.data(using: .utf8)!
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: bodyData.count) as CFString)
+        if withBody {
+            CFHTTPMessageSetBody(response, bodyData as CFData)
+        }
+        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        fileHandle.write(data, ignoringBrokenPipe: true)
+        completion()
+    }
+
+    private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
+        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
+        if withBody {
+            CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
+            CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
+        }
+        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        fileHandle.write(data, ignoringBrokenPipe: true)
+        if withBody {
+            eventStreamQueue.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
+            Thread { [weak self] in
+                while let chunk = self?.eventStreamQueue.dequeue(key: fileHandle) {
+                    var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
+                    data.append(chunk.data)
+                    data.append("\r\n".data(using: .utf8)!)
+                    fileHandle.write(data, ignoringBrokenPipe: true)
+                }
+                fileHandle.write("0\r\n\r\n".data(using: .ascii)!, ignoringBrokenPipe: true)
+                completion()
+            }.start()
+        }
+    }
+
+    private func respondToRequestForDocumentRoot(url: URL, request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
         documentURL.appendPathComponent(url.path)
         do {
@@ -141,24 +184,22 @@ extension ApolloDebugServer: HTTPRequestHandler {
             let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
             CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, mimeType(for: documentURL.pathExtension) as CFString)
             CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(describing: resourceValues.fileSize!) as CFString)
-            let bodyData = try Data(contentsOf: documentURL)
-            CFHTTPMessageSetBody(response, bodyData as CFData)
+            if withBody {
+                let bodyData = try Data(contentsOf: documentURL)
+                CFHTTPMessageSetBody(response, bodyData as CFData)
+            }
             let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
             fileHandle.write(data, ignoringBrokenPipe: true)
             completion()
-        } catch URLError.fileDoesNotExist {
-            respondToRequest(request, fileHandle: fileHandle, statusCode: 404, completion: completion)
+        } catch CocoaError.fileReadNoSuchFile {
+            respondWithNotFound(fileHandle: fileHandle, withBody: withBody, completion: completion)
         } catch let error {
             print(error)
-            respondToRequest(request, fileHandle: fileHandle, statusCode: 500, completion: completion)
+            respondWithInternalServerError(fileHandle: fileHandle, withBody: withBody, completion: completion)
         }
     }
 
     private func respondToRequestForGraphQLRequest(_ request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
-        let headerFields = CFHTTPMessageCopyAllHeaderFields(request)!.takeRetainedValue() as! [String: String]
-        guard headerFields["Content-Type"] == "application/json" else {
-            return respondToRequest(request, fileHandle: fileHandle, statusCode: 406, completion: completion)
-        }
         let body = CFHTTPMessageCopyBody(request)!.takeRetainedValue() as Data
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])

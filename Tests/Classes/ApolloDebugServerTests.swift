@@ -40,6 +40,27 @@ class ApolloDebugServerTests: XCTestCase {
         XCTAssertEqual(server.serverURL?.port, 8081)
     }
 
+    func testHeadIndex() {
+        let url = server.serverURL!
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/html; charset=utf-8")
+            XCTAssertGreaterThan(response.expectedContentLength, 0)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
     func testGetIndex() {
         let url = server.serverURL!
         let expectation = self.expectation(description: "response should be received")
@@ -60,6 +81,54 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("failed to decode data as UTF-8")
             }
             XCTAssertTrue(htmlString.hasPrefix("<!doctype html>"))
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testPostIndex() {
+        let url = server.serverURL!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 405)
+            XCTAssertEqual(response.allHeaderFields["Allow"] as? String, "HEAD, GET")
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            guard let string = String(data: data, encoding: .utf8) else {
+                return XCTFail("failed to decode data as UTF-8")
+            }
+            XCTAssertEqual(string, "405 method not allowed\n")
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testHeadBundleJS() {
+        let url = server.serverURL!.appendingPathComponent("bundle.js")
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/javascript")
+            XCTAssertGreaterThan(response.expectedContentLength, 0)
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
@@ -90,6 +159,27 @@ class ApolloDebugServerTests: XCTestCase {
         waitForExpectations(timeout: 10.0, handler: nil)
     }
 
+    func testHeadStyleCSS() {
+        let url = server.serverURL!.appendingPathComponent("style.css")
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/css")
+            XCTAssertGreaterThan(response.expectedContentLength, 0)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
     func testGetStyleCSS() {
         let url = server.serverURL!.appendingPathComponent("style.css")
         let expectation = self.expectation(description: "response should be received")
@@ -110,6 +200,83 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("failed to decode data as UTF-8")
             }
             XCTAssertFalse(cssString.isEmpty)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testGetInvalidURL() {
+        let url = server.serverURL!.appendingPathComponent("invalid")
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 404)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/plain; charset=utf-8")
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            guard let string = String(data: data, encoding: .utf8) else {
+                return XCTFail("failed to decode data as UTF-8")
+            }
+            XCTAssertEqual(string, "404 not found\n")
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testHeadRequest() {
+        let url = server.serverURL!.appendingPathComponent("request")
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 405)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/plain; charset=utf-8")
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            guard let string = String(data: data, encoding: .utf8) else {
+                return XCTFail("failed to decode data as UTF-8")
+            }
+            XCTAssertTrue(string.isEmpty)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testGetRequest() {
+        let url = server.serverURL!.appendingPathComponent("request")
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 405)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/plain; charset=utf-8")
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            guard let string = String(data: data, encoding: .utf8) else {
+                return XCTFail("failed to decode data as UTF-8")
+            }
+            XCTAssertEqual(string, "405 method not allowed\n")
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
