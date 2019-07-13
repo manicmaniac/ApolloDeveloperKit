@@ -23,12 +23,8 @@ class HTTPServerTests: XCTestCase {
         CFRunLoopRunInMode(.defaultMode, 0.25, false)
     }
 
-    func testState() {
-        if case .running(let port) = server.state {
-            XCTAssertEqual(port, 8085)
-        } else {
-            XCTFail("expected .running but \(server.state)")
-        }
+    func testIsRunning() {
+        XCTAssertTrue(server.isRunning)
     }
 
     func testServerURL() {

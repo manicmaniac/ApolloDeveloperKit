@@ -18,10 +18,7 @@ public class ApolloDebugServer {
     private weak var timer: Timer?
 
     public var isRunning: Bool {
-        if case .running = server.state {
-            return true
-        }
-        return false
+        return server.isRunning
     }
 
     public var serverURL: URL? {

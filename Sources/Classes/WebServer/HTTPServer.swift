@@ -8,13 +8,6 @@
 
 import UIKit
 
-public enum HTTPServerState {
-    case idle
-    case starting
-    case running(port: UInt16)
-    case stopping
-}
-
 public enum HTTPServerError: Error, CustomNSError {
     public static let domain: NSErrorDomain = "HTTPServerError"
 
@@ -29,22 +22,29 @@ public protocol HTTPRequestHandler: class {
     func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void)
 }
 
-public protocol HTTPServerDelegate: class {
-    func serverDidChangeState(_ server: HTTPServer)
-}
-
 public class HTTPServer {
-    public private(set) var state = HTTPServerState.idle {
-        didSet { delegate?.serverDidChangeState(self) }
+    private enum State {
+        case idle
+        case starting
+        case running(port: UInt16)
+        case stopping
     }
+
     public weak var requestHandler: HTTPRequestHandler?
-    public weak var delegate: HTTPServerDelegate?
 
     public var serverURL: URL? {
         guard case .running(port: let port) = state, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }
 
+    public var isRunning: Bool {
+        if case .running = state {
+            return true
+        }
+        return false
+    }
+
+    private var state = State.idle
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
     private var incomingRequests = [FileHandle: CFHTTPMessage]()
