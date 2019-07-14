@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ApolloDeveloperKit  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="ApolloDeveloperKit  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">ApolloDeveloperKit Docs</a> (60% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">ApolloDeveloperKit Reference</a>
+        <img id="carat" src="img/carat.png" />
+        ApolloDeveloperKit  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/AnyGraphQLSelectionSet.html">AnyGraphQLSelectionSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ApolloDebugServer.html">ApolloDebugServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes.html#/s:18ApolloDeveloperKit16EventStreamQueueC">EventStreamQueue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes.html#/s:18ApolloDeveloperKit19EventStreamQueueMapC">EventStreamQueueMap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GraphQLRequest.html">GraphQLRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes.html#/s:18ApolloDeveloperKit10HTTPServerC">HTTPServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes.html#/s:18ApolloDeveloperKit13MutationStoreC">MutationStore</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes.html#/s:18ApolloDeveloperKit10QueryStoreC">QueryStore</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/HTTPServerError.html">HTTPServerError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/Record.html">Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Reference.html">Reference</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/HTTPRequestHandler.html">HTTPRequestHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs.html#/s:18ApolloDeveloperKit16EventStreamChunkV">EventStreamChunk</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/JSError.html">JSError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/MutationStoreValue.html">MutationStoreValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/QueryStoreValue.html">QueryStoreValue</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='apollodeveloperkit' class='heading'>ApolloDeveloperKit</h1>
+
+<p><a href="https://travis-ci.org/manicmaniac/ApolloDeveloperKit"><img src="https://travis-ci.org/manicmaniac/ApolloDeveloperKit.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/manicmaniac/ApolloDeveloperKit/maintainability"><img src="https://api.codeclimate.com/v1/badges/c45fc7657ce194edee35/maintainability" alt="Maintainability"></a>
+<a href="https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg"><img src="https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg" alt="CocoaPods Compatible"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
+<a href="https://alamofire.github.io/ApolloDeveloperKit"><img src="https://img.shields.io/cocoapods/p/ApolloDeveloperKit.svg?style=flat" alt="Platform"></a></p>
+
+<p><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a> bridge for <a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a>.</p>
+<h2 id='screenshots' class='heading'>Screenshots</h2>
+
+<p><img width="960" alt="apollo-developer-kit-queries-1920" src="https://user-images.githubusercontent.com/1672393/60062041-84949600-9732-11e9-9c70-ee45e5417db6.png"></p>
+<h2 id='prerequisites' class='heading'>Prerequisites</h2>
+
+<ul>
+<li>Xcode 10</li>
+<li>Carthage</li>
+<li>Google Chrome</li>
+<li><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a></li>
+</ul>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='install-from-carthage' class='heading'>Install from Carthage</h3>
+
+<p>Add the following lines to your Cartfile.</p>
+<pre class="highlight plaintext"><code>github "apollographql/apollo-ios"
+github "manicmaniac/ApolloDeveloperKit"
+</code></pre>
+
+<p>Then run <code>carthage update --platform iOS</code>.</p>
+<h3 id='install-from-cocoapods' class='heading'>Install from CocoaPods</h3>
+
+<p>Add the following lines to your Podfile.</p>
+<pre class="highlight plaintext"><code>pod 'Apollo'
+pod 'ApolloDeveloperKit'
+</code></pre>
+
+<p>Then run <code>pod install</code>.</p>
+<h2 id='setup' class='heading'>Setup</h2>
+
+<p>First, in order to hook Apollo&rsquo;s cache and network layer, you need to use <code><a href="Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a></code> and <code>DebuggableInMemoryNormalizedCache</code> instead of usual ones.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">networkTransport</span> <span class="o">=</span> <span class="kt">DebuggableNetworkTransport</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="kt">HTTPNetworkTransport</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">))</span>
+<span class="k">let</span> <span class="nv">cache</span> <span class="o">=</span> <span class="kt">DebuggableInMemoryNormalizedCache</span><span class="p">()</span>
+</code></pre>
+
+<p>Second, instantiate <code>ApolloStore</code> and <code>ApolloClient</code> with debuggable ingredients.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">store</span> <span class="o">=</span> <span class="kt">ApolloStore</span><span class="p">(</span><span class="nv">cache</span><span class="p">:</span> <span class="n">cache</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">client</span> <span class="o">=</span> <span class="kt">ApolloClient</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="nv">networkTransport</span><span class="p">:</span> <span class="nv">store</span><span class="p">:</span> <span class="n">store</span><span class="p">)</span>
+</code></pre>
+
+<p>Finally, create <code><a href="Classes/ApolloDebugServer.html">ApolloDebugServer</a></code> and run.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">debugServer</span> <span class="o">=</span> <span class="kt">ApolloDebugServer</span><span class="p">(</span><span class="nv">cache</span><span class="p">:</span> <span class="n">cache</span><span class="p">,</span> <span class="nv">networkTransport</span><span class="p">:</span> <span class="n">networkTransport</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">debugServer</span> <span class="o">=</span> <span class="n">debugServer</span> <span class="c1">// Note: you need to retain debugServer's reference</span>
+<span class="n">debugServer</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">port</span><span class="p">:</span> <span class="mi">8081</span><span class="p">)</span>
+</code></pre>
+
+<p>Full example:</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Apollo</span>
+<span class="kd">import</span> <span class="kt">ApolloDeveloperKit</span>
+<span class="kd">import</span> <span class="kt">UIKit</span>
+
+<span class="kd">@UIApplicationMain</span>
+<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">?</span>
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">ApolloClient</span><span class="o">!</span>
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">debugServer</span><span class="p">:</span> <span class="kt">ApolloDebugServer</span><span class="p">?</span>
+
+    <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplication</span><span class="o">.</span><span class="kt">LaunchOptionsKey</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://example.com/graphql"</span><span class="p">)</span><span class="o">!</span>
+        <span class="cp">#if DEBUG</span>
+            <span class="k">let</span> <span class="nv">networkTransport</span> <span class="o">=</span> <span class="kt">DebuggableNetworkTransport</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="kt">HTTPNetworkTransport</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">))</span>
+            <span class="k">let</span> <span class="nv">cache</span> <span class="o">=</span> <span class="kt">DebuggableNormalizedCache</span><span class="p">(</span><span class="nv">cache</span><span class="p">:</span> <span class="kt">InMemoryNormalizedCache</span><span class="p">())</span>
+            <span class="k">let</span> <span class="nv">store</span> <span class="o">=</span> <span class="kt">ApolloStore</span><span class="p">(</span><span class="nv">cache</span><span class="p">:</span> <span class="n">cache</span><span class="p">)</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="kt">ApolloClient</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="n">networkTransport</span><span class="p">,</span> <span class="nv">store</span><span class="p">:</span> <span class="n">store</span><span class="p">)</span>
+            <span class="n">debugServer</span> <span class="o">=</span> <span class="kt">ApolloDebugServer</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="n">networkTransport</span><span class="p">,</span> <span class="nv">cache</span><span class="p">:</span> <span class="n">cache</span><span class="p">)</span>
+            <span class="k">do</span> <span class="p">{</span>
+                <span class="k">try</span> <span class="n">debugServer</span><span class="o">.</span><span class="nf">start</span><span class="p">(</span><span class="nv">port</span><span class="p">:</span> <span class="mi">8081</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="cp">#else</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="kt">ApolloClient</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+        <span class="cp">#endif</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>Open browser after launching Simulator and jump to <code>http://localhost:8081</code> (or other specified port) on your Chrome.
+Then <a href="https://developers.google.com/web/tools/chrome-devtools/open">open developer tools</a> and select <code>Apollo</code> tab.</p>
+<h2 id='development' class='heading'>Development</h2>
+<h3 id='run-example-app' class='heading'>Run Example App</h3>
+
+<p>Since Example app is slightly modified version of <a href="https://github.com/apollographql/frontpage-ios-app">apollographql/frontpage-ios-app</a>,
+you need to start <a href="https://github.com/apollographql/frontpage-server">apollographql/frontpage-server</a> before runnning the app.</p>
+
+<ol>
+<li>Open Xcode and select ApolloDeveloperKitExample scheme.</li>
+<li>Run and open <code>http://localhost:8081</code> in Google Chrome.</li>
+</ol>
+<h2 id='license' class='heading'>License</h2>
+
+<p>This software is distributed under the MIT license.
+See LICENSE for more detail.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-07-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

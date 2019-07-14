@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ApolloDebugServer Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/ApolloDebugServer" class="dashAnchor"></a>
+    <a title="ApolloDebugServer Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">ApolloDeveloperKit Docs</a> (60% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">ApolloDeveloperKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ApolloDebugServer Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyGraphQLSelectionSet.html">AnyGraphQLSelectionSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ApolloDebugServer.html">ApolloDebugServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit16EventStreamQueueC">EventStreamQueue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit19EventStreamQueueMapC">EventStreamQueueMap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GraphQLRequest.html">GraphQLRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit10HTTPServerC">HTTPServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit13MutationStoreC">MutationStore</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit10QueryStoreC">QueryStore</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/HTTPServerError.html">HTTPServerError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Record.html">Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Reference.html">Reference</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/HTTPRequestHandler.html">HTTPRequestHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:18ApolloDeveloperKit16EventStreamChunkV">EventStreamChunk</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/JSError.html">JSError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/MutationStoreValue.html">MutationStoreValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/QueryStoreValue.html">QueryStoreValue</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ApolloDebugServer</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ApolloDebugServer</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>ApolloDebugServer</code> is a HTTP server to communicate with <code>apollo-cient-devtools</code>.</p>
+
+<p>The server works even after the app moves to the background for a while.
+ When the server is released, it stops itself automatically.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit0A11DebugServerC9isRunningSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isRunning" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit0A11DebugServerC9isRunningSbvp">isRunning</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Boolean value indicating whether the server is running or not.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isRunning</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit0A11DebugServerC9serverURL10Foundation0G0VSgvp"></a>
+                    <a name="//apple_ref/swift/Property/serverURL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit0A11DebugServerC9serverURL10Foundation0G0VSgvp">serverURL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The URL where the server is established.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">serverURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit0A11DebugServerC16networkTransport5cacheAcA017DebuggableNetworkG0C_AA0I15NormalizedCacheCtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(networkTransport:cache:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit0A11DebugServerC16networkTransport5cacheAcA017DebuggableNetworkG0C_AA0I15NormalizedCacheCtcfc">init(networkTransport:cache:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes <code>ApolloDebugServer</code> instance.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="kt"><a href="../Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a></span><span class="p">,</span> <span class="nv">cache</span><span class="p">:</span> <span class="kt"><a href="../Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>networkTransport</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An underlying network transport object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cache</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An underlying cache object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit0A11DebugServerC5start4portys6UInt16V_tKF"></a>
+                    <a name="//apple_ref/swift/Method/start(port:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit0A11DebugServerC5start4portys6UInt16V_tKF">start(port:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Starts HTTP server listening on the given port.</p>
+
+<p>This method should be invoked on the main thread.
+ The server automatically stops and restarts when it&rsquo;s already running.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/HTTPServerError.html">HTTPServerError</a></code> when an error occured while setting up a socket.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>port</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A port number. Avoid using well-known ports.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit0A11DebugServerC4stopyyF"></a>
+                    <a name="//apple_ref/swift/Method/stop()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit0A11DebugServerC4stopyyF">stop()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stops the server from running.</p>
+
+<p>This method should be invoked on the main thread.
+ It&rsquo;s safe if you invoke this method even while the server isn&rsquo;t running.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/HTTPRequestHandler"></a>
+                <a name="//apple_ref/swift/Section/HTTPRequestHandler" class="dashAnchor"></a>
+                <a href="#/HTTPRequestHandler">
+                  <h3 class="section-name">HTTPRequestHandler</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit18HTTPRequestHandlerP6server_17didReceiveRequest10fileHandle10completionyAA10HTTPServerC_So16CFHTTPMessageRefaSo06NSFileK0CyyctF"></a>
+                    <a name="//apple_ref/swift/Method/server(_:didReceiveRequest:fileHandle:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit18HTTPRequestHandlerP6server_17didReceiveRequest10fileHandle10completionyAA10HTTPServerC_So16CFHTTPMessageRefaSo06NSFileK0CyyctF">server(_:didReceiveRequest:fileHandle:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">server</span><span class="p">(</span><span class="n">_</span> <span class="nv">server</span><span class="p">:</span> <span class="kt"><a href="../Classes.html#/s:18ApolloDeveloperKit10HTTPServerC">HTTPServer</a></span><span class="p">,</span> <span class="n">didReceiveRequest</span> <span class="nv">request</span><span class="p">:</span> <span class="kt">CFHTTPMessage</span><span class="p">,</span> <span class="nv">fileHandle</span><span class="p">:</span> <span class="kt">FileHandle</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-07-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GraphQLRequest Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/GraphQLRequest" class="dashAnchor"></a>
+    <a title="GraphQLRequest Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">ApolloDeveloperKit Docs</a> (60% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">ApolloDeveloperKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GraphQLRequest Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AnyGraphQLSelectionSet.html">AnyGraphQLSelectionSet</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ApolloDebugServer.html">ApolloDebugServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit16EventStreamQueueC">EventStreamQueue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit19EventStreamQueueMapC">EventStreamQueueMap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GraphQLRequest.html">GraphQLRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit10HTTPServerC">HTTPServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit13MutationStoreC">MutationStore</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/s:18ApolloDeveloperKit10QueryStoreC">QueryStore</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/HTTPServerError.html">HTTPServerError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Record.html">Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Reference.html">Reference</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/HTTPRequestHandler.html">HTTPRequestHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:18ApolloDeveloperKit16EventStreamChunkV">EventStreamChunk</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/JSError.html">JSError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/MutationStoreValue.html">MutationStoreValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/QueryStoreValue.html">QueryStoreValue</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GraphQLRequest</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">GraphQLRequest</span> <span class="p">:</span> <span class="kt">GraphQLOperation</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>GraphQLRequest</code> is the class representing any kind of GraphQL operation including query, mutation and subscription.</p>
+
+<p>Any kind of oepration is recognized as GraphQLOperationType.query even if it isn&rsquo;t a query.
+ It doesn&rsquo;t cause a problem for now because it matters only when an operation is saved,
+ and ApolloDeveloperKit won&rsquo;t save any kind of operation given from devtool&rsquo;s GraphiQL.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit14GraphQLRequestC4Dataa"></a>
+                    <a name="//apple_ref/swift/Alias/Data" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit14GraphQLRequestC4Dataa">Data</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Data</span> <span class="o">=</span> <span class="kt"><a href="../Classes/AnyGraphQLSelectionSet.html">AnyGraphQLSelectionSet</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Property/operationType" class="dashAnchor"></a>
+                    <a class="token" href="#/">operationType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The type of an actual operation.</p>
+
+<p>Always be a GraphQLOperationType.query even if it isn&rsquo;t a query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">operationType</span><span class="p">:</span> <span class="kt">GraphQLOperationType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit14GraphQLRequestC19operationDefinitionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/operationDefinition" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit14GraphQLRequestC19operationDefinitionSSvp">operationDefinition</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The query document of an operation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">operationDefinition</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Property/variables" class="dashAnchor"></a>
+                    <a class="token" href="#/">variables</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The query variables of an operation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">variables</span><span class="p">:</span> <span class="kt">GraphQLMap</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit14GraphQLRequestC10jsonObjectACyp_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(jsonObject:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit14GraphQLRequestC10jsonObjectACyp_tKcfc">init(jsonObject:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initializes a GraphQLRequest object.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code>JSONDecodableError</code> when JSON could not be converted to GraphQL request.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">jsonObject</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>jsonObject</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>JSON dictionary object that conforms to GraphQL request.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-07-15)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
