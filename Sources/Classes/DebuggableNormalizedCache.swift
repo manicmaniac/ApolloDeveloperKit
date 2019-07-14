@@ -12,11 +12,21 @@ protocol DebuggableNormalizedCacheDelegate: class {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet)
 }
 
+/**
+ * `DebuggableNormalizedCache` is a bridge between `ApolloDebugServer` and `ApolloStore`.
+ *
+ * You should instantiate both `ApolloDebugServer` and `ApolloStore` with the same instance of this class.
+ */
 public class DebuggableNormalizedCache: NormalizedCache {
     weak var delegate: DebuggableNormalizedCacheDelegate?
     private let cache: NormalizedCache
     private var records: RecordSet
 
+    /**
+     * Initializes the receiver with the underlying cache object.
+     *
+     * - Parameter cache: The underlying cache.
+     */
     public init(cache: NormalizedCache) {
         self.cache = cache
         self.records = RecordSet()

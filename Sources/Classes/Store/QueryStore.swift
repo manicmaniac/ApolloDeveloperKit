@@ -8,6 +8,11 @@
 
 import Apollo
 
+/**
+ * `QueryStoreValue` represents a cache record of the query.
+ *
+ * This class is Swift implementation of `apollo-client`'s `QueryStoreValue`.
+ */
 public struct QueryStoreValue: JSONEncodable {
     let document: String
     let variables: GraphQLMap?
@@ -26,6 +31,14 @@ public struct QueryStoreValue: JSONEncodable {
     }
 }
 
+/**
+ * `QueryStore` is the class to save queries and their states.
+ *
+ * This class is Swift implementation of `apollo-client`'s `QueryStore`.
+ * Any methods in this class are thread-unsafe.
+ *
+ * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/data/queries.ts
+ */
 public class QueryStore {
     private(set) var store = [String: QueryStoreValue]()
 

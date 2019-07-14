@@ -8,6 +8,11 @@
 
 import Apollo
 
+/**
+ * `MutationStoreValue` represents a cache record of the mutation.
+ *
+ * This class is Swift implementation of `apollo-client`'s `MutationStoreValue`.
+ */
 public struct MutationStoreValue: JSONEncodable {
     let mutation: String
     let variables: GraphQLMap?
@@ -24,6 +29,14 @@ public struct MutationStoreValue: JSONEncodable {
     }
 }
 
+/**
+ * `MutationStore` is the class to save mutations and their states.
+ *
+ * This class is Swift implementation of `apollo-client`'s `MutationStore`.
+ * Any methods in this class are thread-unsafe.
+ *
+ * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/data/mutations.ts
+ */
 public class MutationStore {
     private(set) var store = [String: MutationStoreValue]()
 
