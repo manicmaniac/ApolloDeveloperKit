@@ -115,6 +115,10 @@ Then [open developer tools](https://developers.google.com/web/tools/chrome-devto
 Development
 -----------
 
+### API Documentation
+
+Auto-generated API documentation is [here](https://manicmaniac.github.io/ApolloDeveloperKit).
+
 ### Run Example App
 
 Since Example app is slightly modified version of [apollographql/frontpage-ios-app](https://github.com/apollographql/frontpage-ios-app),
