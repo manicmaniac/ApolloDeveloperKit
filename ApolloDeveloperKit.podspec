@@ -16,5 +16,4 @@ Pod::Spec.new do |spec|
   spec.source_files  = "Sources/Classes/**/*.swift"
   spec.resource = "Sources/Assets"
   spec.dependency "Apollo", "~> 0.9.0"
-  spec.dependency "GCDWebServer", "~> 3.2"
 end

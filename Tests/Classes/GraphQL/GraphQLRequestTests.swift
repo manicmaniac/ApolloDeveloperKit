@@ -13,7 +13,15 @@ import XCTest
 class GraphQLRequestTests: XCTestCase {
     func testInitWithJSONObject() throws {
         let jsonObject: JSONObject = [
-            "variables": ["foo": 0],
+            "variables": [
+                "input": [
+                    "string": "foo" as NSString,
+                    "integer": 42 as NSNumber,
+                    "float": 4.2 as NSNumber,
+                    "boolean": kCFBooleanTrue,
+                    "null": NSNull()
+                ]
+            ],
             "operationName": NSNull(),
             "query": "query { posts { id } }"
         ]
@@ -22,6 +30,12 @@ class GraphQLRequestTests: XCTestCase {
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")
         XCTAssertEqual(request.variables?.count, 1)
-        XCTAssertEqual(request.variables?["foo"] as? Int, 0)
+        guard let input = request.variables?["input"] as? [String: Any] else{
+            return XCTFail()
+        }
+        XCTAssertEqual(input["string"] as? String, "foo")
+        XCTAssertEqual(input["integer"] as? Int, 42)
+        XCTAssertEqual(input["float"] as? Double, 4.2)
+        XCTAssertEqual(input["boolean"] as? Bool, true)
     }
 }
