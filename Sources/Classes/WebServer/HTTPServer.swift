@@ -86,7 +86,7 @@ public class HTTPServer {
             case .timeout:
                 throw HTTPServerError.socketSetAddressTimeout
             }
-            if listen(fileDescriptor, 5) != 0 {
+            if listen(fileDescriptor, 16) != 0 {
                 CFSocketInvalidate(socket)
                 throw HTTPServerError.socketListenFailed
             }
