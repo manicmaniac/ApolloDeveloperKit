@@ -184,8 +184,8 @@ extension ApolloDebugServer: HTTPRequestHandler {
         let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, server.httpVersion).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
+        CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
         if withBody {
-            CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
             CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
         }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data

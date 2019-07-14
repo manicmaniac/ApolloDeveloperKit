@@ -150,10 +150,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
-            guard let jsString = String(data: data, encoding: .utf8) else {
-                return XCTFail("failed to decode data as UTF-8")
-            }
-            XCTAssertFalse(jsString.isEmpty)
+            XCTAssertFalse(data.isEmpty)
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
@@ -196,10 +193,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
-            guard let cssString = String(data: data, encoding: .utf8) else {
-                return XCTFail("failed to decode data as UTF-8")
-            }
-            XCTAssertFalse(cssString.isEmpty)
+            XCTAssertFalse(data.isEmpty)
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
@@ -230,6 +224,31 @@ class ApolloDebugServerTests: XCTestCase {
         waitForExpectations(timeout: 10.0, handler: nil)
     }
 
+    func testHeadEvents() {
+        let url = type(of: self).server.serverURL!.appendingPathComponent("events")
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/event-stream")
+            XCTAssertEqual(response.allHeaderFields["Transfer-Encoding"] as? String, "chunked")
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            XCTAssertTrue(data.isEmpty)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
     func testHeadRequest() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("request")
         var request = URLRequest(url: url)
@@ -248,10 +267,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
-            guard let string = String(data: data, encoding: .utf8) else {
-                return XCTFail("failed to decode data as UTF-8")
-            }
-            XCTAssertTrue(string.isEmpty)
+            XCTAssertTrue(data.isEmpty)
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
