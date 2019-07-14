@@ -8,6 +8,9 @@
 
 import Apollo
 
+/**
+ * A type erasure class for `GraphQLSelectionSet`.
+ */
 public class AnyGraphQLSelectionSet: GraphQLSelectionSet {
     public static var selections = [GraphQLSelection]()
 

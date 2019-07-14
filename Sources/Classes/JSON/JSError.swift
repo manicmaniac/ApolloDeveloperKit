@@ -8,11 +8,34 @@
 
 import Apollo
 
+/**
+ * `JSError` bridges Swift error and JavaScript error.
+ */
 public struct JSError: JSONEncodable {
+    /**
+     * The localized message describing this error.
+     */
     let message: String?
+
+    /**
+     * The filename where this error occurs.
+     *
+     * This property is always `nil`.
+     */
     let fileName: String? = nil
+
+    /**
+     * The line number where this error occurs.
+     *
+     * This property is always `nil`.
+     */
     let lineNumber: Int? = nil
 
+    /**
+     * Initializes `JSError` instance.
+     *
+     * - Parameter error: An error.
+     */
     init(error: Error) {
         self.message = error.localizedDescription
     }

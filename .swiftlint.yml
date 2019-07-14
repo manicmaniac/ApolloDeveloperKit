@@ -8,5 +8,6 @@ excluded:
   - Carthage/
   - Example/
   - Tests/
+  - docs/
   - node_modules/
   - vendor/

@@ -8,10 +8,28 @@
 
 import UIKit
 
+/**
+ * The protocol to handle raw HTTP request the server receives.
+ */
 public protocol HTTPRequestHandler: class {
+    /**
+     * Invoked when the server receives a HTTP request.
+     *
+     * - Parameter server: The server receiving a HTTP request.
+     * - Parameter request: A raw HTTP message including header and complete body.
+     * - Parameter fileHandle: A file handle wrapping the underlying socket.
+     * - Parameter completion: A completion handler. You must call it when the response ends.
+     */
     func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void)
 }
 
+/**
+ * `HTTPServer` is a minimal HTTP 1.1 server.
+ *
+ * The server works even after the app moves to the background for a while.
+ *
+ * - SeeAlso: https://www.cocoawithlove.com/2009/07/simple-extensible-http-server-in-cocoa.html
+ */
 public class HTTPServer {
     private enum State {
         case idle
@@ -22,11 +40,17 @@ public class HTTPServer {
     let httpVersion = kCFHTTPVersion1_1
     weak var requestHandler: HTTPRequestHandler?
 
+    /**
+     * The URL where the server is established.
+     */
     var serverURL: URL? {
         guard case .running(port: let port) = state, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }
 
+    /**
+     * A Boolean value indicating whether the server is running or not.
+     */
     var isRunning: Bool {
         if case .running = state {
             return true
@@ -55,6 +79,14 @@ public class HTTPServer {
         return nil
     }
 
+    /**
+     * Starts HTTP server listening on the given port.
+     *
+     * This method should be invoked on the main thread.
+     *
+     * - Parameter port: A port number. Avoid using well-known ports.
+     * - Throws: `HTTPServerError` when an error occured while setting up a socket.
+     */
     func start(port: UInt16) throws {
         state = .starting
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
@@ -101,6 +133,11 @@ public class HTTPServer {
         state = .running(port: port)
     }
 
+    /**
+     * Stops the server from running.
+     *
+     * This method should be invoked on the main thread.
+     */
     func stop() {
         guard case .running = state else {
             return

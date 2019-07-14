@@ -3,8 +3,10 @@ plugins:
   swiftlint:
     enabled: true
 exclude_patterns:
+  - .build/
   - Carthage/
   - Example/
   - Tests/
+  - docs/
   - node_modules/
   - vendor/

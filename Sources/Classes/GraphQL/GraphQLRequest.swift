@@ -8,31 +8,52 @@
 
 import Apollo
 
+/**
+ * `GraphQLRequest` is the class representing any kind of GraphQL operation including query, mutation and subscription.
+ *
+ * Any kind of oepration is recognized as GraphQLOperationType.query even if it isn't a query.
+ * It doesn't cause a problem for now because it matters only when an operation is saved,
+ * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.
+ */
 public class GraphQLRequest: GraphQLOperation {
     public typealias Data = AnyGraphQLSelectionSet
 
+    /**
+     * The type of an actual operation.
+     *
+     * Always be a GraphQLOperationType.query even if it isn't a query.
+     */
     public let operationType: GraphQLOperationType
+
+    /**
+     * The query document of an operation.
+     */
     public let operationDefinition: String
+
+    /**
+     * The query variables of an operation.
+     */
     public let variables: GraphQLMap?
 
-    public init(operationType: GraphQLOperationType, operationDefinition: String, variables: GraphQLMap?) {
-        self.operationType = operationType
-        self.operationDefinition = operationDefinition
-        self.variables = variables
-    }
-
-    public init(jsonObject: Any) throws {
-        guard let jsonObject = jsonObject as? [String: Any] else { fatalError() }
-        self.variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
-        if let query = jsonObject["query"] as? String {
-            // Any kind of operations are recognized as GraphQLOperationType.query type even if they are mutations.
-            // It doesn't cause a problem for now because it matters only when operations are saved,
-            // and ApolloDeveloperKit won't save any operations given from GraphiQL.
-            self.operationType = .query
-            self.operationDefinition = query
+    /**
+     * Initializes a GraphQLRequest object.
+     *
+     * - Parameter jsonObject: JSON dictionary object that conforms to GraphQL request.
+     * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
+     */
+    public convenience init(jsonObject: Any) throws {
+        if let jsonObject = jsonObject as? [String: Any], let query = jsonObject["query"] as? String {
+            let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
+            self.init(operationType: .query, operationDefinition: query, variables: variables)
         } else {
             throw JSONDecodingError.couldNotConvert(value: jsonObject, to: GraphQLRequest.self)
         }
+    }
+
+    private init(operationType: GraphQLOperationType, operationDefinition: String, variables: GraphQLMap?) {
+        self.operationType = operationType
+        self.operationDefinition = operationDefinition
+        self.variables = variables
     }
 
     private static func convertToGraphQLMap(_ object: Any) -> GraphQLMap {

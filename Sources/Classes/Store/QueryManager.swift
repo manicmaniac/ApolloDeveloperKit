@@ -8,6 +8,13 @@
 
 import Apollo
 
+/**
+ * `QueryManager` is like a controller object which is responsible for saving each GraphQL operations.
+ *
+ * This class is Swift implementation of `apollo-client`'s `QueryManager`.
+ *
+ * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/core/QueryManager.ts
+ */
 class QueryManager: DebuggableNetworkTransportDelegate {
     let mutationStore = MutationStore()
     let queryStore = QueryStore()

@@ -8,6 +8,12 @@
 
 import Apollo
 
+/**
+ * `ApolloDebugServer` is a HTTP server to communicate with `apollo-cient-devtools`.
+ *
+ * The server works even after the app moves to the background for a while.
+ * When the server is released, it stops itself automatically.
+ */
 public class ApolloDebugServer {
     private let server: HTTPServer
     private let networkTransport: DebuggableNetworkTransport
@@ -17,14 +23,26 @@ public class ApolloDebugServer {
     private var eventStreamQueue = EventStreamQueueMap<FileHandle>()
     private weak var timer: Timer?
 
+    /**
+     * A Boolean value indicating whether the server is running or not.
+     */
     public var isRunning: Bool {
         return server.isRunning
     }
 
+    /**
+     * The URL where the server is established.
+     */
     public var serverURL: URL? {
         return server.serverURL
     }
 
+    /**
+     * Initializes `ApolloDebugServer` instance.
+     *
+     * - Parameter networkTransport: An underlying network transport object.
+     * - Parameter cache: An underlying cache object.
+     */
     public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
         self.networkTransport = networkTransport
         self.cache = cache
@@ -45,6 +63,15 @@ public class ApolloDebugServer {
         stop()
     }
 
+    /**
+     * Starts HTTP server listening on the given port.
+     *
+     * This method should be invoked on the main thread.
+     * The server automatically stops and restarts when it's already running.
+     *
+     * - Parameter port: A port number. Avoid using well-known ports.
+     * - Throws: `HTTPServerError` when an error occured while setting up a socket.
+     */
     public func start(port: UInt16) throws {
         stop()
         try server.start(port: port)
@@ -53,6 +80,12 @@ public class ApolloDebugServer {
         RunLoop.current.add(timer, forMode: .default)
     }
 
+    /**
+     * Stops the server from running.
+     *
+     * This method should be invoked on the main thread.
+     * It's safe if you invoke this method even while the server isn't running.
+     */
     public func stop() {
         if isRunning {
             timer?.invalidate()

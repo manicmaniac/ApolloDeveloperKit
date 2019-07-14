@@ -13,10 +13,20 @@ protocol DebuggableNetworkTransportDelegate: class {
     func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?)
 }
 
+/**
+ * `DebuggableNetworkTransport` is a bridge between `ApolloDebugServer` and `ApolloClient`.
+ *
+ * You should instantiate both `ApolloDebugServer` and `ApolloClient` with the same instance of this class.
+ */
 public class DebuggableNetworkTransport: NetworkTransport {
     weak var delegate: DebuggableNetworkTransportDelegate?
     private let networkTransport: NetworkTransport
 
+    /**
+     * Initializes the receiver with the underlying network transport object.
+     *
+     * - Parameter networkTransport: The underlying network transport.
+     */
     public init(networkTransport: NetworkTransport) {
         self.networkTransport = networkTransport
     }
