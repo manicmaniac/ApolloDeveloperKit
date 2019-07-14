@@ -43,28 +43,32 @@ public class GraphQLRequest: GraphQLOperation {
         switch jsonObject {
         case let value as String:
             return value
-        case let value as Array<Any>:
+        case let value as [Any]:
             return value.map(recursivelyConvertToJSONEncodable(_:))
-        case let value as Dictionary<String, Any>:
+        case let value as [String: Any]:
             return value.mapValues(recursivelyConvertToJSONEncodable(_:))
         case is NSNull:
-            return Optional<JSONEncodable>.none
+            return JSONEncodable?.none
         case let value as NSNumber:
-            switch CFGetTypeID(value) {
-            case CFBooleanGetTypeID():
-                return value.boolValue
-            case CFNumberGetTypeID():
-                switch CFNumberGetType(value) {
-                case .floatType, .doubleType, .float32Type, .float64Type, .cgFloatType:
-                    return value.doubleValue
-                default:
-                    return value.intValue
-                }
-            default:
-                fatalError("The underlying type of value must be CFBoolean or CFNumber")
-            }
+            return convertNumberToJSONEncodable(value)
         default:
             fatalError("invalid type of value: \(type(of: jsonObject))")
+        }
+    }
+
+    private static func convertNumberToJSONEncodable(_ number: NSNumber) -> JSONEncodable {
+        switch CFGetTypeID(number) {
+        case CFBooleanGetTypeID():
+            return number.boolValue
+        case CFNumberGetTypeID():
+            switch CFNumberGetType(number) {
+            case .floatType, .doubleType, .float32Type, .float64Type, .cgFloatType:
+                return number.doubleValue
+            default:
+                return number.intValue
+            }
+        default:
+            fatalError("The underlying type of value must be CFBoolean or CFNumber")
         }
     }
 }

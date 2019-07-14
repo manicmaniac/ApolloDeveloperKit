@@ -130,7 +130,7 @@ public class HTTPServer {
     private func primaryIPAddress(from sockaddr: UnsafePointer<sockaddr>) -> String? {
         let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: Int(NI_MAXHOST))
         defer { buffer.deallocate() }
-        guard getnameinfo(sockaddr,socklen_t(sockaddr.pointee.sa_len), buffer, socklen_t(NI_MAXHOST), nil, 0, NI_NUMERICHOST | NI_NOFQDN) == 0 else {
+        guard getnameinfo(sockaddr, socklen_t(sockaddr.pointee.sa_len), buffer, socklen_t(NI_MAXHOST), nil, 0, NI_NUMERICHOST | NI_NOFQDN) == 0 else {
             return nil
         }
         return String(cString: buffer, encoding: .ascii)

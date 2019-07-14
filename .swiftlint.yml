@@ -1,0 +1,12 @@
+disabled_rules:
+  - force_cast
+  - force_try
+  - line_length
+
+excluded:
+  - .build/
+  - Carthage/
+  - Example/
+  - Tests/
+  - node_modules/
+  - vendor/

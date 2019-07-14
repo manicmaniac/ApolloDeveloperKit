@@ -21,7 +21,7 @@ public class DebuggableNetworkTransport: NetworkTransport {
         self.networkTransport = networkTransport
     }
 
-    public func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation : GraphQLOperation {
+    public func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
         return networkTransport.send(operation: operation) { [weak self] response, error in
             if let self = self {

@@ -22,7 +22,7 @@ class QueryManager: DebuggableNetworkTransportDelegate {
 
     // MARK: - DebuggableHTTPNetworkTransportDelegate
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation : GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
         operationQueue.addOperation { [weak self] in
             guard let self = self else { return }
             let queryId = self.generateQueryId()
@@ -34,16 +34,15 @@ class QueryManager: DebuggableNetworkTransportDelegate {
                 self.queries[queryId] = operation
                 self.mutationStore.initMutation(mutationId: queryId, mutation: operation)
             case .subscription:
-                // TODO
                 break
             }
         }
     }
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation : GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
         operationQueue.addOperation { [weak self] in
             guard let self = self else { return }
-            guard let queryId = self.queries.first(where: { key, value in value === operation })?.key else { return }
+            guard let queryId = self.queries.first(where: { _, value in value === operation })?.key else { return }
             switch (operation.operationType, error) {
             case (.query, nil):
                 let graphQLErrors = (response?.body["errors"] as? [JSONObject])?.map(GraphQLError.init(_:))
@@ -55,7 +54,6 @@ class QueryManager: DebuggableNetworkTransportDelegate {
             case (.mutation, let error?):
                 self.mutationStore.markMutationError(mutationId: queryId, error: error)
             case (.subscription, _):
-                // TODO
                 break
             }
         }
