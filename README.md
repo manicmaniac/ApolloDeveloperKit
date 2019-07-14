@@ -92,7 +92,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let store = ApolloStore(cache: cache)
             client = ApolloClient(networkTransport: networkTransport, store: store)
             debugServer = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
-            debugServer.start(port: 8081)
+            do {
+                try debugServer.start(port: 8081)
+            } catch let error {
+                print(error)
+            }
         #else
             client = ApolloClient(url: url)
         #endif
