@@ -24,6 +24,14 @@ jobs:
     - <<: *test
       xcode_destination: "OS=11.4,name=iPhone 5s"
       name: iOS 11.4
+      before_script: |
+        gem install slather -v '~> 2.4.7'
+        curl -LSso cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-darwin-amd64
+        chmod +x cc-test-reporter
+        ./cc-test-reporter before-build
+      after_script: |
+        slather coverage -tx --scheme="$TRAVIS_XCODE_SCHEME" "$TRAVIS_XCODE_PROJECT"
+        ./cc-test-reporter after-build -t cobertura --exit-code $TRAVIS_TEST_RESULT
     - name: pod trunk push
       stage: deploy
       install: gem install cocoapods -v '~> 1.7.3'
