@@ -11,9 +11,9 @@ Pod::Spec.new do |spec|
   spec.license      = { :type => "MIT", :file => "LICENSE" }
   spec.authors             = { "Ryosuke Ito" => "rito.0305@gmail.com" }
   spec.platform     = :ios, "9.0"
-  spec.swift_version = "4.2"
+  spec.swift_version = "5.0"
   spec.source       = { :git => "https://github.com/manicmaniac/ApolloDeveloperKit.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/Classes/**/*.swift"
   spec.resource = "Sources/Assets"
-  spec.dependency "Apollo", ">= 0.9.0", "< 0.13.0"
+  spec.dependency "Apollo", ">= 0.11.1", "< 0.13.0"
 end
