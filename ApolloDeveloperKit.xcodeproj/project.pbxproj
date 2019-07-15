@@ -12,7 +12,6 @@
 		5B26FC2D22B3DB0800359E63 /* ApolloDeveloperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4322B3DB5800359E63 /* Assets.xcassets */; };
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
-		5B26FC4F22B3DCF400359E63 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */; };
 		5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */; };
@@ -144,7 +143,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */,
-				5B26FC4F22B3DCF400359E63 /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
