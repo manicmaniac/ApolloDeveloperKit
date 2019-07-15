@@ -117,6 +117,8 @@ public class HTTPServer {
                 throw HTTPServerError.socketSetAddressFailed
             case .timeout:
                 throw HTTPServerError.socketSetAddressTimeout
+            @unknown default:
+                throw HTTPServerError.socketSetAddressFailed
             }
             if listen(fileDescriptor, 16) != 0 {
                 throw HTTPServerError.socketListenFailed
