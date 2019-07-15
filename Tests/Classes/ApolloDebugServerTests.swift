@@ -493,6 +493,9 @@ private class MockHTTPURLProtocol: URLProtocol {
         var totalRead = 0
         while inputStream.hasBytesAvailable {
             data.withUnsafeMutableBytes { bytes in
+                #if swift(>=5.0)
+                let bytes = bytes.bindMemory(to: UInt8.self).baseAddress!
+                #endif
                 totalRead += inputStream.read(bytes.advanced(by: totalRead), maxLength: bufferSize - totalRead)
             }
         }

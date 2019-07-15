@@ -19,8 +19,11 @@ extension FileHandle {
     func writeData(_ data: Data) throws {
         var totalWritten = 0
         while totalWritten < data.count {
-            let written = data.withUnsafeBytes { bytes in
-                Darwin.write(fileDescriptor, bytes.advanced(by: totalWritten), data.count - totalWritten)
+            let written: Int = data.withUnsafeBytes { bytes in
+                #if swift(>=5.0)
+                let bytes = bytes.bindMemory(to: UInt8.self).baseAddress!
+                #endif
+                return Darwin.write(fileDescriptor, bytes.advanced(by: totalWritten), data.count - totalWritten)
             }
             if written <= 0 {
                 throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: nil)
