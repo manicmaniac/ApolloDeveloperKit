@@ -106,6 +106,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
+Excluding ApolloDeveloperKit from Release (App Store) Builds
+------------------------------------------------------------
+
+All instructions in this section are written based on [Flipboard/FLEX](https://github.com/Flipboard/FLEX)'s way.
+
+Since ApolloDeveloperKit is originally designed for debug use only, it should not be exposed to end-users.
+
+Fortunately, it is easy to exclude ApolloDeveloperKit framework from Release builds. The strategies differ depending on how you integrated it in your project, and are described below.
+
+Please make sure your code is properly excluding ApolloDeveloperKit with `#if DEBUG` statements before starting these instructions.
+Otherwise it will be linked to your app unexpectedly.
+See `Example/AppDelegate.swift` to see how to do it.
+
+### For CocoaPods users
+
+CocoaPods automatically excludes ApolloDeveloperKit from release builds if you only specify the Debug configuration for CocoaPods in your Podfile.
+
+### For Carthage users
+
+1. Do NOT add `ApolloDeveloperKit.framework` to the embedded binaries of your target, as it would otherwise be included in all builds (therefore also in release ones).
+2. Instead, add `$(PROJECT_DIR)/Carthage/Build/iOS` to your target *Framework Search Paths* (this setting might already be present if you already included other frameworks with Carthage).
+This makes it possible to import the ApolloDeveloperKit framework from your source files. It does not harm if this setting is added for all configurations, but it should at least be added for the debug one.
+3. Add a *Run Script Phase* to your target (inserting it alter the existing `Link Binary with Libraries` phase, for example), and which will embed `ApolloDeveloperKit.framework` in debug builds only:
+
+```
+if [ "$CONFIGURATION" == "Debug" ]; then
+  /usr/local/bin/carthage copy-frameworks
+fi
+```
+
+Finally, add `$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework` as input file of this script phase.
+
+### For users those who copy all the source files to the project manually
+
+Now there's no easy way but you can exclude ApolloDeveloperKit by setting user defined build variable named `EXCLUDED_SOURCE_FILE_NAMES`.
+The value for the variable is a space-separated list of each filenames in ApolloDeveloperKit.
+Sorry for the inconvenience.
+
 Usage
 -----
 
