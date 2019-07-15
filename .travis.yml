@@ -1,20 +1,33 @@
 os: osx
+language: swift
 osx_image: xcode10.1
+xcode_project: ApolloDeveloperKit.xcodeproj
+xcode_scheme: ApolloDeveloperKit
+
 cache:
   bundler: true
   directories:
     - Carthage/Build
-env:
-  global:
-    - LC_CTYPE=en_US.UTF-8
-    - LANG=en_US.UTF-8
-  matrix:
-    - DESTINATION="OS=12.1,name=iPhone XS"
-    - DESTINATION="OS=11.4,name=iPhone 5s"
-script:
-  - set -o pipefail
-  - xcodebuild -version
-  - xcodebuild -showsdks
-  - carthage build --platform iOS --no-use-binaries --cache-builds
-  - xcodebuild -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -destination "$DESTINATION" -configuration Debug test | xcpretty
-  - xcodebuild -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKitExample -destination "$DESTINATION" -configuration Debug build | xcpretty
+
+stages:
+  - name: test
+  - name: deploy
+    if: branch =~ ^\d+\.\d+\.\d+$
+
+jobs:
+  include:
+    - &test
+      stage: test
+      install: carthage build --platform iOS --no-use-binaries --cache-builds
+      xcode_destination: "OS=12.1,name=iPhone XS"
+      name: iOS 12.1
+    - <<: *test
+      xcode_destination: "OS=11.4,name=iPhone 5s"
+      name: iOS 11.4
+    - name: pod trunk push
+      stage: deploy
+      install: gem install cocoapods -v '~> 1.7.3'
+      script: |
+        set -exo pipefail
+        pod trunk push --verbose --allow-warnings | tee pod.log | sed 's/.*/./g' | tr -d '\n'
+      after_failure: fgrep error pod.log
