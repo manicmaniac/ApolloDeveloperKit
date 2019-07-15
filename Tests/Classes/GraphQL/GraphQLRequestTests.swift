@@ -18,7 +18,7 @@ class GraphQLRequestTests: XCTestCase {
                     "string": "foo" as NSString,
                     "integer": 42 as NSNumber,
                     "float": 4.2 as NSNumber,
-                    "boolean": kCFBooleanTrue,
+                    "boolean": true as CFBoolean,
                     "null": NSNull()
                 ]
             ],
