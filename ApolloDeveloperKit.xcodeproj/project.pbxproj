@@ -51,6 +51,8 @@
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
 		5B8F2BBC22C26F78006922CE /* EventStreamQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2BBB22C26F78006922CE /* EventStreamQueue.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
+		5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
+		5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +63,28 @@
 			remoteGlobalIDString = 5B26FC1B22B3DB0800359E63;
 			remoteInfo = ApolloDeveloperKit;
 		};
+		5BFF016922DF8BA600944131 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B26FC1322B3DB0800359E63 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B26FC1B22B3DB0800359E63;
+			remoteInfo = ApolloDeveloperKit;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5BFF016B22DF8BA600944131 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
@@ -143,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */,
+				5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,10 +429,12 @@
 				5B26FC3722B3DB5500359E63 /* Frameworks */,
 				5B26FC3822B3DB5500359E63 /* Resources */,
 				5B26FC5822B3DD1D00359E63 /* Carthage Copy Frameworks */,
+				5BFF016B22DF8BA600944131 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5BFF016A22DF8BA600944131 /* PBXTargetDependency */,
 			);
 			name = ApolloDeveloperKitExample;
 			productName = ApolloDeveloperKitExample;
@@ -593,6 +619,11 @@
 			isa = PBXTargetDependency;
 			target = 5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */;
 			targetProxy = 5B26FC2722B3DB0800359E63 /* PBXContainerItemProxy */;
+		};
+		5BFF016A22DF8BA600944131 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */;
+			targetProxy = 5BFF016922DF8BA600944131 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -841,6 +872,7 @@
 		5B26FC4A22B3DB5800359E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
 				CLANG_ENABLE_MODULES = YES;
@@ -864,6 +896,7 @@
 		5B26FC4B22B3DB5800359E63 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
 				CLANG_ENABLE_MODULES = YES;
