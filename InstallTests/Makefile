@@ -1,0 +1,19 @@
+.PHONY: all clean carthage carthage-clean cocoapods cocoapods-clean
+
+all: carthage cocoapods
+
+clean: carthage-clean cocoapods-clean
+
+carthage:
+	PATH="$(CARTHAGE_SEARCH_PATHS):$(PATH)" carthage bootstrap --platform iOS --no-use-binaries
+	xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-Carthage -sdk iphonesimulator build
+
+carthage-clean:
+	rm -rf Carthage Cartfile.resolved
+
+cocoapods:
+	pod install
+	xcodebuild -workspace ApolloDeveloperKitInstallTests.xcworkspace -scheme ApolloDeveloperKitInstallTests-CocoaPods -sdk iphonesimulator build
+
+cocoapods-clean:
+	pod deintegrate

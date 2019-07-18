@@ -1,0 +1,9 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, 10
+
+target 'ApolloDeveloperKitInstallTests-CocoaPods' do
+  use_frameworks!
+
+  pod 'ApolloDeveloperKit', path: '../'
+end
