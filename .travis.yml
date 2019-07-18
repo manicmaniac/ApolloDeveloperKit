@@ -1,6 +1,5 @@
 os: osx
 language: swift
-osx_image: xcode10.1
 xcode_project: ApolloDeveloperKit.xcodeproj
 xcode_scheme: ApolloDeveloperKit
 
@@ -9,25 +8,29 @@ cache:
   directories:
     - Carthage/Build
 
-stages:
-  - name: test
-  - name: deploy
-    if: branch =~ ^\d+\.\d+\.\d+$
-
-jobs:
+matrix:
   include:
-    - &test
-      stage: test
-      install: carthage build --platform iOS --no-use-binaries --cache-builds
-      xcode_destination: "OS=12.1,name=iPhone XS"
-      name: iOS 12.1
-    - <<: *test
-      xcode_destination: "OS=11.4,name=iPhone 5s"
-      name: iOS 11.4
-    - name: pod trunk push
-      stage: deploy
-      install: gem install cocoapods -v '~> 1.7.3'
-      script: |
-        set -exo pipefail
-        pod trunk push --verbose --allow-warnings | tee pod.log | sed 's/.*/./g' | tr -d '\n'
-      after_failure: fgrep error pod.log
+  - osx_image: xcode10.2
+    xcode_sdk: iphonesimulator12.2
+    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+    env: APOLLO_VERSION=0.12.0
+    name: Xcode 10.2 / iOS 12.2 / iPhone X / Apollo 0.12.0
+  - osx_image: xcode10.2
+    xcode_sdk: iphonesimulator12.2
+    xcode_destination: "platform=iOS Simulator,OS=11.4,name=iPhone 8"
+    env: APOLLO_VERSION=0.11.1
+    name: Xcode 10.2 / iOS 11.4 / iPhone 8 / Apollo 0.11.1
+  - osx_image: xcode10.2
+    xcode_sdk: iphonesimulator12.2
+    xcode_destination: "platform=iOS Simulator,OS=10.3.1,name=iPhone 7"
+    env: APOLLO_VERSION=0.10.1
+    name: Xcode 10.2 / iOS 10.3.1 / iPhone 7 / Apollo 0.10.1
+  - osx_image: xcode10.1
+    xcode_sdk: iphonesimulator12.1
+    xcode_destination: "platform=iOS Simulator,OS=12.1,name=iPhone 6"
+    env: APOLLO_VERSION=0.9.5
+    name: Xcode 10.1 / iOS 12.1 / iPhone 6 / Apollo 0.9.5
+
+install:
+  - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
+  - carthage bootstrap --platform iOS --no-use-binaries --cache-builds
