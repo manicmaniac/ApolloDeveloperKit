@@ -14,22 +14,30 @@ matrix:
     xcode_sdk: iphonesimulator12.2
     xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
     env: APOLLO_VERSION=0.12.0
-    name: Xcode 10.2 / iOS 12.2 / iPhone X / Apollo 0.12.0
+    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.12.0 / iPhone X"
   - osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
     xcode_destination: "platform=iOS Simulator,OS=11.4,name=iPhone 8"
     env: APOLLO_VERSION=0.11.1
-    name: Xcode 10.2 / iOS 11.4 / iPhone 8 / Apollo 0.11.1
+    name: "Unit Tests: Xcode 10.2 / iOS 11.4 / Apollo 0.11.1 / iPhone 8"
   - osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
     xcode_destination: "platform=iOS Simulator,OS=10.3.1,name=iPhone 7"
     env: APOLLO_VERSION=0.10.1
-    name: Xcode 10.2 / iOS 10.3.1 / iPhone 7 / Apollo 0.10.1
+    name: "Unit Tests: Xcode 10.2 / iOS 10.3.1 / Apollo 0.10.1 / iPhone 7"
   - osx_image: xcode10.1
     xcode_sdk: iphonesimulator12.1
     xcode_destination: "platform=iOS Simulator,OS=12.1,name=iPhone 6"
     env: APOLLO_VERSION=0.9.5
-    name: Xcode 10.1 / iOS 12.1 / iPhone 6 / Apollo 0.9.5
+    name: "Unit Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / iPhone 6"
+  - osx_image: xcode10.1
+    install:
+    script: make -C InstallTests carthage
+    name: "Install Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / Carthage"
+  - osx_image: xcode10.1
+    install:
+    script: make -C InstallTests cocoapods
+    name: "Install Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / CocoaPods"
 
 install:
   - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
