@@ -9,16 +9,22 @@ ApolloDeveloperKit
 
 [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools) bridge for [Apollo iOS](https://github.com/apollographql/apollo-ios).
 
+Overview
+--------
+
+ApolloDeveloperKit is an iOS library which works as a bridge between Apollo iOS client and [Apollo Client Developer tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm).
+
+This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.
+
 Screenshots
 -----------
 
-<img width="960" alt="apollo-developer-kit-queries-1920" src="https://user-images.githubusercontent.com/1672393/60062041-84949600-9732-11e9-9c70-ee45e5417db6.png">
+<img width="1332" alt="apollo-developer-kit-animation" src="https://user-images.githubusercontent.com/1672393/62706435-0db01580-b9df-11e9-9033-cb8055074b91.gif">
 
 Prerequisites
 -------------
 
-- Xcode 10
-- Carthage
+- Xcode 10.1 or above
 - Google Chrome
 - [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools)
 
