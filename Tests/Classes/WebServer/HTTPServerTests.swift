@@ -27,7 +27,14 @@ class HTTPServerTests: XCTestCase {
     }
 
     func testServerURL() {
-        XCTAssertEqual(type(of: self).server.serverURL?.absoluteString, "http://127.0.0.1:8085/")
+        let serverURL = type(of: self).server.serverURL
+        XCTAssertNotNil(serverURL)
+        if let serverURL = serverURL {
+            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:8085", options: [])
+            let range = NSRange(location: 0, length: serverURL.absoluteString.count)
+            let matches = regularExpression.matches(in: serverURL.absoluteString, options: [], range: range)
+            XCTAssertFalse(matches.isEmpty)
+        }
     }
 
     func testGetRequest() {
