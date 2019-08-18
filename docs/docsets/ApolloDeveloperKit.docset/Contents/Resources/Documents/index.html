@@ -13,7 +13,7 @@
     <a title="ApolloDeveloperKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ApolloDeveloperKit Docs</a> (60% documented)</p>
+        <p><a href="index.html">ApolloDeveloperKit Docs</a> (67% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -120,14 +120,18 @@
 <a href="https://alamofire.github.io/ApolloDeveloperKit"><img src="https://img.shields.io/cocoapods/p/ApolloDeveloperKit.svg?style=flat" alt="Platform"></a></p>
 
 <p><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a> bridge for <a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a>.</p>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>ApolloDeveloperKit is an iOS library which works as a bridge between Apollo iOS client and <a href="https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm">Apollo Client Developer tools</a>.</p>
+
+<p>This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.</p>
 <h2 id='screenshots' class='heading'>Screenshots</h2>
 
-<p><img width="960" alt="apollo-developer-kit-queries-1920" src="https://user-images.githubusercontent.com/1672393/60062041-84949600-9732-11e9-9c70-ee45e5417db6.png"></p>
+<p><img width="1332" alt="apollo-developer-kit-animation" src="https://user-images.githubusercontent.com/1672393/62706435-0db01580-b9df-11e9-9033-cb8055074b91.gif"></p>
 <h2 id='prerequisites' class='heading'>Prerequisites</h2>
 
 <ul>
-<li>Xcode 10</li>
-<li>Carthage</li>
+<li>Xcode 10.1 or above</li>
 <li>Google Chrome</li>
 <li><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a></li>
 </ul>
@@ -197,11 +201,47 @@ pod 'ApolloDeveloperKit'
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
+<h2 id='excluding-apollodeveloperkit-from-release-app-store-builds' class='heading'>Excluding ApolloDeveloperKit from Release (App Store) Builds</h2>
+
+<p>All instructions in this section are written based on <a href="https://github.com/Flipboard/FLEX">Flipboard/FLEX</a>&rsquo;s way.</p>
+
+<p>Since ApolloDeveloperKit is originally designed for debug use only, it should not be exposed to end-users.</p>
+
+<p>Fortunately, it is easy to exclude ApolloDeveloperKit framework from Release builds. The strategies differ depending on how you integrated it in your project, and are described below.</p>
+
+<p>Please make sure your code is properly excluding ApolloDeveloperKit with <code>#if DEBUG</code> statements before starting these instructions.
+Otherwise it will be linked to your app unexpectedly.
+See <code>Example/AppDelegate.swift</code> to see how to do it.</p>
+<h3 id='for-cocoapods-users' class='heading'>For CocoaPods users</h3>
+
+<p>CocoaPods automatically excludes ApolloDeveloperKit from release builds if you only specify the Debug configuration for CocoaPods in your Podfile.</p>
+<h3 id='for-carthage-users' class='heading'>For Carthage users</h3>
+
+<ol>
+<li>Do NOT add <code>ApolloDeveloperKit.framework</code> to the embedded binaries of your target, as it would otherwise be included in all builds (therefore also in release ones).</li>
+<li>Instead, add <code>$(PROJECT_DIR)/Carthage/Build/iOS</code> to your target <em>Framework Search Paths</em> (this setting might already be present if you already included other frameworks with Carthage).
+This makes it possible to import the ApolloDeveloperKit framework from your source files. It does not harm if this setting is added for all configurations, but it should at least be added for the debug one.</li>
+<li>Add a <em>Run Script Phase</em> to your target (inserting it alter the existing <code>Link Binary with Libraries</code> phase, for example), and which will embed <code>ApolloDeveloperKit.framework</code> in debug builds only:</li>
+</ol>
+<pre class="highlight plaintext"><code>if [ "$CONFIGURATION" == "Debug" ]; then
+  /usr/local/bin/carthage copy-frameworks
+fi
+</code></pre>
+
+<p>Finally, add <code>$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework</code> as input file of this script phase.</p>
+<h3 id='for-users-those-who-copy-all-the-source-files-to-the-project-manually' class='heading'>For users those who copy all the source files to the project manually</h3>
+
+<p>Now there&rsquo;s no easy way but you can exclude ApolloDeveloperKit by setting user defined build variable named <code>EXCLUDED_SOURCE_FILE_NAMES</code>.
+The value for the variable is a space-separated list of each filenames in ApolloDeveloperKit.
+Sorry for the inconvenience.</p>
 <h2 id='usage' class='heading'>Usage</h2>
 
 <p>Open browser after launching Simulator and jump to <code>http://localhost:8081</code> (or other specified port) on your Chrome.
 Then <a href="https://developers.google.com/web/tools/chrome-devtools/open">open developer tools</a> and select <code>Apollo</code> tab.</p>
 <h2 id='development' class='heading'>Development</h2>
+<h3 id='api-documentation' class='heading'>API Documentation</h3>
+
+<p>Auto-generated API documentation is <a href="https://manicmaniac.github.io/ApolloDeveloperKit">here</a>.</p>
 <h3 id='run-example-app' class='heading'>Run Example App</h3>
 
 <p>Since Example app is slightly modified version of <a href="https://github.com/apollographql/frontpage-ios-app">apollographql/frontpage-ios-app</a>,
@@ -219,7 +259,7 @@ See LICENSE for more detail.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-07-15)</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-08-19)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.10.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
