@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = window!.rootViewController as! UINavigationController
         let postListViewController = navigationController.topViewController as! PostListViewController
         postListViewController.apollo = apollo
+        postListViewController.serverURL = server.serverURL
         return true
     }
 }
