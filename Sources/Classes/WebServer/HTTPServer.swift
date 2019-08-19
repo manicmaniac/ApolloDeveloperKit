@@ -65,18 +65,16 @@ public class HTTPServer {
     private var backgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
 
     private var primaryIPAddress: String? {
-        var addrs: UnsafeMutablePointer<ifaddrs>?
-        if withUnsafeMutablePointer(to: &addrs, getifaddrs) >= 0 {
-            defer { freeifaddrs(addrs) }
-            let ifap = addrs
-            while let ifap = ifap {
-                if (ifap.pointee.ifa_flags & UInt32(IFF_UP) == 1) && (ifap.pointee.ifa_addr.pointee.sa_family == AF_INET) {
-                    return primaryIPAddress(from: ifap.pointee.ifa_addr)
-                }
-                ifap.moveAssign(from: ifap.pointee.ifa_next, count: 1)
-            }
-        }
-        return nil
+        #if targetEnvironment(simulator)
+        // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
+        let expectedInterfaceNames = ["en0", "en1"]
+        #else
+        // Wi-Fi interface on iOS
+        let expectedInterfaceNames = ["en0"]
+        #endif
+        return NetworkInterfaceList.current.first { networkInterface in
+            networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
+        }?.ipv4Address
     }
 
     /**
@@ -164,15 +162,6 @@ public class HTTPServer {
         }
         NotificationCenter.default.removeObserver(self, name: .NSFileHandleDataAvailable, object: incomingFileHandle)
         incomingRequests.removeValue(forKey: incomingFileHandle)
-    }
-
-    private func primaryIPAddress(from sockaddr: UnsafePointer<sockaddr>) -> String? {
-        let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: Int(NI_MAXHOST))
-        defer { buffer.deallocate() }
-        guard getnameinfo(sockaddr, socklen_t(sockaddr.pointee.sa_len), buffer, socklen_t(NI_MAXHOST), nil, 0, NI_NUMERICHOST | NI_NOFQDN) == 0 else {
-            return nil
-        }
-        return String(cString: buffer, encoding: .ascii)
     }
 
     private func startBackgroundTaskIfNeeded() {

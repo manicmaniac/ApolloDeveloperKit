@@ -3,6 +3,7 @@ import Apollo
 
 class PostListViewController: UITableViewController {
     var apollo: ApolloClient!
+    var serverURL: URL!
     
     var posts: [AllPostsQuery.Data.Post]? {
         didSet {
@@ -59,6 +60,12 @@ class PostListViewController: UITableViewController {
         cell.delegate = self
 
         return cell
+    }
+
+    @IBAction private func actionButtonDidTouchUpInside(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "IP address", message: serverURL.absoluteString, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }
 
