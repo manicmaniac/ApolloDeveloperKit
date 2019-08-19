@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "ApolloDeveloperKit"
-  spec.version      = "0.3.0"
+  spec.version      = "0.3.1"
   spec.summary      = "Visual debug your app, that is based on Apollo iOS"
   spec.description  = <<-DESC
                    Visual debug your app, that is based on Apollo iOS.
