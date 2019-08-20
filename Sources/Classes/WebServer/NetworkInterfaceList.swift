@@ -11,36 +11,44 @@ import Darwin
 /**
  * `NetworkInterfaceList` is a linked list of `NetworkInterface`s.
  */
-class NetworkInterfaceList: Sequence {
-    typealias Iterator = NetworkInterfaceList
+public class NetworkInterfaceList: Sequence {
+    public typealias Element = NetworkInterface
+    public typealias Iterator = AnyIterator<NetworkInterface>
 
-    class var current: NetworkInterfaceList {
-        var addressPointer: UnsafeMutablePointer<ifaddrs>?
+    /**
+     * Returns newly initialized instance with the current device's state of network interfaces.
+     */
+    public class var current: NetworkInterfaceList? {
+        var addressPointer: UnsafeMutablePointer<ifaddrs>!
         guard withUnsafeMutablePointer(to: &addressPointer, getifaddrs) >= 0 else {
-            return NetworkInterfaceList(addressPointer: nil)
+            return nil
         }
         return NetworkInterfaceList(addressPointer: addressPointer)
     }
 
-    private var addressPointer: UnsafeMutablePointer<ifaddrs>?
+    private let addressPointer: UnsafeMutablePointer<ifaddrs>
 
-    private init(addressPointer: UnsafeMutablePointer<ifaddrs>?) {
+    /**
+     * Initializes `NetworkInterfaceList` with a pointer to head of interface addresses.
+     *
+     * This constructor is only visible for testing purpose.
+     *
+     * The initialized instance takes the ownership of a given pointer.
+     * You must not free it by yourself.
+     *
+     * - Parameter addressPointer: head of linked list of interface addresses.
+     */
+    init(addressPointer: UnsafeMutablePointer<ifaddrs>) {
         self.addressPointer = addressPointer
+    }
+
+    public func makeIterator() -> Iterator {
+        let addressPointers = sequence(first: addressPointer, next: { $0.pointee.ifa_next })
+        let networkInterfaces = addressPointers.lazy.map { NetworkInterface(addr: $0.pointee) }
+        return AnyIterator(networkInterfaces.makeIterator())
     }
 
     deinit {
         freeifaddrs(addressPointer)
-    }
-}
-
-extension NetworkInterfaceList: IteratorProtocol {
-    typealias Element = NetworkInterface
-
-    func next() -> NetworkInterface? {
-        guard let addressPointer = addressPointer else {
-            return nil
-        }
-        addressPointer.moveAssign(from: addressPointer.pointee.ifa_next, count: 1)
-        return NetworkInterface(addr: addressPointer.pointee)
     }
 }

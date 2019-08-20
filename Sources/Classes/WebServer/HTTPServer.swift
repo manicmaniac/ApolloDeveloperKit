@@ -72,7 +72,7 @@ public class HTTPServer {
         // Wi-Fi interface on iOS
         let expectedInterfaceNames = ["en0"]
         #endif
-        return NetworkInterfaceList.current.first { networkInterface in
+        return NetworkInterfaceList.current?.first { networkInterface in
             networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
         }?.ipv4Address
     }
