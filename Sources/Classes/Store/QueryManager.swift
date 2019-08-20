@@ -15,23 +15,24 @@ import Apollo
  *
  * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/core/QueryManager.ts
  */
-class QueryManager: DebuggableNetworkTransportDelegate {
+class QueryManager {
     let mutationStore = MutationStore()
     let queryStore = QueryStore()
     private var queries = [String: AnyObject]()
-    private let operationQueue = OperationQueue()
+    private let queue = DispatchQueue(label: "com.github.manicmaniac.ApolloDeveloperKit.QueryManager")
     private var counter = 0
 
     private func generateQueryId() -> String {
         counter += 1
         return String(describing: counter)
     }
+}
 
-    // MARK: - DebuggableHTTPNetworkTransportDelegate
+// MARK: - DebuggableHTTPNetworkTransportDelegate
 
+extension QueryManager: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
-        operationQueue.addOperation { [weak self] in
-            guard let self = self else { return }
+        queue.sync(flags: .barrier) { [unowned self] in
             let queryId = self.generateQueryId()
             switch operation.operationType {
             case .query:
@@ -47,8 +48,7 @@ class QueryManager: DebuggableNetworkTransportDelegate {
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
-        operationQueue.addOperation { [weak self] in
-            guard let self = self else { return }
+        queue.sync(flags: .barrier) { [unowned self] in
             guard let queryId = self.queries.first(where: { _, value in value === operation })?.key else { return }
             switch (operation.operationType, error) {
             case (.query, nil):
