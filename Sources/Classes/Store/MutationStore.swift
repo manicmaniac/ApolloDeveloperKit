@@ -13,12 +13,16 @@ import Apollo
  *
  * This class is Swift implementation of `apollo-client`'s `MutationStoreValue`.
  */
-public struct MutationStoreValue: JSONEncodable {
+public struct MutationStoreValue {
     let mutation: String
     let variables: GraphQLMap?
     var loading: Bool
     var error: Error?
+}
 
+// MARK: JSONEncodable
+
+extension MutationStoreValue: JSONEncodable {
     public var jsonValue: JSONValue {
         return [
             "mutation": mutation,

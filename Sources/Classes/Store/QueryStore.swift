@@ -13,13 +13,17 @@ import Apollo
  *
  * This class is Swift implementation of `apollo-client`'s `QueryStoreValue`.
  */
-public struct QueryStoreValue: JSONEncodable {
+public struct QueryStoreValue {
     let document: String
     let variables: GraphQLMap?
     var previousVariables: GraphQLMap?
     var networkError: Error?
     var graphQLErrors: [Error]
+}
 
+// MARK: JSONEncodable
+
+extension QueryStoreValue: JSONEncodable {
     public var jsonValue: JSONValue {
         return [
             "document": document,
