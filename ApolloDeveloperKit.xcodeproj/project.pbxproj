@@ -15,6 +15,9 @@
 		5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4322B3DB5800359E63 /* Assets.xcassets */; };
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
 		5B2E1B29230C2CE0003C85CB /* NetworkInterfaceListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */; };
+		5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */; };
+		5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */; };
+		5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */; };
 		5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */; };
 		5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */; };
@@ -104,6 +107,9 @@
 		5B26FC4622B3DB5800359E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B26FC4822B3DB5800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceListTests.swift; sourceTree = "<group>"; };
+		5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceTests.swift; sourceTree = "<group>"; };
+		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
+		5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "sockaddr+Factory.swift"; sourceTree = "<group>"; };
 		5B2F820F22B430A80025A211 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 		5B2F821022B430A80025A211 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		5B2F821122B430A80025A211 /* ApolloWebSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloWebSocket.framework; path = Carthage/Build/iOS/ApolloWebSocket.framework; sourceTree = "<group>"; };
@@ -182,6 +188,7 @@
 		5B0EC95C22B6D68D003D7933 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5B2E1B34230CD19E003C85CB /* Factory */,
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A837422C67386002B4FFB /* EventStream */,
 				5B3A838B22C6855C002B4FFB /* JSON */,
@@ -266,6 +273,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5B2E1B34230CD19E003C85CB /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */,
+				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		5B2F84E322B431920025A211 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +351,7 @@
 			children = (
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
+				5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */,
 				5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */,
 			);
 			path = WebServer;
@@ -598,7 +615,10 @@
 				5B3A837622C6739A002B4FFB /* EventStreamQueueTests.swift in Sources */,
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
+				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B3A839622C72235002B4FFB /* MutationStoreTests.swift in Sources */,
+				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
+				5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */,
 				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,
 				5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */,
 				5B2E1B29230C2CE0003C85CB /* NetworkInterfaceListTests.swift in Sources */,
