@@ -6,14 +6,18 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-public enum HTTPServerError: Int, CustomNSError {
-    public static let errorDomain = "HTTPServerErrorDomain"
-
+public enum HTTPServerError: Int {
     case socketCreationFailed = 100
     case socketSetOptionFailed = 101
     case socketSetAddressFailed = 102
     case socketSetAddressTimeout = 103
     case socketListenFailed = 104
+}
+
+// MARK: CustomNSError
+
+extension HTTPServerError: CustomNSError {
+    public static let errorDomain = "HTTPServerErrorDomain"
 
     public var localizedDescription: String {
         switch self {

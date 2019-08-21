@@ -18,7 +18,7 @@ protocol DebuggableNetworkTransportDelegate: class {
  *
  * You should instantiate both `ApolloDebugServer` and `ApolloClient` with the same instance of this class.
  */
-public class DebuggableNetworkTransport: NetworkTransport {
+public class DebuggableNetworkTransport {
     weak var delegate: DebuggableNetworkTransportDelegate?
     private let networkTransport: NetworkTransport
 
@@ -30,7 +30,11 @@ public class DebuggableNetworkTransport: NetworkTransport {
     public init(networkTransport: NetworkTransport) {
         self.networkTransport = networkTransport
     }
+}
 
+// MARK: NetworkTransport
+
+extension DebuggableNetworkTransport: NetworkTransport {
     public func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
         return networkTransport.send(operation: operation) { [weak self] response, error in

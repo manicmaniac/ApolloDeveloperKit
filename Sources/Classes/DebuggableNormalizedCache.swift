@@ -17,7 +17,7 @@ protocol DebuggableNormalizedCacheDelegate: class {
  *
  * You should instantiate both `ApolloDebugServer` and `ApolloStore` with the same instance of this class.
  */
-public class DebuggableNormalizedCache: NormalizedCache {
+public class DebuggableNormalizedCache {
     weak var delegate: DebuggableNormalizedCacheDelegate?
     private let cache: NormalizedCache
     private var records: RecordSet
@@ -32,6 +32,14 @@ public class DebuggableNormalizedCache: NormalizedCache {
         self.records = RecordSet()
     }
 
+    func extract() -> [String: Any] {
+        return records.storage
+    }
+}
+
+// MARK: NormalizedCache
+
+extension DebuggableNormalizedCache: NormalizedCache {
     public func loadRecords(forKeys keys: [CacheKey]) -> Promise<[Record?]> {
         return cache.loadRecords(forKeys: keys)
     }
@@ -47,9 +55,5 @@ public class DebuggableNormalizedCache: NormalizedCache {
         let promise = cache.clear()
         delegate?.normalizedCache(self, didChangeRecords: records)
         return promise
-    }
-
-    func extract() -> [String: Any] {
-        return records.storage
     }
 }
