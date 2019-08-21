@@ -13,7 +13,7 @@ class NetworkInterfaceListTests: XCTestCase {
     private var networkInterfaceList: NetworkInterfaceList!
 
     // We must manage memory by ourselves because they are out of ARC.
-    private var socketAddress = sockaddr(length: 0, family: AF_INET)
+    private var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_ANY, port: 80)
     private var en0Name = "en0".cString(using: .ascii)!
     private var en1Name = "en1".cString(using: .ascii)!
     private var en2Name = "en2".cString(using: .ascii)!
@@ -43,23 +43,5 @@ class NetworkInterfaceListTests: XCTestCase {
         XCTAssertEqual("en2", iterator2.next()?.name)
         XCTAssertNil(iterator1.next())
         XCTAssertNil(iterator2.next())
-    }
-}
-
-private extension ifaddrs {
-    init(name: inout [CChar], flags: Int32, ifa_addr: inout sockaddr) {
-        self.init(ifa_next: nil,
-                  ifa_name: &name,
-                  ifa_flags: UInt32(flags),
-                  ifa_addr: &ifa_addr,
-                  ifa_netmask: nil,
-                  ifa_dstaddr: nil,
-                  ifa_data: nil)
-    }
-}
-
-private extension sockaddr {
-    init(length: UInt8, family: Int32) {
-        self.init(sa_len: length, sa_family: sa_family_t(family), sa_data: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
     }
 }
