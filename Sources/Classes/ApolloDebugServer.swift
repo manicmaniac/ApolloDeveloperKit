@@ -20,7 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let queryManager = QueryManager()
     private let dateFormatter: CFDateFormatter
-    private var eventStreamQueue = EventStreamQueueMap<FileHandle>()
+    private var eventStreamQueueMap = EventStreamQueueMap<FileHandle>()
     private weak var timer: Timer?
 
     /**
@@ -95,7 +95,7 @@ public class ApolloDebugServer {
 
     @objc private func timerDidFire(_ timer: Timer) {
         let ping = EventStreamChunk(data: Data([0x3A]), error: nil)
-        eventStreamQueue.enqueueForAllKeys(chunk: ping)
+        eventStreamQueueMap.enqueueForAllKeys(chunk: ping)
     }
 
     private func chunkForCurrentState() -> EventStreamChunk {
@@ -239,9 +239,9 @@ extension ApolloDebugServer: HTTPRequestHandler {
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
         fileHandle.write(data, ignoringBrokenPipe: true)
         if withBody {
-            eventStreamQueue.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
+            eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
             Thread { [weak self] in
-                while let chunk = self?.eventStreamQueue.dequeue(key: fileHandle) {
+                while let chunk = self?.eventStreamQueueMap.dequeue(key: fileHandle) {
                     var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
                     data.append(chunk.data)
                     data.append("\r\n".data(using: .utf8)!)
@@ -342,7 +342,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
-        eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+        eventStreamQueueMap.enqueueForAllKeys(chunk: chunkForCurrentState())
     }
 }
 
@@ -352,14 +352,14 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, willSendOperation: operation)
-            eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+            eventStreamQueueMap.enqueueForAllKeys(chunk: chunkForCurrentState())
         }
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
-            eventStreamQueue.enqueueForAllKeys(chunk: chunkForCurrentState())
+            eventStreamQueueMap.enqueueForAllKeys(chunk: chunkForCurrentState())
         }
     }
 }
