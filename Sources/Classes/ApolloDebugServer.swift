@@ -246,19 +246,24 @@ extension ApolloDebugServer: HTTPRequestHandler {
         try? fileHandle.writeData(data)
         if withBody {
             eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
-            Thread { [weak self] in
-                while let chunk = self?.eventStreamQueueMap.dequeue(key: fileHandle) {
-                    do {
-                        try fileHandle.writeData(chunk.data)
-                    } catch {
-                        return completion()
-                    }
-                }
-                let chunk = EventStreamChunk()
-                try? fileHandle.writeData(chunk.data)
-                completion()
-            }.start()
+            let thread = Thread(target: self, selector: #selector(runInSubthread), object: (fileHandle, completion))
+            thread.name = "com.github.manicmaniac.ApolloDeveloperKit.private"
+            thread.start()
         }
+    }
+
+    @objc private func runInSubthread(_ argument: Any) {
+        let (fileHandle, completion) = argument as! (FileHandle, () -> Void)
+        while let chunk = eventStreamQueueMap.dequeue(key: fileHandle) {
+            do {
+                try fileHandle.writeData(chunk.data)
+            } catch {
+                return completion()
+            }
+        }
+        let chunk = EventStreamChunk()
+        try? fileHandle.writeData(chunk.data)
+        completion()
     }
 
     private func respondToRequestForDocumentRoot(url: URL, request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
