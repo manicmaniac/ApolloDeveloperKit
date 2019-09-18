@@ -18,6 +18,7 @@ public class ApolloDebugServer {
     private let server: HTTPServer
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
+    private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
     private let dateFormatter: CFDateFormatter
     private var eventStreamQueueMap = EventStreamQueueMap<FileHandle>()
@@ -43,10 +44,15 @@ public class ApolloDebugServer {
      * - Parameter networkTransport: An underlying network transport object.
      * - Parameter cache: An underlying cache object.
      */
-    public init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
+    public convenience init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
+        self.init(networkTransport: networkTransport, cache: cache, keepAliveInterval: 30.0)
+    }
+
+    init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache, keepAliveInterval: TimeInterval) {
         self.networkTransport = networkTransport
         self.cache = cache
         self.server = HTTPServer()
+        self.keepAliveInterval = keepAliveInterval
 
         let enUSLocale = CFLocaleCreate(kCFAllocatorDefault, CFLocaleIdentifier("en_US" as CFString))
         let gmtTimeZone = CFTimeZoneCreateWithTimeIntervalFromGMT(kCFAllocatorDefault, 0)
@@ -75,7 +81,7 @@ public class ApolloDebugServer {
     public func start(port: UInt16) throws {
         stop()
         try server.start(port: port)
-        let timer = Timer(timeInterval: 30.0, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
+        let timer = Timer(timeInterval: keepAliveInterval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
         self.timer = timer
         RunLoop.current.add(timer, forMode: .default)
     }

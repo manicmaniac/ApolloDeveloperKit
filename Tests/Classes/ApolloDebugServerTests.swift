@@ -23,7 +23,7 @@ class ApolloDebugServerTests: XCTestCase {
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         store = ApolloStore(cache: cache)
         client = ApolloClient(networkTransport: networkTransport, store: store)
-        server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
+        server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 1.0)
         try! server.start(port: 8081)
     }
 
@@ -249,6 +249,57 @@ class ApolloDebugServerTests: XCTestCase {
         waitForExpectations(timeout: 10.0, handler: nil)
     }
 
+    func testGetEvents() {
+        let url = type(of: self).server.serverURL!.appendingPathComponent("events")
+        let expectationForResponse = expectation(description: "response should be received")
+        let expectationForData = expectation(description: "data should be received")
+        expectationForData.expectedFulfillmentCount = 2
+        let handler = ChunkedURLSessionDataTaskHandler()
+        let session = URLSession(configuration: .default, delegate: handler, delegateQueue: nil)
+        let task = session.dataTask(with: url)
+        handler.urlSessionDataTaskDidReceiveResponseWithCompletionHandler = { session, task, response, completionHandler in
+            defer { expectationForResponse.fulfill() }
+            let response = response as! HTTPURLResponse
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/event-stream")
+            // Somehow `URLSessionDataTask` converts Transfer-Encoding to `Identity` even if it was actually `chunked`.
+            XCTAssertEqual(response.allHeaderFields["Transfer-Encoding"] as? String, "Identity")
+            completionHandler(.allow)
+        }
+        var urlSessionDataTaskDidReceiveDataIsCalled = false
+        handler.urlSessionDataTaskDidReceiveData = { session, task, data in
+            defer {
+                urlSessionDataTaskDidReceiveDataIsCalled = true
+                expectationForData.fulfill()
+            }
+            if urlSessionDataTaskDidReceiveDataIsCalled {
+                // It should be just a *ping* data
+                XCTAssertEqual(data, ":".data(using: .ascii))
+            } else {
+                XCTAssert(data.starts(with: "data: ".data(using: .ascii)!))
+                // Drop first 5 letters (`data: `)
+                let jsonData = data.dropFirst(5)
+                let expected: NSDictionary = [
+                    "state": [
+                        "queries": [:],
+                        "mutations": [:]
+                    ],
+                    "action": [:],
+                    "dataWithOptimisticResults": [:]
+                ]
+                XCTAssertNoThrow({
+                    let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? NSDictionary
+                    XCTAssertEqual(jsonObject, expected)
+                })
+            }
+        }
+        handler.urlSessionTaskDidCompleteWithError = { session, task, error in
+            XCTAssertNil(error)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
     func testHeadRequest() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("request")
         var request = URLRequest(url: url)
@@ -446,6 +497,24 @@ private class MockHTTPURLProtocol: URLProtocol {
             }
         }
         return data.subdata(in: 0..<totalRead)
+    }
+}
+
+private class ChunkedURLSessionDataTaskHandler: NSObject, URLSessionDataDelegate {
+    var urlSessionDataTaskDidReceiveResponseWithCompletionHandler: ((URLSession, URLSessionDataTask, URLResponse, @escaping (URLSession.ResponseDisposition) -> Void) -> Void)?
+    var urlSessionDataTaskDidReceiveData: ((URLSession, URLSessionDataTask, Data) -> Void)?
+    var urlSessionTaskDidCompleteWithError: ((URLSession, URLSessionTask, Error?) -> Void)?
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        urlSessionDataTaskDidReceiveResponseWithCompletionHandler?(session, dataTask, response, completionHandler) ?? completionHandler(.allow)
+    }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        urlSessionDataTaskDidReceiveData?(session, dataTask, data)
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        urlSessionTaskDidCompleteWithError?(session, task, error)
     }
 }
 
