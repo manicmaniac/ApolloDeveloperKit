@@ -31,12 +31,12 @@ matrix:
     env: APOLLO_VERSION=0.9.5
     name: "Unit Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / iPhone 6"
   - osx_image: xcode10.1
-    install:
-    script: make -C InstallTests carthage
+    install: bundle install --jobs=3 --retry=3
+    script: bundle exec make -C InstallTests carthage
     name: "Install Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / Carthage"
   - osx_image: xcode10.1
-    install:
-    script: make -C InstallTests cocoapods
+    install: bundle install --jobs=3 --retry=3
+    script: bundle exec make -C InstallTests cocoapods
     name: "Install Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / CocoaPods"
 
 install:
