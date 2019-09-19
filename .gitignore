@@ -48,3 +48,6 @@ Carthage/Checkouts
 Carthage/Build
 
 /node_modules
+
+/.bundle
+/vendor/bundle
