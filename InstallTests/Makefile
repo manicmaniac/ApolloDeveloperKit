@@ -9,7 +9,7 @@ carthage:
 	xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-Carthage -sdk iphonesimulator build
 
 carthage-clean:
-	rm -rf Carthage Cartfile.resolved
+	$(RM) -R Carthage Cartfile.resolved
 
 cocoapods:
 	pod install
