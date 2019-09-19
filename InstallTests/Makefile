@@ -5,7 +5,7 @@ all: carthage cocoapods
 clean: carthage-clean cocoapods-clean
 
 carthage:
-	PATH="$(CARTHAGE_SEARCH_PATHS):$(PATH)" carthage bootstrap --platform iOS --no-use-binaries
+	carthage bootstrap --platform iOS --no-use-binaries
 	xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-Carthage -sdk iphonesimulator build
 
 carthage-clean:
