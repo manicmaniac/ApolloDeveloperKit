@@ -153,6 +153,7 @@
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B8F2BBB22C26F78006922CE /* EventStreamQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueue.swift; sourceTree = "<group>"; };
+		5BE2444622E0F6ED008EDAAD /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
 		5BF045FC22B6E62D0083A52D /* JSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -206,6 +207,7 @@
 			children = (
 				5B26FC1E22B3DB0800359E63 /* Sources */,
 				5B26FC2922B3DB0800359E63 /* Tests */,
+				5BE2442122E0F53E008EDAAD /* InstallTests */,
 				5B26FC3B22B3DB5600359E63 /* Example */,
 				5B26FC1D22B3DB0800359E63 /* Products */,
 				5B26FC4E22B3DCF400359E63 /* Frameworks */,
@@ -396,6 +398,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		5BE2442122E0F53E008EDAAD /* InstallTests */ = {
+			isa = PBXGroup;
+			children = (
+				5BE2444622E0F6ED008EDAAD /* Makefile */,
+			);
+			path = InstallTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -408,6 +418,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		5BE2444722E0F902008EDAAD /* ApolloDeveloperKitInstallTests */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 5BE2444822E0F902008EDAAD /* Build configuration list for PBXLegacyTarget "ApolloDeveloperKitInstallTests" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "$(SRCROOT)/InstallTests";
+			dependencies = (
+			);
+			name = ApolloDeveloperKitInstallTests;
+			passBuildSettingsInEnvironment = 1;
+			productName = ApolloDeveloperKitInstallTests;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */ = {
@@ -489,6 +516,9 @@
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 					};
+					5BE2444722E0F902008EDAAD = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
 				};
 			};
 			buildConfigurationList = 5B26FC1622B3DB0800359E63 /* Build configuration list for PBXProject "ApolloDeveloperKit" */;
@@ -507,6 +537,7 @@
 				5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */,
 				5B26FC2422B3DB0800359E63 /* ApolloDeveloperKitTests */,
 				5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample */,
+				5BE2444722E0F902008EDAAD /* ApolloDeveloperKitInstallTests */,
 			);
 		};
 /* End PBXProject section */
@@ -948,6 +979,20 @@
 			};
 			name = Release;
 		};
+		5BE2444922E0F902008EDAAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
+			};
+			name = Debug;
+		};
+		5BE2444A22E0F902008EDAAD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -983,6 +1028,15 @@
 			buildConfigurations = (
 				5B26FC4A22B3DB5800359E63 /* Debug */,
 				5B26FC4B22B3DB5800359E63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5BE2444822E0F902008EDAAD /* Build configuration list for PBXLegacyTarget "ApolloDeveloperKitInstallTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5BE2444922E0F902008EDAAD /* Debug */,
+				5BE2444A22E0F902008EDAAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
