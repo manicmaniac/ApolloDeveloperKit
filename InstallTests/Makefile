@@ -6,14 +6,14 @@ clean: carthage-clean cocoapods-clean
 
 carthage:
 	carthage bootstrap --platform iOS --no-use-binaries
-	xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-Carthage -sdk iphonesimulator build
+	set -o pipefail && xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-Carthage -sdk iphonesimulator build | xcpretty
 
 carthage-clean:
 	$(RM) -R Carthage Cartfile.resolved
 
 cocoapods:
 	pod install
-	xcodebuild -workspace ApolloDeveloperKitInstallTests.xcworkspace -scheme ApolloDeveloperKitInstallTests-CocoaPods -sdk iphonesimulator build
+	set -o pipefail && xcodebuild -workspace ApolloDeveloperKitInstallTests.xcworkspace -scheme ApolloDeveloperKitInstallTests-CocoaPods -sdk iphonesimulator build | xcpretty
 
 cocoapods-clean:
 	pod deintegrate
