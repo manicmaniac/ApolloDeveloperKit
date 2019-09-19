@@ -2,8 +2,8 @@ PODS:
   - Apollo (0.9.5):
     - Apollo/Core (= 0.9.5)
   - Apollo/Core (0.9.5)
-  - ApolloDeveloperKit (0.3.0):
-    - Apollo (~> 0.9.0)
+  - ApolloDeveloperKit (0.3.2):
+    - Apollo (>= 0.9.0)
 
 DEPENDENCIES:
   - ApolloDeveloperKit (from `../`)
@@ -18,8 +18,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Apollo: 19caf3246d292bbb69ecad1bd098661f78222aba
-  ApolloDeveloperKit: ef48365e02ebbd97dc497bf76282d499057f7f95
+  ApolloDeveloperKit: 28476a7297b3be9a7da3605222435967edea4b75
 
 PODFILE CHECKSUM: d5d3b7192f6a84b5ad38127118f5bcd1c0b7d17a
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.5
