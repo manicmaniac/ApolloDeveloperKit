@@ -2,5 +2,10 @@
 
 source 'https://rubygems.org'
 
-gem 'cocoapods'
-gem 'xcpretty'
+group :development do
+  gem 'cocoapods'
+end
+
+group :test do
+  gem 'xcpretty'
+end
