@@ -1,0 +1,50 @@
+name: CI
+
+on: [push]
+
+jobs:
+  unit-test:
+    runs-on: macOS-10.14
+    strategy:
+      matrix:
+        apollo: ["0.12.0", "0.11.1", "0.10.1", "0.9.5"]
+        include:
+          - apollo: "0.12.0"
+            xcode: "10.2.1"
+            destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+          - apollo: "0.11.1"
+            xcode: "10.2.1"
+            destination: "platform=iOS Simulator,OS=12.2,name=iPhone 8"
+          - apollo: "0.10.1"
+            xcode: "10.2.1"
+            destination: "platform=iOS Simulator,OS=10.2,name=iPhone 7"
+          - apollo: "0.9.5"
+            xcode: "10.1"
+            destination: "platform=iOS Simulator,OS=12.1,name=iPhone 6"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: Modify Cartfile.resolved
+        run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
+      - name: Install dependencies
+        run: carthage bootstrap --platform iOS --no-use-binaries --cache-builds
+      - name: Run unit tests
+        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' | xcpretty
+  install-test:
+    runs-on: macOS-10.14
+    strategy:
+      matrix:
+        target: [carthage, cocoapods]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_10.1.app/Contents/Developer
+      - name: Install dependencies
+        run: |
+          gem install bundler -v 1.17.3
+          bundle install --path=vendor/bundle --jobs=3 --retry=3
+      - name: Run install tests
+        run: bundle exec make -C InstallTests ${{ matrix.target }}
+        env:
+          COCOAPODS_DISABLE_STATS: "true"
