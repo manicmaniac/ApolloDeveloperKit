@@ -111,6 +111,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
+Usage
+-----
+
+**If you don't have [Google Chrome](https://www.google.com/chrome) and [Apollo Client Developer Tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm), install them before proceeding the following steps.**
+
+1. Launch your app on your device or simulator.
+2. Open Google Chrome and jump to the server's URL (in case your app runs the above example on a simulator, the URL would be `http://localhost:8081`).
+    - You will see `ApolloDebugServer is running!` on your browser's tab.
+    - If not, make sure the server runs and the specified URL is correct.
+    - On a real device, the host would be other than `localhost` but you can check what it is with `ApolloDebugServer.serverURL`.
+3. Open [Google Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/open).
+4. Select `Apollo` tab.
+    - You will see tabs like `GraphiQL`, `Queries`, `Mutations` on the left pane.
+    - If not, reload the tab and wait until it's connected again.
+
 Excluding ApolloDeveloperKit from Release (App Store) Builds
 ------------------------------------------------------------
 
@@ -148,12 +163,6 @@ Finally, add `$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework` as inp
 Now there's no easy way but you can exclude ApolloDeveloperKit by setting user defined build variable named `EXCLUDED_SOURCE_FILE_NAMES`.
 The value for the variable is a space-separated list of each filenames in ApolloDeveloperKit.
 Sorry for the inconvenience.
-
-Usage
------
-
-Open browser after launching Simulator and jump to `http://localhost:8081` (or other specified port) on your Chrome.
-Then [open developer tools](https://developers.google.com/web/tools/chrome-devtools/open) and select `Apollo` tab.
 
 Development
 -----------
