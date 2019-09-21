@@ -422,23 +422,6 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
-/* Begin PBXLegacyTarget section */
-		5BE2444722E0F902008EDAAD /* ApolloDeveloperKitInstallTests */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = 5BE2444822E0F902008EDAAD /* Build configuration list for PBXLegacyTarget "ApolloDeveloperKitInstallTests" */;
-			buildPhases = (
-			);
-			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "$(SRCROOT)/InstallTests";
-			dependencies = (
-			);
-			name = ApolloDeveloperKitInstallTests;
-			passBuildSettingsInEnvironment = 1;
-			productName = ApolloDeveloperKitInstallTests;
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */ = {
 			isa = PBXNativeTarget;
@@ -519,9 +502,6 @@
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 					};
-					5BE2444722E0F902008EDAAD = {
-						CreatedOnToolsVersion = 10.2.1;
-					};
 				};
 			};
 			buildConfigurationList = 5B26FC1622B3DB0800359E63 /* Build configuration list for PBXProject "ApolloDeveloperKit" */;
@@ -540,7 +520,6 @@
 				5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */,
 				5B26FC2422B3DB0800359E63 /* ApolloDeveloperKitTests */,
 				5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample */,
-				5BE2444722E0F902008EDAAD /* ApolloDeveloperKitInstallTests */,
 			);
 		};
 /* End PBXProject section */
@@ -983,20 +962,6 @@
 			};
 			name = Release;
 		};
-		5BE2444922E0F902008EDAAD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
-			};
-			name = Debug;
-		};
-		5BE2444A22E0F902008EDAAD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1032,15 +997,6 @@
 			buildConfigurations = (
 				5B26FC4A22B3DB5800359E63 /* Debug */,
 				5B26FC4B22B3DB5800359E63 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5BE2444822E0F902008EDAAD /* Build configuration list for PBXLegacyTarget "ApolloDeveloperKitInstallTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5BE2444922E0F902008EDAAD /* Debug */,
-				5BE2444A22E0F902008EDAAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
