@@ -18,31 +18,28 @@ class EventStreamQueueMapTests: XCTestCase {
 
     func testEnqueueAndDequeue() {
         let queueMap = EventStreamQueueMap<NSObject>()
-        let chunk = EventStreamChunk(data: Data(), error: nil)
+        let chunk = EventStreamChunk()
         let key = NSObject()
         queueMap.enqueue(chunk: chunk, forKey: key)
         let dequeuedChunk = queueMap.dequeue(key: key)
         XCTAssertEqual(dequeuedChunk?.data, chunk.data)
-        XCTAssertNil(dequeuedChunk?.error)
     }
 
     func testEnqueueForAllKeys() {
         XCTContext.runActivity(named: "while key is being retained") { _ in
             let queueMap = EventStreamQueueMap<NSObject>()
-            let chunk = EventStreamChunk(data: Data(), error: nil)
+            let chunk = EventStreamChunk()
             let key = NSObject()
             queueMap.enqueue(chunk: chunk, forKey: key)
             queueMap.enqueueForAllKeys(chunk: chunk)
             var dequeuedChunk = queueMap.dequeue(key: key)
             XCTAssertEqual(dequeuedChunk?.data, chunk.data)
-            XCTAssertNil(dequeuedChunk?.error)
             dequeuedChunk = queueMap.dequeue(key: key)
             XCTAssertEqual(dequeuedChunk?.data, chunk.data)
-            XCTAssertNil(dequeuedChunk?.error)
         }
         XCTContext.runActivity(named: "while key is being released") { _ in
             let queueMap = EventStreamQueueMap<NSObject>()
-            let chunk = EventStreamChunk(data: Data(), error: nil)
+            let chunk = EventStreamChunk()
             do {
                 let key = NSObject()
                 queueMap.enqueue(chunk: chunk, forKey: key)

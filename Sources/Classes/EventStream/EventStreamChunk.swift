@@ -7,11 +7,24 @@
 //
 
 /**
- * `EventStreamChunk` represents an individual chunk of Server-Sent Event.
+ * `EventStreamChunk` represents an individual chunk of Chunked Transfer Coding.
  *
- * - SeeAlso: [IETF RFC 6202](https://tools.ietf.org/html/rfc6202#section-4.3)
+ * `EventStreamChunk` doesn't abstract anything of Server-Sent Events but only Chunked Transfer Coding,
+ * where Server-Sent Events stands.
+ *
+ * - SeeAlso: [IETF RFC 7230](https://tools.ietf.org/html/rfc7230#section-4.1)
  */
 public struct EventStreamChunk {
-    let data: Data
-    let error: Error?
+    private let rawData: Data
+
+    init(rawData: Data = Data()) {
+        self.rawData = rawData
+    }
+
+    var data: Data {
+        var data = String(format: "%x\r\n", rawData.count).data(using: .utf8)!
+        data.append(rawData)
+        data.append("\r\n".data(using: .utf8)!)
+        return data
+    }
 }
