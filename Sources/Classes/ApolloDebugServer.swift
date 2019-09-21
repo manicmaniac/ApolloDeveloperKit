@@ -100,12 +100,12 @@ public class ApolloDebugServer {
     }
 
     @objc private func timerDidFire(_ timer: Timer) {
-        let ping = EventStreamChunk(data: Data([0x3A]), error: nil)
+        let ping = EventStreamChunk(rawData: Data([0x3A]))
         eventStreamQueueMap.enqueueForAllKeys(chunk: ping)
     }
 
     private func chunkForCurrentState() -> EventStreamChunk {
-        var data = try! JSONSerialization.data(withJSONObject: [
+        var rawData = try! JSONSerialization.data(withJSONObject: [
             "action": [:],
             "state": [
                 "queries": queryManager.queryStore.store.jsonValue,
@@ -113,9 +113,9 @@ public class ApolloDebugServer {
             ],
             "dataWithOptimisticResults": cache.extract().jsonValue
             ], options: [])
-        data.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
-        data.append(contentsOf: "\n\n".data(using: .utf8)!)
-        return EventStreamChunk(data: data, error: nil)
+        rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
+        rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
+        return EventStreamChunk(rawData: rawData)
     }
 }
 
@@ -248,12 +248,10 @@ extension ApolloDebugServer: HTTPRequestHandler {
             eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
             Thread { [weak self] in
                 while let chunk = self?.eventStreamQueueMap.dequeue(key: fileHandle) {
-                    var data = String(format: "%x\r\n", chunk.data.count).data(using: .utf8)!
-                    data.append(chunk.data)
-                    data.append("\r\n".data(using: .utf8)!)
-                    fileHandle.write(data, ignoringBrokenPipe: true)
+                    fileHandle.write(chunk.data, ignoringBrokenPipe: true)
                 }
-                fileHandle.write("0\r\n\r\n".data(using: .ascii)!, ignoringBrokenPipe: true)
+                let chunk = EventStreamChunk()
+                fileHandle.write(chunk.data, ignoringBrokenPipe: true)
                 completion()
             }.start()
         }

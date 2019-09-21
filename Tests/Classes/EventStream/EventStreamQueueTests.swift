@@ -27,15 +27,14 @@ class EventStreamQueueTests: XCTestCase {
     func testEnqueueAndDequeue() {
         XCTContext.runActivity(named: "in the main thread") { _ in
             let queue = EventStreamQueue()
-            let chunk = EventStreamChunk(data: Data(), error: nil)
+            let chunk = EventStreamChunk()
             queue.enqueue(chunk: chunk)
             let dequeuedChunk = queue.dequeue()
             XCTAssertEqual(dequeuedChunk.data, chunk.data)
-            XCTAssertNil(dequeuedChunk.error)
         }
         XCTContext.runActivity(named: "in the different threads") { _ in
             let queue = EventStreamQueue()
-            let chunk = EventStreamChunk(data: Data(), error: nil)
+            let chunk = EventStreamChunk()
             let expectationForEnqueue = expectation(description: "enqueue is finished")
             let enqueueThread = Thread {
                 queue.enqueue(chunk: chunk)
@@ -45,7 +44,6 @@ class EventStreamQueueTests: XCTestCase {
             let dequeueThread = Thread {
                 let dequeuedChunk = queue.dequeue()
                 XCTAssertEqual(dequeuedChunk.data, chunk.data)
-                XCTAssertNil(dequeuedChunk.error)
                 expectationForDequeue.fulfill()
             }
             dequeueThread.start()
