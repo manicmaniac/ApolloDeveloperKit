@@ -150,7 +150,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
         let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
         CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         completion()
     }
 
@@ -166,7 +166,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
             CFHTTPMessageSetBody(response, bodyData as CFData)
         }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         completion()
     }
 
@@ -182,7 +182,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
             CFHTTPMessageSetBody(response, bodyData as CFData)
         }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         completion()
     }
 
@@ -197,7 +197,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
         CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
         CFHTTPMessageSetBody(response, body as CFData)
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         completion()
     }
 
@@ -213,7 +213,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
             CFHTTPMessageSetBody(response, bodyData as CFData)
         }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         completion()
     }
 
@@ -230,7 +230,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
             CFHTTPMessageSetBody(response, bodyData as CFData)
         }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         completion()
     }
 
@@ -243,15 +243,19 @@ extension ApolloDebugServer: HTTPRequestHandler {
             CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
         }
         let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data, ignoringBrokenPipe: true)
+        try? fileHandle.writeData(data)
         if withBody {
             eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
             Thread { [weak self] in
                 while let chunk = self?.eventStreamQueueMap.dequeue(key: fileHandle) {
-                    fileHandle.write(chunk.data, ignoringBrokenPipe: true)
+                    do {
+                        try fileHandle.writeData(chunk.data)
+                    } catch {
+                        return completion()
+                    }
                 }
                 let chunk = EventStreamChunk()
-                fileHandle.write(chunk.data, ignoringBrokenPipe: true)
+                try? fileHandle.writeData(chunk.data)
                 completion()
             }.start()
         }
@@ -276,7 +280,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 CFHTTPMessageSetBody(response, bodyData as CFData)
             }
             let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-            fileHandle.write(data, ignoringBrokenPipe: true)
+            try? fileHandle.writeData(data)
             completion()
         } catch CocoaError.fileReadNoSuchFile {
             respondWithNotFound(fileHandle: fileHandle, withBody: withBody, completion: completion)
@@ -313,7 +317,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
                     CFHTTPMessageSetBody(response, body as CFData)
                     let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-                    fileHandle.write(data, ignoringBrokenPipe: true)
+                    try? fileHandle.writeData(data)
                     completion()
                 } catch let error {
                     self.respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error: error), completion: completion)
