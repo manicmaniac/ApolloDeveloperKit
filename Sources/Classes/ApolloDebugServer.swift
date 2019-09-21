@@ -248,6 +248,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
             eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
             let thread = Thread(target: self, selector: #selector(runInSubthread), object: (fileHandle, completion))
             thread.name = "com.github.manicmaniac.ApolloDeveloperKit.private"
+            thread.qualityOfService = .userInitiated
             thread.start()
         }
     }
