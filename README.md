@@ -30,6 +30,27 @@ Prerequisites
 Installation
 ------------
 
+### Install from CocoaPods
+
+Add the following lines to your Podfile.
+
+```
+supports_swift_versions '~> 4.0' # Only needed for Xcode 10.1 users
+
+pod 'Apollo'
+pod 'ApolloDeveloperKit'
+```
+
+Then run `pod install`.
+
+#### For Xcode 10.1 (Swift 4.2)
+
+If you are using Xcode 10.1, where Swift 5 is not available, you need to specify your target's Swift version explicitly with `supports_swift_versions`.
+Since `ApolloDeveloperKit` is compatible with both Swift 4 and 5, CocoaPods automatically can select the compiler according to that value.
+Otherwise CocoaPods configures `ApolloDeveloperKit` as Swift 5 framework and your future builds would fail due to module incompatibility.
+
+Not recommended but as plan B, you can use `ApolloDeveloperKit ~> 0.3.3` which only supports Swift 4.2 as well.
+
 ### Install from Carthage
 
 Add the following lines to your Cartfile.
@@ -41,16 +62,20 @@ github "manicmaniac/ApolloDeveloperKit"
 
 Then run `carthage update --platform iOS`.
 
-### Install from CocoaPods
+#### For Xcode 10.1 (Swift 4.2)
 
-Add the following lines to your Podfile.
+If you are using Xcode 10.1, where Swift 5 is not available, the install step could be a bit tricky though Cartfile can be as it is.
+Contrary to CocoaPods, Carthage doesn't select the compiler by itself so the only way to force it to use Swift 4.2 is to inject a Xcode configuration file.
 
 ```
-pod 'Apollo'
-pod 'ApolloDeveloperKit'
+echo APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2 >ApolloDeveloperKit.xcconfig
+XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig carthage update --platform iOS
+rm ApolloDeveloperKit.xcconfig
 ```
 
-Then run `pod install`.
+Note `XCODE_XCCONFIG_FILE` should be an absolute path somehow.
+
+Not recommended but as plan B, you can use `ApolloDeveloperKit ~> 0.3.3` which only supports Swift 4.2 as well.
 
 Setup
 -----
