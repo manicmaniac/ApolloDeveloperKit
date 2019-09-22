@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17E94881F0DCAE4CCE1C235D /* Pods_ApolloDeveloperKitInstallTests_CocoaPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E803914E94C2ABA605D5240 /* Pods_ApolloDeveloperKitInstallTests_CocoaPods.framework */; };
 		5B75996C22E7622D002DE460 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; };
 		5B75996D22E7622D002DE460 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B75996E22E7622D002DE460 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996B22E7622D002DE460 /* Apollo.framework */; };
@@ -44,8 +43,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		39B4762D16D7015AC6C4BAAE /* Pods-ApolloDeveloperKitInstallTests-CocoaPods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApolloDeveloperKitInstallTests-CocoaPods.release.xcconfig"; path = "Target Support Files/Pods-ApolloDeveloperKitInstallTests-CocoaPods/Pods-ApolloDeveloperKitInstallTests-CocoaPods.release.xcconfig"; sourceTree = "<group>"; };
-		4E803914E94C2ABA605D5240 /* Pods_ApolloDeveloperKitInstallTests_CocoaPods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ApolloDeveloperKitInstallTests_CocoaPods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloDeveloperKit.framework; path = Carthage/Build/iOS/ApolloDeveloperKit.framework; sourceTree = "<group>"; };
 		5B75996B22E7622D002DE460 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
 		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +58,6 @@
 		5BE2448422E0FB75008EDAAD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BE2448522E0FB75008EDAAD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-CocoaPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-CocoaPods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B8051A2BA1AF827E11E65CCF /* Pods-ApolloDeveloperKitInstallTests-CocoaPods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ApolloDeveloperKitInstallTests-CocoaPods.debug.xcconfig"; path = "Target Support Files/Pods-ApolloDeveloperKitInstallTests-CocoaPods/Pods-ApolloDeveloperKitInstallTests-CocoaPods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +74,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17E94881F0DCAE4CCE1C235D /* Pods_ApolloDeveloperKitInstallTests_CocoaPods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +88,6 @@
 				5BE2447722E0FB75008EDAAD /* Sources */,
 				5BE2446322E0FA88008EDAAD /* Products */,
 				9BEB8F8A1DFF5BD0F2F6DBF6 /* Pods */,
-				EB7A428888DFFDEC6CDA94C8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,18 +121,8 @@
 		9BEB8F8A1DFF5BD0F2F6DBF6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B8051A2BA1AF827E11E65CCF /* Pods-ApolloDeveloperKitInstallTests-CocoaPods.debug.xcconfig */,
-				39B4762D16D7015AC6C4BAAE /* Pods-ApolloDeveloperKitInstallTests-CocoaPods.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		EB7A428888DFFDEC6CDA94C8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4E803914E94C2ABA605D5240 /* Pods_ApolloDeveloperKitInstallTests_CocoaPods.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,11 +150,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BE2449D22E0FBCA008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-CocoaPods" */;
 			buildPhases = (
-				F15E3F7CB1279082A9B95691 /* [CP] Check Pods Manifest.lock */,
 				5BE2449322E0FBCA008EDAAD /* Sources */,
 				5BE2449822E0FBCA008EDAAD /* Frameworks */,
 				5BE2449922E0FBCA008EDAAD /* Resources */,
-				EBC8541ECBFEBC906E32A08C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -237,48 +219,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		EBC8541ECBFEBC906E32A08C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ApolloDeveloperKitInstallTests-CocoaPods/Pods-ApolloDeveloperKitInstallTests-CocoaPods-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ApolloDeveloperKitInstallTests-CocoaPods/Pods-ApolloDeveloperKitInstallTests-CocoaPods-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ApolloDeveloperKitInstallTests-CocoaPods/Pods-ApolloDeveloperKitInstallTests-CocoaPods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F15E3F7CB1279082A9B95691 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ApolloDeveloperKitInstallTests-CocoaPods-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5BE2445E22E0FA88008EDAAD /* Sources */ = {
@@ -489,7 +429,6 @@
 		};
 		5BE2449E22E0FBCA008EDAAD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8051A2BA1AF827E11E65CCF /* Pods-ApolloDeveloperKitInstallTests-CocoaPods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
@@ -509,7 +448,6 @@
 		};
 		5BE2449F22E0FBCA008EDAAD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 39B4762D16D7015AC6C4BAAE /* Pods-ApolloDeveloperKitInstallTests-CocoaPods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;

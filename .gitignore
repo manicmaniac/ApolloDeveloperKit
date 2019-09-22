@@ -51,3 +51,9 @@ Carthage/Build
 
 /.bundle
 /vendor/bundle
+
+InstallTests/ApolloDeveloperKitInstallTests.xcworkspace
+InstallTests/Cartfile.resolved
+InstallTests/Carthage
+InstallTests/Podfile.lock
+InstallTests/Pods
