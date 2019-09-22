@@ -4,6 +4,7 @@ platform :ios, 10
 
 target 'ApolloDeveloperKitInstallTests-CocoaPods' do
   use_frameworks!
+  supports_swift_versions '~> 4.0'
 
   pod 'Apollo', podspec: 'https://raw.githubusercontent.com/CocoaPods/Specs/dceb1b4d288eac7624ac3c5845b1a06b3a69003f/Specs/a/6/c/Apollo/0.9.5/Apollo.podspec.json'
   pod 'ApolloDeveloperKit', path: '../'
