@@ -489,14 +489,12 @@ private class MockHTTPURLProtocol: URLProtocol {
     }
 
     private func readData(from inputStream: InputStream, upto bufferSize: Int) -> Data {
-        var data = Data(count: bufferSize)
+        let data = NSMutableData(length: bufferSize)!
         var totalRead = 0
         while inputStream.hasBytesAvailable {
-            data.withUnsafeMutableBytes { bytes in
-                totalRead += inputStream.read(bytes.advanced(by: totalRead), maxLength: bufferSize - totalRead)
-            }
+            totalRead += inputStream.read(data.mutableBytes.assumingMemoryBound(to: UInt8.self).advanced(by: totalRead), maxLength: bufferSize - totalRead)
         }
-        return data.subdata(in: 0..<totalRead)
+        return data.subdata(with: NSRange(location: 0, length: totalRead))
     }
 }
 

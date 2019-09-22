@@ -192,7 +192,7 @@ public class HTTPServer {
         guard let incomingRequest = incomingRequests[incomingFileHandle] else {
             return stopReceiving(for: incomingFileHandle, close: true)
         }
-        guard data.withUnsafeBytes({ bytes in CFHTTPMessageAppendBytes(incomingRequest, bytes, data.count) }) else {
+        guard CFHTTPMessageAppendBytes(incomingRequest, (data as NSData).bytes.assumingMemoryBound(to: UInt8.self), data.count) else {
             return stopReceiving(for: incomingFileHandle, close: true)
         }
         guard CFHTTPMessageIsHeaderComplete(incomingRequest) else {
