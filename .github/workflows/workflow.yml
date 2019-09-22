@@ -48,3 +48,17 @@ jobs:
         run: bundle exec make -C InstallTests ${{ matrix.target }}
         env:
           COCOAPODS_DISABLE_STATS: "true"
+  document:
+    runs-on: macOS-10.14
+    steps:
+      - uses: actions/checkout@v1
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_10.1.app/Contents/Developer
+      - name: Install dependencies
+        run: |
+          gem install jazzy
+          npm install -g netlify-cli
+      - name: Generate documents
+        run: jazzy
+      - name: Deploy
+        run: netlify deploy --dir=docs
