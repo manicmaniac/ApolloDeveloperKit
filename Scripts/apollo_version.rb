@@ -8,7 +8,7 @@ class ApolloVersion
   attr_reader :version
 
   def initialize(framework_search_paths = nil)
-    framework_search_paths ||= ENV['FRAMEWORK_SEARCH_PATHS'].split
+    framework_search_paths ||= ENV['FRAMEWORK_SEARCH_PATHS'].shellsplit
     Find.find(*framework_search_paths) do |path|
       if path.end_with?('Apollo.framework/Info.plist')
         @version = `/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' #{path.shellescape}`.chomp
