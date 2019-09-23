@@ -31,13 +31,13 @@ class PostListViewController: UITableViewController {
     var watcher: GraphQLQueryWatcher<AllPostsQuery>?
 
     func loadData() {
-        watcher = apollo.watch(query: AllPostsQuery()) { (result, error) in
-            if let error = error {
+        watcher = apollo.watch(query: AllPostsQuery()) { result in
+            switch result {
+            case .success(let response):
+                self.posts = response.data?.posts?.compactMap { $0 }
+            case .failure(let error):
                 NSLog("Error while fetching query: \(error.localizedDescription)")
-                return
             }
-
-            self.posts = result?.data?.posts
         }
     }
 
@@ -71,8 +71,8 @@ class PostListViewController: UITableViewController {
 
 extension PostListViewController: PostTableViewCellDelegate {
     func postTableViewCell(_ postTableViewCell: PostTableViewCell, didPerformUpvote postId: Int) {
-        apollo.perform(mutation: UpvotePostMutation(postId: postId)) { (result, error) in
-            if let error = error {
+        apollo.perform(mutation: UpvotePostMutation(postId: postId)) { result in
+            if case .failure(let error) = result {
                 NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
             }
         }
