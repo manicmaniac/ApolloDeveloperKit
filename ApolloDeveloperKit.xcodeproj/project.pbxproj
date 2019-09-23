@@ -136,6 +136,7 @@
 		5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileHandle+Socket.swift"; sourceTree = "<group>"; };
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
+		5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApolloDeveloperKit.xcconfig; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
@@ -211,6 +212,7 @@
 				5B26FC2922B3DB0800359E63 /* Tests */,
 				5BE2442122E0F53E008EDAAD /* InstallTests */,
 				5B26FC3B22B3DB5600359E63 /* Example */,
+				5B4357202337BAD100177AF9 /* Configurations */,
 				5B26FC1D22B3DB0800359E63 /* Products */,
 				5B26FC4E22B3DCF400359E63 /* Frameworks */,
 			);
@@ -360,6 +362,14 @@
 				5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */,
 			);
 			path = WebServer;
+			sourceTree = "<group>";
+		};
+		5B4357202337BAD100177AF9 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */,
+			);
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
@@ -811,6 +821,7 @@
 		};
 		5B26FC3122B3DB0800359E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -833,13 +844,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		5B26FC3222B3DB0800359E63 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -861,7 +873,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

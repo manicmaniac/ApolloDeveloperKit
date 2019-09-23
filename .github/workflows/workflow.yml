@@ -6,20 +6,25 @@ jobs:
   unit-test:
     runs-on: macOS-10.14
     strategy:
+      fail-fast: false
       matrix:
         apollo: ["0.12.0", "0.11.1", "0.10.1", "0.9.5"]
         include:
           - apollo: "0.12.0"
             xcode: "10.2.1"
+            swift: "5.0"
             destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
           - apollo: "0.11.1"
             xcode: "10.2.1"
+            swift: "5.0"
             destination: "platform=iOS Simulator,OS=12.2,name=iPhone 8"
           - apollo: "0.10.1"
             xcode: "10.2.1"
+            swift: "4.2"
             destination: "platform=iOS Simulator,OS=10.2,name=iPhone 7"
           - apollo: "0.9.5"
             xcode: "10.1"
+            swift: "4.2"
             destination: "platform=iOS Simulator,OS=12.1,name=iPhone 6"
     steps:
       - uses: actions/checkout@v1
@@ -30,10 +35,11 @@ jobs:
       - name: Install dependencies
         run: carthage bootstrap --platform iOS --no-use-binaries --cache-builds
       - name: Run unit tests
-        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' | xcpretty
+        run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
   install-test:
     runs-on: macOS-10.14
     strategy:
+      fail-fast: false
       matrix:
         target: [carthage, cocoapods]
     steps:
@@ -44,8 +50,10 @@ jobs:
         run: |
           gem install bundler -v 1.17.3
           bundle install --without documentation --path=vendor/bundle --jobs=3 --retry=3
+      - name: Generate Xcode configuration file
+        run: echo APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2 >ApolloDeveloperKit.xcconfig
       - name: Run install tests
-        run: bundle exec make -C InstallTests ${{ matrix.target }}
+        run: XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig bundle exec make -C InstallTests ${{ matrix.target }}
         env:
           COCOAPODS_DISABLE_STATS: "true"
   lint-podspec:
