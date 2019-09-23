@@ -54,7 +54,7 @@
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
-		5B8F2B9622C059BC006922CE /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift */; };
+		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
 		5B8F2BBC22C26F78006922CE /* EventStreamQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2BBB22C26F78006922CE /* EventStreamQueue.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
@@ -64,6 +64,17 @@
 
 /* Begin PBXBuildRule section */
 		5B59406F23392F3600680D86 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.erb";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
+		};
+		5B5A9F102339367100414A26 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
@@ -178,7 +189,7 @@
 		5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostListViewController.graphql; sourceTree = "<group>"; };
 		5B8F2B8D22C059BB006922CE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
-		5B8F2B8F22C059BC006922CE /* PostListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
+		5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B8F2BBB22C26F78006922CE /* EventStreamQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueue.swift; sourceTree = "<group>"; };
@@ -283,7 +294,7 @@
 				5B8F2B8D22C059BB006922CE /* API.swift */,
 				5B8F2B8B22C059BB006922CE /* AppDelegate.swift */,
 				5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */,
-				5B8F2B8F22C059BC006922CE /* PostListViewController.swift */,
+				5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */,
 				5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */,
 				5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */,
 				5B8F2B8A22C059BB006922CE /* schema.json */,
@@ -518,6 +529,7 @@
 				5BFF016B22DF8BA600944131 /* Embed Frameworks */,
 			);
 			buildRules = (
+				5B5A9F102339367100414A26 /* PBXBuildRule */,
 			);
 			dependencies = (
 				5BFF016A22DF8BA600944131 /* PBXTargetDependency */,
@@ -698,7 +710,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B8F2B9622C059BC006922CE /* PostListViewController.swift in Sources */,
+				5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */,
 				5B8F2B9422C059BC006922CE /* API.swift in Sources */,
 				5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */,
 				5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */,
@@ -968,6 +980,7 @@
 		};
 		5B26FC4A22B3DB5800359E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -992,6 +1005,7 @@
 		};
 		5B26FC4B22B3DB5800359E63 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
