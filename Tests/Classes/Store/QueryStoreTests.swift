@@ -108,6 +108,8 @@ private class MockQuery: GraphQLQuery {
     typealias Data = AnyGraphQLSelectionSet
 
     let operationDefinition: String
+    let operationIdentifier: String? = nil
+    let operationName = ""
 
     init(operationDefinition: String) {
         self.operationDefinition = operationDefinition

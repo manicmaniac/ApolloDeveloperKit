@@ -93,6 +93,8 @@ class MockGraphQLQuery: GraphQLQuery {
     typealias Data = MockGraphQLSelectionSet
 
     let operationDefinition = ""
+    var operationIdentifier: String? = nil
+    var operationName = ""
 }
 
 class MockGraphQLSelectionSet: GraphQLSelectionSet {
