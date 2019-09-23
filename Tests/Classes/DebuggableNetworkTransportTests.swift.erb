@@ -5,6 +5,8 @@
 //  Created by Ryosuke Ito on 6/17/19.
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
+<% require './Scripts/apollo_version' %>
+<% apollo_version = ApolloVersion.new %>
 
 import Apollo
 import XCTest
@@ -13,10 +15,12 @@ import XCTest
 class DebuggableNetworkTransportTests: XCTestCase {
     func testSendOperationWithCompletionHandler() {
         let operation = MockGraphQLQuery()
+<% if apollo_version < '0.13.0' %>
         XCTContext.runActivity(named: "when response is nil and error is nil") { _ in
             let response: GraphQLResponse<MockGraphQLQuery>? = nil
             let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
             let expectation = self.expectation(description: "completionHandler should be called")
+
             let cancellable = networkTransport.send(operation: operation) { response, error in
                 XCTAssertNil(response)
                 XCTAssertNil(error)
@@ -25,14 +29,25 @@ class DebuggableNetworkTransportTests: XCTestCase {
             XCTAssertTrue(cancellable is MockCancellable)
             waitForExpectations(timeout: 0.25, handler: nil)
         }
+<% end %>
         XCTContext.runActivity(named: "when response is not nil but error is nil") { _ in
             let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
             let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
             let expectation = self.expectation(description: "completionHandler should be called")
+<% if apollo_version < '0.13.0' %>
             let cancellable = networkTransport.send(operation: operation) { response, error in
                 XCTAssertNotNil(response)
-                XCTAssertEqual(response?.body.count, 1)
+                XCTAssertEqual(response.body.count, 1)
                 XCTAssertNil(error)
+<% else %>
+            let cancellable = networkTransport.send(operation: operation) { result in
+                switch result {
+                case .success(let response):
+                    XCTAssertEqual(response.body.count, 1)
+                case .failure:
+                    XCTFail()
+                }
+<% end %>
                 expectation.fulfill()
             }
             XCTAssertTrue(cancellable is MockCancellable)
@@ -43,14 +58,25 @@ class DebuggableNetworkTransportTests: XCTestCase {
             let urlError = URLError(.badURL)
             let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: urlError))
             let expectation = self.expectation(description: "completionHandler should be called")
+<% if apollo_version < '0.13.0' %>
             let cancellable = networkTransport.send(operation: operation) { response, error in
                 XCTAssertNil(response)
                 XCTAssertTrue(error as NSError? === urlError as NSError)
+<% else %>
+            let cancellable = networkTransport.send(operation: operation) { result in
+                switch result {
+                case .success:
+                    XCTFail()
+                case .failure(let error):
+                    XCTAssertTrue(error as NSError? === urlError as NSError)
+                }
+<% end %>
                 expectation.fulfill()
             }
             XCTAssertTrue(cancellable is MockCancellable)
             waitForExpectations(timeout: 0.25, handler: nil)
         }
+<% if apollo_version < '0.13.0' %>
         XCTContext.runActivity(named: "when response is not nil and error is not nil") { _ in
             let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
             let urlError = URLError(.badURL)
@@ -65,6 +91,7 @@ class DebuggableNetworkTransportTests: XCTestCase {
             XCTAssertTrue(cancellable is MockCancellable)
             waitForExpectations(timeout: 0.25, handler: nil)
         }
+<% end %>
     }
 }
 
@@ -77,8 +104,19 @@ class MockNetworkTransport: NetworkTransport {
         self.error = error
     }
 
+<% if apollo_version < '0.13.0' %>
     func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation : GraphQLOperation {
         completionHandler(response as? GraphQLResponse<Operation>, error)
+<% else %>
+    func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+        if let response = response as? GraphQLResponse<Operation> {
+            completionHandler(.success(response))
+        } else if let error = error {
+            completionHandler(.failure(error))
+        } else {
+            preconditionFailure("Either of `response` or `error` mustn't be nil.")
+        }
+<% end %>
         return MockCancellable()
     }
 }
