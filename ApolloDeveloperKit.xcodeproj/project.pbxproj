@@ -905,6 +905,7 @@
 		};
 		5B26FC3422B3DB0800359E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
@@ -930,6 +931,7 @@
 		};
 		5B26FC3522B3DB0800359E63 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
