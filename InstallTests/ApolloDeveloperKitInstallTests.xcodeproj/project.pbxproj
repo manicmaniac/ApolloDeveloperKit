@@ -3,15 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B5A9F1723393A8D00414A26 /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B5A9F1123393A2900414A26 /* PostListViewController.swift.erb */; };
+		5B5A9F1823393A9900414A26 /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B5A9F1123393A2900414A26 /* PostListViewController.swift.erb */; };
 		5B75996C22E7622D002DE460 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; };
 		5B75996D22E7622D002DE460 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B75996E22E7622D002DE460 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996B22E7622D002DE460 /* Apollo.framework */; };
 		5B75996F22E7622D002DE460 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996B22E7622D002DE460 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5BE2448622E0FB75008EDAAD /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
 		5BE2448722E0FB75008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
 		5BE2448922E0FB75008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
 		5BE2448A22E0FB75008EDAAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447D22E0FB75008EDAAD /* Main.storyboard */; };
@@ -19,13 +20,37 @@
 		5BE2448F22E0FB75008EDAAD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448322E0FB75008EDAAD /* API.swift */; };
 		5BE2449022E0FB75008EDAAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448422E0FB75008EDAAD /* AppDelegate.swift */; };
 		5BE2449422E0FBCA008EDAAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448422E0FB75008EDAAD /* AppDelegate.swift */; };
-		5BE2449522E0FBCA008EDAAD /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
 		5BE2449622E0FBCA008EDAAD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448322E0FB75008EDAAD /* API.swift */; };
 		5BE2449722E0FBCA008EDAAD /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */; };
 		5BE2449A22E0FBCA008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
 		5BE2449B22E0FBCA008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
 		5BE2449C22E0FBCA008EDAAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447D22E0FB75008EDAAD /* Main.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		5B5A9F1423393A3600414A26 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.erb";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
+		};
+		5B5A9F1523393A5C00414A26 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.erb";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		5B75997022E7622D002DE460 /* Embed Frameworks */ = {
@@ -43,10 +68,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B5A9F1123393A2900414A26 /* PostListViewController.swift.erb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = PostListViewController.swift.erb; path = ../../Example/PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloDeveloperKit.framework; path = Carthage/Build/iOS/ApolloDeveloperKit.framework; sourceTree = "<group>"; };
 		5B75996B22E7622D002DE460 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
 		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BE2447822E0FB75008EDAAD /* PostListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
 		5BE2447922E0FB75008EDAAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BE2447A22E0FB75008EDAAD /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5BE2447C22E0FB75008EDAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -105,7 +130,7 @@
 			children = (
 				5BE2448322E0FB75008EDAAD /* API.swift */,
 				5BE2448422E0FB75008EDAAD /* AppDelegate.swift */,
-				5BE2447822E0FB75008EDAAD /* PostListViewController.swift */,
+				5B5A9F1123393A2900414A26 /* PostListViewController.swift.erb */,
 				5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */,
 				5BE2447922E0FB75008EDAAD /* Assets.xcassets */,
 				5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */,
@@ -138,6 +163,7 @@
 				5B75997022E7622D002DE460 /* Embed Frameworks */,
 			);
 			buildRules = (
+				5B5A9F1423393A3600414A26 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -155,6 +181,7 @@
 				5BE2449922E0FBCA008EDAAD /* Resources */,
 			);
 			buildRules = (
+				5B5A9F1523393A5C00414A26 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -226,8 +253,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BE2449022E0FB75008EDAAD /* AppDelegate.swift in Sources */,
-				5BE2448622E0FB75008EDAAD /* PostListViewController.swift in Sources */,
 				5BE2448F22E0FB75008EDAAD /* API.swift in Sources */,
+				5B5A9F1823393A9900414A26 /* PostListViewController.swift.erb in Sources */,
 				5BE2448E22E0FB75008EDAAD /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,8 +264,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BE2449422E0FBCA008EDAAD /* AppDelegate.swift in Sources */,
-				5BE2449522E0FBCA008EDAAD /* PostListViewController.swift in Sources */,
 				5BE2449622E0FBCA008EDAAD /* API.swift in Sources */,
+				5B5A9F1723393A8D00414A26 /* PostListViewController.swift.erb in Sources */,
 				5BE2449722E0FBCA008EDAAD /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
