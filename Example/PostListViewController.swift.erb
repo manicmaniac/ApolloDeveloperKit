@@ -39,7 +39,7 @@ class PostListViewController: UITableViewController {
                 NSLog("Error while fetching query: \(error.localizedDescription)")
             }
 
-            self.posts = result?.data?.posts
+            self.posts = result?.data?.posts?.compactMap { $0 }
         }
 <% else %>
         watcher = apollo.watch(query: AllPostsQuery()) { result in
