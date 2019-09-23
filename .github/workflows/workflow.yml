@@ -6,6 +6,7 @@ jobs:
   unit-test:
     runs-on: macOS-10.14
     strategy:
+      fail-fast: false
       matrix:
         apollo: ["0.12.0", "0.11.1", "0.10.1", "0.9.5"]
         include:
@@ -38,6 +39,7 @@ jobs:
   install-test:
     runs-on: macOS-10.14
     strategy:
+      fail-fast: false
       matrix:
         target: [carthage, cocoapods]
     steps:
