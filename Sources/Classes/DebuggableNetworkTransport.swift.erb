@@ -35,6 +35,8 @@ public class DebuggableNetworkTransport {
 // MARK: NetworkTransport
 
 extension DebuggableNetworkTransport: NetworkTransport {
+<% require './Scripts/apollo_version' %>
+<% if ApolloVersion.new < '0.13.0' %>
     public func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
         return networkTransport.send(operation: operation) { [weak self] response, error in
@@ -44,4 +46,21 @@ extension DebuggableNetworkTransport: NetworkTransport {
             completionHandler(response, error)
         }
     }
+<% else %>
+
+    public func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+        delegate?.networkTransport(self, willSendOperation: operation)
+        return networkTransport.send(operation: operation) { [weak self] result in
+            if let self = self {
+                switch result {
+                case .success(let response):
+                    self.delegate?.networkTransport(self, didSendOperation: operation, response: response, error: nil)
+                case .failure(let error):
+                    self.delegate?.networkTransport(self, didSendOperation: operation, response: nil, error: error)
+                }
+            }
+            completionHandler(result)
+        }
+    }
+<% end %>
 }

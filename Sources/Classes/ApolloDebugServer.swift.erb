@@ -306,6 +306,8 @@ extension ApolloDebugServer: HTTPRequestHandler {
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
             let operation = try GraphQLRequest(jsonObject: jsonObject)
+<% require './Scripts/apollo_version' %>
+<% if ApolloVersion.new < '0.13.0' %>
             _ = networkTransport.send(operation: operation) { [weak self] graphQLResponse, error in
                 guard let self = self else { return }
                 do {
@@ -329,6 +331,32 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     self.respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error: error), completion: completion)
                 }
             }
+<% else %>
+            _ = networkTransport.send(operation: operation) { [weak self] result in
+                guard let self = self else { return }
+                do {
+                    switch result {
+                    case .success(let response):
+                        // Cannot use JSONSerializationFormat.serialize(value:) here because
+                        // response.body may contain an Objective-C type like `NSString`,
+                        // which isn't compatible to JSONValue directly.
+                        let body = try JSONSerialization.data(withJSONObject: response.body, options: [])
+                        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, self.server.httpVersion).takeRetainedValue()
+                        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, self.currentHTTPDateCFString())
+                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
+                        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
+                        CFHTTPMessageSetBody(response, body as CFData)
+                        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+                        try? fileHandle.writeData(data)
+                        completion()
+                    case .failure(let error):
+                        throw error
+                    }
+                } catch {
+                    self.respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error: error), completion: completion)
+                }
+            }
+<% end %>
         } catch let error {
             respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error: error), completion: completion)
         }
