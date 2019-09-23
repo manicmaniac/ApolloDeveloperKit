@@ -7,5 +7,4 @@ Updating Schema
 Run the following command.
 
 ```
-apollo codegen:generate --queries=GraphQL/queries.graphql --schema=GraphQL/schema.json GraphQL/API.swift
-```
+npx apollo@2.16.3 codegen:generate --queries=queries.graphql --target=swift --endpoint=http://localhost:8080/graphql API.swift

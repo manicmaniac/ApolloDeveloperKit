@@ -1,3 +1,8 @@
+query AllPosts {
+  posts {
+    ...PostDetails
+  }
+}
 fragment PostDetails on Post {
   id
   title
