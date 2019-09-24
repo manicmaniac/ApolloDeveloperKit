@@ -7,13 +7,23 @@ class ApolloVersion
 
   attr_reader :version
 
-  def initialize(framework_search_paths = nil)
+  def initialize(version)
+    @version = version
+  end
+
+  def self.guess
+    ENV.has_key?('PODS_ROOT') ?  from_cocoapods : from_built_framework
+  end
+
+  def self.from_cocoapods(podfile_lock_path = nil)
+    podfile_lock_path ||= File.expand_path('../Podfile.lock', ENV['PODS_ROOT'])
+    new(`sed -ne 's/^ *- Apollo (\([0-9.]*\)):$/\\1/p'`.chomp)
+  end
+
+  def self.from_built_framework(framework_search_paths = nil)
     framework_search_paths ||= ENV['FRAMEWORK_SEARCH_PATHS'].shellsplit
     Find.find(*framework_search_paths) do |path|
-      if path.end_with?('Apollo.framework/Info.plist')
-        @version = `/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' #{path.shellescape}`.chomp
-        return
-      end
+      return new(`/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' #{path.shellescape}`.chomp) if path.end_with?('Apollo.framework/Info.plist')
     end
     raise 'Apollo.framework not found.'
   end

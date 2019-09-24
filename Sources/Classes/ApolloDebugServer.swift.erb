@@ -5,6 +5,8 @@
 //  Created by Ryosuke Ito on 6/15/19.
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
+<% require './Scripts/apollo_version' %>
+<% apollo_version = ApolloVersion.guess %>
 
 import Apollo
 
@@ -306,8 +308,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
             let operation = try GraphQLRequest(jsonObject: jsonObject)
-<% require './Scripts/apollo_version' %>
-<% if ApolloVersion.new < '0.13.0' %>
+<% if apollo_version < '0.13.0' %>
             _ = networkTransport.send(operation: operation) { [weak self] graphQLResponse, error in
                 guard let self = self else { return }
                 do {

@@ -5,6 +5,8 @@
 //  Created by Ryosuke Ito on 6/15/19.
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
+<% require './Scripts/apollo_version' %>
+<% apollo_version = ApolloVersion.guess %>
 
 import Apollo
 
@@ -35,8 +37,7 @@ public class DebuggableNetworkTransport {
 // MARK: NetworkTransport
 
 extension DebuggableNetworkTransport: NetworkTransport {
-<% require './Scripts/apollo_version' %>
-<% if ApolloVersion.new < '0.13.0' %>
+<% if apollo_version < '0.13.0' %>
     public func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
         return networkTransport.send(operation: operation) { [weak self] response, error in
