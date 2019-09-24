@@ -8,6 +8,7 @@ class ApolloVersion
   attr_reader :version
 
   def initialize(version)
+    raise "#{version} is not a version." unless Gem::Version.correct?(version)
     @version = version
   end
 
@@ -29,12 +30,15 @@ class ApolloVersion
   end
 
   def <=>(other)
-    other_version = other.is_a?(self.class) ? other.version : other.to_s
     # Borrowing a logic to compare versions from `Gem::Version`.
-    Gem::Version.new(@version) <=> Gem::Version.new(other_version)
+    Gem::Version.new(@version) <=> Gem::Version.new(other.to_s)
   end
 
   def inspect
+    @version
+  end
+
+  def to_s
     @version
   end
 end
