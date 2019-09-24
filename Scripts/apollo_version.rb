@@ -17,7 +17,7 @@ class ApolloVersion
 
   def self.from_cocoapods(podfile_lock_path = nil)
     podfile_lock_path ||= File.expand_path('../Podfile.lock', ENV['PODS_ROOT'])
-    new(`sed -ne 's/^ *- Apollo (\([0-9.]*\)):$/\\1/p'`.chomp)
+    new(`sed -ne 's/^ *- Apollo (\([0-9.]*\)):$/\\1/p' #{podfile_lock_path.shellescape}`.chomp)
   end
 
   def self.from_built_framework(framework_search_paths = nil)
