@@ -31,6 +31,16 @@ public class GraphQLRequest: GraphQLOperation {
     public let operationDefinition: String
 
     /**
+     * The identifier of an operation.
+     */
+    public var operationIdentifier: String?
+
+    /**
+     * The name of an operation.
+     */
+    public var operationName: String
+
+    /**
      * The query variables of an operation.
      */
     public let variables: GraphQLMap?
@@ -43,16 +53,18 @@ public class GraphQLRequest: GraphQLOperation {
      */
     public convenience init(jsonObject: Any) throws {
         if let jsonObject = jsonObject as? [String: Any], let query = jsonObject["query"] as? String {
+            let operationName = jsonObject["operationName"] as? String ?? ""
             let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
-            self.init(operationType: .query, operationDefinition: query, variables: variables)
+            self.init(operationType: .query, operationDefinition: query, operationName: operationName, variables: variables)
         } else {
             throw JSONDecodingError.couldNotConvert(value: jsonObject, to: GraphQLRequest.self)
         }
     }
 
-    private init(operationType: GraphQLOperationType, operationDefinition: String, variables: GraphQLMap?) {
+    private init(operationType: GraphQLOperationType, operationDefinition: String, operationName: String, variables: GraphQLMap?) {
         self.operationType = operationType
         self.operationDefinition = operationDefinition
+        self.operationName = operationName
         self.variables = variables
     }
 
