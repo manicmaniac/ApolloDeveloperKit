@@ -66,6 +66,8 @@ private class MockMutation: GraphQLMutation {
     typealias Data = AnyGraphQLSelectionSet
 
     let operationDefinition: String
+    let operationIdentifier = ""
+    let operationName = ""
 
     init(operationDefinition: String) {
         self.operationDefinition = operationDefinition

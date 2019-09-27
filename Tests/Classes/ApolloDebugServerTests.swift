@@ -458,9 +458,12 @@ private class MockHTTPURLProtocol: URLProtocol {
         guard let requestJSONObject = (try? JSONSerialization.jsonObject(with: requestBody, options: [])) as? NSDictionary else {
             return sendErrorResponse(url: url, statusCode: 400)
         }
-        if requestJSONObject == queryJSONObject {
+        guard let query = requestJSONObject["query"] as? String else {
+            return sendErrorResponse(url: url, statusCode: 400)
+        }
+        if query.hasPrefix("query") {
             sendDataResponse(url: url, data: queryResponse)
-        } else if requestJSONObject == mutationJSONObject {
+        } else if query.hasPrefix("mutation") {
             sendDataResponse(url: url, data: mutationResponse)
         } else {
             sendErrorResponse(url: url, statusCode: 400)
@@ -520,6 +523,7 @@ private class ChunkedURLSessionDataTaskHandler: NSObject, URLSessionDataDelegate
 
 private let query = """
     {
+        "operationName": "query",
         "query": "query Employee($id: ID!) { employee(id: $id) { id name department { name } } }",
         "variables": {
             "id": "42"
@@ -545,6 +549,7 @@ private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: qu
 
 private let mutation = """
     {
+        "operationName": "mutation",
         "query": "mutation AddEmployee($input: AddEmployeeInput) { addEmployee(input: $input) { id } }",
         "variables": {
             "input": {

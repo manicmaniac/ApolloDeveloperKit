@@ -13,18 +13,6 @@ import XCTest
 class DebuggableNetworkTransportTests: XCTestCase {
     func testSendOperationWithCompletionHandler() {
         let operation = MockGraphQLQuery()
-        XCTContext.runActivity(named: "when response is nil and error is nil") { _ in
-            let response: GraphQLResponse<MockGraphQLQuery>? = nil
-            let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
-            let expectation = self.expectation(description: "completionHandler should be called")
-            let cancellable = networkTransport.send(operation: operation) { response, error in
-                XCTAssertNil(response)
-                XCTAssertNil(error)
-                expectation.fulfill()
-            }
-            XCTAssertTrue(cancellable is MockCancellable)
-            waitForExpectations(timeout: 0.25, handler: nil)
-        }
         XCTContext.runActivity(named: "when response is not nil but error is nil") { _ in
             let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
             let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
@@ -51,20 +39,6 @@ class DebuggableNetworkTransportTests: XCTestCase {
             XCTAssertTrue(cancellable is MockCancellable)
             waitForExpectations(timeout: 0.25, handler: nil)
         }
-        XCTContext.runActivity(named: "when response is not nil and error is not nil") { _ in
-            let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
-            let urlError = URLError(.badURL)
-            let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: urlError))
-            let expectation = self.expectation(description: "completionHandler should be called")
-            let cancellable = networkTransport.send(operation: operation) { response, error in
-                XCTAssertNotNil(response)
-                XCTAssertEqual(response?.body.count, 1)
-                XCTAssertTrue(error as NSError? === urlError as NSError)
-                expectation.fulfill()
-            }
-            XCTAssertTrue(cancellable is MockCancellable)
-            waitForExpectations(timeout: 0.25, handler: nil)
-        }
     }
 }
 
@@ -81,6 +55,19 @@ class MockNetworkTransport: NetworkTransport {
         completionHandler(response as? GraphQLResponse<Operation>, error)
         return MockCancellable()
     }
+
+    #if swift(>=5)
+    func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+        if let response = response as? GraphQLResponse<Operation> {
+            completionHandler(.success(response))
+        } else if let error = error {
+            completionHandler(.failure(error))
+        } else {
+            preconditionFailure("Either of response and error should exist")
+        }
+        return MockCancellable()
+    }
+    #endif
 }
 
 class MockCancellable: Cancellable {
@@ -93,6 +80,8 @@ class MockGraphQLQuery: GraphQLQuery {
     typealias Data = MockGraphQLSelectionSet
 
     let operationDefinition = ""
+    let operationIdentifier = ""
+    let operationName = ""
 }
 
 class MockGraphQLSelectionSet: GraphQLSelectionSet {
