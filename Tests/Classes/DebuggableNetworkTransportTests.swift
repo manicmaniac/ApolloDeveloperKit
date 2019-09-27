@@ -56,6 +56,7 @@ class MockNetworkTransport: NetworkTransport {
         return MockCancellable()
     }
 
+    #if swift(>=5)
     func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
         if let response = response as? GraphQLResponse<Operation> {
             completionHandler(.success(response))
@@ -66,7 +67,7 @@ class MockNetworkTransport: NetworkTransport {
         }
         return MockCancellable()
     }
-
+    #endif
 }
 
 class MockCancellable: Cancellable {
