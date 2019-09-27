@@ -13,18 +13,6 @@ import XCTest
 class DebuggableNetworkTransportTests: XCTestCase {
     func testSendOperationWithCompletionHandler() {
         let operation = MockGraphQLQuery()
-        XCTContext.runActivity(named: "when response is nil and error is nil") { _ in
-            let response: GraphQLResponse<MockGraphQLQuery>? = nil
-            let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
-            let expectation = self.expectation(description: "completionHandler should be called")
-            let cancellable = networkTransport.send(operation: operation) { response, error in
-                XCTAssertNil(response)
-                XCTAssertNil(error)
-                expectation.fulfill()
-            }
-            XCTAssertTrue(cancellable is MockCancellable)
-            waitForExpectations(timeout: 0.25, handler: nil)
-        }
         XCTContext.runActivity(named: "when response is not nil but error is nil") { _ in
             let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
             let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
@@ -45,20 +33,6 @@ class DebuggableNetworkTransportTests: XCTestCase {
             let expectation = self.expectation(description: "completionHandler should be called")
             let cancellable = networkTransport.send(operation: operation) { response, error in
                 XCTAssertNil(response)
-                XCTAssertTrue(error as NSError? === urlError as NSError)
-                expectation.fulfill()
-            }
-            XCTAssertTrue(cancellable is MockCancellable)
-            waitForExpectations(timeout: 0.25, handler: nil)
-        }
-        XCTContext.runActivity(named: "when response is not nil and error is not nil") { _ in
-            let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
-            let urlError = URLError(.badURL)
-            let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: urlError))
-            let expectation = self.expectation(description: "completionHandler should be called")
-            let cancellable = networkTransport.send(operation: operation) { response, error in
-                XCTAssertNotNil(response)
-                XCTAssertEqual(response?.body.count, 1)
                 XCTAssertTrue(error as NSError? === urlError as NSError)
                 expectation.fulfill()
             }
