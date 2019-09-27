@@ -880,6 +880,7 @@
 		};
 		5B26FC3422B3DB0800359E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
@@ -898,13 +899,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Tests/ApolloDeveloperKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		5B26FC3522B3DB0800359E63 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
@@ -922,7 +924,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Tests/ApolloDeveloperKitTests-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
