@@ -71,33 +71,41 @@ extension DebuggableNetworkTransport: NetworkTransport {
  * that is to pass `Swift.Result` as the only argument of its callback instead of passing 2 optional values.
  * The change of callback's arity cannot be treated in a normal way.
  * So to have `ApolloDeveloperKit` work with both versions, I had to cheat Swift compiler with this enum.
+ *
+ * - SeeAlso: https://github.com/apollographql/apollo-ios/pull/644
  */
 private enum Send<Operation: GraphQLOperation> {
-    typealias V1 = (Operation, @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable
+    /**
+     * The type of `NetworkTransport.send(operation:completionHandler:)` for Apollo < 0.13.0.
+     */
+    typealias Version1 = (Operation, @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable
 
-    case v1(V1)
+    case version1(Version1)
 
-    init(_ function: @escaping V1) {
-        self = .v1(function)
+    init(_ function: @escaping Version1) {
+        self = .version1(function)
     }
 
     #if swift(>=5)
-    typealias V2 = (Operation, @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable
+    /**
+     * The type of `NetworkTransport.send(operation:completionHandler:)` for Apollo >= 0.13.0.
+     */
+    typealias Version2 = (Operation, @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable
 
-    case v2(V2)
+    case version2(Version2)
 
-    init(_ function: @escaping V2) {
-        self = .v2(function)
+    init(_ function: @escaping Version2) {
+        self = .version2(function)
     }
     #endif
 
-    var call: V1 {
+    var call: Version1 {
         return { operation, completionHandler in
             switch self {
-            case .v1(let function):
+            case .version1(let function):
                 return function(operation, completionHandler)
             #if swift(>=5)
-            case .v2(let function):
+            case .version2(let function):
                 return function(operation) { result in
                     switch result {
                     case .success(let response):
