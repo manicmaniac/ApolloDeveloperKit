@@ -55,6 +55,18 @@ class MockNetworkTransport: NetworkTransport {
         completionHandler(response as? GraphQLResponse<Operation>, error)
         return MockCancellable()
     }
+
+    func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+        if let response = response as? GraphQLResponse<Operation> {
+            completionHandler(.success(response))
+        } else if let error = error {
+            completionHandler(.failure(error))
+        } else {
+            preconditionFailure("Either of response and error should exist")
+        }
+        return MockCancellable()
+    }
+
 }
 
 class MockCancellable: Cancellable {

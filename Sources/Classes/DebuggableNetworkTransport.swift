@@ -37,11 +37,77 @@ public class DebuggableNetworkTransport {
 extension DebuggableNetworkTransport: NetworkTransport {
     public func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
-        return networkTransport.send(operation: operation) { [weak self] response, error in
+        return Send<Operation>(networkTransport.send).call(operation ) { [weak self] response, error in
             if let self = self {
                 self.delegate?.networkTransport(self, didSendOperation: operation, response: response, error: error)
             }
             completionHandler(response, error)
+        }
+    }
+
+    #if swift(>=5)
+    public func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
+        delegate?.networkTransport(self, willSendOperation: operation)
+        return Send<Operation>(networkTransport.send).call(operation) { [weak self] response, error in
+            if let self = self {
+                self.delegate?.networkTransport(self, didSendOperation: operation, response: response, error: error)
+            }
+            if let response = response {
+                completionHandler(.success(response))
+            } else if let error = error {
+                completionHandler(.failure(error))
+            } else {
+                preconditionFailure("Either of response and error should exist")
+            }
+        }
+    }
+    #endif
+}
+
+/**
+ * `Send` is a workaround to fill the gap between Apollo >= 0.13.0 and Apollo < 0.13.0.
+ *
+ * Apollo introduced a big breaking change around NetworkTransport,
+ * that is to pass `Swift.Result` as the only argument of its callback instead of passing 2 optional values.
+ * The change of callback's arity cannot be treated in a normal way.
+ * So to have `ApolloDeveloperKit` work with both versions, I had to cheat Swift compiler with this enum.
+ */
+private enum Send<Operation: GraphQLOperation> {
+    typealias V1 = (Operation, @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable
+
+    case v1(V1)
+
+    init(_ function: @escaping V1) {
+        self = .v1(function)
+    }
+
+    #if swift(>=5)
+    typealias V2 = (Operation, @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable
+
+    case v2(V2)
+
+    init(_ function: @escaping V2) {
+        self = .v2(function)
+    }
+    #endif
+
+    var call: V1 {
+        return { operation, completionHandler in
+            switch self {
+            case .v1(let function):
+                return function(operation, completionHandler)
+            #if swift(>=5)
+            case .v2(let function):
+                return function(operation) { result in
+                    switch result {
+                    case .success(let response):
+                        completionHandler(response, nil)
+                    case .failure(let error):
+                        completionHandler(nil, error)
+                    }
+                }
+            #endif
+            }
         }
     }
 }
