@@ -15,5 +15,5 @@ Pod::Spec.new do |spec|
   spec.source       = { :git => "https://github.com/manicmaniac/ApolloDeveloperKit.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/Classes/**/*.swift"
   spec.resource = "Sources/Assets"
-  spec.dependency "Apollo", ">= 0.9.0", "< 0.15.0"
+  spec.dependency "Apollo", ">= 0.9.0", "< 0.16.0"
 end
