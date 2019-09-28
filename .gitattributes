@@ -1,2 +1,3 @@
+*.swift.erb linguist-language=Swift
 docs/**/* -diff linguist-generated
 Sources/Assets/bundle.js -diff linguist-generated
