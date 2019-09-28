@@ -50,7 +50,6 @@
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7C983122BA85AB000F4D7B /* EventStreamQueueMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */; };
 		5B7C983322BA9325000F4D7B /* EventStreamChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */; };
-		5B8F2B9122C059BC006922CE /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8A22C059BB006922CE /* schema.json */; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
@@ -572,7 +571,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */,
-				5B8F2B9122C059BC006922CE /* schema.json in Resources */,
 				5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */,
 				5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */,
 			);
