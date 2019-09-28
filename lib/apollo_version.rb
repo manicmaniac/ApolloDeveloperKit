@@ -15,8 +15,8 @@ class ApolloVersion
     @version = version
   end
 
-  def self.find
-    find_in_podfile_lock || find_in_frameworks
+  def self.find!
+    find_in_podfile_lock || find_in_frameworks || raise('Apollo.framework not found.')
   end
 
   def self.find_in_frameworks(framework_search_paths = nil)

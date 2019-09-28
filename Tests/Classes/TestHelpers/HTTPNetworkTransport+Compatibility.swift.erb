@@ -7,7 +7,7 @@
 //
 
 // <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find or raise 'Apollo.framework not found' %>
+// <% apollo_version = ApolloVersion.find! %>
 import Apollo
 
 extension HTTPNetworkTransport {
