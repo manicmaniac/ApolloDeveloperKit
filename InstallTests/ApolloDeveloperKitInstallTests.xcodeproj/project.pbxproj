@@ -70,7 +70,6 @@
 /* Begin PBXFileReference section */
 		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloDeveloperKit.framework; path = Carthage/Build/iOS/ApolloDeveloperKit.framework; sourceTree = "<group>"; };
 		5B75996B22E7622D002DE460 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
-		5B99DB0E233F627F004AC5B2 /* apollo_version.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; name = apollo_version.rb; path = ../../Example/apollo_version.rb; sourceTree = "<group>"; };
 		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5BE2447922E0FB75008EDAAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -139,7 +138,6 @@
 				5BE2448022E0FB75008EDAAD /* PostListViewController.graphql */,
 				5BE2447A22E0FB75008EDAAD /* PostTableViewCell.graphql */,
 				5BE2448122E0FB75008EDAAD /* schema.json */,
-				5B99DB0E233F627F004AC5B2 /* apollo_version.rb */,
 				5BE2448522E0FB75008EDAAD /* Info.plist */,
 			);
 			path = Sources;
@@ -428,6 +426,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -451,6 +450,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -470,6 +470,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -489,6 +490,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
