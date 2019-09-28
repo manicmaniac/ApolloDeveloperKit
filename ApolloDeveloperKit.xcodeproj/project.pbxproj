@@ -54,13 +54,27 @@
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
-		5B8F2B9622C059BC006922CE /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift */; };
+		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
 		5B8F2BBC22C26F78006922CE /* EventStreamQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2BBB22C26F78006922CE /* EventStreamQueue.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
 		5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		5B015B09233F4DFA00DA7A85 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.erb";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		5B26FC2722B3DB0800359E63 /* PBXContainerItemProxy */ = {
@@ -96,6 +110,7 @@
 /* Begin PBXFileReference section */
 		5B0051102308848E00B9B2B2 /* NetworkInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterface.swift; sourceTree = "<group>"; };
 		5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceList.swift; sourceTree = "<group>"; };
+		5B015B0A233F4E8600DA7A85 /* apollo_version.rb */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text.script.ruby; path = apollo_version.rb; sourceTree = "<group>"; tabWidth = 4; };
 		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
 		5B0EC96122B6D7C1003D7933 /* ApolloDeveloperKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApolloDeveloperKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5B1C9E7F233631FE00831F87 /* EventStreamChunkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunkTests.swift; sourceTree = "<group>"; };
@@ -152,7 +167,7 @@
 		5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostListViewController.graphql; sourceTree = "<group>"; };
 		5B8F2B8D22C059BB006922CE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
-		5B8F2B8F22C059BC006922CE /* PostListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
+		5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B8F2BBB22C26F78006922CE /* EventStreamQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueue.swift; sourceTree = "<group>"; };
@@ -256,10 +271,11 @@
 				5B8F2B8D22C059BB006922CE /* API.swift */,
 				5B8F2B8B22C059BB006922CE /* AppDelegate.swift */,
 				5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */,
-				5B8F2B8F22C059BC006922CE /* PostListViewController.swift */,
+				5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */,
 				5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */,
 				5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */,
 				5B8F2B8A22C059BB006922CE /* schema.json */,
+				5B015B0A233F4E8600DA7A85 /* apollo_version.rb */,
 				5B26FC4322B3DB5800359E63 /* Assets.xcassets */,
 				5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */,
 				5B26FC4822B3DB5800359E63 /* Info.plist */,
@@ -481,6 +497,7 @@
 				5BFF016B22DF8BA600944131 /* Embed Frameworks */,
 			);
 			buildRules = (
+				5B015B09233F4DFA00DA7A85 /* PBXBuildRule */,
 			);
 			dependencies = (
 				5BFF016A22DF8BA600944131 /* PBXTargetDependency */,
@@ -661,7 +678,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B8F2B9622C059BC006922CE /* PostListViewController.swift in Sources */,
+				5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */,
 				5B8F2B9422C059BC006922CE /* API.swift in Sources */,
 				5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */,
 				5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */,
