@@ -48,6 +48,7 @@
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
 		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
+		5B783939233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */; };
 		5B7C983122BA85AB000F4D7B /* EventStreamQueueMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */; };
 		5B7C983322BA9325000F4D7B /* EventStreamChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
@@ -159,6 +160,7 @@
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
+		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift"; sourceTree = "<group>"; };
 		5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueueMap.swift; sourceTree = "<group>"; };
 		5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunk.swift; sourceTree = "<group>"; };
 		5B8F2B8A22C059BB006922CE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -206,7 +208,7 @@
 		5B0EC95C22B6D68D003D7933 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5B2E1B34230CD19E003C85CB /* Factory */,
+				5B2E1B34230CD19E003C85CB /* TestHelpers */,
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A837422C67386002B4FFB /* EventStream */,
 				5B3A838B22C6855C002B4FFB /* JSON */,
@@ -294,13 +296,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5B2E1B34230CD19E003C85CB /* Factory */ = {
+		5B2E1B34230CD19E003C85CB /* TestHelpers */ = {
 			isa = PBXGroup;
 			children = (
 				5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */,
 				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
+				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */,
 			);
-			path = Factory;
+			path = TestHelpers;
 			sourceTree = "<group>";
 		};
 		5B2F84E322B431920025A211 /* Classes */ = {
@@ -643,6 +646,7 @@
 				5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,
 				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
+				5B783939233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
