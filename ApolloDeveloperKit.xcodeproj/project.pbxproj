@@ -40,6 +40,7 @@
 		5B3A83A922C89835002B4FFB /* FileHandle+Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */; };
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
+		5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
 		5B630E3E22B60A210000994D /* MutationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3D22B60A210000994D /* MutationStore.swift */; };
@@ -48,7 +49,6 @@
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
 		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
-		5B783939233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */; };
 		5B7C983122BA85AB000F4D7B /* EventStreamQueueMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */; };
 		5B7C983322BA9325000F4D7B /* EventStreamChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
@@ -64,6 +64,17 @@
 
 /* Begin PBXBuildRule section */
 		5B015B09233F4DFA00DA7A85 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.erb";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
+			);
+			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
+		};
+		5B5D4350233F817900AF5B5C /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
@@ -110,7 +121,6 @@
 /* Begin PBXFileReference section */
 		5B0051102308848E00B9B2B2 /* NetworkInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterface.swift; sourceTree = "<group>"; };
 		5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceList.swift; sourceTree = "<group>"; };
-		5B015B0A233F4E8600DA7A85 /* apollo_version.rb */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text.script.ruby; path = apollo_version.rb; sourceTree = "<group>"; tabWidth = 4; };
 		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
 		5B0EC96122B6D7C1003D7933 /* ApolloDeveloperKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApolloDeveloperKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5B1C9E7F233631FE00831F87 /* EventStreamChunkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunkTests.swift; sourceTree = "<group>"; };
@@ -160,7 +170,7 @@
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
-		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift"; sourceTree = "<group>"; };
+		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift.erb"; sourceTree = "<group>"; };
 		5B7C983022BA85AB000F4D7B /* EventStreamQueueMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamQueueMap.swift; sourceTree = "<group>"; };
 		5B7C983222BA9325000F4D7B /* EventStreamChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunk.swift; sourceTree = "<group>"; };
 		5B8F2B8A22C059BB006922CE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -276,7 +286,6 @@
 				5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */,
 				5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */,
 				5B8F2B8A22C059BB006922CE /* schema.json */,
-				5B015B0A233F4E8600DA7A85 /* apollo_version.rb */,
 				5B26FC4322B3DB5800359E63 /* Assets.xcassets */,
 				5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */,
 				5B26FC4822B3DB5800359E63 /* Info.plist */,
@@ -301,7 +310,7 @@
 			children = (
 				5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */,
 				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
-				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */,
+				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */,
 			);
 			path = TestHelpers;
 			sourceTree = "<group>";
@@ -479,6 +488,7 @@
 				5B0EC96822B6D8AD003D7933 /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
+				5B5D4350233F817900AF5B5C /* PBXBuildRule */,
 			);
 			dependencies = (
 				5B26FC2822B3DB0800359E63 /* PBXTargetDependency */,
@@ -646,7 +656,6 @@
 				5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,
 				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
-				5B783939233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +665,7 @@
 			files = (
 				5B3A837622C6739A002B4FFB /* EventStreamQueueTests.swift in Sources */,
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
+				5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift.erb in Sources */,
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B3A839622C72235002B4FFB /* MutationStoreTests.swift in Sources */,
@@ -915,6 +925,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Tests/ApolloDeveloperKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
@@ -940,6 +951,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Tests/ApolloDeveloperKitTests-Bridging-Header.h";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -964,6 +976,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -988,6 +1001,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
