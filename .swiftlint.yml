@@ -7,7 +7,9 @@ excluded:
   - .build/
   - Carthage/
   - Example/
+  - InstallTests/
   - Tests/
+  - build/
   - docs/
   - node_modules/
   - vendor/
