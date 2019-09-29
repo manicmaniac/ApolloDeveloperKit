@@ -19,25 +19,25 @@ public struct JSError {
 
     /**
      * The filename where this error occurs.
-     *
-     * This property is always `nil`.
      */
-    let fileName: String? = nil
+    let fileName: String?
 
     /**
      * The line number where this error occurs.
-     *
-     * This property is always `nil`.
      */
-    let lineNumber: Int? = nil
+    let lineNumber: Int?
 
     /**
      * Initializes `JSError` instance.
      *
      * - Parameter error: An error.
+     * - Parameter fileName: The file name where the error occurs.
+     * - Parameter lineNumber: The Number of line in the file where the error occurs.
      */
-    init(error: Error) {
+    init(_ error: Error, fileName: String = #file, lineNumber: Int = #line) {
         self.message = error.localizedDescription
+        self.fileName = fileName
+        self.lineNumber = lineNumber
     }
 }
 

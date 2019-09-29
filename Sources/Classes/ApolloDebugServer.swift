@@ -145,6 +145,37 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
+    private func respondWithHTTPURLResponse(fileHandle: FileHandle, httpURLResponse: HTTPURLResponse, body: Data?, completion: @escaping () -> Void) {
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, httpURLResponse.statusCode, nil, server.httpVersion).takeRetainedValue()
+        for case let (headerField as String, value as String) in httpURLResponse.allHeaderFields {
+            CFHTTPMessageSetHeaderFieldValue(response, headerField as CFString, value as CFString)
+        }
+        if let body = body {
+            CFHTTPMessageSetBody(response, body as CFData)
+        }
+        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        try? fileHandle.writeData(data)
+        completion()
+    }
+
+    private func respondWithOK(fileHandle: FileHandle, contentType: String?, body: Data?, completion: @escaping () -> Void) {
+        let statusCode = 200
+        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
+        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
+        if let contentType = contentType {
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, contentType as CFString)
+        }
+        if let body = body {
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
+            CFHTTPMessageSetBody(response, body as CFData)
+        } else {
+            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, "0" as CFString)
+        }
+        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        try? fileHandle.writeData(data)
+        completion()
+    }
+
     private func respondWithLengthRequired(fileHandle: FileHandle, completion: @escaping () -> Void) {
         let statusCode = 411
         let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
@@ -317,20 +348,15 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     // response.body may contain an Objective-C type like `NSString`,
                     // that is not convertible to JSONValue directly.
                     let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                    let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, self.server.httpVersion).takeRetainedValue()
-                    CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, self.currentHTTPDateCFString())
-                    CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "application/json" as CFString)
-                    CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
-                    CFHTTPMessageSetBody(response, body as CFData)
-                    let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-                    try? fileHandle.writeData(data)
-                    completion()
+                    self.respondWithOK(fileHandle: fileHandle, contentType: "application/json", body: body, completion: completion)
+                } catch let error as GraphQLHTTPResponseError {
+                    self.respondWithHTTPURLResponse(fileHandle: fileHandle, httpURLResponse: error.response, body: error.body, completion: completion)
                 } catch let error {
-                    self.respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error: error), completion: completion)
+                    self.respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error), completion: completion)
                 }
             }
         } catch let error {
-            respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error: error), completion: completion)
+            respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error), completion: completion)
         }
     }
 

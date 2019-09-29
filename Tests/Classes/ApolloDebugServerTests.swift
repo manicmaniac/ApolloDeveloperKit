@@ -403,6 +403,30 @@ class ApolloDebugServerTests: XCTestCase {
             task.resume()
             waitForExpectations(timeout: 10.0, handler: nil)
         }
+        XCTContext.runActivity(named: "when a server error occurs") { _ in
+            request.httpBody = serverError
+            let expectation = self.expectation(description: "response should be received")
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                defer { expectation.fulfill() }
+                if let error = error {
+                    return XCTFail(String(describing: error))
+                }
+                guard let response = response as? HTTPURLResponse else {
+                    return XCTFail("unexpected response type")
+                }
+                XCTAssertEqual(response.statusCode, 400)
+                XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/json")
+                guard let data = data else {
+                    fatalError("URLSession.dataTask(with:) must pass either of error or data")
+                }
+                guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
+                    return XCTFail("failed to parse JSON response")
+                }
+                XCTAssertEqual(jsonObject, serverErrorResponseJSONObject)
+            }
+            task.resume()
+            waitForExpectations(timeout: 10.0, handler: nil)
+        }
         XCTContext.runActivity(named: "with 0 byte data") { _ in
             request.httpBody = Data()
             let expectation = self.expectation(description: "response should be received")
@@ -465,6 +489,8 @@ private class MockHTTPURLProtocol: URLProtocol {
             sendDataResponse(url: url, data: queryResponse)
         } else if query.hasPrefix("mutation") {
             sendDataResponse(url: url, data: mutationResponse)
+        } else if query.hasPrefix("serverError") {
+            sendDataResponse(url: url, data: serverErrorResponse, statusCode: 400)
         } else {
             sendErrorResponse(url: url, statusCode: 400)
         }
@@ -482,9 +508,9 @@ private class MockHTTPURLProtocol: URLProtocol {
         client?.urlProtocolDidFinishLoading(self)
     }
 
-    private func sendDataResponse(url: URL, data: Data) {
+    private func sendDataResponse(url: URL, data: Data, statusCode: Int = 200) {
         let headerFields = ["Content-Type": "application/json"]
-        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: httpVersion, headerFields: headerFields)!
+        let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: httpVersion, headerFields: headerFields)!
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
         let responseBody = data
         client?.urlProtocol(self, didLoad: responseBody)
@@ -573,3 +599,35 @@ private let mutationResponse = """
 
 private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse, options: []) as! NSDictionary
 
+private let serverError = """
+    {
+        "operationName": "serverError",
+        "query": "serverError"
+    }
+    """.data(using: .utf8)!
+
+private let serverErrorJSONObject = try! JSONSerialization.jsonObject(with: serverError, options: []) as! NSDictionary
+
+private let serverErrorResponse = """
+    {
+        "data": {
+            "employees": null
+        },
+        "errors": [
+            {
+                "message": "Error",
+                "locations": [
+                    {
+                        "line": 2,
+                        "column": 3
+                    }
+                ],
+                "path": [
+                    "employees"
+                ]
+            }
+        ]
+    }
+    """.data(using: .utf8)!
+
+private let serverErrorResponseJSONObject = try! JSONSerialization.jsonObject(with: serverErrorResponse, options: []) as! NSDictionary
