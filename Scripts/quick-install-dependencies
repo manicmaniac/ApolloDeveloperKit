@@ -23,5 +23,6 @@ xcodebuild build \
     CODE_SIGN_IDENTITY= \
     CARTHAGE=YES
 
+rm -rf Carthage/Build/iOS
 mkdir -p Carthage/Build/iOS
 mv $TMPDIR/DerivedData/Apollo/Build/Products/Release-iphonesimulator/Apollo.framework Carthage/Build/iOS
