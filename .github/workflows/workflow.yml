@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies
         run: ./Scripts/quick-install-dependencies
       - name: Run unit tests
-        run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
+        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
   install-test:
     runs-on: macOS-10.14
     strategy:
