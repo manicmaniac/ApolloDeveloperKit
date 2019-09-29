@@ -157,8 +157,18 @@ extension ApolloDebugServer: HTTPRequestHandler {
         completion()
     }
 
-    private func respondWithError(for statusCode: Int, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
-        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, withBody: withBody)
+    private func respondWithError(for statusCode: Int, fileHandle: FileHandle, withDefaultBody: Bool, completion: @escaping () -> Void) {
+        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, withDefaultBody: withDefaultBody)
+        let data = response.serialize()!
+        try? fileHandle.writeData(data)
+        completion()
+    }
+
+    private func respondWithError(for statusCode: Int, fileHandle: FileHandle, body: Data?, completion: @escaping () -> Void) {
+        guard let body = body else {
+            return respondWithError(for: statusCode, fileHandle: fileHandle, withDefaultBody: true, completion: completion)
+        }
+        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, body: body)
         let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
@@ -167,7 +177,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     private func respondWithBadRequest(fileHandle: FileHandle, jsError: JSError, completion: @escaping () -> Void) {
         let statusCode = 400
         guard let body = try? JSONSerializationFormat.serialize(value: jsError) else {
-            return respondWithError(for: 400, fileHandle: fileHandle, withBody: true, completion: completion)
+            return respondWithError(for: statusCode, fileHandle: fileHandle, withDefaultBody: true, completion: completion)
         }
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
         response.setDateHeaderField()
@@ -243,19 +253,19 @@ extension ApolloDebugServer: HTTPRequestHandler {
             let contentLength = resourceValues.fileSize!
             respondWithOK(fileHandle: fileHandle, contentType: contentType, body: body, contentLength: contentLength, completion: completion)
         } catch CocoaError.fileReadNoSuchFile {
-            respondWithError(for: 404, fileHandle: fileHandle, withBody: withBody, completion: completion)
+            respondWithError(for: 404, fileHandle: fileHandle, withDefaultBody: withBody, completion: completion)
         } catch let error {
-            print(error)
-            respondWithError(for: 500, fileHandle: fileHandle, withBody: withBody, completion: completion)
+            let body = error.localizedDescription.data(using: .utf8)
+            respondWithError(for: 500, fileHandle: fileHandle, body: body, completion: completion)
         }
     }
 
     private func respondToRequestForGraphQLRequest(_ request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
         guard CFHTTPMessageCopyHeaderFieldValue(request, "Content-Length" as CFString) != nil else {
-            return respondWithError(for: 411, fileHandle: fileHandle, withBody: false, completion: completion)
+            return respondWithError(for: 411, fileHandle: fileHandle, withDefaultBody: false, completion: completion)
         }
         guard let body = CFHTTPMessageCopyBody(request)?.takeRetainedValue() as Data? else {
-            return respondWithError(for: 400, fileHandle: fileHandle, withBody: true, completion: completion)
+            return respondWithError(for: 400, fileHandle: fileHandle, withDefaultBody: true, completion: completion)
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
