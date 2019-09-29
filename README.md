@@ -35,7 +35,7 @@ Installation
 
 Add the following lines to your Podfile.
 
-```
+```ruby
 pod 'Apollo'
 pod 'ApolloDeveloperKit'
 ```
@@ -46,7 +46,7 @@ If you want to install `ApolloDeveloperKit` together with `Apollo` `>= 0.10.0` a
 This is because of that `ApolloDeveloperKit` is compatible with those versions of `Apollo` only when compiled with Swift 4.x.
 To avoid them, you may have to use the following workaround.
 
-```
+```ruby
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
