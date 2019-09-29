@@ -73,9 +73,7 @@ public class ApolloDebugServer {
     public func start(port: UInt16) throws {
         stop()
         try server.start(port: port)
-        let timer = Timer(timeInterval: keepAliveInterval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
-        self.timer = timer
-        RunLoop.current.add(timer, forMode: .default)
+        self.timer = Timer.scheduledTimer(timeInterval: keepAliveInterval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
     }
 
     /**

@@ -6,4 +6,4 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-APOLLO_DEVELOPER_KIT_SWIFT_VERSION = 5.0 // 4.2 or 5.0
+APOLLO_DEVELOPER_KIT_SWIFT_VERSION = 5.0 // 4.0 - 5.0
