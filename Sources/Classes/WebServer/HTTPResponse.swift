@@ -11,14 +11,22 @@ import Foundation
 /**
  * A Swifty wrapper for CFHTTPMessage instantiated as a resposne.
  */
-struct HTTPResponse {
-    let message: CFHTTPMessage
+class HTTPResponse {
+    private let message: CFHTTPMessage
 
-    init(statusCode: Int, httpVersion: CFString) {
+    private static var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
+        return dateFormatter
+    }()
+
+    required init(statusCode: Int, httpVersion: CFString) {
         message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, httpVersion).takeRetainedValue()
     }
 
-    init(httpURLResponse: HTTPURLResponse, body: Data?, httpVersion: CFString) {
+    convenience init(httpURLResponse: HTTPURLResponse, body: Data?, httpVersion: CFString) {
         self.init(statusCode: httpURLResponse.statusCode, httpVersion: httpVersion)
         for case let (field as String, value as String) in httpURLResponse.allHeaderFields {
             setValue(value, forHTTPHeaderField: field)
@@ -28,8 +36,33 @@ struct HTTPResponse {
         }
     }
 
+    class func errorResponse(for statusCode: Int, httpVersion: CFString, withBody: Bool) -> HTTPResponse {
+        precondition(statusCode >= 300)
+        let response = self.init(statusCode: statusCode, httpVersion: httpVersion)
+        response.setDateHeaderField()
+        response.setContentTypeHeaderField(.plainText(.utf8))
+        let body = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".data(using: .utf8)!
+        response.setContentLengthHeaderField(withBody ? body.count : 0)
+        if withBody {
+            response.setBody(body)
+        }
+        return response
+    }
+
     func setValue(_ value: String?, forHTTPHeaderField field: String) {
         CFHTTPMessageSetHeaderFieldValue(message, field as CFString, value as CFString?)
+    }
+
+    func setDateHeaderField(_ date: Date = Date()) {
+        setValue(HTTPResponse.dateFormatter.string(from: date), forHTTPHeaderField: "Date")
+    }
+
+    func setContentTypeHeaderField(_ contentType: MimeType) {
+        setValue(String(describing: contentType), forHTTPHeaderField: "Content-Type")
+    }
+
+    func setContentLengthHeaderField(_ contentLength: Int) {
+        setValue(String(contentLength), forHTTPHeaderField: "Content-Length")
     }
 
     func setBody(_ body: Data) {
