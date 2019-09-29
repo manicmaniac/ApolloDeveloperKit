@@ -13,11 +13,11 @@ import XCTest
 class JSErrorTests: XCTestCase {
     func testJSONValue() {
         let error = URLError(.badURL)
-        let jsError = JSError(error: error)
+        let jsError = JSError(error)
         let dictionary = jsError.jsonValue as? [String: NSObject]
         XCTAssertNotNil(dictionary)
         XCTAssertEqual(dictionary?["message"], error.localizedDescription as NSString)
-        XCTAssertEqual(dictionary?["fileName"], NSNull())
-        XCTAssertEqual(dictionary?["lineNumber"], NSNull())
+        XCTAssertNotNil(dictionary?["fileName"])
+        XCTAssertNotNil(dictionary?["lineNumber"] as? Int)
     }
 }

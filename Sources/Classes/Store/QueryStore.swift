@@ -29,8 +29,8 @@ extension QueryStoreValue: JSONEncodable {
             "document": document,
             "variables": variables.jsonValue,
             "previousVariables": previousVariables.jsonValue,
-            "networkError": networkError.flatMap(JSError.init(error:)).jsonValue,
-            "graphQLErrors": graphQLErrors.map(JSError.init(error:)).jsonValue
+            "networkError": networkError.flatMap { JSError($0) }.jsonValue,
+            "graphQLErrors": graphQLErrors.map { JSError($0) }.jsonValue
         ]
     }
 }

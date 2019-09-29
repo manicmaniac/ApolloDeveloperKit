@@ -28,7 +28,7 @@ extension MutationStoreValue: JSONEncodable {
             "mutation": mutation,
             "variables": variables.jsonValue,
             "loading": loading,
-            "error": error.flatMap(JSError.init(error:)).jsonValue
+            "error": error.flatMap { JSError($0) }.jsonValue
         ]
     }
 }
