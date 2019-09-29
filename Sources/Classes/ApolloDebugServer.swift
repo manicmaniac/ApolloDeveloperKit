@@ -146,73 +146,63 @@ extension ApolloDebugServer: HTTPRequestHandler {
     }
 
     private func respondWithHTTPURLResponse(fileHandle: FileHandle, httpURLResponse: HTTPURLResponse, body: Data?, completion: @escaping () -> Void) {
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, httpURLResponse.statusCode, nil, server.httpVersion).takeRetainedValue()
-        for case let (headerField as String, value as String) in httpURLResponse.allHeaderFields {
-            CFHTTPMessageSetHeaderFieldValue(response, headerField as CFString, value as CFString)
-        }
-        if let body = body {
-            CFHTTPMessageSetBody(response, body as CFData)
-        }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let response = HTTPResponse(httpURLResponse: httpURLResponse, body: body, httpVersion: server.httpVersion)
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondWithOK(fileHandle: FileHandle, contentType: String?, body: Data?, completion: @escaping () -> Void) {
-        let statusCode = 200
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
+        let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
         if let contentType = contentType {
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, contentType as CFString)
+            response.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
         if let body = body {
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
-            CFHTTPMessageSetBody(response, body as CFData)
-        } else {
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, "0" as CFString)
+            response.setBody(body)
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        response.setValue(String(body?.count ?? 0), forHTTPHeaderField: "Content-Length")
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondWithLengthRequired(fileHandle: FileHandle, completion: @escaping () -> Void) {
-        let statusCode = 411
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let response = HTTPResponse(statusCode: 411, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondWithInternalServerError(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 500
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
+        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue("text/plain; charset=utf8", forHTTPHeaderField: "Content-Type")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(bodyData.count) as CFString)
+        response.setValue(String(withBody ? bodyData.count : 0), forHTTPHeaderField: "Content-Length")
         if withBody {
-            CFHTTPMessageSetBody(response, bodyData as CFData)
+            response.setBody(bodyData)
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondWithBadRequest(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 400
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
+        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(bodyData.count) as CFString)
+        response.setValue(String(withBody ? bodyData.count : 0), forHTTPHeaderField: "Content-Length")
         if withBody {
-            CFHTTPMessageSetBody(response, bodyData as CFData)
+            response.setBody(bodyData)
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
@@ -222,58 +212,58 @@ extension ApolloDebugServer: HTTPRequestHandler {
         guard let body = try? JSONSerializationFormat.serialize(value: jsError) else {
             return respondWithBadRequest(fileHandle: fileHandle, withBody: true, completion: completion)
         }
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(body.count) as CFString)
-        CFHTTPMessageSetBody(response, body as CFData)
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        response.setValue(String(body.count), forHTTPHeaderField: "Content-Length")
+        response.setBody(body)
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondWithNotFound(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 404
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
+        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(bodyData.count) as CFString)
+        response.setValue(String(bodyData.count), forHTTPHeaderField: "Content-Length")
         if withBody {
-            CFHTTPMessageSetBody(response, bodyData as CFData)
+            response.setBody(bodyData)
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondWithMethodNotAllowed(fileHandle: FileHandle, allowedMethods: [String], withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 405
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
-        CFHTTPMessageSetHeaderFieldValue(response, "Allow" as CFString, allowedMethods.joined(separator: ", ") as CFString)
+        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        response.setValue(allowedMethods.joined(separator: ", "), forHTTPHeaderField: "Allow")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(bodyData.count) as CFString)
+        response.setValue(String(bodyData.count), forHTTPHeaderField: "Content-Length")
         if withBody {
-            CFHTTPMessageSetBody(response, bodyData as CFData)
+            response.setBody(bodyData)
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
     }
 
     private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, server.httpVersion).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/event-stream" as CFString)
-        CFHTTPMessageSetHeaderFieldValue(response, "Transfer-Encoding" as CFString, "chunked" as CFString)
+        let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
+        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue("text/event-stream", forHTTPHeaderField: "Content-Type")
+        response.setValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
         if withBody {
-            CFHTTPMessageSetBody(response, CFDataCreate(kCFAllocatorDefault, "", 0))
+            response.setBody(Data())
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+        let data = response.serialize()!
         try? fileHandle.writeData(data)
         if withBody {
             eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
@@ -308,15 +298,15 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
 
             }
-            let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, server.httpVersion).takeRetainedValue()
-            CFHTTPMessageSetHeaderFieldValue(response, "Date" as CFString, currentHTTPDateCFString())
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, mimeType(for: documentURL.pathExtension) as CFString)
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(resourceValues.fileSize!) as CFString)
+            let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
+            response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+            response.setValue(mimeType(for: documentURL.pathExtension), forHTTPHeaderField: "Content-Type")
+            response.setValue(String(resourceValues.fileSize!), forHTTPHeaderField: "Content-Length")
             if withBody {
                 let bodyData = try Data(contentsOf: documentURL)
-                CFHTTPMessageSetBody(response, bodyData as CFData)
+                response.setBody(bodyData)
             }
-            let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
+            let data = response.serialize()!
             try? fileHandle.writeData(data)
             completion()
         } catch CocoaError.fileReadNoSuchFile {
