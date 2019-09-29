@@ -175,18 +175,8 @@ extension ApolloDebugServer: HTTPRequestHandler {
     }
 
     private func respondWithBadRequest(fileHandle: FileHandle, jsError: JSError, completion: @escaping () -> Void) {
-        let statusCode = 400
-        guard let body = try? JSONSerializationFormat.serialize(value: jsError) else {
-            return respondWithError(for: statusCode, fileHandle: fileHandle, withDefaultBody: true, completion: completion)
-        }
-        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
-        response.setDateHeaderField()
-        response.setContentTypeHeaderField(.plainText(.utf8))
-        response.setContentLengthHeaderField(body.count)
-        response.setBody(body)
-        let data = response.serialize()!
-        try? fileHandle.writeData(data)
-        completion()
+        let body = try? JSONSerializationFormat.serialize(value: jsError)
+        respondWithError(for: 400, fileHandle: fileHandle, body: body, completion: completion)
     }
 
     private func respondWithMethodNotAllowed(fileHandle: FileHandle, allowedMethods: [String], withBody: Bool, completion: @escaping () -> Void) {
