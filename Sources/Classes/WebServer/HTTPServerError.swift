@@ -6,6 +6,8 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
+
 public enum HTTPServerError: Int {
     case socketCreationFailed = 100
     case socketSetOptionFailed = 101

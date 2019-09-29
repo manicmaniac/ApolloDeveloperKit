@@ -6,6 +6,8 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
+import CoreFoundation
+
 /**
  * `MimeType` represents a very limited part of MIME types.
  *
