@@ -35,12 +35,28 @@ Installation
 
 Add the following lines to your Podfile.
 
-```
+```ruby
 pod 'Apollo'
 pod 'ApolloDeveloperKit'
 ```
 
 Then run `pod install`.
+
+If you want to install `ApolloDeveloperKit` together with `Apollo` `>= 0.10.0` and `< 0.12.0`, you will see weird compilation errors while you are building the project.
+This is because of that `ApolloDeveloperKit` is compatible with those versions of `Apollo` only when compiled with Swift 4.x.
+To avoid them, you may have to use the following workaround.
+
+```ruby
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['SWIFT_VERSION'] = '4.2' if target.name == 'ApolloDeveloperKit'
+    end
+  end
+end
+```
+
+Putting these codes in the last of Podfile forces `ApolloDeveloperKit` to be compiled with Swift 4.2 and it will work fine.
 
 ### Install from Carthage
 
