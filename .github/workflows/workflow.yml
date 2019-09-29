@@ -40,7 +40,7 @@ jobs:
             destination: "platform=iOS Simulator,OS=10.2,name=iPhone 7"
           - apollo: "0.9.5"
             xcode: "10.1"
-            swift: "4.2"
+            swift: "4.0"
             destination: "platform=iOS Simulator,OS=12.1,name=iPhone 6"
     steps:
       - uses: actions/checkout@v1
