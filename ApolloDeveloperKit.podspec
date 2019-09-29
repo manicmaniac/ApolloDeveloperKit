@@ -11,7 +11,6 @@ Pod::Spec.new do |spec|
   spec.license      = { :type => "MIT", :file => "LICENSE" }
   spec.authors             = { "Ryosuke Ito" => "rito.0305@gmail.com" }
   spec.platform     = :ios, "9.0"
-  spec.swift_versions = "4.0", "4.2", "5.0"
   spec.source       = { :git => "https://github.com/manicmaniac/ApolloDeveloperKit.git", :tag => "#{spec.version}" }
   spec.source_files  = "Sources/Classes/**/*.swift"
   spec.resource = "Sources/Assets"
