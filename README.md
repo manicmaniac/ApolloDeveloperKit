@@ -37,7 +37,7 @@ Add the following lines to your Podfile.
 
 ```ruby
 pod 'Apollo'
-pod 'ApolloDeveloperKit'
+pod 'ApolloDeveloperKit', '~> 0.4.0'
 ```
 
 Then run `pod install`.
