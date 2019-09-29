@@ -20,7 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
-    private let dateFormatter: CFDateFormatter
+    private let dateFormatter: DateFormatter
     private var eventStreamQueueMap = EventStreamQueueMap<FileHandle>()
     private weak var timer: Timer?
 
@@ -54,11 +54,10 @@ public class ApolloDebugServer {
         self.server = HTTPServer()
         self.keepAliveInterval = keepAliveInterval
 
-        let enUSLocale = CFLocaleCreate(kCFAllocatorDefault, CFLocaleIdentifier("en_US" as CFString))
-        let gmtTimeZone = CFTimeZoneCreateWithTimeIntervalFromGMT(kCFAllocatorDefault, 0)
-        self.dateFormatter = CFDateFormatterCreate(kCFAllocatorDefault, enUSLocale, .noStyle, .noStyle)!
-        CFDateFormatterSetProperty(self.dateFormatter, CFDateFormatterKey.timeZone.rawValue, gmtTimeZone)
-        CFDateFormatterSetFormat(self.dateFormatter, "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'" as CFString)
+        self.dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
 
         self.server.requestHandler = self
         cache.delegate = self
@@ -154,7 +153,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondWithOK(fileHandle: FileHandle, contentType: String?, body: Data?, completion: @escaping () -> Void) {
         let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         if let contentType = contentType {
             response.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
@@ -169,7 +168,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondWithLengthRequired(fileHandle: FileHandle, completion: @escaping () -> Void) {
         let response = HTTPResponse(statusCode: 411, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         let data = response.serialize()!
         try? fileHandle.writeData(data)
         completion()
@@ -178,7 +177,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     private func respondWithInternalServerError(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 500
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         response.setValue("text/plain; charset=utf8", forHTTPHeaderField: "Content-Type")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
@@ -194,7 +193,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     private func respondWithBadRequest(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 400
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
@@ -213,7 +212,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
             return respondWithBadRequest(fileHandle: fileHandle, withBody: true, completion: completion)
         }
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
         response.setValue(String(body.count), forHTTPHeaderField: "Content-Length")
         response.setBody(body)
@@ -225,7 +224,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     private func respondWithNotFound(fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 404
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
         let bodyData = bodyString.data(using: .utf8)!
@@ -241,7 +240,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     private func respondWithMethodNotAllowed(fileHandle: FileHandle, allowedMethods: [String], withBody: Bool, completion: @escaping () -> Void) {
         let statusCode = 405
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
         response.setValue(allowedMethods.joined(separator: ", "), forHTTPHeaderField: "Allow")
         let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
@@ -257,7 +256,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
         let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
-        response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+        response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
         response.setValue("text/event-stream", forHTTPHeaderField: "Content-Type")
         response.setValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
         if withBody {
@@ -299,7 +298,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
             }
             let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
-            response.setValue(currentHTTPDateCFString() as String, forHTTPHeaderField: "Date")
+            response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
             response.setValue(mimeType(for: documentURL.pathExtension), forHTTPHeaderField: "Content-Type")
             response.setValue(String(resourceValues.fileSize!), forHTTPHeaderField: "Content-Length")
             if withBody {
@@ -363,8 +362,8 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
-    private func currentHTTPDateCFString() -> CFString {
-        return CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, dateFormatter, CFAbsoluteTimeGetCurrent())
+    private func currentHTTPDateString() -> String {
+        return dateFormatter.string(from: Date())
     }
 }
 
