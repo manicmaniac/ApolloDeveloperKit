@@ -36,16 +36,26 @@ class HTTPResponse {
         }
     }
 
-    class func errorResponse(for statusCode: Int, httpVersion: CFString, withBody: Bool) -> HTTPResponse {
+    class func errorResponse(for statusCode: Int, httpVersion: CFString, withDefaultBody: Bool) -> HTTPResponse {
         precondition(statusCode >= 300)
         let response = self.init(statusCode: statusCode, httpVersion: httpVersion)
         response.setDateHeaderField()
         response.setContentTypeHeaderField(.plainText(.utf8))
         let body = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".data(using: .utf8)!
-        response.setContentLengthHeaderField(withBody ? body.count : 0)
-        if withBody {
+        response.setContentLengthHeaderField(withDefaultBody ? body.count : 0)
+        if withDefaultBody {
             response.setBody(body)
         }
+        return response
+    }
+
+    class func errorResponse(for statusCode: Int, httpVersion: CFString, body: Data) -> HTTPResponse {
+        precondition(statusCode >= 300)
+        let response = self.init(statusCode: statusCode, httpVersion: httpVersion)
+        response.setDateHeaderField()
+        response.setContentTypeHeaderField(.plainText(.utf8))
+        response.setContentLengthHeaderField(body.count)
+        response.setBody(body)
         return response
     }
 
