@@ -6,6 +6,8 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
+
 /**
  * `EventStreamQueueMap` is like a dictionary that the keys are individual request identifiers and values are `EventStreamQueue`s.
  *

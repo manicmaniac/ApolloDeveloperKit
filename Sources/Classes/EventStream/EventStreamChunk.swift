@@ -6,6 +6,8 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
+
 /**
  * `EventStreamChunk` represents an individual chunk of Chunked Transfer Coding.
  *

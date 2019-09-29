@@ -6,6 +6,8 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
+
 /**
  * `EventStreamQueue` is a thread-safe FIFO queue for `EventStreamChunk`.
  *
