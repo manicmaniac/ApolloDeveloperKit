@@ -237,7 +237,6 @@ extension ApolloDebugServer: HTTPRequestHandler {
             if resourceValues.isDirectory! {
                 documentURL.appendPathComponent("index.html")
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
-
             }
             let contentType = MimeType(pathExtension: documentURL.pathExtension, encoding: .utf8)
             let body = withBody ? try Data(contentsOf: documentURL) : nil
