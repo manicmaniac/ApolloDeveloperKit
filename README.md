@@ -23,9 +23,9 @@ Screenshots
 Prerequisites
 -------------
 
-- Xcode 10.1 or above
+- Xcode `>= 10.1`
 - Google Chrome
-- [Apollo iOS](https://github.com/apollographql/apollo-ios) 0.9.0 or above
+- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.9.1`, `< 0.16.0`
 - [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools)
 
 Installation
