@@ -297,9 +297,10 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
 
             }
+            let mimeType = MimeType(pathExtension: documentURL.pathExtension, encoding: .utf8)
             let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
             response.setValue(currentHTTPDateString(), forHTTPHeaderField: "Date")
-            response.setValue(mimeType(for: documentURL.pathExtension), forHTTPHeaderField: "Content-Type")
+            response.setValue(String(describing: mimeType), forHTTPHeaderField: "Content-Type")
             response.setValue(String(resourceValues.fileSize!), forHTTPHeaderField: "Content-Length")
             if withBody {
                 let bodyData = try Data(contentsOf: documentURL)
@@ -346,19 +347,6 @@ extension ApolloDebugServer: HTTPRequestHandler {
             }
         } catch let error {
             respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error), completion: completion)
-        }
-    }
-
-    private func mimeType(for pathExtension: String) -> String {
-        switch pathExtension {
-        case "html":
-            return "text/html; charset=utf-8"
-        case "js":
-            return "application/javascript"
-        case "css":
-            return "text/css"
-        default:
-            return "application/octet-stream"
         }
     }
 
