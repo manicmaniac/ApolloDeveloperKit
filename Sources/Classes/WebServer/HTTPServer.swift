@@ -23,6 +23,12 @@ public protocol HTTPRequestHandler: class {
     func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void)
 }
 
+#if swift(>=4.2)
+private let invalidBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+#else
+private let invalidBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+#endif
+
 /**
  * `HTTPServer` is a minimal HTTP 1.1 server.
  *
@@ -62,7 +68,7 @@ public class HTTPServer {
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
     private var incomingRequests = [FileHandle: CFHTTPMessage]()
-    private var backgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+    private var backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
 
     private var primaryIPAddress: String? {
         #if targetEnvironment(simulator)
@@ -166,10 +172,10 @@ public class HTTPServer {
 
     private func startBackgroundTaskIfNeeded() {
         precondition(Thread.isMainThread)
-        guard backgroundTaskIdentifier == .invalid else { return }
+        guard backgroundTaskIdentifier == invalidBackgroundTaskIdentifier else { return }
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
-            self.backgroundTaskIdentifier = .invalid
+            self.backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
         }
     }
 
