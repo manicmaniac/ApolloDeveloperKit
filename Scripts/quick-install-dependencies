@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Do almost the same thing as Carthage but don't make a fat binary.
+
+cd "$(git rev-parse --show-toplevel)"
+
+carthage checkout apollo-ios
+
+derived_data_path="$TMPDIR/DerivedData/Apollo"
+
+mkdir -p "$derived_data_path"
+trap "rm -rf '$derived_data_path'" EXIT
+
+xcodebuild build \
+    -project Carthage/Checkouts/apollo-ios/Apollo.xcodeproj \
+    -scheme Apollo \
+    -configuration Release \
+    -derivedDataPath "$derived_data_path" \
+    -sdk iphonesimulator \
+    -quiet \
+    ONLY_ACTIVE_ARCH=NO \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGN_IDENTITY= \
+    CARTHAGE=YES
+
+rm -rf Carthage/Build/iOS
+mkdir -p Carthage/Build/iOS
+mv $TMPDIR/DerivedData/Apollo/Build/Products/Release-iphonesimulator/Apollo.framework Carthage/Build/iOS

@@ -49,7 +49,7 @@ jobs:
       - name: Modify Cartfile.resolved
         run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
       - name: Install dependencies
-        run: carthage bootstrap --platform iOS --no-use-binaries --cache-builds
+        run: ./Scripts/quick-install-dependencies
       - name: Run unit tests
         run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
   install-test:
