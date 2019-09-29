@@ -28,7 +28,7 @@ jobs:
             destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
           - apollo: "0.11.1"
             xcode: "10.2.1"
-            swift: "5.0"
+            swift: "4.2"
             destination: "platform=iOS Simulator,OS=12.2,name=iPhone 8"
           - apollo: "0.10.1"
             xcode: "10.2.1"
