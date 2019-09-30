@@ -18,22 +18,22 @@ class DebuggableNormalizedCacheTests: XCTestCase {
         underlyingCache = InMemoryNormalizedCache()
     }
 
-    func testLoadRecords() throws {
+    func testLoadRecords_whenUnderlyingCacheIsEmpty() throws {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
-        try XCTContext.runActivity(named: "when underlying cache is empty") { _ in
-            let records = try cache.loadRecords(forKeys: ["foo"]).await()
-            XCTAssertEqual(records.count, 1)
-            XCTAssertEqual(records.compactMap { $0 }.count, 0)
-        }
-        try XCTContext.runActivity(named: "when underlying cache is not empty") { _ in
-            let cachedFields: Record.Fields = ["bar": "baz"]
-            let cachedRecords: RecordSet = ["foo": cachedFields]
-            _ = try underlyingCache.merge(records: cachedRecords).await()
-            let records = try cache.loadRecords(forKeys: ["foo"]).await()
-            XCTAssertEqual(records.count, 1)
-            let cachedRecord = Record(key: "foo", cachedFields)
-            XCTAssertEqual(records.first??.key, cachedRecord.key)
-        }
+        let records = try cache.loadRecords(forKeys: ["foo"]).await()
+        XCTAssertEqual(records.count, 1)
+        XCTAssertEqual(records.compactMap { $0 }.count, 0)
+    }
+
+    func testLoadRecords_whenUnderlyingCacheIsNotEmpty() throws {
+        let cache = DebuggableNormalizedCache(cache: underlyingCache)
+        let cachedFields: Record.Fields = ["bar": "baz"]
+        let cachedRecords: RecordSet = ["foo": cachedFields]
+        _ = try underlyingCache.merge(records: cachedRecords).await()
+        let records = try cache.loadRecords(forKeys: ["foo"]).await()
+        XCTAssertEqual(records.count, 1)
+        let cachedRecord = Record(key: "foo", cachedFields)
+        XCTAssertEqual(records.first??.key, cachedRecord.key)
     }
 
     func testMerge() throws {

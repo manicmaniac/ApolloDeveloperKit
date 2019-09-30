@@ -10,19 +10,20 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class NetworkInterfaceTests: XCTestCase {
-    func testIsUp() {
+    func testIsUp_whenTheInterfaceIsUp() {
         var name = "en0".cString(using: .ascii)!
         var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_ANY, port: 80)
-        XCTContext.runActivity(named: "when the interface is up") { _ in
-            let address = ifaddrs(name: &name, flags: IFF_UP, ifa_addr: &socketAddress)
-            let networkInterface = NetworkInterface(addr: address)
-            XCTAssertTrue(networkInterface.isUp)
-        }
-        XCTContext.runActivity(named: "when the interface is down") { _ in
-            let address = ifaddrs(name: &name, flags: 0, ifa_addr: &socketAddress)
-            let networkInterface = NetworkInterface(addr: address)
-            XCTAssertFalse(networkInterface.isUp)
-        }
+        let address = ifaddrs(name: &name, flags: IFF_UP, ifa_addr: &socketAddress)
+        let networkInterface = NetworkInterface(addr: address)
+        XCTAssertTrue(networkInterface.isUp)
+    }
+
+    func testIsUp_whenTheInterfaceIsDown() {
+        var name = "en0".cString(using: .ascii)!
+        var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_ANY, port: 80)
+        let address = ifaddrs(name: &name, flags: 0, ifa_addr: &socketAddress)
+        let networkInterface = NetworkInterface(addr: address)
+        XCTAssertFalse(networkInterface.isUp)
     }
 
     func testName() {
@@ -41,19 +42,19 @@ class NetworkInterfaceTests: XCTestCase {
         XCTAssertEqual(socketAddress.sa_family, networkInterface.socketFamily)
     }
 
-    func testIpv4Address() {
+    func testIpv4Address_whenTheInterfaceAddressIsINADDR_ANY() {
         var name = "en0".cString(using: .ascii)!
-        XCTContext.runActivity(named: "when the interface address is INADDR_ANY") { _ in
-            var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_ANY, port: 80)
-            let address = ifaddrs(name: &name, flags: 0, ifa_addr: &socketAddress)
-            let networkInterface = NetworkInterface(addr: address)
-            XCTAssertEqual("0.0.0.0", networkInterface.ipv4Address)
-        }
-        XCTContext.runActivity(named: "when the interface address is INADDR_LOOPBACK") { _ in
-            var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_LOOPBACK, port: 80)
-            let address = ifaddrs(name: &name, flags: 0, ifa_addr: &socketAddress)
-            let networkInterface = NetworkInterface(addr: address)
-            XCTAssertEqual("127.0.0.1", networkInterface.ipv4Address)
-        }
+        var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_ANY, port: 80)
+        let address = ifaddrs(name: &name, flags: 0, ifa_addr: &socketAddress)
+        let networkInterface = NetworkInterface(addr: address)
+        XCTAssertEqual("0.0.0.0", networkInterface.ipv4Address)
+    }
+
+    func testIpv4Address_whenTheInterfaceAddressIsINADDR_LOOPBACK() {
+        var name = "en0".cString(using: .ascii)!
+        var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_LOOPBACK, port: 80)
+        let address = ifaddrs(name: &name, flags: 0, ifa_addr: &socketAddress)
+        let networkInterface = NetworkInterface(addr: address)
+        XCTAssertEqual("127.0.0.1", networkInterface.ipv4Address)
     }
 }
