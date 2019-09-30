@@ -8,18 +8,32 @@
 
 import Foundation
 
-public enum HTTPServerError: Int {
-    case socketCreationFailed = 100
-    case socketSetOptionFailed = 101
-    case socketSetAddressFailed = 102
-    case socketSetAddressTimeout = 103
-    case socketListenFailed = 104
-}
+public enum HTTPServerError: CustomNSError {
+    case socketCreationFailed
+    case socketSetOptionFailed
+    case socketSetAddressFailed
+    case socketSetAddressTimeout
+    case socketListenFailed
+    case multipleSocketErrorOccurred([UInt16: Error])
 
-// MARK: CustomNSError
-
-extension HTTPServerError: CustomNSError {
     public static let errorDomain = "HTTPServerErrorDomain"
+
+    public var errorCode: Int {
+        switch self {
+        case .socketCreationFailed:
+            return 100
+        case .socketSetOptionFailed:
+            return 101
+        case .socketSetAddressFailed:
+            return 102
+        case .socketSetAddressTimeout:
+            return 103
+        case .socketListenFailed:
+            return 104
+        case .multipleSocketErrorOccurred:
+            return 199
+        }
+    }
 
     public var localizedDescription: String {
         switch self {
@@ -33,6 +47,8 @@ extension HTTPServerError: CustomNSError {
             return "Failed to set address to the socket due to timeout."
         case .socketListenFailed:
             return "Failed to listen to the socket."
+        case .multipleSocketErrorOccurred:
+            return "Multiple error occurred while creating socket(s)."
         }
     }
 }

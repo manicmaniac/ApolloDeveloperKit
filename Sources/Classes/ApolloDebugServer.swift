@@ -73,7 +73,13 @@ public class ApolloDebugServer {
     public func start(port: UInt16) throws {
         stop()
         try server.start(port: port)
-        self.timer = Timer.scheduledTimer(timeInterval: keepAliveInterval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
+        scheduleTimer()
+    }
+
+    public func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
+        let port = try server.start(randomPortIn: ports)
+        scheduleTimer()
+        return port
     }
 
     /**
@@ -92,6 +98,11 @@ public class ApolloDebugServer {
     @objc private func timerDidFire(_ timer: Timer) {
         let ping = EventStreamChunk(rawData: Data([0x3A]))
         eventStreamQueueMap.enqueueForAllKeys(chunk: ping)
+    }
+
+    private func scheduleTimer() {
+        precondition(timer?.isValid != true)
+        timer = Timer.scheduledTimer(timeInterval: keepAliveInterval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
     }
 
     private func chunkForCurrentState() -> EventStreamChunk {
