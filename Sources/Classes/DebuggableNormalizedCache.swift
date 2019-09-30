@@ -20,7 +20,7 @@ protocol DebuggableNormalizedCacheDelegate: class {
 public class DebuggableNormalizedCache {
     weak var delegate: DebuggableNormalizedCacheDelegate?
     private let cache: NormalizedCache
-    private var records: RecordSet
+    private var cachedRecords: RecordSet
 
     /**
      * Initializes the receiver with the underlying cache object.
@@ -29,11 +29,15 @@ public class DebuggableNormalizedCache {
      */
     public init(cache: NormalizedCache) {
         self.cache = cache
-        self.records = RecordSet()
+        self.cachedRecords = RecordSet()
     }
 
     func extract() -> [String: Any] {
-        return records.storage
+        return cachedRecords.storage
+    }
+
+    private func notifyRecordChange() {
+        delegate?.normalizedCache(self, didChangeRecords: self.cachedRecords)
     }
 }
 
@@ -45,15 +49,14 @@ extension DebuggableNormalizedCache: NormalizedCache {
     }
 
     public func merge(records: RecordSet) -> Promise<Set<CacheKey>> {
-        let promise = cache.merge(records: records)
-        self.records.merge(records: records)
-        delegate?.normalizedCache(self, didChangeRecords: self.records)
-        return promise
+        return cache.merge(records: records)
+            .andThen { [weak self] _ in self?.cachedRecords.merge(records: records) }
+            .andThen { [weak self] _ in self?.notifyRecordChange() }
     }
 
     public func clear() -> Promise<Void> {
-        let promise = cache.clear()
-        delegate?.normalizedCache(self, didChangeRecords: records)
-        return promise
+        return cache.clear()
+            .andThen { [weak self] in self?.cachedRecords.clear() }
+            .andThen { [weak self] in self?.notifyRecordChange() }
     }
 }
