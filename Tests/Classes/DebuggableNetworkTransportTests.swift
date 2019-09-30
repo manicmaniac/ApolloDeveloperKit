@@ -57,7 +57,7 @@ class MockNetworkTransport: NetworkTransport {
     }
 
     #if swift(>=5)
-    func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+    func send<Operation>(operation: Operation, completionHandler: @escaping (Swift.Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
         if let response = response as? GraphQLResponse<Operation> {
             completionHandler(.success(response))
         } else if let error = error {
