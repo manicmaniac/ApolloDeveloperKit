@@ -20,7 +20,7 @@ protocol DebuggableNormalizedCacheDelegate: class {
 public class DebuggableNormalizedCache {
     weak var delegate: DebuggableNormalizedCacheDelegate?
     private let cache: NormalizedCache
-    private var cachedRecords: RecordSet
+    private var cachedRecords: RecordSet?
 
     /**
      * Initializes the receiver with the underlying cache object.
@@ -32,12 +32,24 @@ public class DebuggableNormalizedCache {
         self.cachedRecords = RecordSet()
     }
 
+    public init(cache: InMemoryNormalizedCache) {
+        self.cache = cache
+        if inMemoryNormalizedCacheInternalRecordSet == nil {
+            self.cachedRecords = RecordSet()
+        }
+    }
+
     func extract() -> [String: Any] {
-        return cachedRecords.storage
+        return cachedRecords?.storage ?? inMemoryNormalizedCacheInternalRecordSet.storage
+    }
+
+    private var inMemoryNormalizedCacheInternalRecordSet: RecordSet! {
+        precondition(cache is InMemoryNormalizedCache)
+        return Mirror(reflecting: cache).children.compactMap { $0.value as? RecordSet }.first
     }
 
     private func notifyRecordChange() {
-        delegate?.normalizedCache(self, didChangeRecords: self.cachedRecords)
+        delegate?.normalizedCache(self, didChangeRecords: self.cachedRecords ?? inMemoryNormalizedCacheInternalRecordSet)
     }
 }
 
@@ -50,13 +62,13 @@ extension DebuggableNormalizedCache: NormalizedCache {
 
     public func merge(records: RecordSet) -> Promise<Set<CacheKey>> {
         return cache.merge(records: records)
-            .andThen { [weak self] _ in self?.cachedRecords.merge(records: records) }
+            .andThen { [weak self] _ in self?.cachedRecords?.merge(records: records) }
             .andThen { [weak self] _ in self?.notifyRecordChange() }
     }
 
     public func clear() -> Promise<Void> {
         return cache.clear()
-            .andThen { [weak self] in self?.cachedRecords.clear() }
+            .andThen { [weak self] in self?.cachedRecords?.clear() }
             .andThen { [weak self] in self?.notifyRecordChange() }
     }
 }
