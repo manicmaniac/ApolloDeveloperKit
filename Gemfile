@@ -9,7 +9,3 @@ end
 group :documentation do
   gem 'jazzy'
 end
-
-group :test do
-  gem 'xcpretty'
-end
