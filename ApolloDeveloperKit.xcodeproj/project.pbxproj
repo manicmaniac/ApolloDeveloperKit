@@ -39,7 +39,7 @@
 		5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */; };
 		5B3A83A922C89835002B4FFB /* FileHandle+Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */; };
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
-		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
+		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */; };
 		5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
@@ -162,7 +162,7 @@
 		5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 		5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileHandle+Socket.swift"; sourceTree = "<group>"; };
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
-		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
+		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift.erb; sourceTree = "<group>"; };
 		5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApolloDeveloperKit.xcconfig; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 				5B3A83AB22C9333A002B4FFB /* WebServer */,
 				5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */,
 				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */,
-				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */,
+				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -687,7 +687,7 @@
 				5B3A838A22C67F06002B4FFB /* EventStreamQueueMapTests.swift in Sources */,
 				5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */,
 				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
-				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */,
+				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
