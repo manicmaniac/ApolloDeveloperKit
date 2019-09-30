@@ -19,6 +19,5 @@ class Reference_JSONEncodableTests: XCTestCase {
         XCTAssertEqual(object["generated"] as? Bool, true)
         XCTAssertEqual(object["id"] as? String, "foo")
         XCTAssertEqual(object["type"] as? String, "id")
-        XCTAssertEqual(object["typename"] as? String, "TODO")
     }
 }
