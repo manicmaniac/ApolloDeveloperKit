@@ -25,27 +25,26 @@ class EventStreamQueueMapTests: XCTestCase {
         XCTAssertEqual(dequeuedChunk?.data, chunk.data)
     }
 
-    func testEnqueueForAllKeys() {
-        XCTContext.runActivity(named: "while key is being retained") { _ in
-            let queueMap = EventStreamQueueMap<NSObject>()
-            let chunk = EventStreamChunk()
+    func testEnqueueForAllKeys_whileKeyIsBeingRetained() {
+        let queueMap = EventStreamQueueMap<NSObject>()
+        let chunk = EventStreamChunk()
+        let key = NSObject()
+        queueMap.enqueue(chunk: chunk, forKey: key)
+        queueMap.enqueueForAllKeys(chunk: chunk)
+        var dequeuedChunk = queueMap.dequeue(key: key)
+        XCTAssertEqual(dequeuedChunk?.data, chunk.data)
+        dequeuedChunk = queueMap.dequeue(key: key)
+        XCTAssertEqual(dequeuedChunk?.data, chunk.data)
+    }
+
+    func testEnqueueForAllKeys_whileKeyIsBeingReleased() {
+        let queueMap = EventStreamQueueMap<NSObject>()
+        let chunk = EventStreamChunk()
+        do {
             let key = NSObject()
             queueMap.enqueue(chunk: chunk, forKey: key)
-            queueMap.enqueueForAllKeys(chunk: chunk)
-            var dequeuedChunk = queueMap.dequeue(key: key)
-            XCTAssertEqual(dequeuedChunk?.data, chunk.data)
-            dequeuedChunk = queueMap.dequeue(key: key)
-            XCTAssertEqual(dequeuedChunk?.data, chunk.data)
         }
-        XCTContext.runActivity(named: "while key is being released") { _ in
-            let queueMap = EventStreamQueueMap<NSObject>()
-            let chunk = EventStreamChunk()
-            do {
-                let key = NSObject()
-                queueMap.enqueue(chunk: chunk, forKey: key)
-            }
-            queueMap.enqueueForAllKeys(chunk: chunk)
-            XCTAssertTrue(queueMap.isEmpty)
-        }
+        queueMap.enqueueForAllKeys(chunk: chunk)
+        XCTAssertTrue(queueMap.isEmpty)
     }
 }
