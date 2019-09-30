@@ -12,10 +12,11 @@ import XCTest
 class HTTPServerTests: XCTestCase {
     private static let server = HTTPServer()
     private static let mockHTTPRequestHandler = MockHTTPRequestHandler()
+    private static var port = UInt16(0)
 
     override class func setUp() {
         server.requestHandler = mockHTTPRequestHandler
-        try! server.start(port: 8085)
+        port = try! server.start(randomPortIn: 49152...65535) // MacOS ephemeral ports
     }
 
     override class func tearDown() {
@@ -30,7 +31,7 @@ class HTTPServerTests: XCTestCase {
         let serverURL = type(of: self).server.serverURL
         XCTAssertNotNil(serverURL)
         if let serverURL = serverURL {
-            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:8085", options: [])
+            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:\(type(of: self).port)", options: [])
             let range = NSRange(location: 0, length: serverURL.absoluteString.count)
             let matches = regularExpression.matches(in: serverURL.absoluteString, options: [], range: range)
             XCTAssertFalse(matches.isEmpty)
@@ -39,7 +40,7 @@ class HTTPServerTests: XCTestCase {
 
     func testGetRequest() {
         let expectation = self.expectation(description: "receive response")
-        let url = URL(string: "http://127.0.0.1:8085")!
+        let url = URL(string: "http://127.0.0.1:\(type(of: self).port)")!
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             let response = response as? HTTPURLResponse
             XCTAssertEqual(response?.statusCode, 200)
@@ -57,7 +58,7 @@ class HTTPServerTests: XCTestCase {
 
     func testPostRequestWithContentLength() {
         let expectation = self.expectation(description: "receive response")
-        let url = URL(string: "http://127.0.0.1:8085")!
+        let url = URL(string: "http://127.0.0.1:\(type(of: self).port)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = "foo".data(using: .utf8)!

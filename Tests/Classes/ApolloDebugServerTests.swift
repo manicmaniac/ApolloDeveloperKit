@@ -14,6 +14,7 @@ class ApolloDebugServerTests: XCTestCase {
     private static var store: ApolloStore!
     private static var client: ApolloClient!
     private static var server: ApolloDebugServer!
+    private static var port = UInt16(0)
 
     override class func setUp() {
         let url = URL(string: "http://localhost/graphql")!
@@ -24,7 +25,7 @@ class ApolloDebugServerTests: XCTestCase {
         store = ApolloStore(cache: cache)
         client = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 1.0)
-        try! server.start(port: 8081)
+        port = try! server.start(randomPortIn: 49152...65535)
     }
 
     override class func tearDown() {
@@ -37,7 +38,7 @@ class ApolloDebugServerTests: XCTestCase {
 
     func testServerURL() {
         XCTAssertEqual(type(of: self).server.serverURL?.scheme, "http")
-        XCTAssertEqual(type(of: self).server.serverURL?.port, 8081)
+        XCTAssertEqual(type(of: self).server.serverURL?.port, Int(type(of: self).port))
     }
 
     func testHeadIndex() {
