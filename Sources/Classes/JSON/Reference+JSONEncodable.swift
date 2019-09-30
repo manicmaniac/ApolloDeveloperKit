@@ -13,8 +13,7 @@ extension Reference: JSONEncodable {
         return [
             "generated": true,
             "id": key,
-            "type": "id",
-            "typename": "TODO"
+            "type": "id"
         ]
     }
 }
