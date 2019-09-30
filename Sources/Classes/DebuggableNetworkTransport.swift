@@ -46,7 +46,7 @@ extension DebuggableNetworkTransport: NetworkTransport {
     }
 
     #if swift(>=5)
-    public func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
+    public func send<Operation>(operation: Operation, completionHandler: @escaping (Swift.Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
         return Send<Operation>(networkTransport.send).call(operation) { [weak self] response, error in
             if let self = self {
@@ -90,7 +90,7 @@ private enum Send<Operation: GraphQLOperation> {
     /**
      * The type of `NetworkTransport.send(operation:completionHandler:)` for Apollo >= 0.13.0.
      */
-    typealias Version2 = (Operation, @escaping (Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable
+    typealias Version2 = (Operation, @escaping (Swift.Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable
 
     case version2(Version2)
 
