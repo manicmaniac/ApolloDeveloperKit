@@ -139,6 +139,20 @@ public class HTTPServer {
         state = .running(port: port)
     }
 
+    func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
+        precondition(!ports.isEmpty)
+        var errorsByPort = [UInt16: Error]()
+        for port in ports.shuffled() {
+            do {
+                try start(port: port)
+                return port
+            } catch let error {
+                errorsByPort[port] = error
+            }
+        }
+        throw HTTPServerError.multipleSocketErrorOccurred(errorsByPort)
+    }
+
     /**
      * Stops the server from running.
      *
