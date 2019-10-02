@@ -24,7 +24,7 @@ class ApolloDebugServerTests: XCTestCase {
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         store = ApolloStore(cache: cache)
         client = ApolloClient(networkTransport: networkTransport, store: store)
-        server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 1.0)
+        server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 0.25)
         port = try! server.start(randomPortIn: 49152...65535)
     }
 
@@ -295,10 +295,15 @@ class ApolloDebugServerTests: XCTestCase {
             }
         }
         handler.urlSessionTaskDidCompleteWithError = { session, task, error in
-            XCTAssertNil(error)
+            if let error = error as NSError? {
+                guard error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled else {
+                    return XCTFail(error.localizedDescription)
+                }
+            }
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
+        session.invalidateAndCancel()
     }
 
     func testHeadRequest() {
