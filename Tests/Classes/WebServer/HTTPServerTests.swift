@@ -48,7 +48,7 @@ class HTTPServerTests: XCTestCase {
             let headerFields = response?.allHeaderFields as? [String: String]
             XCTAssertEqual(headerFields?["Content-Type"], "text/plain; charset=utf-8")
             XCTAssertEqual(headerFields?["X-Request-Method"], "GET")
-            XCTAssertEqual(headerFields?["X-Request-Url"], "/")
+            XCTAssertEqual(headerFields?["X-Request-Url"], url.absoluteString + "/")
             XCTAssertEqual(data?.count, 0)
             expectation.fulfill()
         }
@@ -72,7 +72,7 @@ class HTTPServerTests: XCTestCase {
             XCTAssertEqual(headerFields?["Content-Type"], "text/plain; charset=utf-8")
             XCTAssertEqual(headerFields?["Content-Length"], "3")
             XCTAssertEqual(headerFields?["X-Request-Method"], "POST")
-            XCTAssertEqual(headerFields?["X-Request-Url"], "/")
+            XCTAssertEqual(headerFields?["X-Request-Url"], url.absoluteString + "/")
             let bodyString = data.flatMap { data in String(data: data, encoding: .utf8) }
             XCTAssertEqual(bodyString, "foo")
             expectation.fulfill()
@@ -83,20 +83,17 @@ class HTTPServerTests: XCTestCase {
 }
 
 class MockHTTPRequestHandler: HTTPRequestHandler {
-    func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
-        let url = CFHTTPMessageCopyRequestURL(request)!.takeRetainedValue()
-        let method = CFHTTPMessageCopyRequestMethod(request)!.takeRetainedValue()
-        let body = CFHTTPMessageCopyBody(request)?.takeRetainedValue()
-        let response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, nil, kCFHTTPVersion1_1).takeRetainedValue()
-        CFHTTPMessageSetHeaderFieldValue(response, "Content-Type" as CFString, "text/plain; charset=utf-8" as CFString)
-        CFHTTPMessageSetHeaderFieldValue(response, "X-Request-Method" as CFString, method)
-        CFHTTPMessageSetHeaderFieldValue(response, "X-Request-Url" as CFString, CFURLGetString(url))
-        if let body = body {
-            CFHTTPMessageSetHeaderFieldValue(response, "Content-Length" as CFString, String(CFDataGetLength(body)) as CFString)
-            CFHTTPMessageSetBody(response, body)
+    func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
+        let response = HTTPResponse(statusCode: 200, httpVersion: kCFHTTPVersion1_1)
+        response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        response.setValue(request.method, forHTTPHeaderField: "X-Request-Method")
+        response.setValue(request.url.absoluteString, forHTTPHeaderField: "X-Request-Url")
+        if let body = request.body {
+            response.setValue(String(body.count), forHTTPHeaderField: "Content-Length")
+            response.setBody(body)
         }
-        let data = CFHTTPMessageCopySerializedMessage(response)!.takeRetainedValue() as Data
-        fileHandle.write(data)
-        completion()
+        let data = response.serialize()!
+        connection.write(data)
+        connection.close()
     }
 }

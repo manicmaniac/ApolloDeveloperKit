@@ -20,7 +20,7 @@ public protocol HTTPRequestHandler: class {
      * - Parameter fileHandle: A file handle wrapping the underlying socket.
      * - Parameter completion: A completion handler. You must call it when the response ends.
      */
-    func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void)
+    func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection)
 }
 
 #if swift(>=4.2)
@@ -67,7 +67,7 @@ public class HTTPServer {
     private var state = State.idle
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
-    private var incomingRequests = [FileHandle: CFHTTPMessage]()
+    private var connections = Set<HTTPConnection>()
     private var backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
 
     private var primaryIPAddress: String? {
@@ -166,22 +166,14 @@ public class HTTPServer {
         NotificationCenter.default.removeObserver(self, name: .NSFileHandleConnectionAccepted, object: nil)
         listeningHandle?.closeFile()
         listeningHandle = nil
-        for incomingFileHandle in incomingRequests.keys {
-            stopReceiving(for: incomingFileHandle, close: true)
+        for connection in connections {
+            connection.close()
         }
         if let socket = socket {
             CFSocketInvalidate(socket)
         }
         socket = nil
         state = .idle
-    }
-
-    private func stopReceiving(for incomingFileHandle: FileHandle, close closeFileHandle: Bool) {
-        if closeFileHandle {
-            incomingFileHandle.closeFile()
-        }
-        NotificationCenter.default.removeObserver(self, name: .NSFileHandleDataAvailable, object: incomingFileHandle)
-        incomingRequests.removeValue(forKey: incomingFileHandle)
     }
 
     private func startBackgroundTaskIfNeeded() {
@@ -195,40 +187,21 @@ public class HTTPServer {
 
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
         if let incomingFileHandle = notification.userInfo?[NSFileHandleNotificationFileHandleItem] as? FileHandle {
-            let message = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, true)
-            incomingRequests[incomingFileHandle] = message.autorelease().takeUnretainedValue()
-            NotificationCenter.default.addObserver(self, selector: #selector(receiveIncomingDataNotification(_:)), name: .NSFileHandleDataAvailable, object: incomingFileHandle)
-            incomingFileHandle.waitForDataInBackgroundAndNotify()
+            let connection = HTTPConnection(fileHandle: incomingFileHandle, delegate: self)
+            connections.insert(connection)
         }
         listeningHandle?.acceptConnectionInBackgroundAndNotify()
     }
+}
 
-    @objc private func receiveIncomingDataNotification(_ notification: Notification) {
-        guard let incomingFileHandle = notification.object as? FileHandle else { return }
-        var data = incomingFileHandle.availableData
-        guard !data.isEmpty else {
-            return stopReceiving(for: incomingFileHandle, close: false)
-        }
-        guard let incomingRequest = incomingRequests[incomingFileHandle] else {
-            return stopReceiving(for: incomingFileHandle, close: true)
-        }
-        guard CFHTTPMessageAppendBytes(incomingRequest, (data as NSData).bytes.assumingMemoryBound(to: UInt8.self), data.count) else {
-            return stopReceiving(for: incomingFileHandle, close: true)
-        }
-        guard CFHTTPMessageIsHeaderComplete(incomingRequest) else {
-            return incomingFileHandle.waitForDataInBackgroundAndNotify()
-        }
-        let contentLengthString = CFHTTPMessageCopyHeaderFieldValue(incomingRequest, "Content-Length" as CFString)?.takeRetainedValue() as String?
-        if let contentLength = contentLengthString.flatMap(Int.init(_:)) {
-            let body = CFHTTPMessageCopyBody(incomingRequest)?.takeRetainedValue()
-            let bodyLength = body.flatMap(CFDataGetLength) ?? 0
-            if bodyLength < contentLength {
-                return incomingFileHandle.waitForDataInBackgroundAndNotify()
-            }
-        }
-        defer { stopReceiving(for: incomingFileHandle, close: false) }
-        requestHandler?.server(self, didReceiveRequest: incomingRequest, fileHandle: incomingFileHandle) { [weak self] in
-            self?.stopReceiving(for: incomingFileHandle, close: true)
-        }
+// MARK: HTTPConnectionDelegate
+
+extension HTTPServer: HTTPConnectionDelegate {
+    func httpConnection(_ connection: HTTPConnection, didReceiveRequest request: HTTPRequest) {
+        requestHandler?.server(self, didReceiveRequest: request, connection: connection)
+    }
+
+    func httpConnectionDidFinishReceiving(_ connection: HTTPConnection) {
+        connections.remove(connection)
     }
 }
