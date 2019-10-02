@@ -67,6 +67,7 @@ public class HTTPServer {
     private var state = State.idle
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
+    private var incomingRequests = Set<HTTPIncomingRequest>()
     private var connections = Set<HTTPConnection>()
     private var backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
 
@@ -166,6 +167,9 @@ public class HTTPServer {
         NotificationCenter.default.removeObserver(self, name: .NSFileHandleConnectionAccepted, object: nil)
         listeningHandle?.closeFile()
         listeningHandle = nil
+        for incomingRequest in incomingRequests {
+            incomingRequest.abort()
+        }
         for connection in connections {
             connection.close()
         }
@@ -187,21 +191,31 @@ public class HTTPServer {
 
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
         if let incomingFileHandle = notification.userInfo?[NSFileHandleNotificationFileHandleItem] as? FileHandle {
-            let connection = HTTPConnection(fileHandle: incomingFileHandle, delegate: self)
-            connections.insert(connection)
+            let incomingRequest = HTTPIncomingRequest(fileHandle: incomingFileHandle, delegate: self)
+            incomingRequests.insert(incomingRequest)
         }
         listeningHandle?.acceptConnectionInBackgroundAndNotify()
+    }
+}
+
+// MARK: HTTPIncomingRequestDelegate
+
+extension HTTPServer: HTTPIncomingRequestDelegate {
+    func httpIncomingRequestDidStopReceiving(_ incomingRequest: HTTPIncomingRequest) {
+        incomingRequests.remove(incomingRequest)
+    }
+
+    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: HTTPRequest, connection: HTTPConnection) {
+        connection.delegate = self
+        connections.insert(connection)
+        requestHandler?.server(self, didReceiveRequest: request, connection: connection)
     }
 }
 
 // MARK: HTTPConnectionDelegate
 
 extension HTTPServer: HTTPConnectionDelegate {
-    func httpConnection(_ connection: HTTPConnection, didReceiveRequest request: HTTPRequest) {
-        requestHandler?.server(self, didReceiveRequest: request, connection: connection)
-    }
-
-    func httpConnectionDidFinishReceiving(_ connection: HTTPConnection) {
+    func httpConnectionWillClose(_ connection: HTTPConnection) {
         connections.remove(connection)
     }
 }

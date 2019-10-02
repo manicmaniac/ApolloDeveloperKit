@@ -20,7 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
-    private var eventStreamConnections = NSHashTable<HTTPConnection>()
+    private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
     /**
