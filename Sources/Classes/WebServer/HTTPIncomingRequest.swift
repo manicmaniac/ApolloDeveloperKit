@@ -30,6 +30,18 @@ public class HTTPIncomingRequest {
         stopReceiving(closeFileHandle: true)
     }
 
+    private var contentLength: Int? {
+        assert(CFHTTPMessageIsHeaderComplete(message))
+        let contentLengthString = CFHTTPMessageCopyHeaderFieldValue(message, "Content-Length" as CFString)?.takeRetainedValue() as String?
+        return contentLengthString.flatMap(Int.init(_:))
+    }
+
+    private var bodyLength: Int {
+        assert(CFHTTPMessageIsHeaderComplete(message))
+        let body = CFHTTPMessageCopyBody(message)?.takeRetainedValue()
+        return body.flatMap(CFDataGetLength) ?? 0
+    }
+
     private func stopReceiving(closeFileHandle: Bool) {
         notificationCenter.removeObserver(self, name: .NSFileHandleDataAvailable, object: fileHandle)
         delegate?.httpIncomingRequestDidStopReceiving(self)
@@ -38,25 +50,29 @@ public class HTTPIncomingRequest {
         }
     }
 
+    private func resumeReceiving() {
+        fileHandle.waitForDataInBackgroundAndNotify()
+    }
+
+    private func appendData(_ data: Data) -> Bool {
+        let bytes = (data as NSData).bytes.assumingMemoryBound(to: UInt8.self)
+        return CFHTTPMessageAppendBytes(message, bytes, data.count)
+    }
+
     @objc private func didReceiveFileHandleDataAvailableNotification(_ notification: Notification) {
         let fileHandle = notification.object as! FileHandle
         let data = fileHandle.availableData
         guard !data.isEmpty else {
             return stopReceiving(closeFileHandle: false)
         }
-        guard CFHTTPMessageAppendBytes(message, (data as NSData).bytes.assumingMemoryBound(to: UInt8.self), data.count) else {
+        guard appendData(data) else {
             return stopReceiving(closeFileHandle: true)
         }
         guard CFHTTPMessageIsHeaderComplete(message) else {
-            return fileHandle.waitForDataInBackgroundAndNotify()
+            return resumeReceiving()
         }
-        let contentLengthString = CFHTTPMessageCopyHeaderFieldValue(message, "Content-Length" as CFString)?.takeRetainedValue() as String?
-        if let contentLength = contentLengthString.flatMap(Int.init(_:)) {
-            let body = CFHTTPMessageCopyBody(message)?.takeRetainedValue()
-            let bodyLength = body.flatMap(CFDataGetLength) ?? 0
-            guard bodyLength >= contentLength else {
-                return fileHandle.waitForDataInBackgroundAndNotify()
-            }
+        if let contentLength = contentLength, bodyLength < contentLength {
+            return resumeReceiving()
         }
         stopReceiving(closeFileHandle: false)
         let request = HTTPRequest(message: message)
