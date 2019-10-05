@@ -11,7 +11,7 @@ import Foundation
 /**
  * A Swifty wrapper for CFHTTPMessage instantiated as a response.
  */
-class HTTPResponse {
+public class HTTPResponse {
     private let message: CFHTTPMessage
 
     private static var dateFormatter: DateFormatter = {

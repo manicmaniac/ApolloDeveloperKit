@@ -20,7 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
-    private var eventStreamQueueMap = EventStreamQueueMap<FileHandle>()
+    private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
     /**
@@ -97,7 +97,9 @@ public class ApolloDebugServer {
 
     @objc private func timerDidFire(_ timer: Timer) {
         let ping = EventStreamChunk(rawData: Data([0x3A]))
-        eventStreamQueueMap.enqueueForAllKeys(chunk: ping)
+        for connection in eventStreamConnections.allObjects {
+            connection.write(ping.data)
+        }
     }
 
     private func scheduleTimer() {
@@ -123,37 +125,35 @@ public class ApolloDebugServer {
 // MARK: - HTTPRequestHandler
 
 extension ApolloDebugServer: HTTPRequestHandler {
-    public func server(_ server: HTTPServer, didReceiveRequest request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
-        let method = CFHTTPMessageCopyRequestMethod(request)!.takeRetainedValue() as String
-        let url = CFHTTPMessageCopyRequestURL(request)!.takeRetainedValue() as URL
-        switch (method, url.path) {
+    public func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
+        switch (request.method, request.url.path) {
         case ("HEAD", "/events"):
-            respondToRequestForEventSource(request, fileHandle: fileHandle, withBody: false, completion: completion)
+            respondToRequestForEventSource(connection: connection, withBody: false)
         case ("GET", "/events"):
-            respondToRequestForEventSource(request, fileHandle: fileHandle, withBody: true, completion: completion)
+            respondToRequestForEventSource(connection: connection, withBody: true)
         case (_, "/events"):
-            respondWithMethodNotAllowed(fileHandle: fileHandle, allowedMethods: ["HEAD", "GET"], withBody: true, completion: completion)
+            respondWithMethodNotAllowed(connection: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         case ("POST", "/request"):
-            respondToRequestForGraphQLRequest(request, fileHandle: fileHandle, completion: completion)
+            respondToRequestForGraphQLRequest(request, connection: connection)
         case (_, "/request"):
-            respondWithMethodNotAllowed(fileHandle: fileHandle, allowedMethods: ["POST"], withBody: true, completion: completion)
+            respondWithMethodNotAllowed(connection: connection, allowedMethods: ["POST"], withBody: true)
         case ("HEAD", _):
-            respondToRequestForDocumentRoot(url: url, request: request, fileHandle: fileHandle, withBody: false, completion: completion)
+            respondToRequestForDocumentRoot(request: request, connection: connection, withBody: false)
         case ("GET", _):
-            respondToRequestForDocumentRoot(url: url, request: request, fileHandle: fileHandle, withBody: true, completion: completion)
+            respondToRequestForDocumentRoot(request: request, connection: connection, withBody: true)
         case (_, _):
-            respondWithMethodNotAllowed(fileHandle: fileHandle, allowedMethods: ["HEAD", "GET"], withBody: true, completion: completion)
+            respondWithMethodNotAllowed(connection: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         }
     }
 
-    private func respondWithHTTPURLResponse(fileHandle: FileHandle, httpURLResponse: HTTPURLResponse, body: Data?, completion: @escaping () -> Void) {
+    private func respondWithHTTPURLResponse(connection: HTTPConnection, httpURLResponse: HTTPURLResponse, body: Data?) {
         let response = HTTPResponse(httpURLResponse: httpURLResponse, body: body, httpVersion: server.httpVersion)
         let data = response.serialize()!
-        try? fileHandle.writeData(data)
-        completion()
+        connection.write(data)
+        connection.close()
     }
 
-    private func respondWithOK(fileHandle: FileHandle, contentType: MimeType?, body: Data?, contentLength: Int? = nil, completion: @escaping () -> Void) {
+    private func respondWithOK(connection: HTTPConnection, contentType: MimeType?, body: Data?, contentLength: Int? = nil) {
         let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
         response.setDateHeaderField()
         if let contentType = contentType {
@@ -164,33 +164,33 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
         response.setContentLengthHeaderField(contentLength ?? body?.count ?? 0)
         let data = response.serialize()!
-        try? fileHandle.writeData(data)
-        completion()
+        connection.write(data)
+        connection.close()
     }
 
-    private func respondWithError(for statusCode: Int, fileHandle: FileHandle, withDefaultBody: Bool, completion: @escaping () -> Void) {
+    private func respondWithError(for statusCode: Int, connection: HTTPConnection, withDefaultBody: Bool) {
         let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, withDefaultBody: withDefaultBody)
         let data = response.serialize()!
-        try? fileHandle.writeData(data)
-        completion()
+        connection.write(data)
+        connection.close()
     }
 
-    private func respondWithError(for statusCode: Int, fileHandle: FileHandle, body: Data?, completion: @escaping () -> Void) {
+    private func respondWithError(for statusCode: Int, connection: HTTPConnection, body: Data?) {
         guard let body = body else {
-            return respondWithError(for: statusCode, fileHandle: fileHandle, withDefaultBody: true, completion: completion)
+            return respondWithError(for: statusCode, connection: connection, withDefaultBody: true)
         }
         let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, body: body)
         let data = response.serialize()!
-        try? fileHandle.writeData(data)
-        completion()
+        connection.write(data)
+        connection.close()
     }
 
-    private func respondWithBadRequest(fileHandle: FileHandle, jsError: JSError, completion: @escaping () -> Void) {
+    private func respondWithBadRequest(connection: HTTPConnection, jsError: JSError) {
         let body = try? JSONSerializationFormat.serialize(value: jsError)
-        respondWithError(for: 400, fileHandle: fileHandle, body: body, completion: completion)
+        respondWithError(for: 400, connection: connection, body: body)
     }
 
-    private func respondWithMethodNotAllowed(fileHandle: FileHandle, allowedMethods: [String], withBody: Bool, completion: @escaping () -> Void) {
+    private func respondWithMethodNotAllowed(connection: HTTPConnection, allowedMethods: [String], withBody: Bool) {
         let statusCode = 405
         let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
         response.setDateHeaderField()
@@ -203,11 +203,11 @@ extension ApolloDebugServer: HTTPRequestHandler {
             response.setBody(bodyData)
         }
         let data = response.serialize()!
-        try? fileHandle.writeData(data)
-        completion()
+        connection.write(data)
+        connection.close()
     }
 
-    private func respondToRequestForEventSource(_ request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
+    private func respondToRequestForEventSource(connection: HTTPConnection, withBody: Bool) {
         let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
         response.setDateHeaderField()
         response.setContentTypeHeaderField(.eventStream)
@@ -216,33 +216,18 @@ extension ApolloDebugServer: HTTPRequestHandler {
             response.setBody(Data())
         }
         let data = response.serialize()!
-        try? fileHandle.writeData(data)
+        connection.write(data)
         if withBody {
-            eventStreamQueueMap.enqueue(chunk: chunkForCurrentState(), forKey: fileHandle)
-            let thread = Thread(target: self, selector: #selector(runInSubthread), object: (fileHandle, completion))
-            thread.name = "com.github.manicmaniac.ApolloDeveloperKit.private"
-            thread.qualityOfService = .userInitiated
-            thread.start()
+            connection.write(chunkForCurrentState().data)
+            eventStreamConnections.add(connection)
+        } else {
+            connection.close()
         }
     }
 
-    @objc private func runInSubthread(_ argument: Any) {
-        let (fileHandle, completion) = argument as! (FileHandle, () -> Void)
-        while let chunk = eventStreamQueueMap.dequeue(key: fileHandle) {
-            do {
-                try fileHandle.writeData(chunk.data)
-            } catch {
-                return completion()
-            }
-        }
-        let chunk = EventStreamChunk()
-        try? fileHandle.writeData(chunk.data)
-        completion()
-    }
-
-    private func respondToRequestForDocumentRoot(url: URL, request: CFHTTPMessage, fileHandle: FileHandle, withBody: Bool, completion: @escaping () -> Void) {
+    private func respondToRequestForDocumentRoot(request: HTTPRequest, connection: HTTPConnection, withBody: Bool) {
         var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
-        documentURL.appendPathComponent(url.path)
+        documentURL.appendPathComponent(request.url.path)
         do {
             var resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
             if resourceValues.isDirectory! {
@@ -252,21 +237,21 @@ extension ApolloDebugServer: HTTPRequestHandler {
             let contentType = MimeType(pathExtension: documentURL.pathExtension, encoding: .utf8)
             let body = withBody ? try Data(contentsOf: documentURL) : nil
             let contentLength = resourceValues.fileSize!
-            respondWithOK(fileHandle: fileHandle, contentType: contentType, body: body, contentLength: contentLength, completion: completion)
+            respondWithOK(connection: connection, contentType: contentType, body: body, contentLength: contentLength)
         } catch CocoaError.fileReadNoSuchFile {
-            respondWithError(for: 404, fileHandle: fileHandle, withDefaultBody: withBody, completion: completion)
+            respondWithError(for: 404, connection: connection, withDefaultBody: withBody)
         } catch let error {
             let body = error.localizedDescription.data(using: .utf8)
-            respondWithError(for: 500, fileHandle: fileHandle, body: body, completion: completion)
+            respondWithError(for: 500, connection: connection, body: body)
         }
     }
 
-    private func respondToRequestForGraphQLRequest(_ request: CFHTTPMessage, fileHandle: FileHandle, completion: @escaping () -> Void) {
-        guard CFHTTPMessageCopyHeaderFieldValue(request, "Content-Length" as CFString) != nil else {
-            return respondWithError(for: 411, fileHandle: fileHandle, withDefaultBody: false, completion: completion)
+    private func respondToRequestForGraphQLRequest(_ request: HTTPRequest, connection: HTTPConnection) {
+        guard request.value(forHTTPHeaderField: "Content-Length") != nil else {
+            return respondWithError(for: 411, connection: connection, withDefaultBody: false)
         }
-        guard let body = CFHTTPMessageCopyBody(request)?.takeRetainedValue() as Data? else {
-            return respondWithError(for: 400, fileHandle: fileHandle, withDefaultBody: true, completion: completion)
+        guard let body = request.body else {
+            return respondWithError(for: 400, connection: connection, withDefaultBody: true)
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
@@ -282,15 +267,15 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     // response.body may contain an Objective-C type like `NSString`,
                     // that is not convertible to JSONValue directly.
                     let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                    self.respondWithOK(fileHandle: fileHandle, contentType: .json, body: body, completion: completion)
+                    self.respondWithOK(connection: connection, contentType: .json, body: body)
                 } catch let error as GraphQLHTTPResponseError {
-                    self.respondWithHTTPURLResponse(fileHandle: fileHandle, httpURLResponse: error.response, body: error.body, completion: completion)
+                    self.respondWithHTTPURLResponse(connection: connection, httpURLResponse: error.response, body: error.body)
                 } catch let error {
-                    self.respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error), completion: completion)
+                    self.respondWithBadRequest(connection: connection, jsError: JSError(error))
                 }
             }
         } catch let error {
-            respondWithBadRequest(fileHandle: fileHandle, jsError: JSError(error), completion: completion)
+            respondWithBadRequest(connection: connection, jsError: JSError(error))
         }
     }
 }
@@ -299,7 +284,9 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
-        eventStreamQueueMap.enqueueForAllKeys(chunk: chunkForCurrentState())
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunkForCurrentState().data)
+        }
     }
 }
 
@@ -309,14 +296,18 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, willSendOperation: operation)
-            eventStreamQueueMap.enqueueForAllKeys(chunk: chunkForCurrentState())
+            for connection in eventStreamConnections.allObjects {
+                connection.write(chunkForCurrentState().data)
+            }
         }
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
-            eventStreamQueueMap.enqueueForAllKeys(chunk: chunkForCurrentState())
+            for connection in eventStreamConnections.allObjects {
+                connection.write(chunkForCurrentState().data)
+            }
         }
     }
 }
