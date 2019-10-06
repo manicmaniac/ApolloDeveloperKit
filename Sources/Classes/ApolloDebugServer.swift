@@ -20,6 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
+    private let consoleLogger = ConsoleLogger()
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
@@ -55,6 +56,7 @@ public class ApolloDebugServer {
         self.server.requestHandler = self
         cache.delegate = self
         networkTransport.delegate = self
+        consoleLogger.delegate = self
     }
 
     deinit {
@@ -73,6 +75,7 @@ public class ApolloDebugServer {
     public func start(port: UInt16) throws {
         stop()
         try server.start(port: port)
+        consoleLogger.open()
         scheduleTimer()
     }
 
@@ -91,6 +94,7 @@ public class ApolloDebugServer {
     public func stop() {
         if isRunning {
             timer?.invalidate()
+            consoleLogger.close()
             server.stop()
         }
     }
@@ -276,6 +280,18 @@ extension ApolloDebugServer: HTTPRequestHandler {
             }
         } catch let error {
             respondWithBadRequest(connection: connection, jsError: JSError(error))
+        }
+    }
+}
+
+// MARK: ConsoleLoggerDelegate
+
+extension ApolloDebugServer: ConsoleLoggerDelegate {
+    func consoleLogger(_ consoleLogger: ConsoleLogger, log data: Data) {
+        let rawData = "data: ".data(using: .utf8)! + data + Data(repeating: 0x0A, count: 2)
+        let chunk = EventStreamChunk(rawData: rawData)
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunk.data)
         }
     }
 }
