@@ -19,6 +19,7 @@ enum MimeType {
     case json
     case css
     case plainText(String.Encoding?)
+    case png
     case eventStream // https://html.spec.whatwg.org/multipage/iana.html#text/event-stream
     case octetStream
 
@@ -34,6 +35,8 @@ enum MimeType {
             self = .css
         case "txt":
             self = .plainText(encoding)
+        case "png":
+            self = .png
         default:
             self = .octetStream
         }
@@ -57,6 +60,8 @@ extension MimeType: CustomStringConvertible {
             return "text/plain; charset=\(encoding.ianaCharSetName)"
         case .plainText(nil):
             return "text/plain"
+        case .png:
+            return "image/png"
         case .eventStream:
             return "text/event-stream"
         case .octetStream:
