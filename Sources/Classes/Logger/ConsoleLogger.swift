@@ -14,27 +14,25 @@ protocol ConsoleLoggerDelegate: class {
 
 class ConsoleLogger {
     weak var delegate: ConsoleLoggerDelegate?
-    private let input = Pipe()
-    private let output = Pipe()
-
-    init() {
-        input.fileHandleForReading.readabilityHandler = readabilityHandler
-    }
+    private var redirection: ConsoleRedirection?
 
     func open() {
-        dup2(STDERR_FILENO, output.fileHandleForWriting.fileDescriptor)
-        dup2(input.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
+        redirection = ConsoleRedirection(delegate: self)
     }
 
     func close() {
-        freopen("/dev/fd/2", "a", stderr)
-        input.fileHandleForReading.closeFile()
-        output.fileHandleForWriting.closeFile()
+        redirection = nil
+    }
+}
+
+// MARK: ConsoleRedirectionDelegate
+
+extension ConsoleLogger: ConsoleRedirectionDelegate {
+    func console(_ console: ConsoleRedirection, standardOutputDidWrite data: Data) {
+        delegate?.consoleLogger(self, log: data)
     }
 
-    private func readabilityHandler(_ fileHandle: FileHandle) {
-        let data = fileHandle.availableData
+    func console(_ console: ConsoleRedirection, standardErrorDidWrite data: Data) {
         delegate?.consoleLogger(self, log: data)
-        try? output.fileHandleForWriting.writeData(data)
     }
 }

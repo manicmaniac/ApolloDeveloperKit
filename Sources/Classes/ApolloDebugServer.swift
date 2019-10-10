@@ -289,7 +289,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 extension ApolloDebugServer: ConsoleLoggerDelegate {
     func consoleLogger(_ consoleLogger: ConsoleLogger, log data: Data) {
         let rawData = "data: ".data(using: .utf8)! + data + Data(repeating: 0x0A, count: 2)
-        let chunk = EventStreamChunk(rawData: rawData)
+        let chunk = HTTPChunkedResponse(rawData: rawData)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunk.data)
         }
