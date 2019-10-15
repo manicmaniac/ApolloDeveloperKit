@@ -72,6 +72,14 @@ jobs:
         run: XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig bundle exec make -C InstallTests ${{ matrix.target }}
         env:
           COCOAPODS_DISABLE_STATS: "true"
+  script-test:
+    runs-on: macOS-10.14
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run script tests
+        run: ruby test/apollo_version_test.rb
+        env:
+          RUBYLIB: lib
   lint-podspec:
     runs-on: macOS-10.14
     steps:
