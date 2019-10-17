@@ -35,7 +35,7 @@ PODS:
   - ApolloDeveloperKit (0.3.3):
     - Apollo (< 0.13.0, >= 0.9.0)
     EOS
-    Tempfile.create do |file|
+    Tempfile.create(['Podfile.', '.lock']) do |file|
       file.write(podfile_lock)
       file.rewind
       assert_equal ApolloVersion.new('0.9.5'), ApolloVersion.find_in_podfile_lock!(file.path)
@@ -49,7 +49,7 @@ PODS:
   - ApolloDeveloperKit (0.3.3):
     - Apollo (< 0.13.0, >= 0.9.0)
     EOS
-    Tempfile.create do |file|
+    Tempfile.create(['Podfile.', '.lock']) do |file|
       file.write(podfile_lock)
       file.rewind
       assert_raises(ApolloVersion::NotFoundError) do
