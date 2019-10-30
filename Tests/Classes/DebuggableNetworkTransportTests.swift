@@ -11,6 +11,32 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class DebuggableNetworkTransportTests: XCTestCase {
+    func testGetClientName() {
+        let response: GraphQLResponse<MockGraphQLQuery>? = nil
+        let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
+        XCTAssertEqual(networkTransport.clientName, "clientName")
+    }
+
+    func testSetClientName() {
+        let response: GraphQLResponse<MockGraphQLQuery>? = nil
+        let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
+        networkTransport.clientName = "foo"
+        XCTAssertEqual(networkTransport.clientName, "foo")
+    }
+
+    func testGetClientVersion() {
+        let response: GraphQLResponse<MockGraphQLQuery>? = nil
+        let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
+        XCTAssertEqual(networkTransport.clientVersion, "clientVersion")
+    }
+
+    func testSetClientVersion() {
+        let response: GraphQLResponse<MockGraphQLQuery>? = nil
+        let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
+        networkTransport.clientVersion = "foo"
+        XCTAssertEqual(networkTransport.clientVersion, "foo")
+    }
+
     func testSendOperationWithCompletionHandler_whenResponseIsNotNilButErrorIsNil() {
         let operation = MockGraphQLQuery()
         let response = GraphQLResponse<MockGraphQLQuery>(operation: operation, body: ["foo": "bar"])
@@ -43,6 +69,9 @@ class DebuggableNetworkTransportTests: XCTestCase {
 }
 
 class MockNetworkTransport: NetworkTransport {
+    var clientName = "clientName"
+    var clientVersion = "clientVersion"
+
     private let response: Any?
     private let error: Error?
 
