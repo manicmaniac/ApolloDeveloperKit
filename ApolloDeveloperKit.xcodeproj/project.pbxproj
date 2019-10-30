@@ -124,7 +124,6 @@
 		5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceList.swift; sourceTree = "<group>"; };
 		5B009F402345279D0068C698 /* HTTPIncomingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPIncomingRequest.swift; sourceTree = "<group>"; };
 		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
-		5B0EC96122B6D7C1003D7933 /* ApolloDeveloperKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApolloDeveloperKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		5B1C9E7F233631FE00831F87 /* EventStreamChunkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamChunkTests.swift; sourceTree = "<group>"; };
 		5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApolloDeveloperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApolloDeveloperKit.h; sourceTree = "<group>"; };
@@ -272,7 +271,6 @@
 			children = (
 				5B0EC95C22B6D68D003D7933 /* Classes */,
 				5B26FC2C22B3DB0800359E63 /* Info.plist */,
-				5B0EC96122B6D7C1003D7933 /* ApolloDeveloperKitTests-Bridging-Header.h */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -930,7 +928,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Tests/ApolloDeveloperKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -956,7 +953,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Tests/ApolloDeveloperKitTests-Bridging-Header.h";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
