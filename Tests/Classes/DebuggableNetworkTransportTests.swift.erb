@@ -6,6 +6,9 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
+// <% require 'apollo_version' %>
+// <% apollo_version = ApolloVersion.find! %>
+
 import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
@@ -14,7 +17,11 @@ class DebuggableNetworkTransportTests: XCTestCase {
     func testGetClientName() {
         let response: GraphQLResponse<MockGraphQLQuery>? = nil
         let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
+        // <% if apollo_version < '0.19.0' %>
+        XCTAssertEqual(networkTransport.clientName, "")
+        // <% else %>
         XCTAssertEqual(networkTransport.clientName, "clientName")
+        // <% end %>
     }
 
     func testSetClientName() {
@@ -27,7 +34,11 @@ class DebuggableNetworkTransportTests: XCTestCase {
     func testGetClientVersion() {
         let response: GraphQLResponse<MockGraphQLQuery>? = nil
         let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
+        // <% if apollo_version < '0.19.0' %>
+        XCTAssertEqual(networkTransport.clientVersion, "")
+        // <% else %>
         XCTAssertEqual(networkTransport.clientVersion, "clientVersion")
+        // <% end %>
     }
 
     func testSetClientVersion() {
@@ -69,8 +80,10 @@ class DebuggableNetworkTransportTests: XCTestCase {
 }
 
 class MockNetworkTransport: NetworkTransport {
+    // <% if apollo_version >= '0.19.0' %>
     var clientName = "clientName"
     var clientVersion = "clientVersion"
+    // <% end %>
 
     private let response: Any?
     private let error: Error?
