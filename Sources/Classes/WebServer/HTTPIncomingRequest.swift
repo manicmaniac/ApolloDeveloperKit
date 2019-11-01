@@ -13,7 +13,7 @@ protocol HTTPIncomingRequestDelegate: class {
     func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: HTTPRequest, connection: HTTPConnection)
 }
 
-public class HTTPIncomingRequest {
+class HTTPIncomingRequest {
     let fileHandle: FileHandle
     let message = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, true).takeRetainedValue()
     private weak var delegate: HTTPIncomingRequestDelegate?
@@ -84,11 +84,11 @@ public class HTTPIncomingRequest {
 // MARK: Hashable
 
 extension HTTPIncomingRequest: Hashable {
-    public static func == (lhs: HTTPIncomingRequest, rhs: HTTPIncomingRequest) -> Bool {
+    static func == (lhs: HTTPIncomingRequest, rhs: HTTPIncomingRequest) -> Bool {
         return lhs.fileHandle == rhs.fileHandle
     }
 
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(fileHandle)
     }
 }

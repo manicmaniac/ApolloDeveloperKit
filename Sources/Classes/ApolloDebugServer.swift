@@ -125,7 +125,7 @@ public class ApolloDebugServer {
 // MARK: - HTTPRequestHandler
 
 extension ApolloDebugServer: HTTPRequestHandler {
-    public func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
+    func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
         switch (request.method, request.url.path) {
         case ("HEAD", "/events"):
             respondToRequestForEventSource(connection: connection, withBody: false)

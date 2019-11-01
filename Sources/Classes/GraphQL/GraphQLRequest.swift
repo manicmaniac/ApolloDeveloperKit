@@ -15,35 +15,35 @@ import Apollo
  * It doesn't cause a problem for now because it matters only when an operation is saved,
  * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.
  */
-public class GraphQLRequest: GraphQLOperation {
-    public typealias Data = AnyGraphQLSelectionSet
+class GraphQLRequest: GraphQLOperation {
+    typealias Data = AnyGraphQLSelectionSet
 
     /**
      * The type of an actual operation.
      *
      * Always be a GraphQLOperationType.query even if it isn't a query.
      */
-    public let operationType: GraphQLOperationType
+    let operationType: GraphQLOperationType
 
     /**
      * The query document of an operation.
      */
-    public let operationDefinition: String
+    let operationDefinition: String
 
     /**
      * The identifier of an operation.
      */
-    public var operationIdentifier: String?
+    var operationIdentifier: String?
 
     /**
      * The name of an operation.
      */
-    public var operationName: String
+    var operationName: String
 
     /**
      * The query variables of an operation.
      */
-    public let variables: GraphQLMap?
+    let variables: GraphQLMap?
 
     /**
      * Initializes a GraphQLRequest object.
@@ -51,7 +51,7 @@ public class GraphQLRequest: GraphQLOperation {
      * - Parameter jsonObject: JSON dictionary object that conforms to GraphQL request.
      * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
      */
-    public convenience init(jsonObject: Any) throws {
+    convenience init(jsonObject: Any) throws {
         if let jsonObject = jsonObject as? [String: Any], let query = jsonObject["query"] as? String {
             let operationName = jsonObject["operationName"] as? String ?? ""
             let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))

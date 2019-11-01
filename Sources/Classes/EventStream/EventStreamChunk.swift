@@ -16,7 +16,7 @@ import Foundation
  *
  * - SeeAlso: [IETF RFC 7230](https://tools.ietf.org/html/rfc7230#section-4.1)
  */
-public struct EventStreamChunk {
+struct EventStreamChunk {
     private let rawData: Data
 
     init(rawData: Data = Data()) {

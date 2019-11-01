@@ -13,7 +13,7 @@ import Apollo
  *
  * This class is Swift implementation of `apollo-client`'s `QueryStoreValue`.
  */
-public struct QueryStoreValue {
+struct QueryStoreValue {
     let document: String
     let variables: GraphQLMap?
     var previousVariables: GraphQLMap?
@@ -24,7 +24,7 @@ public struct QueryStoreValue {
 // MARK: JSONEncodable
 
 extension QueryStoreValue: JSONEncodable {
-    public var jsonValue: JSONValue {
+    var jsonValue: JSONValue {
         return [
             "document": document,
             "variables": variables.jsonValue,
@@ -43,7 +43,7 @@ extension QueryStoreValue: JSONEncodable {
  *
  * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/data/queries.ts
  */
-public class QueryStore {
+class QueryStore {
     private(set) var store = [String: QueryStoreValue]()
 
     func get(queryId: String) -> QueryStoreValue? {

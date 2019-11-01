@@ -11,32 +11,32 @@ import Darwin
 /**
  * `NetworkInterface` is a Swift bridge for Unix `ifaddrs`.
  */
-public class NetworkInterface {
+class NetworkInterface {
     /**
      * Name of this interface.
      */
-    public let name: String
+    let name: String
     private let addressPointer: UnsafeMutablePointer<sockaddr>
     private let flags: UInt32
 
     /**
      * Boolean value representing whether if this interface is up or down.
      */
-    public var isUp: Bool {
+    var isUp: Bool {
         return (flags & UInt32(IFF_UP)) == 1
     }
 
     /**
      * Socket family of this interface.
      */
-    public var socketFamily: sa_family_t {
+    var socketFamily: sa_family_t {
         return addressPointer.pointee.sa_family
     }
 
     /**
      * IPv4 address tied up with this interface.
      */
-    public var ipv4Address: String? {
+    var ipv4Address: String? {
         let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: Int(NI_MAXHOST))
         defer { buffer.deallocate() }
         guard getnameinfo(addressPointer,
