@@ -54,6 +54,7 @@
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
 		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
+		5B9645DD236BB8BF00F0926D /* MimeTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9645DC236BB8BF00F0926D /* MimeTypeTests.swift */; };
 		5BBBF5DE2340BFC700D64D7A /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DD2340BFC700D64D7A /* HTTPResponse.swift */; };
 		5BBBF5E02340CAF500D64D7A /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DF2340CAF500D64D7A /* MimeType.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
@@ -179,6 +180,7 @@
 		5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5B9645DC236BB8BF00F0926D /* MimeTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypeTests.swift; sourceTree = "<group>"; };
 		5BBBF5DD2340BFC700D64D7A /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
 		5BBBF5DF2340CAF500D64D7A /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		5BE2444622E0F6ED008EDAAD /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
@@ -390,6 +392,7 @@
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
 				5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */,
 				5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */,
+				5B9645DC236BB8BF00F0926D /* MimeTypeTests.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
@@ -684,6 +687,7 @@
 				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */,
+				5B9645DD236BB8BF00F0926D /* MimeTypeTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

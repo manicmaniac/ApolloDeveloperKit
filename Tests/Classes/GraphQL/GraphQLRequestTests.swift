@@ -11,7 +11,7 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class GraphQLRequestTests: XCTestCase {
-    func testInitWithJSONObject() throws {
+    func testInitWithJSONObject_withValidJSONObject() throws {
         let jsonObject: JSONObject = [
             "variables": [
                 "input": [
@@ -19,6 +19,7 @@ class GraphQLRequestTests: XCTestCase {
                     "integer": 42 as NSNumber,
                     "float": 4.2 as NSNumber,
                     "boolean": true as CFBoolean,
+                    "array": ["foo"] as NSArray,
                     "null": NSNull()
                 ]
             ],
@@ -37,5 +38,19 @@ class GraphQLRequestTests: XCTestCase {
         XCTAssertEqual(input["integer"] as? Int, 42)
         XCTAssertEqual(input["float"] as? Double, 4.2)
         XCTAssertEqual(input["boolean"] as? Bool, true)
+        XCTAssertEqual(input["array"] as? [String], ["foo"])
+    }
+
+    func testInitWithJSONObject_withInvalidJSONObject() {
+        let invalidJSONObject: JSONObject = [
+            "operationName": Set<String>()
+        ]
+        XCTAssertThrowsError(try GraphQLRequest(jsonObject: invalidJSONObject)) { error in
+            guard case JSONDecodingError.couldNotConvert(value: let jsonObject, to: let type) = error else {
+                return XCTFail()
+            }
+            XCTAssertEqual(jsonObject as? NSDictionary, invalidJSONObject as NSDictionary)
+            XCTAssert(type is GraphQLRequest.Type)
+        }
     }
 }

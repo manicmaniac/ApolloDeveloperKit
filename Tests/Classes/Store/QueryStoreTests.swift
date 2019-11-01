@@ -10,6 +10,26 @@ import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
 
+class QueryStoreValueTests: XCTestCase {
+    func testJSONValue() {
+        let queryStoreValue = QueryStoreValue(document: "query { post($id) { votes } }", variables: ["id": 42], previousVariables: ["id": 41], networkError: URLError(.badURL), graphQLErrors: [])
+        guard let jsonObject = queryStoreValue.jsonValue as? [String: Any] else {
+            return XCTFail()
+        }
+        XCTAssertEqual(jsonObject["document"] as? String, "query { post($id) { votes } }")
+        XCTAssertEqual(jsonObject["variables"] as? NSDictionary, ["id": 42])
+
+        XCTAssertEqual(jsonObject["previousVariables"] as? NSDictionary, ["id": 41])
+        guard let networkError = jsonObject["networkError"] as? [String: Any] else {
+            return XCTFail()
+        }
+        XCTAssertEqual(networkError["message"] as? String, URLError(.badURL).localizedDescription)
+        XCTAssertNotNil(networkError["lineNumber"] as? Int)
+        XCTAssertNotNil(networkError["fileName"] as? String)
+        XCTAssertEqual((jsonObject["graphQLErrors"] as? [Error])?.isEmpty, true)
+    }
+}
+
 class QueryStoreTests: XCTestCase {
     let queryId = "1"
     let operationDefinition = """

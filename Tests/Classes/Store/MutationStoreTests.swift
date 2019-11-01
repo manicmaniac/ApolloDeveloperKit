@@ -10,6 +10,25 @@ import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
 
+class MutationStoreValueTests: XCTestCase {
+    func testJSONValue() {
+        let mutationStoreValue = MutationStoreValue(mutation: "UpvotePost", variables: ["postId": 42], loading: false, error: URLError(.badURL))
+        guard let jsonObject = mutationStoreValue.jsonValue as? [String: Any] else {
+            return XCTFail()
+        }
+        XCTAssertEqual(jsonObject["mutation"] as? String, "UpvotePost")
+        XCTAssertEqual(jsonObject["loading"] as? Bool, false)
+
+        XCTAssertEqual(jsonObject["variables"] as? NSDictionary, ["postId": 42])
+        guard let error = jsonObject["error"] as? [String: Any] else {
+            return XCTFail()
+        }
+        XCTAssertEqual(error["message"] as? String, URLError(.badURL).localizedDescription)
+        XCTAssertNotNil(error["lineNumber"] as? Int)
+        XCTAssertNotNil(error["fileName"] as? String)
+    }
+}
+
 class MutationStoreTests: XCTestCase {
     let operationDefinition = """
         mutation UpvotePost($postId: Int!) {
