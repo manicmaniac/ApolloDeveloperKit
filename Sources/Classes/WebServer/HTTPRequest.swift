@@ -11,7 +11,7 @@ import Foundation
 /**
  * A Swifty wrapper for CFHTTPMessage instantiated as a request.
  */
-public class HTTPRequest {
+class HTTPRequest {
     private let message: CFHTTPMessage
 
     init(message: CFHTTPMessage) {

@@ -11,7 +11,7 @@ import Apollo
 /**
  * `JSError` bridges Swift error and JavaScript error.
  */
-public struct JSError {
+struct JSError {
     /**
      * The localized message describing this error.
      */
@@ -44,7 +44,7 @@ public struct JSError {
     // MARK: - JSONEncodable
 
 extension JSError: JSONEncodable {
-    public var jsonValue: JSONValue {
+    var jsonValue: JSONValue {
         return [
             "message": message.jsonValue,
             "fileName": fileName.jsonValue,

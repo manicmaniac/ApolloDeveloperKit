@@ -12,7 +12,7 @@ protocol HTTPConnectionDelegate: class {
     func httpConnectionWillClose(_ connection: HTTPConnection)
 }
 
-public class HTTPConnection {
+class HTTPConnection {
     let fileHandle: FileHandle
     weak var delegate: HTTPConnectionDelegate?
 
@@ -37,11 +37,11 @@ public class HTTPConnection {
 // MARK: Hashable
 
 extension HTTPConnection: Hashable {
-    public static func == (lhs: HTTPConnection, rhs: HTTPConnection) -> Bool {
+    static func == (lhs: HTTPConnection, rhs: HTTPConnection) -> Bool {
         return lhs.fileHandle == rhs.fileHandle
     }
 
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(fileHandle)
     }
 }

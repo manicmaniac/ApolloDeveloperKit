@@ -11,7 +11,7 @@ import UIKit
 /**
  * The protocol to handle raw HTTP request the server receives.
  */
-public protocol HTTPRequestHandler: class {
+protocol HTTPRequestHandler: class {
     /**
      * Invoked when the server receives a HTTP request.
      *
@@ -36,7 +36,7 @@ private let invalidBackgroundTaskIdentifier = UIBackgroundTaskInvalid
  *
  * - SeeAlso: https://www.cocoawithlove.com/2009/07/simple-extensible-http-server-in-cocoa.html
  */
-public class HTTPServer {
+class HTTPServer {
     private enum State {
         case idle
         case starting
