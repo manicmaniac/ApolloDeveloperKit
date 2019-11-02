@@ -1,26 +1,27 @@
 //
-//  EventStreamChunk.swift
+//  HTTPChunkedResponse.swift
 //  ApolloDeveloperKit
 //
-//  Created by Ryosuke Ito on 6/20/19.
+//  Created by Ryosuke Ito on 11/3/19.
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
 import Foundation
 
 /**
- * `EventStreamChunk` represents an individual chunk of Chunked Transfer Coding.
- *
- * `EventStreamChunk` doesn't abstract anything of Server-Sent Events but only Chunked Transfer Coding,
- * where Server-Sent Events stands.
+ * `HTTPChunkedResponse` represents an individual chunk of Chunked Transfer Encoding.
  *
  * - SeeAlso: [IETF RFC 7230](https://tools.ietf.org/html/rfc7230#section-4.1)
  */
-struct EventStreamChunk {
+struct HTTPChunkedResponse {
     private let rawData: Data
 
-    init(rawData: Data = Data()) {
+    init(rawData: Data) {
         self.rawData = rawData
+    }
+
+    init(string: String) {
+        self.rawData = string.data(using: .utf8)!
     }
 
     var data: Data {
