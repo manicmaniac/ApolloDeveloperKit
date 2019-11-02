@@ -14,7 +14,7 @@
     <a title="HTTPServerError Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">ApolloDeveloperKit Docs</a> (73% documented)</p>
+        <p><a href="../index.html">ApolloDeveloperKit Docs</a> (40% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -31,9 +31,6 @@
             <a href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Classes/AnyGraphQLSelectionSet.html">AnyGraphQLSelectionSet</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Classes/ApolloDebugServer.html">ApolloDebugServer</a>
               </li>
               <li class="nav-group-task">
@@ -41,30 +38,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/s:18ApolloDeveloperKit16EventStreamQueueC">EventStreamQueue</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/s:18ApolloDeveloperKit19EventStreamQueueMapC">EventStreamQueueMap</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/GraphQLRequest.html">GraphQLRequest</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/s:18ApolloDeveloperKit10HTTPServerC">HTTPServer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/s:18ApolloDeveloperKit13MutationStoreC">MutationStore</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/NetworkInterface.html">NetworkInterface</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes/NetworkInterfaceList.html">NetworkInterfaceList</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Classes.html#/s:18ApolloDeveloperKit10QueryStoreC">QueryStore</a>
               </li>
             </ul>
           </li>
@@ -87,31 +60,6 @@
               </li>
             </ul>
           </li>
-          <li class="nav-group-name">
-            <a href="../Protocols.html">Protocols</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Protocols/HTTPRequestHandler.html">HTTPRequestHandler</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Structs.html">Structures</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a href="../Structs.html#/s:18ApolloDeveloperKit16EventStreamChunkV">EventStreamChunk</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/JSError.html">JSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/MutationStoreValue.html">MutationStoreValue</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Structs/QueryStoreValue.html">QueryStoreValue</a>
-              </li>
-            </ul>
-          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -120,7 +68,7 @@
             <h1>HTTPServerError</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">HTTPServerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">HTTPServerError</span> <span class="p">:</span> <span class="kt">CustomNSError</span></code></pre>
 
                 </div>
               </div>
@@ -150,7 +98,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketCreationFailed</span> <span class="o">=</span> <span class="mi">100</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketCreationFailed</span></code></pre>
 
                         </div>
                       </div>
@@ -177,7 +125,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketSetOptionFailed</span> <span class="o">=</span> <span class="mi">101</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketSetOptionFailed</span></code></pre>
 
                         </div>
                       </div>
@@ -204,7 +152,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketSetAddressFailed</span> <span class="o">=</span> <span class="mi">102</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketSetAddressFailed</span></code></pre>
 
                         </div>
                       </div>
@@ -231,7 +179,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketSetAddressTimeout</span> <span class="o">=</span> <span class="mi">103</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketSetAddressTimeout</span></code></pre>
 
                         </div>
                       </div>
@@ -258,24 +206,40 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketListenFailed</span> <span class="o">=</span> <span class="mi">104</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">socketListenFailed</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/CustomNSError"></a>
-                <a name="//apple_ref/swift/Section/CustomNSError" class="dashAnchor"></a>
-                <a href="#/CustomNSError">
-                  <h3 class="section-name">CustomNSError</h3>
-                </a>
-              </div>
-              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:18ApolloDeveloperKit15HTTPServerErrorO014multipleSocketE8OccurredyACSDys6UInt16Vs0E0_pGcACmF"></a>
+                    <a name="//apple_ref/swift/Element/multipleSocketErrorOccurred(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit15HTTPServerErrorO014multipleSocketE8OccurredyACSDys6UInt16Vs0E0_pGcACmF">multipleSocketErrorOccurred(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">multipleSocketErrorOccurred</span><span class="p">([</span><span class="kt">UInt16</span> <span class="p">:</span> <span class="kt">Error</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -296,6 +260,32 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">errorDomain</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10Foundation13CustomNSErrorP9errorCodeSivp"></a>
+                    <a name="//apple_ref/swift/Property/errorCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10Foundation13CustomNSErrorP9errorCodeSivp">errorCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">errorCode</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -334,7 +324,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-09-22)</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-11-02)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
