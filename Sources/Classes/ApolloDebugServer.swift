@@ -122,7 +122,7 @@ public class ApolloDebugServer {
     }
 }
 
-// MARK: - HTTPRequestHandler
+// MARK: HTTPRequestHandler
 
 extension ApolloDebugServer: HTTPRequestHandler {
     func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
@@ -280,7 +280,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
     }
 }
 
-// MARK: - DebuggableNormalizedCacheDelegate
+// MARK: DebuggableNormalizedCacheDelegate
 
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
@@ -290,7 +290,7 @@ extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     }
 }
 
-// MARK: - DebuggableNetworkTransportDelegate
+// MARK: DebuggableNetworkTransportDelegate
 
 extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
