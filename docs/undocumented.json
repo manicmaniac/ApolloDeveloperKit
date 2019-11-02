@@ -1,45 +1,80 @@
 {
   "warnings": [
     {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
+      "line": 79,
+      "symbol": "ApolloDebugServer.start(randomPortIn:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 22,
+      "symbol": "DebuggableNetworkTransport.clientName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 23,
+      "symbol": "DebuggableNetworkTransport.clientVersion",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 46,
+      "symbol": "DebuggableNetworkTransport.send(operation:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 57,
+      "symbol": "DebuggableNetworkTransport.send(operation:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 54,
+      "line": 58,
+      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 63,
+      "symbol": "DebuggableNormalizedCache.merge(records:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 70,
       "symbol": "DebuggableNormalizedCache.clear()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/GraphQL/AnyGraphQLSelectionSet.swift",
-      "line": 15,
-      "symbol": "AnyGraphQLSelectionSet.selections",
-      "symbol_kind": "source.lang.swift.decl.var.static",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/GraphQL/AnyGraphQLSelectionSet.swift",
-      "line": 17,
-      "symbol": "AnyGraphQLSelectionSet.resultMap",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/GraphQL/AnyGraphQLSelectionSet.swift",
-      "line": 19,
-      "symbol": "AnyGraphQLSelectionSet.init(unsafeResultMap:)",
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 78,
+      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:callbackQueue:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/GraphQL/GraphQLRequest.swift",
-      "line": 19,
-      "symbol": "GraphQLRequest.Data",
-      "symbol_kind": "source.lang.swift.decl.typealias",
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 83,
+      "symbol": "DebuggableNormalizedCache.merge(records:callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSError.swift",
-      "line": 47,
-      "symbol": "JSError.jsonValue",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 90,
+      "symbol": "DebuggableNormalizedCache.clear(callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
@@ -57,71 +92,57 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/Store/MutationStore.swift",
-      "line": 26,
-      "symbol": "MutationStoreValue.jsonValue",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/Store/QueryStore.swift",
-      "line": 27,
-      "symbol": "QueryStoreValue.jsonValue",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 9,
+      "line": 11,
       "symbol": "HTTPServerError",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 10,
+      "line": 12,
       "symbol": "HTTPServerError.socketCreationFailed",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 11,
+      "line": 13,
       "symbol": "HTTPServerError.socketSetOptionFailed",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 12,
+      "line": 14,
       "symbol": "HTTPServerError.socketSetAddressFailed",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 13,
+      "line": 15,
       "symbol": "HTTPServerError.socketSetAddressTimeout",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 14,
+      "line": 16,
       "symbol": "HTTPServerError.socketListenFailed",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 19,
-      "symbol": "HTTPServerError",
-      "symbol_kind": "source.lang.swift.decl.extension",
+      "line": 17,
+      "symbol": "HTTPServerError.multipleSocketErrorOccurred(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 22,
+      "line": 38,
       "symbol": "HTTPServerError.localizedDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
