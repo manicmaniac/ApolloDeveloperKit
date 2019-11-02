@@ -28,7 +28,7 @@ class QueryManager {
     }
 }
 
-// MARK: - DebuggableHTTPNetworkTransportDelegate
+// MARK: DebuggableHTTPNetworkTransportDelegate
 
 extension QueryManager: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {

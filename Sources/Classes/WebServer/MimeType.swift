@@ -43,6 +43,8 @@ enum MimeType {
     }
 }
 
+// MARK: CustomStringConvertible
+
 extension MimeType: CustomStringConvertible {
     var description: String {
         switch self {

@@ -41,7 +41,7 @@ struct JSError {
     }
 }
 
-    // MARK: - JSONEncodable
+// MARK: JSONEncodable
 
 extension JSError: JSONEncodable {
     var jsonValue: JSONValue {
