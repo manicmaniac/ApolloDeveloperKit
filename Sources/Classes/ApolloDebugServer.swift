@@ -96,7 +96,7 @@ public class ApolloDebugServer {
     }
 
     @objc private func timerDidFire(_ timer: Timer) {
-        let ping = EventStreamChunk(rawData: Data([0x3A]))
+        let ping = HTTPChunkedResponse(string: ":\n\n")
         for connection in eventStreamConnections.allObjects {
             connection.write(ping.data)
         }
@@ -107,7 +107,7 @@ public class ApolloDebugServer {
         timer = Timer.scheduledTimer(timeInterval: keepAliveInterval, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
     }
 
-    private func chunkForCurrentState() -> EventStreamChunk {
+    private func chunkForCurrentState() -> HTTPChunkedResponse {
         var rawData = try! JSONSerialization.data(withJSONObject: [
             "action": [:],
             "state": [
@@ -118,7 +118,7 @@ public class ApolloDebugServer {
             ], options: [])
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
         rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
-        return EventStreamChunk(rawData: rawData)
+        return HTTPChunkedResponse(rawData: rawData)
     }
 }
 

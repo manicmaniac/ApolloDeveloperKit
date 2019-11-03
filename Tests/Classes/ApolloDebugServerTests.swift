@@ -275,7 +275,7 @@ class ApolloDebugServerTests: XCTestCase {
             }
             if urlSessionDataTaskDidReceiveDataIsCalled {
                 // It should be just a *ping* data
-                XCTAssertEqual(data, ":".data(using: .ascii))
+                XCTAssertEqual(data, ":\n\n".data(using: .ascii))
             } else {
                 XCTAssert(data.starts(with: "data: ".data(using: .ascii)!))
                 // Drop first 5 letters (`data: `)
