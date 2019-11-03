@@ -181,6 +181,26 @@ Now there's no easy way but you can exclude ApolloDeveloperKit by setting user d
 The value for the variable is a space-separated list of each filenames in ApolloDeveloperKit.
 Sorry for the inconvenience.
 
+Console Redirection
+-------------------
+
+`ApolloDeveloperKit` supports console redirection.
+When it is enabled, all logs written in stdout (usually written with `print()`) and stderr (written with `NSLog()`) are redirected to the web browser's console as well.
+
+This feature is disabled by default so you may want to enable it explicitly.
+
+```swift
+debugServer = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
+debugServer.enableConsoleRedirection = true
+```
+
+Then open the console in Google Chrome Devtools.
+You will see logs in your iPhone or simulator.
+
+In the browser console, logs written in stdout are colored in green and stderr are purple so that you can distinguish them from ordinary browser logs.
+
+<img width="666" alt="console.png" src="https://user-images.githubusercontent.com/1672393/68091305-5d5c8b00-fec1-11e9-8645-f8bbadfd4280.png">
+
 Development
 -----------
 
