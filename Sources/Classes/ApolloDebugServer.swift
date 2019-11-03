@@ -38,6 +38,14 @@ public class ApolloDebugServer {
         return server.serverURL
     }
 
+    /**
+     * Enables console redirection (disabled by default).
+     *
+     * When console redirection is enabled, all logs written in stdout and stderr are redirected to the web browser's console.
+     * Console redirection will stop when the server is released from the memory but won't stop when the server just stops.
+     *
+     * - Warning: This is an experimental feature for now, so please do not rely on the behavior.
+     */
     public var enableConsoleRedirection = false {
         didSet {
             if enableConsoleRedirection {
