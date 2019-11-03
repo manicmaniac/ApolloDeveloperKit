@@ -9,11 +9,15 @@
 import Foundation
 
 protocol ConsoleRedirectionDelegate: class {
-    func console(_ console: ConsoleRedirection, standardOutputDidWrite data: Data)
-    func console(_ console: ConsoleRedirection, standardErrorDidWrite data: Data)
+    func console(_ console: ConsoleRedirection, didWrite data: Data, to destination: ConsoleRedirection.Destination)
 }
 
 class ConsoleRedirection {
+    enum Destination {
+        case standardOutput
+        case standardError
+    }
+
     private weak var delegate: ConsoleRedirectionDelegate?
     private let queue: DispatchQueue
     private let standardOutputFileDescriptor = dup(STDOUT_FILENO)
@@ -40,7 +44,7 @@ class ConsoleRedirection {
         assert(write(standardOutputFileDescriptor, data.bytes, data.length) >= 0)
         queue.async { [weak self] in
             guard let self = self else { return }
-            self.delegate?.console(self, standardOutputDidWrite: data as Data)
+            self.delegate?.console(self, didWrite: data as Data, to: .standardOutput)
         }
     }
 
@@ -49,7 +53,7 @@ class ConsoleRedirection {
         assert(write(standardErrorFileDescriptor, data.bytes, data.length) >= 0)
         queue.async { [weak self] in
             guard let self = self else { return }
-            self.delegate?.console(self, standardErrorDidWrite: data as Data)
+            self.delegate?.console(self, didWrite: data as Data, to: .standardError)
         }
     }
 }

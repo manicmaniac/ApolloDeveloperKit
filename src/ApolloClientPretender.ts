@@ -76,6 +76,14 @@ export default class ApolloClientPretender implements DataProxy {
         console.log(message.data);
       }
     };
+    this.eventSource.addEventListener('stdout', event => {
+      const message = (event as MessageEvent).data;
+      console.log(message)
+    });
+    this.eventSource.addEventListener('stderr', event => {
+      const message = (event as MessageEvent).data;
+      console.error(message)
+    });
   }
 
   public stopListening(): void {

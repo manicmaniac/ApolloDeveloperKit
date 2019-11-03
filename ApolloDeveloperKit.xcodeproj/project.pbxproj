@@ -61,7 +61,6 @@
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
 		5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */; };
 		5BF811302345048300115EB7 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8112F2345048300115EB7 /* HTTPRequest.swift */; };
-		5BF9B11B23494D0D009A6463 /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF9B11A23494D0D009A6463 /* ConsoleLogger.swift */; };
 		5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -196,7 +195,6 @@
 		5BF045FC22B6E62D0083A52D /* JSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
 		5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
 		5BF8112F2345048300115EB7 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
-		5BF9B11A23494D0D009A6463 /* ConsoleLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,9 +327,9 @@
 		5B2F84E322B431920025A211 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5BF9B11923494CF8009A6463 /* Console */,
 				5B67343D22BFF02200A09DF7 /* GraphQL */,
 				5B7C983622BABA06000F4D7B /* JSON */,
-				5BF9B11923494CF8009A6463 /* Logger */,
 				5B7C983422BAB9E3000F4D7B /* Store */,
 				5B3A83A522C87F3B002B4FFB /* WebServer */,
 				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
@@ -445,13 +443,12 @@
 			path = InstallTests;
 			sourceTree = "<group>";
 		};
-		5BF9B11923494CF8009A6463 /* Logger */ = {
+		5BF9B11923494CF8009A6463 /* Console */ = {
 			isa = PBXGroup;
 			children = (
-				5BF9B11A23494D0D009A6463 /* ConsoleLogger.swift */,
 				5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */,
 			);
-			path = Logger;
+			path = Console;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -659,7 +656,6 @@
 				5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */,
 				5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */,
 				5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */,
-				5BF9B11B23494D0D009A6463 /* ConsoleLogger.swift in Sources */,
 				5BBBF5DE2340BFC700D64D7A /* HTTPResponse.swift in Sources */,
 				5B630E4022B60C990000994D /* QueryManager.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,

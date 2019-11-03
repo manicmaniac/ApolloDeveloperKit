@@ -20,7 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
-    private let consoleLogger = ConsoleLogger()
+    private var consoleRedirection: ConsoleRedirection?
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
@@ -41,9 +41,9 @@ public class ApolloDebugServer {
     public var enableConsoleRedirection = false {
         didSet {
             if enableConsoleRedirection {
-                consoleLogger.open()
+                consoleRedirection = ConsoleRedirection(delegate: self)
             } else {
-                consoleLogger.close()
+                consoleRedirection = nil
             }
         }
     }
@@ -66,7 +66,6 @@ public class ApolloDebugServer {
         self.server.requestHandler = self
         cache.delegate = self
         networkTransport.delegate = self
-        consoleLogger.delegate = self
     }
 
     deinit {
@@ -292,14 +291,24 @@ extension ApolloDebugServer: HTTPRequestHandler {
     }
 }
 
-// MARK: ConsoleLoggerDelegate
+// MARK: ConsoleRedirectionDelegate
 
-extension ApolloDebugServer: ConsoleLoggerDelegate {
-    func consoleLogger(_ consoleLogger: ConsoleLogger, log data: Data) {
-        let rawData = "data: ".data(using: .utf8)! + data + Data(repeating: 0x0A, count: 2)
-        let chunk = HTTPChunkedResponse(rawData: rawData)
+extension ApolloDebugServer: ConsoleRedirectionDelegate {
+    func console(_ console: ConsoleRedirection, didWrite data: Data, to destination: ConsoleRedirection.Destination) {
+        guard let message = String(data: data, encoding: .utf8) else { return }
+        let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
+        let chunk = HTTPChunkedResponse(string: payload)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunk.data)
+        }
+    }
+
+    private func eventName(for destination: ConsoleRedirection.Destination) -> String {
+        switch destination {
+        case .standardOutput:
+            return "stdout"
+        case .standardError:
+            return "stderr"
         }
     }
 }
