@@ -15,12 +15,17 @@ protocol HTTPConnectionDelegate: class {
 class HTTPConnection {
     let fileHandle: FileHandle
     weak var delegate: HTTPConnectionDelegate?
+    private let lock = NSRecursiveLock()
+    private var isFileHandleOpen = true
 
     init(fileHandle: FileHandle) {
         self.fileHandle = fileHandle
     }
 
     func write(_ data: Data) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard isFileHandleOpen else { return }
         do {
             try fileHandle.writeData(data)
         } catch {
@@ -29,8 +34,12 @@ class HTTPConnection {
     }
 
     func close() {
+        lock.lock()
+        defer { lock.unlock() }
+        guard isFileHandleOpen else { return }
         delegate?.httpConnectionWillClose(self)
         fileHandle.closeFile()
+        isFileHandleOpen = false
     }
 }
 

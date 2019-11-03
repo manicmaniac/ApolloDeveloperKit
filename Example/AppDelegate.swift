@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         let store = ApolloStore(cache: cache)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
+        server.enableConsoleRedirection = true
         try! server.start(port: 8081)
         #else
         let networkTransport = HTTPNetworkTransport(url: url)

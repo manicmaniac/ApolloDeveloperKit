@@ -68,11 +68,12 @@ export default class ApolloClientPretender implements DataProxy {
     this.eventSource = new EventSource('/events');
     this.eventSource.onmessage = message => {
       const event = this.transformEvent(JSON.parse(message.data));
-      console.log(event);
       if (this.devToolsHookCb) {
         this.devToolsHookCb(event);
       }
     };
+    this.eventSource.addEventListener('stdout', this.onLogMessageReceived);
+    this.eventSource.addEventListener('stderr', this.onLogMessageReceived);
   }
 
   public stopListening(): void {
@@ -83,6 +84,11 @@ export default class ApolloClientPretender implements DataProxy {
 
   public __actionHookForDevTools(cb: () => any): void {
     this.devToolsHookCb = cb;
+  }
+
+  private onLogMessageReceived(event: any): void {
+    const color = event.type === 'stdout' ? 'green' : 'purple';
+    console.log(`%c${event.data}`, `color: ${color}`);
   }
 
   private transformEvent(event: any): any {

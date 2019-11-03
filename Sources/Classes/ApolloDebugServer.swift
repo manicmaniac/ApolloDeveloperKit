@@ -20,6 +20,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let queryManager = QueryManager()
+    private var consoleRedirection: ConsoleRedirection?
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
@@ -35,6 +36,24 @@ public class ApolloDebugServer {
      */
     public var serverURL: URL? {
         return server.serverURL
+    }
+
+    /**
+     * Enables console redirection (disabled by default).
+     *
+     * When console redirection is enabled, all logs written in stdout and stderr are redirected to the web browser's console.
+     * Console redirection will stop when the server is released from the memory but won't stop when the server just stops.
+     *
+     * - Warning: This is an experimental feature for now, so please do not rely on the behavior.
+     */
+    public var enableConsoleRedirection = false {
+        didSet {
+            if enableConsoleRedirection {
+                consoleRedirection = ConsoleRedirection(delegate: self)
+            } else {
+                consoleRedirection = nil
+            }
+        }
     }
 
     /**
@@ -276,6 +295,28 @@ extension ApolloDebugServer: HTTPRequestHandler {
             }
         } catch let error {
             respondWithBadRequest(connection: connection, jsError: JSError(error))
+        }
+    }
+}
+
+// MARK: ConsoleRedirectionDelegate
+
+extension ApolloDebugServer: ConsoleRedirectionDelegate {
+    func console(_ console: ConsoleRedirection, didWrite data: Data, to destination: ConsoleRedirection.Destination) {
+        guard let message = String(data: data, encoding: .utf8) else { return }
+        let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
+        let chunk = HTTPChunkedResponse(string: payload)
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunk.data)
+        }
+    }
+
+    private func eventName(for destination: ConsoleRedirection.Destination) -> String {
+        switch destination {
+        case .standardOutput:
+            return "stdout"
+        case .standardError:
+            return "stderr"
         }
     }
 }
