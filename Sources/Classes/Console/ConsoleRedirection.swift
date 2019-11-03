@@ -41,7 +41,8 @@ class ConsoleRedirection {
 
     private func standardOutputPipeWillRead(_ fileHandle: FileHandle) {
         let data = fileHandle.availableData as NSData
-        assert(write(standardOutputFileDescriptor, data.bytes, data.length) >= 0)
+        let written = write(standardOutputFileDescriptor, data.bytes, data.length)
+        assert(written >= 0)
         queue.async { [weak self] in
             guard let self = self else { return }
             self.delegate?.console(self, didWrite: data as Data, to: .standardOutput)
@@ -50,7 +51,8 @@ class ConsoleRedirection {
 
     private func standardErrorPipeWillRead(_ fileHandle: FileHandle) {
         let data = fileHandle.availableData as NSData
-        assert(write(standardErrorFileDescriptor, data.bytes, data.length) >= 0)
+        let written = write(standardErrorFileDescriptor, data.bytes, data.length)
+        assert(written >= 0)
         queue.async { [weak self] in
             guard let self = self else { return }
             self.delegate?.console(self, didWrite: data as Data, to: .standardError)
