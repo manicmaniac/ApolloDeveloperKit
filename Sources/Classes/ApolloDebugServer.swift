@@ -38,6 +38,16 @@ public class ApolloDebugServer {
         return server.serverURL
     }
 
+    public var enableConsoleRedirection = false {
+        didSet {
+            if enableConsoleRedirection {
+                consoleLogger.open()
+            } else {
+                consoleLogger.close()
+            }
+        }
+    }
+
     /**
      * Initializes `ApolloDebugServer` instance.
      *
@@ -75,7 +85,6 @@ public class ApolloDebugServer {
     public func start(port: UInt16) throws {
         stop()
         try server.start(port: port)
-        consoleLogger.open()
         scheduleTimer()
     }
 
@@ -94,7 +103,6 @@ public class ApolloDebugServer {
     public func stop() {
         if isRunning {
             timer?.invalidate()
-            consoleLogger.close()
             server.stop()
         }
     }
