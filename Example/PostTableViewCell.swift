@@ -24,6 +24,7 @@ class PostTableViewCell: UITableViewCell {
     @IBAction func upvote() {
         guard let postId = postId else { return }
         delegate?.postTableViewCell(self, didPerformUpvote: postId)
+        NSLog("Upvoted the post \(postId)")
     }
 }
 
