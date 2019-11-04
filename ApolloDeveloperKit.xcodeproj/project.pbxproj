@@ -40,6 +40,9 @@
 		5B3A83A922C89835002B4FFB /* FileHandle+Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */; };
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */; };
+		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
+		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
+		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
 		5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B630E3922B575DA0000994D /* QueryStore.swift */; };
@@ -170,6 +173,9 @@
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift.erb; sourceTree = "<group>"; };
 		5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApolloDeveloperKit.xcconfig; sourceTree = "<group>"; };
+		5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDescriptorDuplicator.swift; sourceTree = "<group>"; };
+		5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
+		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B630E3922B575DA0000994D /* QueryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryStore.swift; sourceTree = "<group>"; };
 		5B630E3D22B60A210000994D /* MutationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationStore.swift; sourceTree = "<group>"; };
@@ -230,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				5B2E1B34230CD19E003C85CB /* TestHelpers */,
+				5B4F460C2370AAA70039495A /* Console */,
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A838B22C6855C002B4FFB /* JSON */,
 				5B3A839422C7221D002B4FFB /* Store */,
@@ -406,6 +413,14 @@
 			path = Configurations;
 			sourceTree = "<group>";
 		};
+		5B4F460C2370AAA70039495A /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */,
+			);
+			path = Console;
+			sourceTree = "<group>";
+		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
@@ -447,6 +462,8 @@
 			isa = PBXGroup;
 			children = (
 				5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */,
+				5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */,
+				5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */,
 			);
 			path = Console;
 			sourceTree = "<group>";
@@ -655,6 +672,7 @@
 				5BBBF5E02340CAF500D64D7A /* MimeType.swift in Sources */,
 				5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */,
 				5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */,
+				5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */,
 				5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */,
 				5BBBF5DE2340BFC700D64D7A /* HTTPResponse.swift in Sources */,
 				5B630E4022B60C990000994D /* QueryManager.swift in Sources */,
@@ -664,6 +682,7 @@
 				5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,
 				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
+				5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */,
 				5B009F412345279D0068C698 /* HTTPIncomingRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -686,6 +705,7 @@
 				5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */,
 				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
 				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */,
+				5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,

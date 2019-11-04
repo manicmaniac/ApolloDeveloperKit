@@ -33,6 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let postListViewController = navigationController.topViewController as! PostListViewController
         postListViewController.apollo = apollo
         postListViewController.serverURL = server.serverURL
+        postListViewController.delegate = self
         return true
+    }
+}
+
+extension AppDelegate: PostListViewControllerDelegate {
+    func postListViewControllerWantsToToggleConsoleRedirection(_ postListViewController: PostListViewController) {
+        server.enableConsoleRedirection = !server.enableConsoleRedirection
     }
 }
