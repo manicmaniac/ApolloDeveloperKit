@@ -1,7 +1,7 @@
 import {} from 'apollo-client-devtools';
 import Bridge from 'apollo-client-devtools/src/bridge';
 import { initBackend } from 'apollo-client-devtools/src/backend';
-import { Hook, installHook } from 'apollo-client-devtools/src/backend/hook';
+import { installHook } from 'apollo-client-devtools/src/backend/hook';
 import ApolloClientPretender from '../ApolloClientPretender';
 
 describe('integration', () => {
