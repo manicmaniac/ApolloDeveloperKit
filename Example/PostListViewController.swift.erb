@@ -3,9 +3,14 @@
 import UIKit
 import Apollo
 
+protocol PostListViewControllerDelegate: class {
+    func postListViewControllerWantsToToggleConsoleRedirection(_ postListViewController: PostListViewController)
+}
+
 class PostListViewController: UITableViewController {
     var apollo: ApolloClient!
     var serverURL: URL!
+    weak var delegate: PostListViewControllerDelegate?
     
     var posts: [AllPostsQuery.Data.Post]? {
         didSet {
@@ -76,8 +81,11 @@ class PostListViewController: UITableViewController {
     }
 
     @IBAction private func actionButtonDidTouchUpInside(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: "IP address", message: serverURL.absoluteString, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        let alertController = UIAlertController(title: "IP address", message: serverURL.absoluteString, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Toggle console redirection", style: .default) { action in
+            self.delegate?.postListViewControllerWantsToToggleConsoleRedirection(self)
+        })
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
 }
