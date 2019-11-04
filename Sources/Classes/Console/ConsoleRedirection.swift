@@ -29,9 +29,13 @@ class ConsoleRedirection {
         self.delegate = delegate
         self.queue = queue
         dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
-        standardOutputPipe.fileHandleForReading.readabilityHandler = standardOutputPipeWillRead(_:)
+        standardOutputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
+            self?.standardOutputPipeWillRead(fileHandle)
+        }
         dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
-        standardErrorPipe.fileHandleForReading.readabilityHandler = standardErrorPipeWillRead(_:)
+        standardErrorPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
+            self?.standardErrorPipeWillRead(fileHandle)
+        }
     }
 
     deinit {
