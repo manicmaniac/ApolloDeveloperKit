@@ -5,7 +5,7 @@ import { Hook, installHook } from 'apollo-client-devtools/src/backend/hook';
 import ApolloClientPretender from '../ApolloClientPretender';
 
 describe('integration', () => {
-    let bridge: Bridge
+    let bridge: Bridge;
 
     beforeAll(done => {
         window.__APOLLO_CLIENT__ = new ApolloClientPretender();

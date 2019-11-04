@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-type Message = string | { event: string, payload: object }
+type Message = string | { event: string, payload: object };
 
 interface Wall {
     listen(fn: (message: Message) => void): void;
@@ -9,6 +9,6 @@ interface Wall {
 
 export default class Bridge extends EventEmitter {
     constructor(wall: Wall);
-    send(event: string, payload: any): void
-    log(message: string): void
+    send(event: string, payload: any): void;
+    log(message: string): void;
 }
