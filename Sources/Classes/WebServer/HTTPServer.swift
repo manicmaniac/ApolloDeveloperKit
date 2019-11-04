@@ -125,9 +125,6 @@ class HTTPServer {
             @unknown default:
                 throw HTTPServerError.socketSetAddressFailed
             }
-            if listen(fileDescriptor, 16) != 0 {
-                throw HTTPServerError.socketListenFailed
-            }
         } catch let error {
             CFSocketInvalidate(socket)
             throw error
