@@ -84,6 +84,14 @@ jobs:
         run: XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig bundle exec make -C InstallTests ${{ matrix.target }}
         env:
           COCOAPODS_DISABLE_STATS: "true"
+  frontend-test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: npm install
+      - name: Run frontend tests
+        run: npm test
   script-test:
     runs-on: macOS-10.14
     steps:
