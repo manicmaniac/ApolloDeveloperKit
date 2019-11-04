@@ -18,29 +18,35 @@ class ConsoleRedirection {
         case standardError
     }
 
+    private static let defaultDuplicator = DarwinFileDescriptorDuplicator()
+
     private weak var delegate: ConsoleRedirectionDelegate?
     private let queue: DispatchQueue
-    private let standardOutputFileDescriptor = dup(STDOUT_FILENO)
-    private let standardErrorFileDescriptor = dup(STDERR_FILENO)
+    private let duplicator: FileDescriptorDuplicator
+    private let standardOutputFileDescriptor: Int32
+    private let standardErrorFileDescriptor: Int32
     private let standardOutputPipe = Pipe()
     private let standardErrorPipe = Pipe()
 
-    init(delegate: ConsoleRedirectionDelegate, queue: DispatchQueue = .main) {
+    init(delegate: ConsoleRedirectionDelegate, queue: DispatchQueue = .main, duplicator: FileDescriptorDuplicator = ConsoleRedirection.defaultDuplicator) {
         self.delegate = delegate
         self.queue = queue
-        dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
+        self.duplicator = duplicator
+        self.standardOutputFileDescriptor = duplicator.dup(STDOUT_FILENO)
+        self.standardErrorFileDescriptor = duplicator.dup(STDERR_FILENO)
+        duplicator.dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
         standardOutputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
             self?.standardOutputPipeWillRead(fileHandle)
         }
-        dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
+        duplicator.dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
         standardErrorPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
             self?.standardErrorPipeWillRead(fileHandle)
         }
     }
 
     deinit {
-        dup2(standardOutputFileDescriptor, STDOUT_FILENO)
-        dup2(standardErrorFileDescriptor, STDERR_FILENO)
+        duplicator.dup2(standardOutputFileDescriptor, STDOUT_FILENO)
+        duplicator.dup2(standardErrorFileDescriptor, STDERR_FILENO)
     }
 
     private func standardOutputPipeWillRead(_ fileHandle: FileHandle) {
