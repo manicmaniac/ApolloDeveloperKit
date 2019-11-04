@@ -1,14 +1,8 @@
+import {} from 'apollo-client-devtools';
 import Bridge from 'apollo-client-devtools/src/bridge';
 import { initBackend } from 'apollo-client-devtools/src/backend';
 import { Hook, installHook } from 'apollo-client-devtools/src/backend/hook';
 import ApolloClientPretender from '../ApolloClientPretender';
-
-declare global {
-    interface Window {
-        __APOLLO_CLIENT__: ApolloClientPretender,
-        __APOLLO_DEVTOOLS_GLOBAL_HOOK__: Hook
-    }
-}
 
 describe('integration', () => {
     let bridge: Bridge
@@ -36,7 +30,7 @@ describe('integration', () => {
                 expect(message).toBe('2.0.0');
                 done();
             });
-            initBackend(bridge, window.__APOLLO_DEVTOOLS_GLOBAL_HOOK__, null);
+            initBackend(bridge, window.__APOLLO_DEVTOOLS_GLOBAL_HOOK__, window.localStorage);
         });
     });
 });

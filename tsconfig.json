@@ -11,11 +11,9 @@
     "removeComments": true,
     "module": "es2015",
     "target": "es2015",
+    "moduleResolution": "node",
     "strict": true,
-    "typeRoots": [
-      "src/types",
-      "node_modules/@types"
-    ],
+    "baseUrl": "src/types",
     "noImplicitAny": true
   },
   "files": [
