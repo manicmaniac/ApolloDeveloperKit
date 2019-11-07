@@ -12,9 +12,9 @@ import Apollo
  * A type erasure class for `GraphQLSelectionSet`.
  */
 class AnyGraphQLSelectionSet: GraphQLSelectionSet {
-    static var selections = [GraphQLSelection]()
+    static let selections = [GraphQLSelection]()
 
-    var resultMap: ResultMap
+    let resultMap: ResultMap
 
     required init(unsafeResultMap: ResultMap) {
         self.resultMap = unsafeResultMap

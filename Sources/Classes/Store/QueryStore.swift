@@ -16,9 +16,9 @@ import Apollo
 struct QueryStoreValue {
     let document: String
     let variables: GraphQLMap?
-    var previousVariables: GraphQLMap?
-    var networkError: Error?
-    var graphQLErrors: [Error]
+    fileprivate(set) var previousVariables: GraphQLMap?
+    fileprivate(set) var networkError: Error?
+    fileprivate(set) var graphQLErrors: [Error]
 }
 
 // MARK: JSONEncodable

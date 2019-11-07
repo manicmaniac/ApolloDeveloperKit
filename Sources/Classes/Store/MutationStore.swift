@@ -16,8 +16,8 @@ import Apollo
 struct MutationStoreValue {
     let mutation: String
     let variables: GraphQLMap?
-    var loading: Bool
-    var error: Error?
+    fileprivate(set) var loading: Bool
+    fileprivate(set) var error: Error?
 }
 
 // MARK: JSONEncodable
