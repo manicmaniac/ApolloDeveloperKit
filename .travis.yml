@@ -8,27 +8,27 @@ cache:
 
 matrix:
   include:
-  - osx_image: xcode10.3
+  - name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.19.0"
+    osx_image: xcode10.3
     xcode_sdk: iphonesimulator12.4
     xcode_destination: "platform=iOS Simulator,OS=12.4,name=iPhone X"
     env:
       - APOLLO_VERSION=0.19.0
       - SWIFT_VERSION=5.0
-    name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.19.0"
-  - osx_image: xcode10.3
+  - name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.18.1"
+    osx_image: xcode10.3
     xcode_sdk: iphonesimulator12.4
     xcode_destination: "platform=iOS Simulator,OS=12.4,name=iPhone X"
     env:
       - APOLLO_VERSION=0.18.1
       - SWIFT_VERSION=5.0
-    name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.18.1"
-  - osx_image: xcode10.2
+  - name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.15.3"
+    osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
     xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
     env:
       - APOLLO_VERSION=0.15.3
       - SWIFT_VERSION=5.0
-    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.15.3"
   - osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
     xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
@@ -52,9 +52,10 @@ matrix:
     name: "Unit Tests: Xcode 10.1 / iOS 10.3.1 / Apollo 0.9.5"
   - osx_image: xcode10.1
     install: bundle install --without documentation --jobs=3 --retry=3
-    script: bundle exec make -C InstallTests carthage
+    script: |
+      echo 'APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2' >ApolloDeveloperKit.xcconfig
+      XCODE_XCCONFIG_FILE="$PWD/ApolloDeveloperKit.xcconfig" bundle exec make -C InstallTests carthage
     name: "Install Tests: Carthage"
-    env: XCODE_XCCONFIG_FILE=$PWD/Configurations/ApolloDeveloperKit.xcconfig
   - osx_image: xcode10.2
     install: bundle install --without documentation --jobs=3 --retry=3
     script: bundle exec pod lib lint --swift-version=5.0 --verbose
