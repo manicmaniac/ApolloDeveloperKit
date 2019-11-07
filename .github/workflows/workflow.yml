@@ -28,6 +28,14 @@ jobs:
         run: ./Scripts/quick-install-dependencies
       - name: Run unit tests
         run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
+  install-test:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
+      - name: Run install tests
+        run: make -C InstallTests carthage
   frontend-test:
     runs-on: ubuntu-18.04
     steps:
