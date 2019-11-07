@@ -8,20 +8,6 @@ cache:
 
 matrix:
   include:
-  - name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.19.0"
-    osx_image: xcode10.3
-    xcode_sdk: iphonesimulator12.4
-    xcode_destination: "platform=iOS Simulator,OS=12.4,name=iPhone X"
-    env:
-      - APOLLO_VERSION=0.19.0
-      - SWIFT_VERSION=5.0
-  - name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.18.1"
-    osx_image: xcode10.3
-    xcode_sdk: iphonesimulator12.4
-    xcode_destination: "platform=iOS Simulator,OS=12.4,name=iPhone X"
-    env:
-      - APOLLO_VERSION=0.18.1
-      - SWIFT_VERSION=5.0
   - name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.15.3"
     osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
