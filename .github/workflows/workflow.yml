@@ -36,6 +36,18 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
       - name: Run install tests
         run: make -C InstallTests carthage
+  lint-podspec:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
+      - name: Install dependencies
+        run: |
+          gem install bundler -v 1.17.3
+          bundle install --without documentation --jobs=3 --retry=3
+      - name: Lint podspec
+        run: bundle exec pod lib lint --swift-version=5.1 --verbose
   frontend-test:
     runs-on: ubuntu-18.04
     steps:

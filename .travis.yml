@@ -36,11 +36,6 @@ matrix:
       - APOLLO_VERSION=0.9.5
       - SWIFT_VERSION=4.2
     name: "Unit Tests: Xcode 10.1 / iOS 10.3.1 / Apollo 0.9.5"
-  - osx_image: xcode10.2
-    install: bundle install --without documentation --jobs=3 --retry=3
-    script: bundle exec pod lib lint --swift-version=5.0 --verbose
-    env: COCOAPODS_DISABLE_STATS=true
-    name: "Lint podspec"
 
 install:
   - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
