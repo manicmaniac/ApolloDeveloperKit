@@ -3,6 +3,31 @@ name: CI
 on: [push]
 
 jobs:
+  unit-test:
+    runs-on: macOS-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        apollo: ["0.19.0", "0.18.1"]
+        include:
+          - apollo: "0.19.0"
+            xcode: "11.1"
+            swift: "5.1"
+            destination: "platform=iOS Simulator,OS=13.1,name=iPhone 11"
+          - apollo: "0.18.1"
+            xcode: "11"
+            swift: "5.1"
+            destination: "platform=iOS Simulator,OS=13.0,name=iPhone 11"
+    steps:
+      - uses: actions/checkout@v1
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: Modify Cartfile.resolved
+        run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
+      - name: Install dependencies
+        run: ./Scripts/quick-install-dependencies
+      - name: Run unit tests
+        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk iphonesimulator -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
   frontend-test:
     runs-on: ubuntu-18.04
     steps:
@@ -12,7 +37,7 @@ jobs:
       - name: Run frontend tests
         run: npm test
   script-test:
-    runs-on: macOS-10.14
+    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
       - name: Run script tests
