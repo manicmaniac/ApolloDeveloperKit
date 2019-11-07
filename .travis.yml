@@ -5,41 +5,63 @@ xcode_scheme: ApolloDeveloperKit
 
 cache:
   bundler: true
-  directories:
-    - Carthage/Build
 
 matrix:
   include:
+  - osx_image: xcode10.3
+    xcode_sdk: iphonesimulator12.4
+    xcode_destination: "platform=iOS Simulator,OS=12.4,name=iPhone X"
+    env:
+      - APOLLO_VERSION=0.19.0
+      - SWIFT_VERSION=5.0
+    name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.19.0"
+  - osx_image: xcode10.3
+    xcode_sdk: iphonesimulator12.4
+    xcode_destination: "platform=iOS Simulator,OS=12.4,name=iPhone X"
+    env:
+      - APOLLO_VERSION=0.18.1
+      - SWIFT_VERSION=5.0
+    name: "Unit Tests: Xcode 10.3 / iOS 12.4 / Apollo 0.18.1"
   - osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
     xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
-    env: APOLLO_VERSION=0.12.0
-    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.12.0 / iPhone X"
+    env:
+      - APOLLO_VERSION=0.15.3
+      - SWIFT_VERSION=5.0
+    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.15.3"
   - osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
-    xcode_destination: "platform=iOS Simulator,OS=11.4,name=iPhone 8"
-    env: APOLLO_VERSION=0.11.1
-    name: "Unit Tests: Xcode 10.2 / iOS 11.4 / Apollo 0.11.1 / iPhone 8"
+    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+    env:
+      - APOLLO_VERSION=0.14.0
+      - SWIFT_VERSION=5.0
+    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.14.0"
   - osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
-    xcode_destination: "platform=iOS Simulator,OS=10.3.1,name=iPhone 7"
-    env: APOLLO_VERSION=0.10.1
-    name: "Unit Tests: Xcode 10.2 / iOS 10.3.1 / Apollo 0.10.1 / iPhone 7"
+    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+    env:
+      - APOLLO_VERSION=0.12.0
+      - SWIFT_VERSION=5.0
+    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.12.0"
   - osx_image: xcode10.1
     xcode_sdk: iphonesimulator12.1
-    xcode_destination: "platform=iOS Simulator,OS=12.1,name=iPhone 6"
-    env: APOLLO_VERSION=0.9.5
-    name: "Unit Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / iPhone 6"
+    xcode_destination: "platform=iOS Simulator,OS=10.3.1,name=iPhone SE"
+    env:
+      - APOLLO_VERSION=0.9.5
+      - SWIFT_VERSION=4.2
+    name: "Unit Tests: Xcode 10.1 / iOS 10.3.1 / Apollo 0.9.5"
   - osx_image: xcode10.1
-    install: bundle install --jobs=3 --retry=3
+    install: bundle install --without documentation --jobs=3 --retry=3
     script: bundle exec make -C InstallTests carthage
-    name: "Install Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / Carthage"
-  - osx_image: xcode10.1
-    install: bundle install --jobs=3 --retry=3
-    script: bundle exec make -C InstallTests cocoapods
+    name: "Install Tests: Carthage"
+    env: XCODE_XCCONFIG_FILE=$PWD/Configurations/ApolloDeveloperKit.xcconfig
+  - osx_image: xcode10.2
+    install: bundle install --without documentation --jobs=3 --retry=3
+    script: bundle exec pod lib lint --swift-version=5.0 --verbose
     env: COCOAPODS_DISABLE_STATS=true
-    name: "Install Tests: Xcode 10.1 / iOS 12.1 / Apollo 0.9.5 / CocoaPods"
+    name: "Lint podspec"
 
 install:
   - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
-  - carthage bootstrap --platform iOS --no-use-binaries --cache-builds
+  - ./Scripts/quick-install-dependencies
+  - perl -pi -e 's/(?<=APOLLO_DEVELOPER_KIT_SWIFT_VERSION)( *= *)[0-9.]*/${1}$ENV{SWIFT_VERSION}/' Configurations/ApolloDeveloperKit.xcconfig
