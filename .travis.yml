@@ -4,40 +4,45 @@ xcode_project: ApolloDeveloperKit.xcodeproj
 xcode_scheme: ApolloDeveloperKit
 
 cache:
-  bundler: true
+  directories:
+    - Carthage/Build
 
 matrix:
   include:
   - name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.15.3"
     osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
-    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone SE"
     env:
       - APOLLO_VERSION=0.15.3
       - SWIFT_VERSION=5.0
-  - osx_image: xcode10.2
+  - name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.14.0"
+    osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
-    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone SE"
     env:
       - APOLLO_VERSION=0.14.0
       - SWIFT_VERSION=5.0
-    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.14.0"
-  - osx_image: xcode10.2
+  - name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.12.0"
+    osx_image: xcode10.2
     xcode_sdk: iphonesimulator12.2
-    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone X"
+    xcode_destination: "platform=iOS Simulator,OS=12.2,name=iPhone SE"
     env:
       - APOLLO_VERSION=0.12.0
       - SWIFT_VERSION=5.0
-    name: "Unit Tests: Xcode 10.2 / iOS 12.2 / Apollo 0.12.0"
-  - osx_image: xcode10.1
+  - name: "Unit Tests: Xcode 10.1 / iOS 10.3.1 / Apollo 0.9.5"
+    osx_image: xcode10.1
     xcode_sdk: iphonesimulator12.1
     xcode_destination: "platform=iOS Simulator,OS=10.3.1,name=iPhone SE"
     env:
       - APOLLO_VERSION=0.9.5
       - SWIFT_VERSION=4.2
-    name: "Unit Tests: Xcode 10.1 / iOS 10.3.1 / Apollo 0.9.5"
+
+before_install:
+  - RUBYLIB=lib ruby test/apollo_version_test.rb
 
 install:
+  - ./Scripts/boot-simulator --destination "$TRAVIS_XCODE_DESTINATION" &
   - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
   - ./Scripts/quick-install-dependencies
   - perl -pi -e 's/(?<=APOLLO_DEVELOPER_KIT_SWIFT_VERSION)( *= *)[0-9.]*/${1}$ENV{SWIFT_VERSION}/' Configurations/ApolloDeveloperKit.xcconfig
