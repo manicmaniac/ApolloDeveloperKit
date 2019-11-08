@@ -5,6 +5,8 @@ xcode_scheme: ApolloDeveloperKit
 
 cache:
   bundler: true
+  directories:
+    - Carthage/Build
 
 matrix:
   include:
