@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -74,13 +74,10 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
 			fileType = pattern.proxy;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
 			);
-			runOncePerArchitecture = 0;
 			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
 		};
 		5B5D4350233F817900AF5B5C /* PBXBuildRule */ = {
@@ -88,13 +85,10 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
 			fileType = pattern.proxy;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
 			);
-			runOncePerArchitecture = 0;
 			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
 		};
 /* End PBXBuildRule section */
