@@ -37,18 +37,16 @@ do
             ;;
     esac
 done
-if [ -z "$identifier" ]; then
-    echo 'error: too few arguments.' >&2
+if [ -z "$identifier" -o $# -ne 0 ]; then
+    echo 'error: wrong number of arguments.' >&2
     show_help >&2
-fi
-if [ $# -ne 0 ]; then
-    echo 'error: too many arguments.' >&2
-    show_help >&2
+    exit 1
 fi
 
 if [ $destination -ne 0 ]; then
+    # `$identifier` looks like 'platform=iOS Simulator,OS=12.2,name=iPhone SE'
     os="$(echo "$identifier" | grep -oE 'OS=[0-9]*\.[0-9]*' | cut -f2 -d=)"
     name="$(echo "$identifier" | grep -oE 'name=[^,]*' | cut -f2 -d=)"
-    identifier="$(xcrun simctl list | awk "/^-- .* --$/{if (in_range) exit} /^-- iOS $os --$/{in_range=1; next} in_range&&/$name \(/" | awk -F'[()]' '{print $2}')"
+    identifier="$(xcrun simctl list | awk -F '[()]' "/^-- .* --$/{flag=0} /^-- iOS $os --$/{flag=1} flag&&/$name \(/{print \$2}")"
 fi
 xcrun simctl boot "$identifier"
