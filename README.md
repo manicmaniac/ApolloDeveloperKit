@@ -197,9 +197,9 @@ debugServer.enableConsoleRedirection = true
 Then open the console in Google Chrome Devtools.
 You will see logs in your iPhone or simulator.
 
-In the browser console, logs written in stdout are colored in green and stderr are purple so that you can distinguish them from ordinary browser logs.
+In the browser console, logs written in stdout are colored in [blue-green](https://www.color-hex.com/color/5f9ea0) and stderr are [orange](https://www.color-hex.com/color/ff6347) so that you can distinguish them from ordinary browser logs.
 
-<img width="666" alt="console.png" src="https://user-images.githubusercontent.com/1672393/68091305-5d5c8b00-fec1-11e9-8645-f8bbadfd4280.png">
+<img width="1440" alt="console-redirection.png" src="https://user-images.githubusercontent.com/1672393/68502106-07ae2700-02a3-11ea-8d35-02f1280ea625.png">
 
 Development
 -----------
