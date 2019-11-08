@@ -87,7 +87,7 @@ export default class ApolloClientPretender implements DataProxy {
   }
 
   private onLogMessageReceived(event: any): void {
-    const color = event.type === 'stdout' ? 'green' : 'purple';
+    const color = event.type === 'stdout' ? 'cadetblue' : 'tomato';
     console.log(`%c${event.data}`, `color: ${color}`);
   }
 
