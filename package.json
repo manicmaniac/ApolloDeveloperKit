@@ -1,6 +1,6 @@
 {
   "name": "apollodeveloperkit",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Visual debug your app, that is based on Apollo iOS",
   "repository": "https://github.com/manicmaniac/ApolloDeveloperKit",
   "scripts": {
