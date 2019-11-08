@@ -38,6 +38,9 @@ matrix:
       - APOLLO_VERSION=0.9.5
       - SWIFT_VERSION=4.2
 
+before_install:
+  - RUBYLIB=lib ruby test/apollo_version_test.rb
+
 install:
   - ./Scripts/boot-simulator --destination "$TRAVIS_XCODE_DESTINATION" &
   - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
