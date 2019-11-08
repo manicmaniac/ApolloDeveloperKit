@@ -38,6 +38,7 @@ matrix:
       - SWIFT_VERSION=4.2
 
 install:
+  - ./Scripts/boot-simulator --destination "$TRAVIS_XCODE_DESTINATION" &
   - perl -pi -e 's/"[\d.]+"$/"$ENV{APOLLO_VERSION}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
   - ./Scripts/quick-install-dependencies
   - perl -pi -e 's/(?<=APOLLO_DEVELOPER_KIT_SWIFT_VERSION)( *= *)[0-9.]*/${1}$ENV{SWIFT_VERSION}/' Configurations/ApolloDeveloperKit.xcconfig
