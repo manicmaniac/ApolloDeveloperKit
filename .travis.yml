@@ -4,7 +4,6 @@ xcode_project: ApolloDeveloperKit.xcodeproj
 xcode_scheme: ApolloDeveloperKit
 
 cache:
-  bundler: true
   directories:
     - Carthage/Build
 
