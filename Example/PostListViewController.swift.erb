@@ -11,7 +11,7 @@ class PostListViewController: UITableViewController {
     var apollo: ApolloClient!
     var serverURL: URL!
     weak var delegate: PostListViewControllerDelegate?
-    
+
     var posts: [AllPostsQuery.Data.Post]? {
         didSet {
             tableView.reloadData()
@@ -25,27 +25,30 @@ class PostListViewController: UITableViewController {
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 64
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlDidChangeValue(_:)), for: .valueChanged)
+        self.refreshControl = refreshControl
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        loadData()
+        loadData(completion: nil)
     }
 
     // MARK: - Data loading
 
     var watcher: GraphQLQueryWatcher<AllPostsQuery>?
 
-    func loadData() {
+    func loadData(completion: (() -> Void)?) {
         // <% if apollo_version < '0.13.0' %>
         watcher = apollo.watch(query: AllPostsQuery()) { (result, error) in
             if let error = error {
                 NSLog("Error while fetching query: \(error.localizedDescription)")
-                return
+            } else {
+                self.posts = result?.data?.posts
             }
-
-            self.posts = result?.data?.posts
+            completion?()
         }
         // <% else %>
         watcher = apollo.watch(query: AllPostsQuery()) { result in
@@ -55,6 +58,7 @@ class PostListViewController: UITableViewController {
             case .failure(let error):
                 NSLog("Error while fetching query: \(error.localizedDescription)")
             }
+            completion?()
         }
         // <% end %>
     }
@@ -87,6 +91,12 @@ class PostListViewController: UITableViewController {
         })
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+
+    @objc private func refreshControlDidChangeValue(_ sender: UIRefreshControl) {
+        loadData {
+            sender.endRefreshing()
+        }
     }
 }
 
