@@ -14,12 +14,14 @@ protocol HTTPIncomingRequestDelegate: class {
 }
 
 class HTTPIncomingRequest {
-    let fileHandle: FileHandle
-    let message = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, true).takeRetainedValue()
+    private let httpVersion: String
+    private let fileHandle: FileHandle
+    private let message = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, true).takeRetainedValue()
     private weak var delegate: HTTPIncomingRequestDelegate?
     private unowned let notificationCenter = NotificationCenter.default
 
-    init(fileHandle: FileHandle, delegate: HTTPIncomingRequestDelegate) {
+    init(httpVersion: String, fileHandle: FileHandle, delegate: HTTPIncomingRequestDelegate) {
+        self.httpVersion = httpVersion
         self.fileHandle = fileHandle
         self.delegate = delegate
         self.notificationCenter.addObserver(self, selector: #selector(didReceiveFileHandleDataAvailableNotification(_:)), name: .NSFileHandleDataAvailable, object: fileHandle)
@@ -76,7 +78,7 @@ class HTTPIncomingRequest {
         }
         stopReceiving(closeFileHandle: false)
         let request = convertToURLRequest(message: message)
-        let connection = HTTPConnection(fileHandle: fileHandle)
+        let connection = HTTPConnection(httpVersion: httpVersion, fileHandle: fileHandle)
         delegate?.httpIncomingRequest(self, didFinishWithRequest: request, connection: connection)
     }
 

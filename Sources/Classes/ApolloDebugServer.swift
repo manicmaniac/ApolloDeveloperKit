@@ -117,7 +117,7 @@ public class ApolloDebugServer {
     @objc private func timerDidFire(_ timer: Timer) {
         let ping = HTTPChunkedResponse(string: ":\n\n")
         for connection in eventStreamConnections.allObjects {
-            connection.write(ping.data)
+            connection.write(chunkedResponse: ping)
         }
     }
 
@@ -169,14 +169,14 @@ extension ApolloDebugServer: HTTPRequestHandler {
     }
 
     private func respondWithHTTPURLResponse(connection: HTTPConnection, httpURLResponse: HTTPURLResponse, body: Data?) {
-        let response = HTTPResponse(httpURLResponse: httpURLResponse, body: body, httpVersion: server.httpVersion)
+        let response = HTTPResponse(httpURLResponse: httpURLResponse, body: body, httpVersion: connection.httpVersion)
         let data = response.serialize()!
-        connection.write(data)
+        connection.write(data: data)
         connection.close()
     }
 
     private func respondWithOK(connection: HTTPConnection, contentType: MimeType?, body: Data?, contentLength: Int? = nil) {
-        let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
+        let response = HTTPResponse(statusCode: 200, httpVersion: connection.httpVersion)
         response.setDateHeaderField()
         if let contentType = contentType {
             response.setContentTypeHeaderField(contentType)
@@ -186,14 +186,14 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
         response.setContentLengthHeaderField(contentLength ?? body?.count ?? 0)
         let data = response.serialize()!
-        connection.write(data)
+        connection.write(data: data)
         connection.close()
     }
 
     private func respondWithError(for statusCode: Int, connection: HTTPConnection, withDefaultBody: Bool) {
-        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, withDefaultBody: withDefaultBody)
+        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: connection.httpVersion, withDefaultBody: withDefaultBody)
         let data = response.serialize()!
-        connection.write(data)
+        connection.write(data: data)
         connection.close()
     }
 
@@ -201,9 +201,9 @@ extension ApolloDebugServer: HTTPRequestHandler {
         guard let body = body else {
             return respondWithError(for: statusCode, connection: connection, withDefaultBody: true)
         }
-        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: server.httpVersion, body: body)
+        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: connection.httpVersion, body: body)
         let data = response.serialize()!
-        connection.write(data)
+        connection.write(data: data)
         connection.close()
     }
 
@@ -214,7 +214,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondWithMethodNotAllowed(connection: HTTPConnection, allowedMethods: [String], withBody: Bool) {
         let statusCode = 405
-        let response = HTTPResponse(statusCode: statusCode, httpVersion: server.httpVersion)
+        let response = HTTPResponse(statusCode: statusCode, httpVersion: connection.httpVersion)
         response.setDateHeaderField()
         response.setContentTypeHeaderField(.plainText(.utf8))
         response.setValue(allowedMethods.joined(separator: ", "), forHTTPHeaderField: "Allow")
@@ -225,12 +225,12 @@ extension ApolloDebugServer: HTTPRequestHandler {
             response.setBody(bodyData)
         }
         let data = response.serialize()!
-        connection.write(data)
+        connection.write(data: data)
         connection.close()
     }
 
     private func respondToRequestForEventSource(connection: HTTPConnection, withBody: Bool) {
-        let response = HTTPResponse(statusCode: 200, httpVersion: server.httpVersion)
+        let response = HTTPResponse(statusCode: 200, httpVersion: connection.httpVersion)
         response.setDateHeaderField()
         response.setContentTypeHeaderField(.eventStream)
         response.setValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
@@ -238,9 +238,9 @@ extension ApolloDebugServer: HTTPRequestHandler {
             response.setBody(Data())
         }
         let data = response.serialize()!
-        connection.write(data)
+        connection.write(data: data)
         if withBody {
-            connection.write(chunkForCurrentState().data)
+            connection.write(chunkedResponse: chunkForCurrentState())
             eventStreamConnections.add(connection)
         } else {
             connection.close()
@@ -312,7 +312,7 @@ extension ApolloDebugServer: ConsoleRedirectionDelegate {
         let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
         let chunk = HTTPChunkedResponse(string: payload)
         for connection in eventStreamConnections.allObjects {
-            connection.write(chunk.data)
+            connection.write(chunkedResponse: chunk)
         }
     }
 
@@ -331,7 +331,7 @@ extension ApolloDebugServer: ConsoleRedirectionDelegate {
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
         for connection in eventStreamConnections.allObjects {
-            connection.write(chunkForCurrentState().data)
+            connection.write(chunkedResponse: chunkForCurrentState())
         }
     }
 }
@@ -343,7 +343,7 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, willSendOperation: operation)
             for connection in eventStreamConnections.allObjects {
-                connection.write(chunkForCurrentState().data)
+                connection.write(chunkedResponse: chunkForCurrentState())
             }
         }
     }
@@ -352,7 +352,7 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
         if !(operation is GraphQLRequest) {
             queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
             for connection in eventStreamConnections.allObjects {
-                connection.write(chunkForCurrentState().data)
+                connection.write(chunkedResponse: chunkForCurrentState())
             }
         }
     }

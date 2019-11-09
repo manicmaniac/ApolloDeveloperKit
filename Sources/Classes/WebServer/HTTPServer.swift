@@ -43,7 +43,6 @@ class HTTPServer {
         case running(port: UInt16)
         case stopping
     }
-    let httpVersion = kCFHTTPVersion1_1
     weak var requestHandler: HTTPRequestHandler?
 
     /**
@@ -64,6 +63,7 @@ class HTTPServer {
         return false
     }
 
+    private let httpVersion = kCFHTTPVersion1_1 as String
     private var state = State.idle
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
@@ -188,7 +188,7 @@ class HTTPServer {
 
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
         if let incomingFileHandle = notification.userInfo?[NSFileHandleNotificationFileHandleItem] as? FileHandle {
-            let incomingRequest = HTTPIncomingRequest(fileHandle: incomingFileHandle, delegate: self)
+            let incomingRequest = HTTPIncomingRequest(httpVersion: httpVersion, fileHandle: incomingFileHandle, delegate: self)
             incomingRequests.insert(incomingRequest)
         }
         listeningHandle?.acceptConnectionInBackgroundAndNotify()

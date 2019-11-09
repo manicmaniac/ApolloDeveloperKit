@@ -22,11 +22,11 @@ class HTTPResponse {
         return dateFormatter
     }()
 
-    required init(statusCode: Int, httpVersion: CFString) {
-        message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, httpVersion).takeRetainedValue()
+    required init(statusCode: Int, httpVersion: String) {
+        message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, nil, httpVersion as CFString).takeRetainedValue()
     }
 
-    convenience init(httpURLResponse: HTTPURLResponse, body: Data?, httpVersion: CFString) {
+    convenience init(httpURLResponse: HTTPURLResponse, body: Data?, httpVersion: String) {
         self.init(statusCode: httpURLResponse.statusCode, httpVersion: httpVersion)
         for case let (field as String, value as String) in httpURLResponse.allHeaderFields {
             setValue(value, forHTTPHeaderField: field)
@@ -36,7 +36,7 @@ class HTTPResponse {
         }
     }
 
-    class func errorResponse(for statusCode: Int, httpVersion: CFString, withDefaultBody: Bool) -> HTTPResponse {
+    class func errorResponse(for statusCode: Int, httpVersion: String, withDefaultBody: Bool) -> HTTPResponse {
         precondition(statusCode >= 300)
         let response = self.init(statusCode: statusCode, httpVersion: httpVersion)
         response.setDateHeaderField()
@@ -49,7 +49,7 @@ class HTTPResponse {
         return response
     }
 
-    class func errorResponse(for statusCode: Int, httpVersion: CFString, body: Data) -> HTTPResponse {
+    class func errorResponse(for statusCode: Int, httpVersion: String, body: Data) -> HTTPResponse {
         precondition(statusCode >= 300)
         let response = self.init(statusCode: statusCode, httpVersion: httpVersion)
         response.setDateHeaderField()
