@@ -10,16 +10,18 @@ import Foundation
 
 protocol HTTPIncomingRequestDelegate: class {
     func httpIncomingRequestDidStopReceiving(_ incomingRequest: HTTPIncomingRequest)
-    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: HTTPRequest, connection: HTTPConnection)
+    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: URLRequest, connection: HTTPConnection)
 }
 
 class HTTPIncomingRequest {
-    let fileHandle: FileHandle
-    let message = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, true).takeRetainedValue()
+    private let httpVersion: String
+    private let fileHandle: FileHandle
+    private let message = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, true).takeRetainedValue()
     private weak var delegate: HTTPIncomingRequestDelegate?
     private unowned let notificationCenter = NotificationCenter.default
 
-    init(fileHandle: FileHandle, delegate: HTTPIncomingRequestDelegate) {
+    init(httpVersion: String, fileHandle: FileHandle, delegate: HTTPIncomingRequestDelegate) {
+        self.httpVersion = httpVersion
         self.fileHandle = fileHandle
         self.delegate = delegate
         self.notificationCenter.addObserver(self, selector: #selector(didReceiveFileHandleDataAvailableNotification(_:)), name: .NSFileHandleDataAvailable, object: fileHandle)
@@ -75,9 +77,19 @@ class HTTPIncomingRequest {
             return resumeReceiving()
         }
         stopReceiving(closeFileHandle: false)
-        let request = HTTPRequest(message: message)
-        let connection = HTTPConnection(fileHandle: fileHandle)
+        let request = convertToURLRequest(message: message)
+        let connection = HTTPConnection(httpVersion: httpVersion, fileHandle: fileHandle)
         delegate?.httpIncomingRequest(self, didFinishWithRequest: request, connection: connection)
+    }
+
+    private func convertToURLRequest(message: CFHTTPMessage) -> URLRequest {
+        assert(CFHTTPMessageIsRequest(message))
+        let url = CFHTTPMessageCopyRequestURL(message)!.takeRetainedValue() as URL
+        var request = URLRequest(url: url)
+        request.httpMethod = CFHTTPMessageCopyRequestMethod(message)!.takeRetainedValue() as String
+        request.allHTTPHeaderFields = CFHTTPMessageCopyAllHeaderFields(message)?.takeRetainedValue() as? [String: String]
+        request.httpBody = CFHTTPMessageCopyBody(message)?.takeRetainedValue() as Data?
+        return request
     }
 }
 

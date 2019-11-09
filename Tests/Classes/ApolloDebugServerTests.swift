@@ -18,7 +18,7 @@ class ApolloDebugServerTests: XCTestCase {
 
     override class func setUp() {
         let url = URL(string: "http://localhost/graphql")!
-        let configuration = URLSessionConfiguration.ephemeral.copy() as! URLSessionConfiguration
+        let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
         let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration, sendOperationIdentifiers: false))
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())

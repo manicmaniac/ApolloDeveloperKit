@@ -83,17 +83,14 @@ class HTTPServerTests: XCTestCase {
 }
 
 class MockHTTPRequestHandler: HTTPRequestHandler {
-    func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
-        let response = HTTPResponse(statusCode: 200, httpVersion: kCFHTTPVersion1_1)
-        response.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        response.setValue(request.method, forHTTPHeaderField: "X-Request-Method")
-        response.setValue(request.url.absoluteString, forHTTPHeaderField: "X-Request-Url")
-        if let body = request.body {
-            response.setValue(String(body.count), forHTTPHeaderField: "Content-Length")
-            response.setBody(body)
-        }
-        let data = response.serialize()!
-        connection.write(data)
+    func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
+            "Content-Length": String(request.httpBody?.count ?? 0),
+            "Content-Type": "text/plain; charset=utf-8",
+            "X-Request-Method": request.httpMethod!,
+            "X-Request-Url": request.url!.absoluteString
+        ])!
+        connection.write(response: response, body: request.httpBody)
         connection.close()
     }
 }

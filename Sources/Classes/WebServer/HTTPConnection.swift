@@ -13,16 +13,48 @@ protocol HTTPConnectionDelegate: class {
 }
 
 class HTTPConnection {
-    let fileHandle: FileHandle
+    let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
+    private let fileHandle: FileHandle
     private let lock = NSRecursiveLock()
     private var isFileHandleOpen = true
 
-    init(fileHandle: FileHandle) {
+    init(httpVersion: String, fileHandle: FileHandle) {
+        self.httpVersion = httpVersion
         self.fileHandle = fileHandle
     }
 
-    func write(_ data: Data) {
+    func write(cachedResponse: CachedURLResponse) {
+        write(response: cachedResponse.response as! HTTPURLResponse, body: cachedResponse.data)
+    }
+
+    func write(chunkedResponse: HTTPChunkedResponse) {
+        write(data: chunkedResponse.data)
+    }
+
+    func write(response: HTTPURLResponse, body: Data?) {
+        let message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, response.statusCode, nil, httpVersion as CFString).takeRetainedValue()
+        for case (let headerField as CFString, let value as CFString) in response.allHeaderFields {
+            CFHTTPMessageSetHeaderFieldValue(message, headerField, value)
+        }
+        if let body = body as CFData? {
+            CFHTTPMessageSetBody(message, body)
+        } else {
+            CFHTTPMessageSetBody(message, Data() as CFData)
+        }
+        write(message: message)
+    }
+
+    func write(message: CFHTTPMessage) {
+        assert(!CFHTTPMessageIsRequest(message))
+        assert(CFHTTPMessageIsHeaderComplete(message))
+        guard let data = CFHTTPMessageCopySerializedMessage(message)?.takeRetainedValue() as Data? else {
+            return
+        }
+        write(data: data)
+    }
+
+    func write(data: Data) {
         lock.lock()
         defer { lock.unlock() }
         guard isFileHandleOpen else { return }
