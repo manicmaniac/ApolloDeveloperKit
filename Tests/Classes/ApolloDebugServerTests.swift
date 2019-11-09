@@ -41,6 +41,54 @@ class ApolloDebugServerTests: XCTestCase {
         XCTAssertEqual(type(of: self).server.serverURL?.port, Int(type(of: self).port))
     }
 
+    func testHeadFavicon() {
+        let url = type(of: self).server.serverURL!.appendingPathComponent("favicon.png")
+        var request = URLRequest(url: url)
+        request.httpMethod = "HEAD"
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "image/png")
+            XCTAssertGreaterThan(response.expectedContentLength, 0)
+            XCTAssertTrue(data.isEmpty)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testGetFavicon() {
+        let url = type(of: self).server.serverURL!.appendingPathComponent("favicon.png")
+        let expectation = self.expectation(description: "response should be received")
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
+            XCTAssertEqual(response.statusCode, 200)
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "image/png")
+            XCTAssertGreaterThan(response.expectedContentLength, 0)
+            XCTAssertFalse(data.isEmpty)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
     func testHeadIndex() {
         let url = type(of: self).server.serverURL!
         var request = URLRequest(url: url)
