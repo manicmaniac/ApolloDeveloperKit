@@ -150,32 +150,32 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
         switch (request.httpMethod, path) {
         case ("HEAD", "/events"):
-            respondToRequestForEventSource(connection: connection, withBody: false)
+            respondEventSource(to: request, in: connection, withBody: false)
         case ("GET", "/events"):
-            respondToRequestForEventSource(connection: connection, withBody: true)
+            respondEventSource(to: request, in: connection, withBody: true)
         case (_, "/events"):
-            respondWithMethodNotAllowed(connection: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
+            respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         case ("POST", "/request"):
             respondToRequestForGraphQLRequest(request, connection: connection)
         case (_, "/request"):
-            respondWithMethodNotAllowed(connection: connection, allowedMethods: ["POST"], withBody: true)
+            respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["POST"], withBody: true)
         case ("HEAD", _):
-            respondToRequestForDocumentRoot(request: request, connection: connection, withBody: false)
+            respondDocument(to: request, connection: connection, withBody: false)
         case ("GET", _):
-            respondToRequestForDocumentRoot(request: request, connection: connection, withBody: true)
+            respondDocument(to: request, connection: connection, withBody: true)
         case (_, _):
-            respondWithMethodNotAllowed(connection: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
+            respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         }
     }
 
-    private func respondWithHTTPURLResponse(connection: HTTPConnection, httpURLResponse: HTTPURLResponse, body: Data?) {
-        let response = HTTPResponse(httpURLResponse: httpURLResponse, body: body, httpVersion: connection.httpVersion)
+    private func respond(to request: URLRequest, in connection: HTTPConnection, response: HTTPURLResponse, body: Data?) {
+        let response = HTTPResponse(httpURLResponse: response, body: body, httpVersion: connection.httpVersion)
         let data = response.serialize()!
         connection.write(data: data)
         connection.close()
     }
 
-    private func respondWithOK(connection: HTTPConnection, contentType: MimeType?, body: Data?, contentLength: Int? = nil) {
+    private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MimeType?, contentLength: Int?, body: Data?) {
         let response = HTTPResponse(statusCode: 200, httpVersion: connection.httpVersion)
         response.setDateHeaderField()
         if let contentType = contentType {
@@ -190,16 +190,16 @@ extension ApolloDebugServer: HTTPRequestHandler {
         connection.close()
     }
 
-    private func respondWithError(for statusCode: Int, connection: HTTPConnection, withDefaultBody: Bool) {
+    private func respondError(to request: URLRequest, in connection: HTTPConnection, statusCode: Int, withDefaultBody: Bool) {
         let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: connection.httpVersion, withDefaultBody: withDefaultBody)
         let data = response.serialize()!
         connection.write(data: data)
         connection.close()
     }
 
-    private func respondWithError(for statusCode: Int, connection: HTTPConnection, body: Data?) {
+    private func respondError(to request: URLRequest, in connection: HTTPConnection, statusCode: Int, with body: Data?) {
         guard let body = body else {
-            return respondWithError(for: statusCode, connection: connection, withDefaultBody: true)
+            return respondError(to: request, in: connection, statusCode: statusCode, withDefaultBody: true)
         }
         let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: connection.httpVersion, body: body)
         let data = response.serialize()!
@@ -207,12 +207,12 @@ extension ApolloDebugServer: HTTPRequestHandler {
         connection.close()
     }
 
-    private func respondWithBadRequest(connection: HTTPConnection, jsError: JSError) {
+    private func respondBadRequest(to request: URLRequest, in connection: HTTPConnection, jsError: JSError) {
         let body = try? JSONSerializationFormat.serialize(value: jsError)
-        respondWithError(for: 400, connection: connection, body: body)
+        respondError(to: request, in: connection, statusCode: 400, with: body)
     }
 
-    private func respondWithMethodNotAllowed(connection: HTTPConnection, allowedMethods: [String], withBody: Bool) {
+    private func respondMethodNotAllowed(to request: URLRequest, in connection: HTTPConnection, allowedMethods: [String], withBody: Bool) {
         let statusCode = 405
         let response = HTTPResponse(statusCode: statusCode, httpVersion: connection.httpVersion)
         response.setDateHeaderField()
@@ -229,7 +229,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
         connection.close()
     }
 
-    private func respondToRequestForEventSource(connection: HTTPConnection, withBody: Bool) {
+    private func respondEventSource(to request: URLRequest, in connection: HTTPConnection, withBody: Bool) {
         let response = HTTPResponse(statusCode: 200, httpVersion: connection.httpVersion)
         response.setDateHeaderField()
         response.setContentTypeHeaderField(.eventStream)
@@ -247,7 +247,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
-    private func respondToRequestForDocumentRoot(request: URLRequest, connection: HTTPConnection, withBody: Bool) {
+    private func respondDocument(to request: URLRequest, connection: HTTPConnection, withBody: Bool) {
         var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
         if let path = request.url?.path {
             documentURL.appendPathComponent(path)
@@ -261,21 +261,21 @@ extension ApolloDebugServer: HTTPRequestHandler {
             let contentType = MimeType(pathExtension: documentURL.pathExtension, encoding: .utf8)
             let body = withBody ? try Data(contentsOf: documentURL) : nil
             let contentLength = resourceValues.fileSize!
-            respondWithOK(connection: connection, contentType: contentType, body: body, contentLength: contentLength)
+            respond(to: request, in: connection, contentType: contentType, contentLength: contentLength, body: body)
         } catch CocoaError.fileReadNoSuchFile {
-            respondWithError(for: 404, connection: connection, withDefaultBody: withBody)
+            respondError(to: request, in: connection, statusCode: 404, withDefaultBody: withBody)
         } catch let error {
             let body = error.localizedDescription.data(using: .utf8)
-            respondWithError(for: 500, connection: connection, body: body)
+            respondError(to: request, in: connection, statusCode: 500, with: body)
         }
     }
 
     private func respondToRequestForGraphQLRequest(_ request: URLRequest, connection: HTTPConnection) {
         guard request.value(forHTTPHeaderField: "Content-Length") != nil else {
-            return respondWithError(for: 411, connection: connection, withDefaultBody: false)
+            return respondError(to: request, in: connection, statusCode: 411, withDefaultBody: false)
         }
         guard let body = request.httpBody else {
-            return respondWithError(for: 400, connection: connection, withDefaultBody: true)
+            return respondError(to: request, in: connection, statusCode: 400, withDefaultBody: true)
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
@@ -291,15 +291,15 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     // response.body may contain an Objective-C type like `NSString`,
                     // that is not convertible to JSONValue directly.
                     let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                    self.respondWithOK(connection: connection, contentType: .json, body: body)
+                    self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
                 } catch let error as GraphQLHTTPResponseError {
-                    self.respondWithHTTPURLResponse(connection: connection, httpURLResponse: error.response, body: error.body)
+                    self.respond(to: request, in: connection, response: error.response, body: error.body)
                 } catch let error {
-                    self.respondWithBadRequest(connection: connection, jsError: JSError(error))
+                    self.respondBadRequest(to: request, in: connection, jsError: JSError(error))
                 }
             }
         } catch let error {
-            respondWithBadRequest(connection: connection, jsError: JSError(error))
+            respondBadRequest(to: request, in: connection, jsError: JSError(error))
         }
     }
 }
