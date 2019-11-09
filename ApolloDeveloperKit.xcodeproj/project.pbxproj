@@ -59,7 +59,6 @@
 		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
 		5B9645DD236BB8BF00F0926D /* MimeTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9645DC236BB8BF00F0926D /* MimeTypeTests.swift */; };
-		5BBBF5DE2340BFC700D64D7A /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DD2340BFC700D64D7A /* HTTPResponse.swift */; };
 		5BBBF5E02340CAF500D64D7A /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DF2340CAF500D64D7A /* MimeType.swift */; };
 		5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
@@ -189,7 +188,6 @@
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B9645DC236BB8BF00F0926D /* MimeTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeTypeTests.swift; sourceTree = "<group>"; };
-		5BBBF5DD2340BFC700D64D7A /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
 		5BBBF5DF2340CAF500D64D7A /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirection.swift; sourceTree = "<group>"; };
 		5BE2444622E0F6ED008EDAAD /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
@@ -375,7 +373,6 @@
 				5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */,
 				5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */,
 				5B009F402345279D0068C698 /* HTTPIncomingRequest.swift */,
-				5BBBF5DD2340BFC700D64D7A /* HTTPResponse.swift */,
 				5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */,
 				5B71521F22DA007400002BA6 /* HTTPServerError.swift */,
 				5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */,
@@ -667,7 +664,6 @@
 				5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */,
 				5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */,
 				5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */,
-				5BBBF5DE2340BFC700D64D7A /* HTTPResponse.swift in Sources */,
 				5B630E4022B60C990000994D /* QueryManager.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */,

@@ -39,6 +39,8 @@ class HTTPConnection {
         }
         if let body = body as CFData? {
             CFHTTPMessageSetBody(message, body)
+        } else {
+            CFHTTPMessageSetBody(message, Data() as CFData)
         }
         write(message: message)
     }

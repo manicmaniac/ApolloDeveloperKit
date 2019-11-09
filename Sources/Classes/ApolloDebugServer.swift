@@ -19,6 +19,7 @@ public class ApolloDebugServer {
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
+    private let dateFormatter = DateFormatter()
     private let queryManager = QueryManager()
     private var consoleRedirection: ConsoleRedirection?
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
@@ -71,6 +72,9 @@ public class ApolloDebugServer {
         self.cache = cache
         self.server = HTTPServer()
         self.keepAliveInterval = keepAliveInterval
+        self.dateFormatter.locale = Locale(identifier: "en_US")
+        self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
         self.server.requestHandler = self
         cache.delegate = self
         networkTransport.delegate = self
@@ -168,32 +172,24 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
-    private func respond(to request: URLRequest, in connection: HTTPConnection, response: HTTPURLResponse, body: Data?) {
-        let response = HTTPResponse(httpURLResponse: response, body: body, httpVersion: connection.httpVersion)
-        let data = response.serialize()!
-        connection.write(data: data)
-        connection.close()
-    }
-
     private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MimeType?, contentLength: Int?, body: Data?) {
-        let response = HTTPResponse(statusCode: 200, httpVersion: connection.httpVersion)
-        response.setDateHeaderField()
-        if let contentType = contentType {
-            response.setContentTypeHeaderField(contentType)
-        }
-        if let body = body {
-            response.setBody(body)
-        }
-        response.setContentLengthHeaderField(contentLength ?? body?.count ?? 0)
-        let data = response.serialize()!
-        connection.write(data: data)
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
+            "Content-Length": String(contentLength ?? body?.count ?? 0),
+            "Content-Type": String(describing: contentType ?? .octetStream),
+            "Date": dateFormatter.string(from: Date())
+        ])!
+        connection.write(response: response, body: body)
         connection.close()
     }
 
     private func respondError(to request: URLRequest, in connection: HTTPConnection, statusCode: Int, withDefaultBody: Bool) {
-        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: connection.httpVersion, withDefaultBody: withDefaultBody)
-        let data = response.serialize()!
-        connection.write(data: data)
+        let body = withDefaultBody ? "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".data(using: .utf8) : nil
+        let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
+            "Content-Length": String(body?.count ?? 0),
+            "Content-Type": "text/plain; charset=utf-8",
+            "Date": dateFormatter.string(from: Date())
+        ])!
+        connection.write(response: response, body: body)
         connection.close()
     }
 
@@ -201,9 +197,12 @@ extension ApolloDebugServer: HTTPRequestHandler {
         guard let body = body else {
             return respondError(to: request, in: connection, statusCode: statusCode, withDefaultBody: true)
         }
-        let response = HTTPResponse.errorResponse(for: statusCode, httpVersion: connection.httpVersion, body: body)
-        let data = response.serialize()!
-        connection.write(data: data)
+        let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
+            "Content-Length": String(body.count),
+            "Content-Type": "text/plain; charset=utf-8",
+            "Date": dateFormatter.string(from: Date())
+        ])!
+        connection.write(response: response, body: body)
         connection.close()
     }
 
@@ -214,31 +213,24 @@ extension ApolloDebugServer: HTTPRequestHandler {
 
     private func respondMethodNotAllowed(to request: URLRequest, in connection: HTTPConnection, allowedMethods: [String], withBody: Bool) {
         let statusCode = 405
-        let response = HTTPResponse(statusCode: statusCode, httpVersion: connection.httpVersion)
-        response.setDateHeaderField()
-        response.setContentTypeHeaderField(.plainText(.utf8))
-        response.setValue(allowedMethods.joined(separator: ", "), forHTTPHeaderField: "Allow")
-        let bodyString = "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n"
-        let bodyData = bodyString.data(using: .utf8)!
-        response.setContentLengthHeaderField(bodyData.count)
-        if withBody {
-            response.setBody(bodyData)
-        }
-        let data = response.serialize()!
-        connection.write(data: data)
+        let body = withBody ? "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".data(using: .utf8) : nil
+        let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
+            "Allow": allowedMethods.joined(separator: ", "),
+            "Content-Length": String(body?.count ?? 0),
+            "Content-Type": "text/plain; charset=utf-8",
+            "Date": dateFormatter.string(from: Date())
+        ])!
+        connection.write(response: response, body: body)
         connection.close()
     }
 
     private func respondEventSource(to request: URLRequest, in connection: HTTPConnection, withBody: Bool) {
-        let response = HTTPResponse(statusCode: 200, httpVersion: connection.httpVersion)
-        response.setDateHeaderField()
-        response.setContentTypeHeaderField(.eventStream)
-        response.setValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
-        if withBody {
-            response.setBody(Data())
-        }
-        let data = response.serialize()!
-        connection.write(data: data)
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
+            "Content-Type": "text/event-stream",
+            "Date": dateFormatter.string(from: Date()),
+            "Transfer-Encoding": "chunked"
+        ])!
+        connection.write(response: response, body: withBody ? Data() : nil)
         if withBody {
             connection.write(chunkedResponse: chunkForCurrentState())
             eventStreamConnections.add(connection)
@@ -293,7 +285,8 @@ extension ApolloDebugServer: HTTPRequestHandler {
                     let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
                     self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
                 } catch let error as GraphQLHTTPResponseError {
-                    self.respond(to: request, in: connection, response: error.response, body: error.body)
+                    connection.write(response: error.response, body: error.body)
+                    connection.close()
                 } catch let error {
                     self.respondBadRequest(to: request, in: connection, jsError: JSError(error))
                 }
