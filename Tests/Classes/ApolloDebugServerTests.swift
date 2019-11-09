@@ -102,9 +102,13 @@ class ApolloDebugServerTests: XCTestCase {
             guard let response = response as? HTTPURLResponse else {
                 return XCTFail("unexpected response type")
             }
+            guard let data = data else {
+                fatalError("URLSession.dataTask(with:) must pass either of error or data")
+            }
             XCTAssertEqual(response.statusCode, 200)
             XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/html; charset=utf-8")
             XCTAssertGreaterThan(response.expectedContentLength, 0)
+            XCTAssertTrue(data.isEmpty)
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
