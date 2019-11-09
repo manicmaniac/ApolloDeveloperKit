@@ -144,8 +144,11 @@ public class ApolloDebugServer {
 // MARK: HTTPRequestHandler
 
 extension ApolloDebugServer: HTTPRequestHandler {
-    func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection) {
-        switch (request.method, request.url.path) {
+    func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
+        guard let path = request.url?.path else {
+            return
+        }
+        switch (request.httpMethod, path) {
         case ("HEAD", "/events"):
             respondToRequestForEventSource(connection: connection, withBody: false)
         case ("GET", "/events"):
@@ -244,9 +247,11 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
-    private func respondToRequestForDocumentRoot(request: HTTPRequest, connection: HTTPConnection, withBody: Bool) {
+    private func respondToRequestForDocumentRoot(request: URLRequest, connection: HTTPConnection, withBody: Bool) {
         var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
-        documentURL.appendPathComponent(request.url.path)
+        if let path = request.url?.path {
+            documentURL.appendPathComponent(path)
+        }
         do {
             var resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
             if resourceValues.isDirectory! {
@@ -265,11 +270,11 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
-    private func respondToRequestForGraphQLRequest(_ request: HTTPRequest, connection: HTTPConnection) {
+    private func respondToRequestForGraphQLRequest(_ request: URLRequest, connection: HTTPConnection) {
         guard request.value(forHTTPHeaderField: "Content-Length") != nil else {
             return respondWithError(for: 411, connection: connection, withDefaultBody: false)
         }
-        guard let body = request.body else {
+        guard let body = request.httpBody else {
             return respondWithError(for: 400, connection: connection, withDefaultBody: true)
         }
         do {

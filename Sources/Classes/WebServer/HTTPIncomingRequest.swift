@@ -10,7 +10,7 @@ import Foundation
 
 protocol HTTPIncomingRequestDelegate: class {
     func httpIncomingRequestDidStopReceiving(_ incomingRequest: HTTPIncomingRequest)
-    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: HTTPRequest, connection: HTTPConnection)
+    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: URLRequest, connection: HTTPConnection)
 }
 
 class HTTPIncomingRequest {
@@ -75,9 +75,19 @@ class HTTPIncomingRequest {
             return resumeReceiving()
         }
         stopReceiving(closeFileHandle: false)
-        let request = HTTPRequest(message: message)
+        let request = convertToURLRequest(message: message)
         let connection = HTTPConnection(fileHandle: fileHandle)
         delegate?.httpIncomingRequest(self, didFinishWithRequest: request, connection: connection)
+    }
+
+    private func convertToURLRequest(message: CFHTTPMessage) -> URLRequest {
+        assert(CFHTTPMessageIsRequest(message))
+        let url = CFHTTPMessageCopyRequestURL(message)!.takeRetainedValue() as URL
+        var request = URLRequest(url: url)
+        request.httpMethod = CFHTTPMessageCopyRequestMethod(message)!.takeRetainedValue() as String
+        request.allHTTPHeaderFields = CFHTTPMessageCopyAllHeaderFields(message)?.takeRetainedValue() as? [String: String]
+        request.httpBody = CFHTTPMessageCopyBody(message)?.takeRetainedValue() as Data?
+        return request
     }
 }
 

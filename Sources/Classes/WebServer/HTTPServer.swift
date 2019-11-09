@@ -20,7 +20,7 @@ protocol HTTPRequestHandler: class {
      * - Parameter fileHandle: A file handle wrapping the underlying socket.
      * - Parameter completion: A completion handler. You must call it when the response ends.
      */
-    func server(_ server: HTTPServer, didReceiveRequest request: HTTPRequest, connection: HTTPConnection)
+    func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection)
 }
 
 #if swift(>=4.2)
@@ -202,7 +202,7 @@ extension HTTPServer: HTTPIncomingRequestDelegate {
         incomingRequests.remove(incomingRequest)
     }
 
-    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: HTTPRequest, connection: HTTPConnection) {
+    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: URLRequest, connection: HTTPConnection) {
         connection.delegate = self
         connections.insert(connection)
         requestHandler?.server(self, didReceiveRequest: request, connection: connection)
