@@ -13,6 +13,7 @@ class HTTPServerTests: XCTestCase {
     private static let server = HTTPServer()
     private static let mockHTTPRequestHandler = MockHTTPRequestHandler()
     private static var port = UInt16(0)
+    private var session: URLSession!
 
     override class func setUp() {
         server.requestHandler = mockHTTPRequestHandler
@@ -21,6 +22,14 @@ class HTTPServerTests: XCTestCase {
 
     override class func tearDown() {
         server.stop()
+    }
+
+    override func setUp() {
+        session = URLSession(configuration: .test)
+    }
+
+    override func tearDown() {
+        session.invalidateAndCancel()
     }
 
     func testIsRunning() {
@@ -41,7 +50,7 @@ class HTTPServerTests: XCTestCase {
     func testGetRequest() {
         let expectation = self.expectation(description: "receive response")
         let url = URL(string: "http://127.0.0.1:\(type(of: self).port)")!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             let response = response as? HTTPURLResponse
             XCTAssertEqual(response?.statusCode, 200)
             XCTAssertNil(error)
@@ -64,7 +73,7 @@ class HTTPServerTests: XCTestCase {
         request.httpBody = "foo".data(using: .utf8)!
         request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
         request.setValue("close", forHTTPHeaderField: "Connection")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             let response = response as? HTTPURLResponse
             XCTAssertEqual(response?.statusCode, 200)
             XCTAssertNil(error)

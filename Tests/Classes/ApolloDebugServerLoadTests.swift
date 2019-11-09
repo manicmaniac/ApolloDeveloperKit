@@ -15,10 +15,11 @@ class ApolloDebugServerLoadTests: XCTestCase {
     private static var client: ApolloClient!
     private static var server: ApolloDebugServer!
     private static var port = UInt16(0)
+    private var session: URLSession!
 
     override class func setUp() {
         let url = URL(string: "https://localhost/graphql")!
-        let configuration = URLSessionConfiguration.ephemeral
+        let configuration = URLSessionConfiguration.test
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
         let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration, sendOperationIdentifiers: false))
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
@@ -32,13 +33,17 @@ class ApolloDebugServerLoadTests: XCTestCase {
         server.stop()
     }
 
+    override func setUp() {
+        session = URLSession(configuration: .test)
+    }
+
+    override func tearDown() {
+        session.invalidateAndCancel()
+    }
+
     func testGetBundleJS_withMaximumNumberOfClients() {
-        let numberOfClients = 256
         let url = type(of: self).server.serverURL!.appendingPathComponent("bundle.js")
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.httpMaximumConnectionsPerHost = numberOfClients
-        let session = URLSession(configuration: configuration)
-        for index in (0..<numberOfClients) {
+        for index in (0..<session.configuration.httpMaximumConnectionsPerHost) {
             let expectation = self.expectation(description: "response should be received (\(index))")
             let task = session.dataTask(with: url) { data, response, error in
                 defer { expectation.fulfill() }
@@ -58,7 +63,6 @@ class ApolloDebugServerLoadTests: XCTestCase {
             task.resume()
         }
         waitForExpectations(timeout: 10.0, handler: nil)
-        session.invalidateAndCancel()
     }
 }
 
