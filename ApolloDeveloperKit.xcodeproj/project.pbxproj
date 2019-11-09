@@ -69,10 +69,8 @@
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
 		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
-		5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */; };
 		5BB24721237A4CDE001C6578 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */; };
-		5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */; };
 		5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */; };
 		5BCC23BF238464A400D26A79 /* JSONCocoaTypeConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC23BE238464A400D26A79 /* JSONCocoaTypeConversions.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
@@ -243,9 +241,7 @@
 		5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMETypeTests.swift; sourceTree = "<group>"; };
 		5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionConfiguration+Test.swift"; sourceTree = "<group>"; };
-		5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEType.swift; sourceTree = "<group>"; };
 		5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirection.swift; sourceTree = "<group>"; };
 		5BCC23BE238464A400D26A79 /* JSONCocoaTypeConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCocoaTypeConversions.swift; sourceTree = "<group>"; };
 		5BE2444622E0F6ED008EDAAD /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
@@ -442,7 +438,6 @@
 				5B3A83A822C89835002B4FFB /* FileHandle+Socket.swift */,
 				5B0051102308848E00B9B2B2 /* NetworkInterface.swift */,
 				5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */,
-				5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
@@ -455,7 +450,6 @@
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
 				5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */,
 				5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */,
-				5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
@@ -771,7 +765,6 @@
 				5B630E3A22B575DA0000994D /* QueryStore.swift in Sources */,
 				5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */,
 				5B630E3E22B60A210000994D /* MutationStore.swift in Sources */,
-				5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */,
 				5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */,
 				5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */,
 				5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */,
@@ -814,7 +807,6 @@
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
-				5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

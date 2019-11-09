@@ -231,7 +231,7 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/javascript")
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/javascript; charset=utf-8")
             XCTAssertGreaterThan(response.expectedContentLength, 0)
         }
         task.resume()
@@ -250,7 +250,7 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/javascript")
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/javascript; charset=utf-8")
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
@@ -274,7 +274,7 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/css")
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/css; charset=utf-8")
             XCTAssertGreaterThan(response.expectedContentLength, 0)
         }
         task.resume()
@@ -293,7 +293,7 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 200)
-            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/css")
+            XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "text/css; charset=utf-8")
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
