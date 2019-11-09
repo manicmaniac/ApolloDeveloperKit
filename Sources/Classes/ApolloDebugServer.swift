@@ -8,6 +8,11 @@
 
 import Apollo
 import Foundation
+#if os(iOS)
+import MobileCoreServices
+#else
+import CoreServices
+#endif
 
 /**
  * `ApolloDebugServer` is a HTTP server to communicate with `apollo-client-devtools`.
@@ -212,10 +217,10 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
-    private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MIMEType?, contentLength: Int?, body: Data?) {
+    private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: String, contentLength: Int?, body: Data?) {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(contentLength ?? body?.count ?? 0),
-            "Content-Type": String(describing: contentType ?? .octetStream),
+            "Content-Type": contentType,
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -290,7 +295,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
                 documentURL.appendPathComponent("index.html")
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
             }
-            let contentType = MIMEType(pathExtension: documentURL.pathExtension, encoding: .utf8)
+            let contentType = self.contentType(for: documentURL.pathExtension, preferredEncoding: .utf8)
             let body = withBody ? try Data(contentsOf: documentURL) : nil
             let contentLength = resourceValues.fileSize!
             respond(to: request, in: connection, contentType: contentType, contentLength: contentLength, body: body)
@@ -323,7 +328,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
                     // response.body may contain an Objective-C type like `NSString`,
                     // that is not convertible to JSONValue directly.
                     let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                    self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
+                    self.respond(to: request, in: connection, contentType: "application/json", contentLength: nil, body: body)
                 } catch let error as GraphQLHTTPResponseError {
                     connection.write(response: error.response, body: error.body)
                     connection.close()
@@ -334,6 +339,20 @@ extension ApolloDebugServer: HTTPServerDelegate {
         } catch let error {
             respondBadRequest(to: request, in: connection, jsError: JSError(error))
         }
+    }
+
+    private func contentType(for pathExtension: String, preferredEncoding: String.Encoding) -> String {
+        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(),
+            !UTTypeIsDynamic(uti),
+            let mediaType = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() as String? else {
+            return "application/octet-stream"
+        }
+        guard UTTypeConformsTo(uti, kUTTypeText) else {
+            return mediaType
+        }
+        let cfStringEncoding = CFStringConvertNSStringEncodingToEncoding(preferredEncoding.rawValue)
+        let ianaCharSetName = CFStringConvertEncodingToIANACharSetName(cfStringEncoding)!
+        return "\(mediaType); charset=\(ianaCharSetName)"
     }
 }
 
