@@ -255,6 +255,7 @@ class ApolloDebugServerTests: XCTestCase {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
             XCTAssertFalse(data.isEmpty)
+            XCTAssertNotNil(String(data: data, encoding: .utf8))
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
@@ -298,6 +299,7 @@ class ApolloDebugServerTests: XCTestCase {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
             XCTAssertFalse(data.isEmpty)
+            XCTAssertNotNil(String(data: data, encoding: .utf8))
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
