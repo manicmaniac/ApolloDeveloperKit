@@ -43,7 +43,7 @@ class ApolloDebugServerLoadTests: XCTestCase {
 
     func testGetBundleJS_withMaximumNumberOfClients() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("bundle.js")
-        for index in (0..<session.configuration.httpMaximumConnectionsPerHost) {
+        for index in (0..<16) {
             let expectation = self.expectation(description: "response should be received (\(index))")
             let task = session.dataTask(with: url) { data, response, error in
                 defer { expectation.fulfill() }
