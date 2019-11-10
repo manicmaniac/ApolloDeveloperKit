@@ -15,6 +15,7 @@ class ApolloDebugServerTests: XCTestCase {
     private static var client: ApolloClient!
     private static var server: ApolloDebugServer!
     private static var port = UInt16(0)
+    private var session: URLSession!
 
     override class func setUp() {
         let url = URL(string: "http://localhost/graphql")!
@@ -30,6 +31,14 @@ class ApolloDebugServerTests: XCTestCase {
 
     override class func tearDown() {
         server.stop()
+    }
+
+    override func setUp() {
+        session = URLSession(configuration: .test)
+    }
+
+    override func tearDown() {
+        session.invalidateAndCancel()
     }
 
     func testIsRunning() {
@@ -94,7 +103,7 @@ class ApolloDebugServerTests: XCTestCase {
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -117,7 +126,7 @@ class ApolloDebugServerTests: XCTestCase {
     func testGetIndex() {
         let url = type(of: self).server.serverURL!
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -144,7 +153,7 @@ class ApolloDebugServerTests: XCTestCase {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -171,7 +180,7 @@ class ApolloDebugServerTests: XCTestCase {
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -190,7 +199,7 @@ class ApolloDebugServerTests: XCTestCase {
     func testGetBundleJS() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("bundle.js")
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -214,7 +223,7 @@ class ApolloDebugServerTests: XCTestCase {
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -233,7 +242,7 @@ class ApolloDebugServerTests: XCTestCase {
     func testGetStyleCSS() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("style.css")
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -255,7 +264,7 @@ class ApolloDebugServerTests: XCTestCase {
     func testGetInvalidURL() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("invalid")
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -282,7 +291,7 @@ class ApolloDebugServerTests: XCTestCase {
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -308,7 +317,9 @@ class ApolloDebugServerTests: XCTestCase {
         let expectationForData = expectation(description: "data should be received")
         expectationForData.expectedFulfillmentCount = 2
         let handler = ChunkedURLSessionDataTaskHandler()
-        let session = URLSession(configuration: .default, delegate: handler, delegateQueue: nil)
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let session = URLSession(configuration: configuration, delegate: handler, delegateQueue: nil)
         let task = session.dataTask(with: url)
         handler.urlSessionDataTaskDidReceiveResponseWithCompletionHandler = { session, task, response, completionHandler in
             defer { expectationForResponse.fulfill() }
@@ -363,7 +374,7 @@ class ApolloDebugServerTests: XCTestCase {
         var request = URLRequest(url: url)
         request.httpMethod = "HEAD"
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -385,7 +396,7 @@ class ApolloDebugServerTests: XCTestCase {
     func testGetRequest() {
         let url = type(of: self).server.serverURL!.appendingPathComponent("request")
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -415,7 +426,7 @@ class ApolloDebugServerTests: XCTestCase {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = query
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -445,7 +456,7 @@ class ApolloDebugServerTests: XCTestCase {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = mutation
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -475,7 +486,7 @@ class ApolloDebugServerTests: XCTestCase {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = serverError
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
@@ -505,7 +516,7 @@ class ApolloDebugServerTests: XCTestCase {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = Data()
         let expectation = self.expectation(description: "response should be received")
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             defer { expectation.fulfill() }
             if let error = error {
                 return XCTFail(String(describing: error))
