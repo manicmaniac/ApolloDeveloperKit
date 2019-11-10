@@ -7,7 +7,6 @@
 //
 
 import Apollo
-import MobileCoreServices
 
 /**
  * `ApolloDebugServer` is a HTTP server to communicate with `apollo-cient-devtools`.
@@ -251,7 +250,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 documentURL.appendPathComponent("index.html")
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
             }
-            let contentType = self.contentType(for: documentURL.pathExtension, preferredEncoding: .utf8)
+            let contentType = ContentTypeSniffer.shared.contentType(for: documentURL.pathExtension, preferredEncoding: .utf8)
             let body = withBody ? try Data(contentsOf: documentURL) : nil
             let contentLength = resourceValues.fileSize!
             respond(to: request, in: connection, contentType: contentType, contentLength: contentLength, body: body)
@@ -295,20 +294,6 @@ extension ApolloDebugServer: HTTPRequestHandler {
         } catch let error {
             respondBadRequest(to: request, in: connection, jsError: JSError(error))
         }
-    }
-
-    private func contentType(for pathExtension: String, preferredEncoding: String.Encoding) -> String {
-        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(),
-            !UTTypeIsDynamic(uti),
-            let mediaType = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() as String? else {
-            return "application/octet-stream"
-        }
-        guard UTTypeConformsTo(uti, kUTTypeText) else {
-            return mediaType
-        }
-        let cfStringEncoding = CFStringConvertNSStringEncodingToEncoding(preferredEncoding.rawValue)
-        let ianaCharSetName = CFStringConvertEncodingToIANACharSetName(cfStringEncoding)!
-        return "\(mediaType); charset=\(ianaCharSetName)"
     }
 }
 
