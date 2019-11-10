@@ -57,8 +57,6 @@
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
 		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
-		5BB8BE2D2377ECF8004D93B3 /* ContentTypeSniffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8BE2C2377ECF8004D93B3 /* ContentTypeSniffer.swift */; };
-		5BB8BE2F2377EE68004D93B3 /* ContentTypeSnifferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8BE2E2377EE68004D93B3 /* ContentTypeSnifferTests.swift */; };
 		5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */; };
 		5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF045FC22B6E62D0083A52D /* JSError.swift */; };
 		5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */; };
@@ -185,8 +183,6 @@
 		5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5BB8BE2C2377ECF8004D93B3 /* ContentTypeSniffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypeSniffer.swift; sourceTree = "<group>"; };
-		5BB8BE2E2377EE68004D93B3 /* ContentTypeSnifferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypeSnifferTests.swift; sourceTree = "<group>"; };
 		5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirection.swift; sourceTree = "<group>"; };
 		5BE2444622E0F6ED008EDAAD /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
 		5BF045FC22B6E62D0083A52D /* JSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSError.swift; sourceTree = "<group>"; };
@@ -367,7 +363,6 @@
 		5B3A83A522C87F3B002B4FFB /* WebServer */ = {
 			isa = PBXGroup;
 			children = (
-				5BB8BE2C2377ECF8004D93B3 /* ContentTypeSniffer.swift */,
 				5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */,
 				5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */,
 				5B009F402345279D0068C698 /* HTTPIncomingRequest.swift */,
@@ -383,7 +378,6 @@
 		5B3A83AB22C9333A002B4FFB /* WebServer */ = {
 			isa = PBXGroup;
 			children = (
-				5BB8BE2E2377EE68004D93B3 /* ContentTypeSnifferTests.swift */,
 				5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */,
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
@@ -648,7 +642,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */,
-				5BB8BE2D2377ECF8004D93B3 /* ContentTypeSniffer.swift in Sources */,
 				5B0051132309125F00B9B2B2 /* NetworkInterfaceList.swift in Sources */,
 				5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */,
 				5B3A83A922C89835002B4FFB /* FileHandle+Socket.swift in Sources */,
@@ -695,7 +688,6 @@
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B3A839822C725BA002B4FFB /* QueryStoreTests.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
-				5BB8BE2F2377EE68004D93B3 /* ContentTypeSnifferTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* GraphQLRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
