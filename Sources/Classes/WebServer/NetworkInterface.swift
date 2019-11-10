@@ -11,7 +11,7 @@ import Darwin
 /**
  * `NetworkInterface` is a Swift bridge for Unix `ifaddrs`.
  */
-class NetworkInterface {
+struct NetworkInterface {
     /**
      * Name of this interface.
      */
