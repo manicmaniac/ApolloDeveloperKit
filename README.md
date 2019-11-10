@@ -168,7 +168,7 @@ This makes it possible to import the ApolloDeveloperKit framework from your sour
 3. Add a *Run Script Phase* to your target (inserting it alter the existing `Link Binary with Libraries` phase, for example), and which will embed `ApolloDeveloperKit.framework` in debug builds only:
 
 ```bash
-if [ "$CONFIGURATION" == "Debug" ]; then
+if [ "$CONFIGURATION" = Debug ]; then
   /usr/local/bin/carthage copy-frameworks
 fi
 ```
