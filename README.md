@@ -61,7 +61,7 @@ Contrary to CocoaPods, Carthage doesn't select the compiler by itself so the onl
 
 ```bash
 echo APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2 >ApolloDeveloperKit.xcconfig
-XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig carthage update --platform iOS
+XCODE_XCCONFIG_FILE="$PWD/ApolloDeveloperKit.xcconfig" carthage update --platform iOS
 rm ApolloDeveloperKit.xcconfig
 ```
 
