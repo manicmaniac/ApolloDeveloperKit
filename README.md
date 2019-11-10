@@ -59,7 +59,7 @@ Then run `carthage update --platform iOS`.
 If you are using Xcode 10.1, where Swift 5 is not available, the install step could be a bit tricky though Cartfile can be as it is.
 Contrary to CocoaPods, Carthage doesn't select the compiler by itself so the only way to force it to use Swift 4.2 is to inject a Xcode configuration file.
 
-```
+```bash
 echo APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2 >ApolloDeveloperKit.xcconfig
 XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig carthage update --platform iOS
 rm ApolloDeveloperKit.xcconfig
@@ -167,7 +167,7 @@ CocoaPods automatically excludes ApolloDeveloperKit from release builds if you o
 This makes it possible to import the ApolloDeveloperKit framework from your source files. It does not harm if this setting is added for all configurations, but it should at least be added for the debug one.
 3. Add a *Run Script Phase* to your target (inserting it alter the existing `Link Binary with Libraries` phase, for example), and which will embed `ApolloDeveloperKit.framework` in debug builds only:
 
-```
+```bash
 if [ "$CONFIGURATION" == "Debug" ]; then
   /usr/local/bin/carthage copy-frameworks
 fi
