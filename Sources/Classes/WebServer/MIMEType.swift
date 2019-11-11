@@ -1,5 +1,5 @@
 //
-//  MimeType.swift
+//  MIMEType.swift
 //  ApolloDeveloperKit
 //
 //  Created by Ryosuke Ito on 9/29/19.
@@ -9,11 +9,11 @@
 import CoreFoundation
 
 /**
- * `MimeType` represents a very limited part of MIME types.
+ * `MIMEType` represents a very limited part of MIME types.
  *
  * - SeeAlso: https://www.iana.org/assignments/media-types/media-types.xhtml
  */
-enum MimeType {
+enum MIMEType {
     case html(String.Encoding?)
     case javascript
     case json
@@ -45,7 +45,7 @@ enum MimeType {
 
 // MARK: CustomStringConvertible
 
-extension MimeType: CustomStringConvertible {
+extension MIMEType: CustomStringConvertible {
     var description: String {
         switch self {
         case .html(let encoding?):
