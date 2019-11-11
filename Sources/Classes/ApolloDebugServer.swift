@@ -172,7 +172,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
         }
     }
 
-    private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MimeType?, contentLength: Int?, body: Data?) {
+    private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MIMEType?, contentLength: Int?, body: Data?) {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(contentLength ?? body?.count ?? 0),
             "Content-Type": String(describing: contentType ?? .octetStream),
@@ -250,7 +250,7 @@ extension ApolloDebugServer: HTTPRequestHandler {
                 documentURL.appendPathComponent("index.html")
                 resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
             }
-            let contentType = MimeType(pathExtension: documentURL.pathExtension, encoding: .utf8)
+            let contentType = MIMEType(pathExtension: documentURL.pathExtension, encoding: .utf8)
             let body = withBody ? try Data(contentsOf: documentURL) : nil
             let contentLength = resourceValues.fileSize!
             respond(to: request, in: connection, contentType: contentType, contentLength: contentLength, body: body)
