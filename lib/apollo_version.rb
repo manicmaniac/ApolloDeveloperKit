@@ -32,7 +32,7 @@ class ApolloVersion
 
   def self.find_in_frameworks!(framework_search_paths = default_framework_search_paths)
     Find.find(*framework_search_paths) do |path|
-      next unless path.end_with?('Apollo.framework/Info.plist')
+      next unless path.end_with?('Info.plist')
       return new(parse_version_from_info_plist(path))
     end
     raise(NotFoundError.new)
