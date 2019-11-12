@@ -53,6 +53,7 @@
 		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */; };
+		5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
@@ -180,6 +181,7 @@
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
 		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift.erb"; sourceTree = "<group>"; };
 		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
+		5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 		5B8F2B8A22C059BB006922CE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		5B8F2B8B22C059BB006922CE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostListViewController.graphql; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 		5B2F84E322B431920025A211 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5B8983CC237A3E1B00C857D6 /* Background */,
 				5BF9B11923494CF8009A6463 /* Console */,
 				5B67343D22BFF02200A09DF7 /* GraphQL */,
 				5B7C983622BABA06000F4D7B /* JSON */,
@@ -442,6 +445,14 @@
 				5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		5B8983CC237A3E1B00C857D6 /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */,
+			);
+			path = Background;
 			sourceTree = "<group>";
 		};
 		5BE2442122E0F53E008EDAAD /* InstallTests */ = {
@@ -676,6 +687,7 @@
 				5B67343A22BFC53A00A09DF7 /* GraphQLRequest.swift in Sources */,
 				5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */,
 				5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */,
+				5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */,
 				5B009F412345279D0068C698 /* HTTPIncomingRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,12 +11,12 @@ import XCTest
 
 class HTTPServerTests: XCTestCase {
     private static let server = HTTPServer()
-    private static let mockHTTPRequestHandler = MockHTTPRequestHandler()
+    private static let mockHTTPServerDelegate = MockHTTPServerDelegate()
     private static var port = UInt16(0)
     private var session: URLSession!
 
     override class func setUp() {
-        server.requestHandler = mockHTTPRequestHandler
+        server.delegate = mockHTTPServerDelegate
         port = try! server.start(randomPortIn: 49152...65535) // MacOS ephemeral ports
     }
 
@@ -91,7 +91,10 @@ class HTTPServerTests: XCTestCase {
     }
 }
 
-class MockHTTPRequestHandler: HTTPRequestHandler {
+class MockHTTPServerDelegate: HTTPServerDelegate {
+    func server(_ server: HTTPServer, didStartListeningTo port: UInt16) {
+    }
+
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(request.httpBody?.count ?? 0),
