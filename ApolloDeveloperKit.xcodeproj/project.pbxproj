@@ -54,7 +54,6 @@
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */; };
 		5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */; };
-		5B8983D1237A438F00C857D6 /* Apollo.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
@@ -62,6 +61,7 @@
 		5B8F2B9622C059BC006922CE /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */; };
 		5B8F2B9922C05AFD006922CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B8F2B9822C05AFD006922CE /* Main.storyboard */; };
 		5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */; };
+		5BB24721237A4CDE001C6578 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */; };
 		5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */; };
 		5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */; };
@@ -77,6 +77,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
@@ -88,6 +90,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
@@ -114,16 +118,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5B8983D0237A438400C857D6 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5B8983D1237A438F00C857D6 /* Apollo.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BFF016B22DF8BA600944131 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,13 +207,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5B26FC1922B3DB0800359E63 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5B26FC2222B3DB0800359E63 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,6 +222,14 @@
 			files = (
 				5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */,
 				5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5BB24720237A4CC6001C6578 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BB24721237A4CDE001C6578 /* Apollo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,7 +501,7 @@
 			buildPhases = (
 				5B26FC1722B3DB0800359E63 /* Headers */,
 				5B26FC1822B3DB0800359E63 /* Sources */,
-				5B26FC1922B3DB0800359E63 /* Frameworks */,
+				5BB24720237A4CC6001C6578 /* Frameworks */,
 				5B26FC1A22B3DB0800359E63 /* Resources */,
 			);
 			buildRules = (
@@ -525,7 +520,7 @@
 				5B26FC2122B3DB0800359E63 /* Sources */,
 				5B26FC2222B3DB0800359E63 /* Frameworks */,
 				5B26FC2322B3DB0800359E63 /* Resources */,
-				5B8983D0237A438400C857D6 /* CopyFiles */,
+				5BB24731237A55E9001C6578 /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
 				5B5D4350233F817900AF5B5C /* PBXBuildRule */,
@@ -629,6 +624,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5BB24731237A55E9001C6578 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(CARTHAGE_ROOT)/Apollo.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH=\"$CARTHAGE_SEARCH_PATHS:$PATH\" carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5B26FC1822B3DB0800359E63 /* Sources */ = {
@@ -734,6 +751,10 @@
 			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/MacOS";
+				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -762,7 +783,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -784,10 +804,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -800,6 +820,10 @@
 			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/MacOS";
+				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -828,7 +852,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -844,9 +867,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -859,28 +882,44 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(CARTHAGE_ROOT)",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
+				INSTALL_PATH = "@rpath";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				"TARGETED_DEVICE_FAMILY[sdk=iphoneos*]" = "1,2";
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,2";
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				"VALID_ARCHS[sdk=macosx*]" = x86_64;
 			};
 			name = Debug;
 		};
@@ -888,27 +927,43 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(CARTHAGE_ROOT)",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
+				INSTALL_PATH = "@rpath";
+				LD_RUNPATH_SEARCH_PATHS = "";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				"TARGETED_DEVICE_FAMILY[sdk=iphoneos*]" = "1,2";
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,2";
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				"VALID_ARCHS[sdk=macosx*]" = x86_64;
 			};
 			name = Release;
 		};
@@ -919,20 +974,36 @@
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(CARTHAGE_ROOT)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
+				LD_RUNPATH_SEARCH_PATHS = "";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				"VALID_ARCHS[sdk=macosx*]" = x86_64;
 			};
 			name = Debug;
 		};
@@ -943,19 +1014,35 @@
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(CARTHAGE_ROOT)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
+				LD_RUNPATH_SEARCH_PATHS = "";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "i386 x86_64";
+				"VALID_ARCHS[sdk=macosx*]" = x86_64;
 			};
 			name = Release;
 		};
@@ -977,6 +1064,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
+				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1001,6 +1089,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
