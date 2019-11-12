@@ -54,6 +54,8 @@
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */; };
 		5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */; };
+		5B8983D1237A438F00C857D6 /* Apollo.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
@@ -112,12 +114,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5B8983D0237A438400C857D6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5B8983D1237A438F00C857D6 /* Apollo.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5BFF016B22DF8BA600944131 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */,
 				5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -512,7 +525,7 @@
 				5B26FC2122B3DB0800359E63 /* Sources */,
 				5B26FC2222B3DB0800359E63 /* Frameworks */,
 				5B26FC2322B3DB0800359E63 /* Resources */,
-				5B0EC96822B6D8AD003D7933 /* Carthage Copy Frameworks */,
+				5B8983D0237A438400C857D6 /* CopyFiles */,
 			);
 			buildRules = (
 				5B5D4350233F817900AF5B5C /* PBXBuildRule */,
@@ -532,7 +545,6 @@
 				5B26FC3622B3DB5500359E63 /* Sources */,
 				5B26FC3722B3DB5500359E63 /* Frameworks */,
 				5B26FC3822B3DB5500359E63 /* Resources */,
-				5B26FC5822B3DD1D00359E63 /* Carthage Copy Frameworks */,
 				5BFF016B22DF8BA600944131 /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -617,47 +629,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5B0EC96822B6D8AD003D7933 /* Carthage Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Apollo.framework",
-			);
-			name = "Carthage Copy Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n\nfor CARTHAGE_SEARCH_PATH in $CARTHAGE_SEARCH_PATHS\ndo\n    if [ -x \"${CARTHAGE_SEARCH_PATH}/carthage\" ]; then\n        \"${CARTHAGE_SEARCH_PATH}/carthage\" copy-frameworks\n        exit $?\n    fi\ndone\nexit 127\n";
-		};
-		5B26FC5822B3DD1D00359E63 /* Carthage Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Apollo.framework",
-			);
-			name = "Carthage Copy Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n\nfor CARTHAGE_SEARCH_PATH in $CARTHAGE_SEARCH_PATHS\ndo\n    if [ -x \"${CARTHAGE_SEARCH_PATH}/carthage\" ]; then\n        \"${CARTHAGE_SEARCH_PATH}/carthage\" copy-frameworks\n        exit $?\n    fi\ndone\nexit 127\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5B26FC1822B3DB0800359E63 /* Sources */ = {
@@ -945,7 +916,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -970,7 +940,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -995,7 +964,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1020,7 +988,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin /usr/local/bin /usr/bin /bin";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
