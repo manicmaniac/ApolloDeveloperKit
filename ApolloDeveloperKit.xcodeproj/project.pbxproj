@@ -144,7 +144,7 @@
 		5B26FC2022B3DB0800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B26FC2522B3DB0800359E63 /* ApolloDeveloperKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApolloDeveloperKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B26FC2C22B3DB0800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApolloDeveloperKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitExample-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B26FC4322B3DB5800359E63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B26FC4622B3DB5800359E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B26FC4822B3DB5800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
-		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5B8F2B9822C05AFD006922CE /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMETypeTests.swift; sourceTree = "<group>"; };
 		5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionConfiguration+Test.swift"; sourceTree = "<group>"; };
 		5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEType.swift; sourceTree = "<group>"; };
@@ -271,7 +271,7 @@
 			children = (
 				5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */,
 				5B26FC2522B3DB0800359E63 /* ApolloDeveloperKitTests.xctest */,
-				5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample.app */,
+				5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample-iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -299,17 +299,11 @@
 		5B26FC3B22B3DB5600359E63 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				5B8F2B9822C05AFD006922CE /* Main.storyboard */,
+				5B88CEE9237C9CF0000B97AA /* iOS */,
 				5B8F2B8D22C059BB006922CE /* API.swift */,
-				5B8F2B8B22C059BB006922CE /* AppDelegate.swift */,
 				5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */,
-				5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */,
 				5B8F2B9022C059BC006922CE /* PostTableViewCell.graphql */,
-				5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */,
 				5B8F2B8A22C059BB006922CE /* schema.json */,
-				5B26FC4322B3DB5800359E63 /* Assets.xcassets */,
-				5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */,
-				5B26FC4822B3DB5800359E63 /* Info.plist */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -455,6 +449,20 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		5B88CEE9237C9CF0000B97AA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5B8F2B9822C05AFD006922CE /* Main.storyboard */,
+				5B8F2B8B22C059BB006922CE /* AppDelegate.swift */,
+				5B8F2B8F22C059BC006922CE /* PostListViewController.swift.erb */,
+				5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */,
+				5B26FC4322B3DB5800359E63 /* Assets.xcassets */,
+				5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */,
+				5B26FC4822B3DB5800359E63 /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		5B8983CC237A3E1B00C857D6 /* Background */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,9 +541,9 @@
 			productReference = 5B26FC2522B3DB0800359E63 /* ApolloDeveloperKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample */ = {
+		5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B26FC4922B3DB5800359E63 /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample" */;
+			buildConfigurationList = 5B26FC4922B3DB5800359E63 /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample-iOS" */;
 			buildPhases = (
 				5B26FC3622B3DB5500359E63 /* Sources */,
 				5B26FC3722B3DB5500359E63 /* Frameworks */,
@@ -548,9 +556,9 @@
 			dependencies = (
 				5BFF016A22DF8BA600944131 /* PBXTargetDependency */,
 			);
-			name = ApolloDeveloperKitExample;
+			name = "ApolloDeveloperKitExample-iOS";
 			productName = ApolloDeveloperKitExample;
-			productReference = 5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample.app */;
+			productReference = 5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -592,7 +600,7 @@
 			targets = (
 				5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */,
 				5B26FC2422B3DB0800359E63 /* ApolloDeveloperKitTests */,
-				5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample */,
+				5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1056,7 +1064,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Example/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1081,7 +1089,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Example/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1125,7 +1133,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B26FC4922B3DB5800359E63 /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample" */ = {
+		5B26FC4922B3DB5800359E63 /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B26FC4A22B3DB5800359E63 /* Debug */,
