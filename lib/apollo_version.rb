@@ -1,4 +1,3 @@
-require 'find'
 require 'rubygems/version'
 require 'shellwords'
 require 'yaml'
@@ -31,11 +30,12 @@ class ApolloVersion
   end
 
   def self.find_in_frameworks!(framework_search_paths = default_framework_search_paths)
-    Find.find(*framework_search_paths) do |path|
-      next unless path.end_with?('Info.plist')
-      return new(parse_version_from_info_plist(path))
-    end
-    raise(NotFoundError.new)
+    path = framework_search_paths
+      .lazy
+      .flat_map { |search_path| Dir.glob("#{search_path}/Apollo.framework/**/Info.plist") }
+      .first
+    raise NotFoundError.new if path.nil?
+    new(parse_version_from_info_plist(path))
   end
 
   def self.find_in_podfile_lock!(podfile_lock_path = default_podfile_lock_path)
