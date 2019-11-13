@@ -6,12 +6,20 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 /**
  * The protocol to handle raw HTTP request the server receives.
  */
-protocol HTTPRequestHandler: class {
+protocol HTTPServerDelegate: class {
+    /**
+     * Invoked when the server starts listening.
+     *
+     * - Parameter server: The server that starts.
+     * - Parameter port: The port number to which the server is listening.
+     */
+    func server(_ server: HTTPServer, didStartListeningTo port: UInt16)
+
     /**
      * Invoked when the server receives a HTTP request.
      *
@@ -22,12 +30,6 @@ protocol HTTPRequestHandler: class {
      */
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection)
 }
-
-#if swift(>=4.2)
-private let invalidBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
-#else
-private let invalidBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-#endif
 
 /**
  * `HTTPServer` is a minimal HTTP 1.1 server.
@@ -43,7 +45,7 @@ class HTTPServer {
         case running(port: UInt16)
         case stopping
     }
-    weak var requestHandler: HTTPRequestHandler?
+    weak var delegate: HTTPServerDelegate?
 
     /**
      * The URL where the server is established.
@@ -69,7 +71,6 @@ class HTTPServer {
     private var socket: CFSocket?
     private var incomingRequests = Set<HTTPIncomingRequest>()
     private var connections = Set<HTTPConnection>()
-    private var backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
 
     private var primaryIPAddress: String? {
         #if targetEnvironment(simulator)
@@ -133,8 +134,8 @@ class HTTPServer {
         self.listeningHandle = listeningHandle
         NotificationCenter.default.addObserver(self, selector: #selector(receiveIncomingConnectionNotification(_:)), name: .NSFileHandleConnectionAccepted, object: listeningHandle)
         listeningHandle.acceptConnectionInBackgroundAndNotify()
-        startBackgroundTaskIfNeeded()
         state = .running(port: port)
+        delegate?.server(self, didStartListeningTo: port)
     }
 
     func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
@@ -177,15 +178,6 @@ class HTTPServer {
         state = .idle
     }
 
-    private func startBackgroundTaskIfNeeded() {
-        precondition(Thread.isMainThread)
-        guard backgroundTaskIdentifier == invalidBackgroundTaskIdentifier else { return }
-        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
-            self.backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
-        }
-    }
-
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
         if let incomingFileHandle = notification.userInfo?[NSFileHandleNotificationFileHandleItem] as? FileHandle {
             let incomingRequest = HTTPIncomingRequest(httpVersion: httpVersion, fileHandle: incomingFileHandle, delegate: self)
@@ -205,7 +197,7 @@ extension HTTPServer: HTTPIncomingRequestDelegate {
     func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: URLRequest, connection: HTTPConnection) {
         connection.delegate = self
         connections.insert(connection)
-        requestHandler?.server(self, didReceiveRequest: request, connection: connection)
+        delegate?.server(self, didReceiveRequest: request, connection: connection)
     }
 }
 

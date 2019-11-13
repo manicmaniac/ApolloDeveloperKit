@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import Foundation
 
 /**
  * `ApolloDebugServer` is a HTTP server to communicate with `apollo-cient-devtools`.
@@ -21,6 +22,7 @@ public class ApolloDebugServer {
     private let keepAliveInterval: TimeInterval
     private let dateFormatter = DateFormatter()
     private let queryManager = QueryManager()
+    private let backgroundTask = BackgroundTask()
     private var consoleRedirection: ConsoleRedirection?
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
@@ -75,7 +77,7 @@ public class ApolloDebugServer {
         self.dateFormatter.locale = Locale(identifier: "en_US")
         self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
-        self.server.requestHandler = self
+        self.server.delegate = self
         cache.delegate = self
         networkTransport.delegate = self
     }
@@ -147,7 +149,11 @@ public class ApolloDebugServer {
 
 // MARK: HTTPRequestHandler
 
-extension ApolloDebugServer: HTTPRequestHandler {
+extension ApolloDebugServer: HTTPServerDelegate {
+    func server(_ server: HTTPServer, didStartListeningTo port: UInt16) {
+        backgroundTask.beginBackgroundTaskIfPossible()
+    }
+
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
         guard let path = request.url?.path else {
             return
