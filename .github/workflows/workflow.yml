@@ -12,13 +12,25 @@ jobs:
         sdk: ["iphonesimulator", "macosx"]
         include:
           - apollo: "0.19.0"
+            sdk: "iphonesimulator"
             xcode: "11.1"
             swift: "5.1"
             destination: "platform=iOS Simulator,OS=13.1,name=iPhone 11"
+          - apollo: "0.19.0"
+            sdk: "macosx"
+            xcode: "11.1"
+            swift: "5.1"
+            destination: "platform=OS X,arch=x86_64"
           - apollo: "0.18.1"
+            sdk: "iphonesimulator"
             xcode: "11"
             swift: "5.1"
             destination: "platform=iOS Simulator,OS=13.0,name=iPhone 11"
+          - apollo: "0.18.1"
+            sdk: "macosx"
+            xcode: "11"
+            swift: "5.1"
+            destination: "platform=OS X,arch=x86_64"
     steps:
       - uses: actions/checkout@v1
       - name: Select Xcode
@@ -28,7 +40,7 @@ jobs:
       - name: Modify Cartfile.resolved
         run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
       - name: Install dependencies
-        run: ./Scripts/quick-install-dependencies
+        run: ./Scripts/quick-install-dependencies -f '${{ matrix.sdk }}'
       - name: Run unit tests
         run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
   install-test:
