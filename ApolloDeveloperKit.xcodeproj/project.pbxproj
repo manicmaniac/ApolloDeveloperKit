@@ -193,10 +193,6 @@
 		5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceTests.swift; sourceTree = "<group>"; };
 		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
 		5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "sockaddr+Factory.swift"; sourceTree = "<group>"; };
-		5B2F820F22B430A80025A211 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
-		5B2F821022B430A80025A211 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
-		5B2F821122B430A80025A211 /* ApolloWebSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloWebSocket.framework; path = Carthage/Build/iOS/ApolloWebSocket.framework; sourceTree = "<group>"; };
-		5B2F821222B430A80025A211 /* ApolloSQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloSQLite.framework; path = Carthage/Build/iOS/ApolloSQLite.framework; sourceTree = "<group>"; };
 		5B2F821322B430A80025A211 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
 		5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCache.swift; sourceTree = "<group>"; };
 		5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransport.swift; sourceTree = "<group>"; };
@@ -372,10 +368,6 @@
 			children = (
 				5B2F821322B430A80025A211 /* Apollo.framework */,
 				5B88CF07237CDD81000B97AA /* Apollo.framework */,
-				5B2F821222B430A80025A211 /* ApolloSQLite.framework */,
-				5B2F821122B430A80025A211 /* ApolloWebSocket.framework */,
-				5B2F821022B430A80025A211 /* SQLite.framework */,
-				5B2F820F22B430A80025A211 /* Starscream.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
