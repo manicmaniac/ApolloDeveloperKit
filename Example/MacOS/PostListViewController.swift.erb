@@ -1,0 +1,129 @@
+//
+//  PostListViewController.swift
+//  ApolloDeveloperKitExample-MacOS
+//
+//  Created by Ryosuke Ito on 11/14/19.
+//  Copyright © 2019 Ryosuke Ito. All rights reserved.
+//
+
+// <% require 'apollo_version' %>
+// <% apollo_version = ApolloVersion.find! %>
+
+import Cocoa
+import Apollo
+
+protocol PostListViewControllerDelegate: class {
+    func postListViewControllerWantsToToggleConsoleRedirection(_ postListViewController: PostListViewController)
+}
+
+class PostListViewController: NSViewController {
+    var apollo: ApolloClient!
+    var serverURL: URL!
+    weak var delegate: PostListViewControllerDelegate?
+    @IBOutlet private weak var tableView: NSTableView!
+
+    var posts: [AllPostsQuery.Data.Post]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    // MARK: - View lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    // MARK: - Data loading
+
+    var watcher: GraphQLQueryWatcher<AllPostsQuery>?
+
+    func loadData(completion: (() -> Void)?) {
+        // <% if apollo_version < '0.13.0' %>
+        watcher = apollo.watch(query: AllPostsQuery()) { (result, error) in
+            if let error = error {
+                NSLog("error while fetching query: \(error.localizedDescription)")
+            } else {
+                self.posts = result?.data?.posts
+            }
+            completion?()
+        }
+        // <% else %>
+        watcher = apollo.watch(query: AllPostsQuery()) { result in
+            switch result {
+            case .success(let response):
+                self.posts = response.data?.posts
+            case .failure(let error):
+                NSLog("error while fetching query: \(error.localizedDescription)")
+            }
+            completion?()
+        }
+        // <% end %>
+    }
+
+    @IBAction func upvote(_ sender: NSButton) {
+        let tableCellView = sender.superview as! NSTableCellView
+        let row = tableView.row(for: tableCellView)
+        guard let postId = posts?[row].fragments.postDetails.id else { return }
+        // <% if apollo_version < '0.13.0' %>
+        apollo.perform(mutation: UpvotePostMutation(postId: postId)) { (result, error) in
+            if let error = error {
+                NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
+            }
+        }
+        // <% else %>
+        apollo.perform(mutation: UpvotePostMutation(postId: postId)) { result in
+            if case .failure(let error) = result {
+                NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
+            }
+        }
+        // <% end %>
+        print("Upvoted the post \(postId)")
+    }
+}
+
+// MARK: - NSTableViewDataSource
+
+extension PostListViewController: NSTableViewDataSource {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return posts?.count ?? 0
+    }
+}
+
+// MARK: - NSTableViewDelegate
+
+extension PostListViewController: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        guard let identifier = tableColumn?.identifier, let post = posts?[row].fragments.postDetails else { return nil }
+        let view = tableView.makeView(withIdentifier: identifier, owner: self) as! NSTableCellView
+        switch identifier.rawValue {
+        case "title":
+            view.textField?.stringValue = post.title ?? ""
+        case "byline":
+            view.textField?.stringValue = byline(for: post) ?? ""
+        case "votes":
+            view.textField?.stringValue = "\(post.votes ?? 0) votes"
+        default:
+            return nil
+        }
+        return view
+    }
+}
+
+// We can define helper methods that take the generated data types as arguments
+
+func byline(for post: PostDetails) -> String? {
+    if let author = post.author {
+        return "by \(author.fullName)"
+    } else {
+        return nil
+    }
+}
+
+// We can also extend the generated data types to add convenience properties and methods
+
+extension PostDetails.Author {
+    var fullName: String {
+        return [firstName, lastName].compactMap { $0 }.joined(separator: " ")
+    }
+}

@@ -7,20 +7,44 @@
 //
 
 import Cocoa
+import Apollo
+#if DEBUG
+import ApolloDeveloperKit
+#endif
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-
+    private var apollo: ApolloClient!
+    #if DEBUG
+    private var server: ApolloDebugServer!
+    #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        let url = URL(string: "http://localhost:8080/graphql")!
+        #if DEBUG
+        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
+        let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
+        let store = ApolloStore(cache: cache)
+        server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
+        server.enableConsoleRedirection = true
+        try! server.start(port: 8081)
+        #else
+        let networkTransport = HTTPNetworkTransport(url: url)
+        let cache = InMemoryNormalizedCache()
+        let store = ApolloStore(cache: cache)
+        #endif
+        apollo = ApolloClient(networkTransport: networkTransport, store: store)
+        apollo.cacheKeyForObject = { $0["id"] }
+        let postListViewController = NSApplication.shared.windows.first!.contentViewController as! PostListViewController
+        postListViewController.apollo = apollo
+        postListViewController.serverURL = server.serverURL
+        postListViewController.delegate = self
+        postListViewController.loadData(completion: nil)
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
-
 }
 
+extension AppDelegate: PostListViewControllerDelegate {
+    func postListViewControllerWantsToToggleConsoleRedirection(_ postListViewController: PostListViewController) {
+        server.enableConsoleRedirection = !server.enableConsoleRedirection
+    }
+}
