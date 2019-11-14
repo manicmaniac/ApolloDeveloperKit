@@ -229,7 +229,7 @@
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
 		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift.erb"; sourceTree = "<group>"; };
 		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
-		5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitExample-MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitExample-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B88CEF6237CDB69000B97AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B88CEF8237CDB69000B97AA /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5B88CEFA237CDB6C000B97AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -329,7 +329,7 @@
 				5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */,
 				5B26FC2522B3DB0800359E63 /* ApolloDeveloperKitTests.xctest */,
 				5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample-iOS.app */,
-				5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-MacOS.app */,
+				5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -357,7 +357,7 @@
 		5B26FC3B22B3DB5600359E63 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				5B88CEEF237CDB25000B97AA /* MacOS */,
+				5B88CEEF237CDB25000B97AA /* macOS */,
 				5B88CEE9237C9CF0000B97AA /* iOS */,
 				5B8F2B8D22C059BB006922CE /* API.swift */,
 				5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */,
@@ -523,7 +523,7 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		5B88CEEF237CDB25000B97AA /* MacOS */ = {
+		5B88CEEF237CDB25000B97AA /* macOS */ = {
 			isa = PBXGroup;
 			children = (
 				5B88CEF6237CDB69000B97AA /* AppDelegate.swift */,
@@ -532,7 +532,7 @@
 				5B88CEFC237CDB6C000B97AA /* Main.storyboard */,
 				5B88CEFF237CDB6C000B97AA /* Info.plist */,
 			);
-			path = MacOS;
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		5B8983CC237A3E1B00C857D6 /* Background */ = {
@@ -633,9 +633,9 @@
 			productReference = 5B26FC3A22B3DB5500359E63 /* ApolloDeveloperKitExample-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5B88CEF3237CDB69000B97AA /* ApolloDeveloperKitExample-MacOS */ = {
+		5B88CEF3237CDB69000B97AA /* ApolloDeveloperKitExample-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B88CF01237CDB6C000B97AA /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample-MacOS" */;
+			buildConfigurationList = 5B88CF01237CDB6C000B97AA /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample-macOS" */;
 			buildPhases = (
 				5B88CEF0237CDB69000B97AA /* Sources */,
 				5B88CEF1237CDB69000B97AA /* Frameworks */,
@@ -648,9 +648,9 @@
 			dependencies = (
 				5B88CF06237CDD49000B97AA /* PBXTargetDependency */,
 			);
-			name = "ApolloDeveloperKitExample-MacOS";
-			productName = "ApolloDeveloperKitExample-MacOS";
-			productReference = 5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-MacOS.app */;
+			name = "ApolloDeveloperKitExample-macOS";
+			productName = "ApolloDeveloperKitExample-macOS";
+			productReference = 5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -696,7 +696,7 @@
 				5B26FC1B22B3DB0800359E63 /* ApolloDeveloperKit */,
 				5B26FC2422B3DB0800359E63 /* ApolloDeveloperKitTests */,
 				5B26FC3922B3DB5500359E63 /* ApolloDeveloperKitExample-iOS */,
-				5B88CEF3237CDB69000B97AA /* ApolloDeveloperKitExample-MacOS */,
+				5B88CEF3237CDB69000B97AA /* ApolloDeveloperKitExample-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1240,12 +1240,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = Example/MacOS/Info.plist;
+				INFOPLIST_FILE = Example/macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.manicmaniac.ApolloDeveloperKitExample-MacOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
 				SDKROOT = macosx;
@@ -1262,12 +1262,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
-				INFOPLIST_FILE = Example/MacOS/Info.plist;
+				INFOPLIST_FILE = Example/macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.github.manicmaniac.ApolloDeveloperKitExample-MacOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
 				SDKROOT = macosx;
@@ -1314,7 +1314,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B88CF01237CDB6C000B97AA /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample-MacOS" */ = {
+		5B88CF01237CDB6C000B97AA /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitExample-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B88CF02237CDB6C000B97AA /* Debug */,
