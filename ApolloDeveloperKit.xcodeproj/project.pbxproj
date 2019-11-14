@@ -761,7 +761,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/MacOS";
+				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -830,7 +830,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/MacOS";
+				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
