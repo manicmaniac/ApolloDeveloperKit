@@ -4,40 +4,71 @@
 
 show_help() {
     cat <<-EOS
-Usage: quick-install-dependencies [-h] [-f]
+Usage: quick-install-dependencies [-h] [-f] <SDK>
 
 Options:
     -h, --help   Show this help and exit
     -f, --force  Force build ignoring cache
+
+Arguments:
+    SDK          Specify SDK to build (macosx|iphoneos|iphonesimulator)
 EOS
 }
 
-if [ $# -gt 1 ]; then
-    echo "error: too many arguments ($# for 0..1)." >&2
+if [ $# -eq 0 -o $# -gt 2 ]; then
+    echo "error: wrong number of arguments ($# for 1..2)." >&2
     show_help >&2
     exit 1
 fi
 force=0
-case "$1" in
-    -h|--help)
-        show_help
-        exit
-        ;;
-    -f|--force)
-        force=1
-        ;;
-    '')
-        ;;
-    *)
-        echo "error: invalid argument '$1'." >&2
-        show_help >&2
-        exit 1
-        ;;
-esac
+sdk=
+carthage_root=
+release_dir=
+while [ $# -gt 0 ]
+do
+    case "$1" in
+        -h|--help)
+            show_help
+            exit
+            ;;
+        -f|--force)
+            force=1
+            shift
+            ;;
+        macosx)
+            sdk=macosx
+            carthage_root=Carthage/Build/Mac
+            release_dir=Release
+            shift
+            ;;
+        iphoneos)
+            sdk=iphoneos
+            carthage_root=Carthage/Build/iOS
+            release_dir=Release-iphoneos
+            shift
+            ;;
+        iphonesimulator)
+            sdk=iphonesimulator
+            carthage_root=Carthage/Build/iOS
+            release_dir=Release-iphonesimulator
+            shift
+            ;;
+        '')
+            ;;
+        *)
+            echo "error: invalid argument '$1'." >&2
+            show_help >&2
+            exit 1
+            ;;
+    esac
+done
+if [ -z "$sdk" ]; then
+    echo "error: wrong number of arguments ($# for 1..2)." >&2
+    show_help >&2
+    exit 1
+fi
 
-cd "$(git rev-parse --show-toplevel)"
-
-if [ $force -eq 0 -a -f Carthage/Build/iOS/Apollo.framework/Apollo ]; then
+if [ $force -eq 0 -a -f "$carthage_root/Apollo.framework/Apollo" ]; then
     echo 'Valid cache found.' >&2
     exit
 fi
@@ -54,13 +85,13 @@ xcodebuild build \
     -scheme Apollo \
     -configuration Release \
     -derivedDataPath "$derived_data_path" \
-    -sdk iphonesimulator \
+    -sdk "$sdk" \
     -quiet \
     ONLY_ACTIVE_ARCH=NO \
     CODE_SIGNING_REQUIRED=NO \
     CODE_SIGN_IDENTITY= \
     CARTHAGE=YES
 
-rm -rf Carthage/Build/iOS
-mkdir -p Carthage/Build/iOS
-mv $TMPDIR/DerivedData/Apollo/Build/Products/Release-iphonesimulator/Apollo.framework Carthage/Build/iOS
+rm -rf "$carthage_root"
+mkdir -p "$carthage_root"
+mv "$TMPDIR/DerivedData/Apollo/Build/Products/$release_dir/Apollo.framework" "$carthage_root"

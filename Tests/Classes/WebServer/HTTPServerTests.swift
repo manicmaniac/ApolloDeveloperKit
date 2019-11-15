@@ -17,7 +17,7 @@ class HTTPServerTests: XCTestCase {
 
     override class func setUp() {
         server.delegate = mockHTTPServerDelegate
-        port = try! server.start(randomPortIn: 49152...65535) // MacOS ephemeral ports
+        port = try! server.start(randomPortIn: 49152...65535) // macOS ephemeral ports
     }
 
     override class func tearDown() {

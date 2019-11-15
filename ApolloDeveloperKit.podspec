@@ -8,9 +8,11 @@ Pod::Spec.new do |spec|
                    DESC
   spec.homepage = "https://github.com/manicmaniac/ApolloDeveloperKit"
   spec.screenshots = "https://user-images.githubusercontent.com/1672393/59568132-81a20180-90b1-11e9-9207-b2070b26e790.png"
+  spec.documentation_url = "https://manicmaniac.github.com/ApolloDeveloperKit"
   spec.license = { :type => "MIT", :file => "LICENSE" }
   spec.authors = { "Ryosuke Ito" => "rito.0305@gmail.com" }
-  spec.platform = :ios, "9.0"
+  spec.ios.deployment_target = '9.0'
+  spec.osx.deployment_target = '10.10'
   spec.source = { :git => "https://github.com/manicmaniac/ApolloDeveloperKit.git", :tag => "#{spec.version}" }
   spec.source_files = "Sources/Classes/**/*.swift"
   spec.resource = "Sources/Assets"

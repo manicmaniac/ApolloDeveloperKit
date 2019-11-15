@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,10 +11,11 @@
 		5B75996D22E7622D002DE460 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B75996E22E7622D002DE460 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996B22E7622D002DE460 /* Apollo.framework */; };
 		5B75996F22E7622D002DE460 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996B22E7622D002DE460 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B88CEEC237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
+		5B88CEED237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
 		5BE2448622E0FB75008EDAAD /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */; };
 		5BE2448722E0FB75008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
 		5BE2448922E0FB75008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
-		5BE2448A22E0FB75008EDAAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447D22E0FB75008EDAAD /* Main.storyboard */; };
 		5BE2448E22E0FB75008EDAAD /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */; };
 		5BE2448F22E0FB75008EDAAD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448322E0FB75008EDAAD /* API.swift */; };
 		5BE2449022E0FB75008EDAAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448422E0FB75008EDAAD /* AppDelegate.swift */; };
@@ -24,7 +25,6 @@
 		5BE2449722E0FBCA008EDAAD /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */; };
 		5BE2449A22E0FBCA008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
 		5BE2449B22E0FBCA008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
-		5BE2449C22E0FBCA008EDAAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447D22E0FB75008EDAAD /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -33,6 +33,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
@@ -44,6 +46,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
@@ -70,19 +74,19 @@
 /* Begin PBXFileReference section */
 		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloDeveloperKit.framework; path = Carthage/Build/iOS/ApolloDeveloperKit.framework; sourceTree = "<group>"; };
 		5B75996B22E7622D002DE460 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
-		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B88CEEB237C9EC9000B97AA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-iOS-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
 		5BE2447922E0FB75008EDAAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BE2447A22E0FB75008EDAAD /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5BE2447C22E0FB75008EDAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5BE2447E22E0FB75008EDAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5BE2448022E0FB75008EDAAD /* PostListViewController.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostListViewController.graphql; sourceTree = "<group>"; };
 		5BE2448122E0FB75008EDAAD /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		5BE2448322E0FB75008EDAAD /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		5BE2448422E0FB75008EDAAD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BE2448522E0FB75008EDAAD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-CocoaPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-CocoaPods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-iOS-CocoaPods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,13 +109,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5BE2445922E0FA88008EDAAD = {
+		5B88CEEA237C9E0C000B97AA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5BE2448422E0FB75008EDAAD /* AppDelegate.swift */,
+				5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */,
+				5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */,
+				5BE2447922E0FB75008EDAAD /* Assets.xcassets */,
+				5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */,
+				5BE2448522E0FB75008EDAAD /* Info.plist */,
+				5B88CEEB237C9EC9000B97AA /* Main.storyboard */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		5B88CEEE237C9F21000B97AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				5B75996B22E7622D002DE460 /* Apollo.framework */,
 				5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5BE2445922E0FA88008EDAAD = {
+			isa = PBXGroup;
+			children = (
 				5BE2447722E0FB75008EDAAD /* Sources */,
 				5BE2446322E0FA88008EDAAD /* Products */,
+				5B88CEEE237C9F21000B97AA /* Frameworks */,
 				9BEB8F8A1DFF5BD0F2F6DBF6 /* Pods */,
 			);
 			sourceTree = "<group>";
@@ -119,8 +145,8 @@
 		5BE2446322E0FA88008EDAAD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage.app */,
-				5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-CocoaPods.app */,
+				5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */,
+				5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,19 +154,14 @@
 		5BE2447722E0FB75008EDAAD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5B88CEEA237C9E0C000B97AA /* iOS */,
 				5BE2448322E0FB75008EDAAD /* API.swift */,
-				5BE2448422E0FB75008EDAAD /* AppDelegate.swift */,
-				5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */,
-				5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */,
-				5BE2447922E0FB75008EDAAD /* Assets.xcassets */,
-				5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */,
-				5BE2447D22E0FB75008EDAAD /* Main.storyboard */,
 				5BE2448022E0FB75008EDAAD /* PostListViewController.graphql */,
 				5BE2447A22E0FB75008EDAAD /* PostTableViewCell.graphql */,
 				5BE2448122E0FB75008EDAAD /* schema.json */,
-				5BE2448522E0FB75008EDAAD /* Info.plist */,
 			);
-			path = Sources;
+			name = Sources;
+			path = ../Example;
 			sourceTree = "<group>";
 		};
 		9BEB8F8A1DFF5BD0F2F6DBF6 /* Pods */ = {
@@ -153,9 +174,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5BE2446122E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage */ = {
+		5BE2446122E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BE2447422E0FA88008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-Carthage" */;
+			buildConfigurationList = 5BE2447422E0FA88008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-Carthage" */;
 			buildPhases = (
 				5BE2445E22E0FA88008EDAAD /* Sources */,
 				5BE2445F22E0FA88008EDAAD /* Frameworks */,
@@ -167,14 +188,14 @@
 			);
 			dependencies = (
 			);
-			name = "ApolloDeveloperKitInstallTests-Carthage";
+			name = "ApolloDeveloperKitInstallTests-iOS-Carthage";
 			productName = ApolloDeveloperKitInstallTests;
-			productReference = 5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage.app */;
+			productReference = 5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5BE2449222E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-CocoaPods */ = {
+		5BE2449222E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BE2449D22E0FBCA008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-CocoaPods" */;
+			buildConfigurationList = 5BE2449D22E0FBCA008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-CocoaPods" */;
 			buildPhases = (
 				5BE2449322E0FBCA008EDAAD /* Sources */,
 				5BE2449822E0FBCA008EDAAD /* Frameworks */,
@@ -185,9 +206,9 @@
 			);
 			dependencies = (
 			);
-			name = "ApolloDeveloperKitInstallTests-CocoaPods";
+			name = "ApolloDeveloperKitInstallTests-iOS-CocoaPods";
 			productName = ApolloDeveloperKitInstallTests;
-			productReference = 5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-CocoaPods.app */;
+			productReference = 5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -218,8 +239,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5BE2446122E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-Carthage */,
-				5BE2449222E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-CocoaPods */,
+				5BE2446122E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage */,
+				5BE2449222E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods */,
 			);
 		};
 /* End PBXProject section */
@@ -229,9 +250,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B88CEEC237C9EC9000B97AA /* Main.storyboard in Resources */,
 				5BE2448922E0FB75008EDAAD /* LaunchScreen.storyboard in Resources */,
 				5BE2448722E0FB75008EDAAD /* Assets.xcassets in Resources */,
-				5BE2448A22E0FB75008EDAAD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,9 +260,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B88CEED237C9EC9000B97AA /* Main.storyboard in Resources */,
 				5BE2449A22E0FBCA008EDAAD /* LaunchScreen.storyboard in Resources */,
 				5BE2449B22E0FBCA008EDAAD /* Assets.xcassets in Resources */,
-				5BE2449C22E0FBCA008EDAAD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,14 +300,6 @@
 				5BE2447C22E0FB75008EDAAD /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		5BE2447D22E0FB75008EDAAD /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5BE2447E22E0FB75008EDAAD /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -418,7 +431,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -442,7 +455,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -462,7 +475,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -482,7 +495,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Sources/Info.plist;
+				INFOPLIST_FILE = Sources/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -508,7 +521,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BE2447422E0FA88008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-Carthage" */ = {
+		5BE2447422E0FA88008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-Carthage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BE2447522E0FA88008EDAAD /* Debug */,
@@ -517,7 +530,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BE2449D22E0FBCA008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-CocoaPods" */ = {
+		5BE2449D22E0FBCA008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-CocoaPods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BE2449E22E0FBCA008EDAAD /* Debug */,
