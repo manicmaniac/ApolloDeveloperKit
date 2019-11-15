@@ -232,6 +232,7 @@
 		5B88CEFD237CDB6C000B97AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B88CEFF237CDB6C000B97AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B88CF07237CDD81000B97AA /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/Mac/Apollo.framework; sourceTree = "<group>"; };
+		5B88CF10237E29ED000B97AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 		5B8F2B8A22C059BB006922CE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		5B8F2B8B22C059BB006922CE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -353,6 +354,7 @@
 		5B26FC3B22B3DB5600359E63 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				5B88CF10237E29ED000B97AA /* README.md */,
 				5B88CEEF237CDB25000B97AA /* macOS */,
 				5B88CEE9237C9CF0000B97AA /* iOS */,
 				5B8F2B8D22C059BB006922CE /* API.swift */,
