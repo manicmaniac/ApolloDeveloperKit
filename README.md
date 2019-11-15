@@ -12,7 +12,7 @@ ApolloDeveloperKit
 Overview
 --------
 
-ApolloDeveloperKit is an iOS library which works as a bridge between Apollo iOS client and [Apollo Client Developer tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm).
+ApolloDeveloperKit is an iOS / macOS library which works as a bridge between Apollo iOS client and [Apollo Client Developer tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm).
 
 This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.
 
@@ -52,7 +52,7 @@ github "apollographql/apollo-ios"
 github "manicmaniac/ApolloDeveloperKit"
 ```
 
-Then run `carthage update --platform iOS`.
+Then run `carthage update --platform iOS` or `carthage update --platform Mac`.
 
 #### For Xcode 10.1 (Swift 4.2)
 
@@ -163,7 +163,7 @@ CocoaPods automatically excludes ApolloDeveloperKit from release builds if you o
 ### For Carthage users
 
 1. Do NOT add `ApolloDeveloperKit.framework` to the embedded binaries of your target, as it would otherwise be included in all builds (therefore also in release ones).
-2. Instead, add `$(PROJECT_DIR)/Carthage/Build/iOS` to your target *Framework Search Paths* (this setting might already be present if you already included other frameworks with Carthage).
+2. Instead, add `$(PROJECT_DIR)/Carthage/Build/iOS` or `$(PROJECT_DIR)/Carthage/Build/Mac` to your target *Framework Search Paths* (this setting might already be present if you already included other frameworks with Carthage).
 This makes it possible to import the ApolloDeveloperKit framework from your source files. It does not harm if this setting is added for all configurations, but it should at least be added for the debug one.
 3. Add a *Run Script Phase* to your target (inserting it alter the existing `Link Binary with Libraries` phase, for example), and which will embed `ApolloDeveloperKit.framework` in debug builds only:
 
@@ -173,7 +173,7 @@ if [ "$CONFIGURATION" = Debug ]; then
 fi
 ```
 
-Finally, add `$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework` as input file of this script phase.
+Finally, add `$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework` or `$(SRCROOT)/Carthage/Build/Mac/ApolloDeveloperKit.framework` as input file of this script phase.
 
 ### For users those who copy all the source files to the project manually
 
