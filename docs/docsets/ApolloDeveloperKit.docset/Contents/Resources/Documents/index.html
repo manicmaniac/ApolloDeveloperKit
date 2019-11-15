@@ -13,7 +13,7 @@
     <a title="ApolloDeveloperKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ApolloDeveloperKit Docs</a> (41% documented)</p>
+        <p><a href="index.html">ApolloDeveloperKit Docs</a> (46% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -69,14 +69,14 @@
 
 <p><a href="https://travis-ci.org/manicmaniac/ApolloDeveloperKit"><img src="https://travis-ci.org/manicmaniac/ApolloDeveloperKit.svg?branch=master" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/manicmaniac/ApolloDeveloperKit/maintainability"><img src="https://api.codeclimate.com/v1/badges/c45fc7657ce194edee35/maintainability" alt="Maintainability"></a>
-<a href="https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg"><img src="https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg" alt="CocoaPods Compatible"></a>
+<a href="https://cocoapods.org/pods/ApolloDeveloperKit"><img src="https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg" alt="CocoaPods Compatible"></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
-<a href="https://alamofire.github.io/ApolloDeveloperKit"><img src="https://img.shields.io/cocoapods/p/ApolloDeveloperKit.svg?style=flat" alt="Platform"></a></p>
+<a href="https://manicmaniac.github.io/ApolloDeveloperKit/"><img src="https://img.shields.io/cocoapods/p/ApolloDeveloperKit.svg?style=flat" alt="Platform"></a></p>
 
 <p><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a> bridge for <a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a>.</p>
 <h2 id='overview' class='heading'>Overview</h2>
 
-<p>ApolloDeveloperKit is an iOS library which works as a bridge between Apollo iOS client and <a href="https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm">Apollo Client Developer tools</a>.</p>
+<p>ApolloDeveloperKit is an iOS / macOS library which works as a bridge between Apollo iOS client and <a href="https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm">Apollo Client Developer tools</a>.</p>
 
 <p>This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.</p>
 <h2 id='screenshots' class='heading'>Screenshots</h2>
@@ -95,7 +95,7 @@
 
 <p>Add the following lines to your Podfile.</p>
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'Apollo'</span>
-<span class="n">pod</span> <span class="s1">'ApolloDeveloperKit'</span><span class="p">,</span> <span class="s1">'~&gt; 0.6.0'</span>
+<span class="n">pod</span> <span class="s1">'ApolloDeveloperKit'</span><span class="p">,</span> <span class="s1">'~&gt; 0.7.0'</span>
 </code></pre>
 
 <p>Then run <code>pod install</code>.</p>
@@ -106,13 +106,13 @@
 github "manicmaniac/ApolloDeveloperKit"
 </code></pre>
 
-<p>Then run <code>carthage update --platform iOS</code>.</p>
+<p>Then run <code>carthage update --platform iOS</code> or <code>carthage update --platform Mac</code>.</p>
 <h4 id='for-xcode-10-1-swift-4-2' class='heading'>For Xcode 10.1 (Swift 4.2)</h4>
 
 <p>If you are using Xcode 10.1, where Swift 5 is not available, the install step could be a bit tricky though Cartfile can be as it is.
 Contrary to CocoaPods, Carthage doesn&rsquo;t select the compiler by itself so the only way to force it to use Swift 4.2 is to inject a Xcode configuration file.</p>
-<pre class="highlight plaintext"><code>echo APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2 &gt;ApolloDeveloperKit.xcconfig
-XCODE_XCCONFIG_FILE=$PWD/ApolloDeveloperKit.xcconfig carthage update --platform iOS
+<pre class="highlight shell"><code><span class="nb">echo </span><span class="nv">APOLLO_DEVELOPER_KIT_SWIFT_VERSION</span><span class="o">=</span>4.2 &gt;ApolloDeveloperKit.xcconfig
+<span class="nv">XCODE_XCCONFIG_FILE</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/ApolloDeveloperKit.xcconfig"</span> carthage update --platform iOS
 rm ApolloDeveloperKit.xcconfig
 </code></pre>
 
@@ -207,16 +207,16 @@ See <code>Example/AppDelegate.swift</code> to see how to do it.</p>
 
 <ol>
 <li>Do NOT add <code>ApolloDeveloperKit.framework</code> to the embedded binaries of your target, as it would otherwise be included in all builds (therefore also in release ones).</li>
-<li>Instead, add <code>$(PROJECT_DIR)/Carthage/Build/iOS</code> to your target <em>Framework Search Paths</em> (this setting might already be present if you already included other frameworks with Carthage).
+<li>Instead, add <code>$(PROJECT_DIR)/Carthage/Build/iOS</code> or <code>$(PROJECT_DIR)/Carthage/Build/Mac</code> to your target <em>Framework Search Paths</em> (this setting might already be present if you already included other frameworks with Carthage).
 This makes it possible to import the ApolloDeveloperKit framework from your source files. It does not harm if this setting is added for all configurations, but it should at least be added for the debug one.</li>
 <li>Add a <em>Run Script Phase</em> to your target (inserting it alter the existing <code>Link Binary with Libraries</code> phase, for example), and which will embed <code>ApolloDeveloperKit.framework</code> in debug builds only:</li>
 </ol>
-<pre class="highlight plaintext"><code>if [ "$CONFIGURATION" == "Debug" ]; then
+<pre class="highlight shell"><code><span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$CONFIGURATION</span><span class="s2">"</span> <span class="o">=</span> Debug <span class="o">]</span>; <span class="k">then</span>
   /usr/local/bin/carthage copy-frameworks
-fi
+<span class="k">fi</span>
 </code></pre>
 
-<p>Finally, add <code>$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework</code> as input file of this script phase.</p>
+<p>Finally, add <code>$(SRCROOT)/Carthage/Build/iOS/ApolloDeveloperKit.framework</code> or <code>$(SRCROOT)/Carthage/Build/Mac/ApolloDeveloperKit.framework</code> as input file of this script phase.</p>
 <h3 id='for-users-those-who-copy-all-the-source-files-to-the-project-manually' class='heading'>For users those who copy all the source files to the project manually</h3>
 
 <p>Now there&rsquo;s no easy way but you can exclude ApolloDeveloperKit by setting user defined build variable named <code>EXCLUDED_SOURCE_FILE_NAMES</code>.
@@ -235,9 +235,9 @@ When it is enabled, all logs written in stdout (usually written with <code>print
 <p>Then open the console in Google Chrome Devtools.
 You will see logs in your iPhone or simulator.</p>
 
-<p>In the browser console, logs written in stdout are colored in green and stderr are purple so that you can distinguish them from ordinary browser logs.</p>
+<p>In the browser console, logs written in stdout are colored in <a href="https://www.color-hex.com/color/5f9ea0">blue-green</a> and stderr are <a href="https://www.color-hex.com/color/ff6347">orange</a> so that you can distinguish them from ordinary browser logs.</p>
 
-<p><img width="666" alt="console.png" src="https://user-images.githubusercontent.com/1672393/68091305-5d5c8b00-fec1-11e9-8645-f8bbadfd4280.png"></p>
+<p><img width="1440" alt="console-redirection.png" src="https://user-images.githubusercontent.com/1672393/68502106-07ae2700-02a3-11ea-8d35-02f1280ea625.png"></p>
 <h2 id='development' class='heading'>Development</h2>
 <h3 id='api-documentation' class='heading'>API Documentation</h3>
 
@@ -259,7 +259,7 @@ See LICENSE for more detail.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-11-08)</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-11-15)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
