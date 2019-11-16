@@ -10,31 +10,41 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class ConsoleRedirectionTests: XCTestCase {
+    private let previousConsoleRedirection = ConsoleRedirection.shared
+    private var notificationCenter: NotificationCenter!
     private var delegateHandler: ConsoleRedirectionDelegateHandler!
     private var mockDuplicator: MockFileDescriptorDuplicator!
 
     override func setUp() {
+        notificationCenter = NotificationCenter()
         delegateHandler = ConsoleRedirectionDelegateHandler()
         mockDuplicator = MockFileDescriptorDuplicator()
+        let consoleRedirection = ConsoleRedirection(notificationCenter: notificationCenter, queue: .main, duplicator: mockDuplicator)
+        ConsoleRedirection.setShared(consoleRedirection)
+    }
+
+    override func tearDown() {
+        ConsoleRedirection.setShared(previousConsoleRedirection)
     }
 
     func testInit() {
         // Assigning to placeholder `_` doesn't retain the right side value so assigning to a named variable is necessary.
-        let consoleRedirection = ConsoleRedirection(delegate: delegateHandler, queue: .main, duplicator: mockDuplicator)
-        _ = consoleRedirection.self // To suppress a warning for the unused variable.
+        let consoleRedirection = ConsoleRedirection.shared
+        consoleRedirection.addObserver(delegateHandler!, selector: #selector(delegateHandler.didReceiveConsoleDidWriteNotification(_:)))
         XCTAssertEqual(mockDuplicator.dupInvocationHistory, [1, 2])
         guard mockDuplicator.dup2InvocationHistory.count == 2 else {
             return XCTFail("dup2 must be called exactly twice but called \(mockDuplicator.dup2InvocationHistory.count) times.")
         }
         XCTAssertEqual(mockDuplicator.dup2InvocationHistory[0].fildes2, 1)
         XCTAssertEqual(mockDuplicator.dup2InvocationHistory[1].fildes2, 2)
+        consoleRedirection.removeObserver(delegateHandler!)
     }
 
     func testDeinit() {
-        var consoleRedirection: ConsoleRedirection? = ConsoleRedirection(delegate: delegateHandler, queue: .main, duplicator: mockDuplicator)
-        _ = consoleRedirection.self // To suppress a warning for the unused variable.
+        let consoleRedirection = ConsoleRedirection.shared
+        consoleRedirection.addObserver(delegateHandler!, selector: #selector(delegateHandler.didReceiveConsoleDidWriteNotification(_:)))
         mockDuplicator.clearInvocationHistory()
-        consoleRedirection = nil
+        consoleRedirection.removeObserver(delegateHandler!)
         guard mockDuplicator.dup2InvocationHistory.count == 2 else {
             return XCTFail("dup2 must be called exactly twice but called \(mockDuplicator.dup2InvocationHistory.count) times.")
         }
@@ -43,10 +53,13 @@ class ConsoleRedirectionTests: XCTestCase {
     }
 }
 
-private class ConsoleRedirectionDelegateHandler: ConsoleRedirectionDelegate {
+private class ConsoleRedirectionDelegateHandler {
     var consoleDidWriteDataToDestinationCallback: ((ConsoleRedirection, Data, ConsoleRedirection.Destination) -> Void)?
 
-    func console(_ console: ConsoleRedirection, didWrite data: Data, to destination: ConsoleRedirection.Destination) {
+    @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
+        let console = notification.object as! ConsoleRedirection
+        let data = notification.userInfo?[consoleDataKey] as! Data
+        let destination = notification.userInfo?[consoleDestinationKey] as! ConsoleRedirection.Destination
         consoleDidWriteDataToDestinationCallback?(console, data, destination)
     }
 }
