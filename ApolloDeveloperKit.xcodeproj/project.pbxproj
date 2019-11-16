@@ -290,7 +290,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5B0EC95C22B6D68D003D7933 /* Classes */ = {
+		5B0EC95C22B6D68D003D7933 /* ApolloDeveloperKitTests */ = {
 			isa = PBXGroup;
 			children = (
 				5B2E1B34230CD19E003C85CB /* TestHelpers */,
@@ -304,7 +304,7 @@
 				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift.erb */,
 				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */,
 			);
-			path = Classes;
+			path = ApolloDeveloperKitTests;
 			sourceTree = "<group>";
 		};
 		5B26FC1222B3DB0800359E63 = {
@@ -335,7 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				5B2F84F722B4A8190025A211 /* Assets */,
-				5B2F84E322B431920025A211 /* Classes */,
+				5B2F84E322B431920025A211 /* ApolloDeveloperKit */,
 				5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */,
 				5B26FC2022B3DB0800359E63 /* Info.plist */,
 			);
@@ -345,7 +345,7 @@
 		5B26FC2922B3DB0800359E63 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				5B0EC95C22B6D68D003D7933 /* Classes */,
+				5B0EC95C22B6D68D003D7933 /* ApolloDeveloperKitTests */,
 				5B26FC2C22B3DB0800359E63 /* Info.plist */,
 			);
 			path = Tests;
@@ -385,7 +385,7 @@
 			path = TestHelpers;
 			sourceTree = "<group>";
 		};
-		5B2F84E322B431920025A211 /* Classes */ = {
+		5B2F84E322B431920025A211 /* ApolloDeveloperKit */ = {
 			isa = PBXGroup;
 			children = (
 				5B8983CC237A3E1B00C857D6 /* Background */,
@@ -398,7 +398,7 @@
 				5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */,
 				5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */,
 			);
-			path = Classes;
+			path = ApolloDeveloperKit;
 			sourceTree = "<group>";
 		};
 		5B3A836F22C66A64002B4FFB /* GraphQL */ = {

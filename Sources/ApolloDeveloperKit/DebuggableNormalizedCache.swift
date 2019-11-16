@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import Dispatch
 
 protocol DebuggableNormalizedCacheDelegate: class {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet)

@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import Dispatch
 
 /**
  * `QueryManager` is like a controller object which is responsible for saving each GraphQL operations.
