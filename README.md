@@ -69,6 +69,22 @@ Note `XCODE_XCCONFIG_FILE` should be an absolute path somehow.
 
 Not recommended but as plan B, you can use `ApolloDeveloperKit ~> 0.3.3` which only supports Swift 4.2 as well.
 
+### Install from Swift Package Manager (>= Xcode 11)
+
+Currently support for Swift Package Manager is at the very first step.
+I recommend to install `ApolloDeveloperKit` in other ways above.
+
+1. Open your Xcode then select the menu item `File` - `Swift Packages` - `Add Package Dependency...`.
+2. Enter the URL of this repository (https://github.com/manicmaniac/ApolloDeveloperKit) and click `Next`.
+3. Select the version `0.7.0` or higher.
+
+#### Limitations
+
+The unit test bundle `ApolloDeveloperKitTests` cannot be built with `swift test` command.
+It is because that Swift Package Manager doesn't support running script before building but `ApolloDeveloperKitTests` needs a run script phase to preprocess Swift source files.
+
+However usually application developers don't need to test libraries so don't too worry about it.
+
 Setup
 -----
 
