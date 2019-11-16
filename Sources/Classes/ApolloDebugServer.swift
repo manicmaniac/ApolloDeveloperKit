@@ -52,9 +52,9 @@ public class ApolloDebugServer {
     public var enableConsoleRedirection = false {
         didSet {
             if enableConsoleRedirection {
-                consoleRedirection = ConsoleRedirection(delegate: self)
+                ConsoleRedirection.shared.addObserver(self, selector: #selector(didReceiveConsoleDidWriteNotification(_:)))
             } else {
-                consoleRedirection = nil
+                ConsoleRedirection.shared.removeObserver(self)
             }
         }
     }
@@ -144,6 +144,26 @@ public class ApolloDebugServer {
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
         rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
         return HTTPChunkedResponse(rawData: rawData)
+    }
+
+    private func eventName(for destination: ConsoleRedirection.Destination) -> String {
+        switch destination {
+        case .standardOutput:
+            return "stdout"
+        case .standardError:
+            return "stderr"
+        }
+    }
+
+    @objc private func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
+        let data = notification.userInfo![consoleDataKey] as! Data
+        let destination = notification.userInfo![consoleDestinationKey] as! ConsoleRedirection.Destination
+        guard let message = String(data: data, encoding: .utf8) else { return }
+        let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
+        let chunk = HTTPChunkedResponse(string: payload)
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunkedResponse: chunk)
+        }
     }
 }
 
@@ -299,28 +319,6 @@ extension ApolloDebugServer: HTTPServerDelegate {
             }
         } catch let error {
             respondBadRequest(to: request, in: connection, jsError: JSError(error))
-        }
-    }
-}
-
-// MARK: ConsoleRedirectionDelegate
-
-extension ApolloDebugServer: ConsoleRedirectionDelegate {
-    func console(_ console: ConsoleRedirection, didWrite data: Data, to destination: ConsoleRedirection.Destination) {
-        guard let message = String(data: data, encoding: .utf8) else { return }
-        let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
-        let chunk = HTTPChunkedResponse(string: payload)
-        for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: chunk)
-        }
-    }
-
-    private func eventName(for destination: ConsoleRedirection.Destination) -> String {
-        switch destination {
-        case .standardOutput:
-            return "stdout"
-        case .standardError:
-            return "stderr"
         }
     }
 }
