@@ -6,9 +6,6 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
@@ -17,11 +14,11 @@ class DebuggableNetworkTransportTests: XCTestCase {
     func testGetClientName() {
         let response: GraphQLResponse<MockGraphQLQuery>? = nil
         let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
-        // <% if apollo_version < '0.19.0' %>
-        XCTAssertEqual(networkTransport.clientName, "")
-        // <% else %>
-        XCTAssertEqual(networkTransport.clientName, "clientName")
-        // <% end %>
+        if ApolloVersion.current < 0.19 {
+            XCTAssertEqual(networkTransport.clientName, "")
+        } else {
+            XCTAssertEqual(networkTransport.clientName, "clientName")
+        }
     }
 
     func testSetClientName() {
@@ -34,11 +31,11 @@ class DebuggableNetworkTransportTests: XCTestCase {
     func testGetClientVersion() {
         let response: GraphQLResponse<MockGraphQLQuery>? = nil
         let networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport(response: response, error: nil))
-        // <% if apollo_version < '0.19.0' %>
-        XCTAssertEqual(networkTransport.clientVersion, "")
-        // <% else %>
-        XCTAssertEqual(networkTransport.clientVersion, "clientVersion")
-        // <% end %>
+        if ApolloVersion.current < 0.19 {
+            XCTAssertEqual(networkTransport.clientVersion, "")
+        } else {
+            XCTAssertEqual(networkTransport.clientVersion, "clientVersion")
+        }
     }
 
     func testSetClientVersion() {
@@ -80,10 +77,8 @@ class DebuggableNetworkTransportTests: XCTestCase {
 }
 
 class MockNetworkTransport: NetworkTransport {
-    // <% if apollo_version >= '0.19.0' %>
-    var clientName = "clientName"
-    var clientVersion = "clientVersion"
-    // <% end %>
+    var clientName = ApolloVersion.current >= 0.19 ? "clientName" : fatalError() as! String
+    var clientVersion = ApolloVersion.current >= 0.19 ? "clientVersion" : fatalError() as! String
 
     private let response: Any?
     private let error: Error?
