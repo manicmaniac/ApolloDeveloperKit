@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import Foundation
 
 /**
  * `GraphQLRequest` is the class representing any kind of GraphQL operation including query, mutation and subscription.
