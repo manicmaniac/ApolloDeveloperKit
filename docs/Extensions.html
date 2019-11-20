@@ -14,7 +14,7 @@
     <a title="Extensions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ApolloDeveloperKit Docs</a> (46% documented)</p>
+        <p><a href="index.html">ApolloDeveloperKit Docs</a> (40% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -53,6 +53,39 @@
             <a href="Extensions.html">Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Extensions/CFArray.html">CFArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/CFBoolean.html">CFBoolean</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/CFDictionary.html">CFDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/CFNull.html">CFNull</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/CFNumber.html">CFNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/CFString.html">CFString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSArray.html">NSArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSDictionary.html">NSDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSNull.html">NSNull</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSNumber.html">NSNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSString.html">NSString</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/Record.html">Record</a>
               </li>
               <li class="nav-group-task">
@@ -70,6 +103,312 @@
 
           </section>
           <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSString"></a>
+                    <a name="//apple_ref/swift/Extension/NSString" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSString">NSString</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>Apollo</code> has its own utility extensions to convert Swift standard types to JSON object and uses it widely in the project.
+<code>ApolloDeveloperKit</code> borrows this feature in order to convert an object to JSON-compliant object, like converting cache contents to JSON.
+ However, I found <code>Apollo</code> sometimes utilizes Cocoa types like NSString which is not covered by the above utility extensions,
+ and when I use those utility extensions on them, <code>fatalError()</code> occurs because it doesn&rsquo;t conform to <code>JSONEncodable</code>.
+ So to avoid this problem, <code>ApolloDeveloperKit</code> have to prepare some more extensions for Cocoa types.</p>
+
+                        <a href="Extensions/NSString.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSString</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSNumber"></a>
+                    <a name="//apple_ref/swift/Extension/NSNumber" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSNumber">NSNumber</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSNumber.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSNumber</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSDictionary"></a>
+                    <a name="//apple_ref/swift/Extension/NSDictionary" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSDictionary">NSDictionary</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSDictionary.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSDictionary</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSArray"></a>
+                    <a name="//apple_ref/swift/Extension/NSArray" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSArray">NSArray</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSArray.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSArray</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)NSNull"></a>
+                    <a name="//apple_ref/swift/Extension/NSNull" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)NSNull">NSNull</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/NSNull.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">NSNull</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@T@CFStringRef"></a>
+                    <a name="//apple_ref/swift/Extension/CFString" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@T@CFStringRef">CFString</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/CFString.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CFString</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@T@CFNumberRef"></a>
+                    <a name="//apple_ref/swift/Extension/CFNumber" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@T@CFNumberRef">CFNumber</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/CFNumber.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CFNumber</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@T@CFBooleanRef"></a>
+                    <a name="//apple_ref/swift/Extension/CFBoolean" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@T@CFBooleanRef">CFBoolean</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/CFBoolean.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CFBoolean</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@T@CFDictionaryRef"></a>
+                    <a name="//apple_ref/swift/Extension/CFDictionary" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@T@CFDictionaryRef">CFDictionary</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/CFDictionary.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CFDictionary</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@T@CFArrayRef"></a>
+                    <a name="//apple_ref/swift/Extension/CFArray" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@T@CFArrayRef">CFArray</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/CFArray.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CFArray</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@T@CFNullRef"></a>
+                    <a name="//apple_ref/swift/Extension/CFNull" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@T@CFNullRef">CFNull</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Extensions/CFNull.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">CFNull</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <div class="task-group">
               <ul>
                 <li class="item">
@@ -119,7 +458,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-11-15)</p>
+          <p>&copy; 2019 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2019-11-20)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
