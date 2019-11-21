@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "ApolloDeveloperKit"
-  spec.version = "0.7.1"
+  spec.version = "0.7.2"
   spec.summary = "Visual debugger for Apollo iOS GraphQL client"
   spec.description = <<-DESC
                    ApolloDeveloperKit is an iOS library which works as a bridge between Apollo iOS client and Apollo Client Developer tools.
