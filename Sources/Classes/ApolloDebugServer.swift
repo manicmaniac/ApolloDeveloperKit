@@ -23,7 +23,6 @@ public class ApolloDebugServer {
     private let dateFormatter = DateFormatter()
     private let queryManager = QueryManager()
     private let backgroundTask = BackgroundTask()
-    private var consoleRedirection: ConsoleRedirection?
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
