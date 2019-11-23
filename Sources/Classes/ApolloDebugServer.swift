@@ -154,7 +154,11 @@ public class ApolloDebugServer {
         }
     }
 
-    @objc private func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
+    /**
+     * DO NOT invoke this method directly.
+     * It is only visible for testing purpose.
+     */
+    @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
         let data = notification.userInfo![consoleDataKey] as! Data
         let destination = notification.userInfo![consoleDestinationKey] as! ConsoleRedirection.Destination
         guard let message = String(data: data, encoding: .utf8) else { return }

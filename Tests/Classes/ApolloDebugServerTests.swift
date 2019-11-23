@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import WebKit
 import XCTest
 @testable import ApolloDeveloperKit
 
@@ -33,6 +34,53 @@ class ApolloDebugServerTests: XCTestCase {
     override func tearDown() {
         session.invalidateAndCancel()
         server.stop()
+    }
+
+    func testConsoleRedirection() {
+        let consoleMessage = """
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            """
+        let html = """
+            <!DOCTYPE html>
+            <title>.</title>
+            <script>
+            const eventSource = new EventSource('events');
+            eventSource.onerror = () => {
+                webkit.messageHandlers.onerror.postMessage();
+            };
+            eventSource.onmessage = event => {
+                webkit.messageHandlers.onmessage.postMessage(event.data);
+            };
+            eventSource.addEventListener('stdout', event => {
+                webkit.messageHandlers.onstdout.postMessage(event.data);
+            });
+            </script>
+            """
+        let configuration = WKWebViewConfiguration()
+        configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
+            XCTFail("Couldn't establish connection for Server-Sent Events")
+        }, name: "onerror")
+        let expectationOnMessage = expectation(description: "'message' event should fire")
+        configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
+            expectationOnMessage.fulfill()
+        }, name: "onmessage")
+        let expectationOnStdout = expectation(description: "'stdout' event should fire")
+        configuration.userContentController.add(ScriptMessageHandlerBlock { _, message in
+            XCTAssertEqual(message.body as? String, consoleMessage)
+            expectationOnStdout.fulfill()
+        }, name: "onstdout")
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.loadHTMLString(html, baseURL: server.serverURL!)
+        wait(for: [expectationOnMessage], timeout: 5.0)
+        let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
+            consoleDataKey: consoleMessage.data(using: .utf8)!,
+            consoleDestinationKey: ConsoleRedirection.Destination.standardOutput
+        ])
+        server.didReceiveConsoleDidWriteNotification(notification)
+        wait(for: [expectationOnStdout], timeout: 5.0)
     }
 
     func testIsRunning() {
@@ -621,6 +669,18 @@ private class ChunkedURLSessionDataTaskHandler: NSObject, URLSessionDataDelegate
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         urlSessionTaskDidCompleteWithError?(session, task, error)
+    }
+}
+
+private class ScriptMessageHandlerBlock: NSObject, WKScriptMessageHandler {
+    private let block: (WKUserContentController, WKScriptMessage) -> Void
+
+    init(_ block: @escaping (WKUserContentController, WKScriptMessage) -> Void) {
+        self.block = block
+    }
+
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        block(userContentController, message)
     }
 }
 
