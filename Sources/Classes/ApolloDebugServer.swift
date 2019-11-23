@@ -162,7 +162,8 @@ public class ApolloDebugServer {
         let data = notification.userInfo![consoleDataKey] as! Data
         let destination = notification.userInfo![consoleDestinationKey] as! ConsoleRedirection.Destination
         guard let message = String(data: data, encoding: .utf8) else { return }
-        let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
+        let envelopedMessage = "data: " + message.replacingOccurrences(of: "\n", with: "\ndata: ")
+        let payload = "event: \(eventName(for: destination))\n\(envelopedMessage)\n\n"
         let chunk = HTTPChunkedResponse(string: payload)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
