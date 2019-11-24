@@ -11,13 +11,13 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class ApolloDebugServerLoadTests: XCTestCase {
-    private static var store: ApolloStore!
-    private static var client: ApolloClient!
-    private static var server: ApolloDebugServer!
-    private static var port = UInt16(0)
+    private var store: ApolloStore!
+    private var client: ApolloClient!
+    private var server: ApolloDebugServer!
+    private var port = UInt16(0)
     private var session: URLSession!
 
-    override class func setUp() {
+    override func setUp() {
         let url = URL(string: "https://localhost/graphql")!
         let configuration = URLSessionConfiguration.test
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
@@ -27,22 +27,16 @@ class ApolloDebugServerLoadTests: XCTestCase {
         client = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 0.25)
         port = try! server.start(randomPortIn: 49152...65535)
-    }
-
-    override class func tearDown() {
-        server.stop()
-    }
-
-    override func setUp() {
         session = URLSession(configuration: .test)
     }
 
     override func tearDown() {
         session.invalidateAndCancel()
+        server.stop()
     }
 
     func testGetBundleJS_withMaximumNumberOfClients() {
-        let url = type(of: self).server.serverURL!.appendingPathComponent("bundle.js")
+        let url = server.serverURL!.appendingPathComponent("bundle.js")
         for index in (0..<16) {
             let expectation = self.expectation(description: "response should be received (\(index))")
             let task = session.dataTask(with: url) { data, response, error in
