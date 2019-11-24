@@ -159,6 +159,7 @@ public class ApolloDebugServer {
      * It is only visible for testing purpose.
      */
     @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
+        guard notification.object as? ConsoleRedirection === ConsoleRedirection.shared else { return }
         let data = notification.userInfo![consoleDataKey] as! Data
         let destination = notification.userInfo![consoleDestinationKey] as! ConsoleRedirection.Destination
         guard let message = String(data: data, encoding: .utf8) else { return }
