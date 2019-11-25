@@ -23,7 +23,6 @@ public class ApolloDebugServer {
     private let dateFormatter = DateFormatter()
     private let queryManager = QueryManager()
     private let backgroundTask = BackgroundTask()
-    private var consoleRedirection: ConsoleRedirection?
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
 
@@ -155,11 +154,17 @@ public class ApolloDebugServer {
         }
     }
 
-    @objc private func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
+    /**
+     * DO NOT invoke this method directly.
+     * It is only visible for testing purpose.
+     */
+    @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
+        guard notification.object as? ConsoleRedirection === ConsoleRedirection.shared else { return }
         let data = notification.userInfo![consoleDataKey] as! Data
         let destination = notification.userInfo![consoleDestinationKey] as! ConsoleRedirection.Destination
         guard let message = String(data: data, encoding: .utf8) else { return }
-        let payload = "event: \(eventName(for: destination))\ndata: \(message)\n\n"
+        let envelopedMessage = "data: " + message.replacingOccurrences(of: "\n", with: "\ndata: ")
+        let payload = "event: \(eventName(for: destination))\n\(envelopedMessage)\n\n"
         let chunk = HTTPChunkedResponse(string: payload)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
