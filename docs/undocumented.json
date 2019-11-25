@@ -2,7 +2,7 @@
   "warnings": [
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
-      "line": 104,
+      "line": 103,
       "symbol": "ApolloDebugServer.start(randomPortIn:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
