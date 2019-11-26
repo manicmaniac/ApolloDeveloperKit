@@ -26,7 +26,7 @@ class GraphQLRequestTests: XCTestCase {
             "operationName": NSNull(),
             "query": "query { posts { id } }"
         ]
-        let request = try GraphQLRequest(jsonObject: jsonObject)
+        let request = try GraphQLRequest(jsonValue: jsonObject)
         XCTAssertNil(request.operationIdentifier)
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")
@@ -45,7 +45,7 @@ class GraphQLRequestTests: XCTestCase {
         let invalidJSONObject: JSONObject = [
             "operationName": Set<String>()
         ]
-        XCTAssertThrowsError(try GraphQLRequest(jsonObject: invalidJSONObject)) { error in
+        XCTAssertThrowsError(try GraphQLRequest(jsonValue: invalidJSONObject)) { error in
             guard case JSONDecodingError.couldNotConvert(value: let jsonObject, to: let type) = error else {
                 return XCTFail()
             }
