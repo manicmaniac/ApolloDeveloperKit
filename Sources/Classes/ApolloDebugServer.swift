@@ -302,7 +302,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
-            let operation = try GraphQLRequest(jsonObject: jsonObject)
+            let operation = try GraphQLRequest(jsonValue: jsonObject)
             _ = networkTransport.send(operation: operation) { [weak self] graphQLResponse, error in
                 guard let self = self else { return }
                 do {

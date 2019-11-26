@@ -16,7 +16,7 @@ import Foundation
  * It doesn't cause a problem for now because it matters only when an operation is saved,
  * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.
  */
-class GraphQLRequest: GraphQLOperation {
+class GraphQLRequest: GraphQLOperation, JSONDecodable {
     typealias Data = AnyGraphQLSelectionSet
 
     /**
@@ -52,8 +52,8 @@ class GraphQLRequest: GraphQLOperation {
      * - Parameter jsonObject: JSON dictionary object that conforms to GraphQL request.
      * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
      */
-    convenience init(jsonObject: Any) throws {
-        if let jsonObject = jsonObject as? [String: Any], let query = jsonObject["query"] as? String {
+    required convenience init(jsonValue value: Any) throws {
+        if let jsonObject = value as? [String: Any], let query = jsonObject["query"] as? String {
             let operationIdentifier = jsonObject["operationIdentifier"] as? String
             let operationName = jsonObject["operationName"] as? String ?? ""
             let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
@@ -63,7 +63,7 @@ class GraphQLRequest: GraphQLOperation {
                       operationName: operationName,
                       variables: variables)
         } else {
-            throw JSONDecodingError.couldNotConvert(value: jsonObject, to: GraphQLRequest.self)
+            throw JSONDecodingError.couldNotConvert(value: value, to: GraphQLRequest.self)
         }
     }
 
