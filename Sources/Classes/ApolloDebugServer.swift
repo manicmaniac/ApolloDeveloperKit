@@ -333,9 +333,16 @@ extension ApolloDebugServer: HTTPServerDelegate {
     }
 
     private func contentType(for pathExtension: String, preferredEncoding: String.Encoding) -> String {
-        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(),
-            !UTTypeIsDynamic(uti),
-            let mediaType = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() as String? else {
+        guard let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(), !UTTypeIsDynamic(uti) else {
+            return "application/octet-stream"
+        }
+        // Since `UTTypeCopyPreferredTagWithClass()` returns `text/javascript`, which has been obsoleted by RFC 4329 published on April 2006,
+        // it should be replaced manually by `application/javascript`, the new media type declared in the same RFC.
+        // - SeeAlso: http://www.rfc-editor.org/rfc/rfc4329.txt
+        guard uti != kUTTypeJavaScript else {
+            return "application/javascript"
+        }
+        guard let mediaType = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() as String? else {
             return "application/octet-stream"
         }
         guard UTTypeConformsTo(uti, kUTTypeText) else {
