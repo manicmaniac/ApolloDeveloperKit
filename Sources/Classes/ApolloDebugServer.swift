@@ -10,7 +10,7 @@ import Apollo
 import Foundation
 
 /**
- * `ApolloDebugServer` is a HTTP server to communicate with `apollo-cient-devtools`.
+ * `ApolloDebugServer` is a HTTP server to communicate with `apollo-client-devtools`.
  *
  * The server works even after the app moves to the background for a while.
  * When the server is released, it stops itself automatically.
@@ -35,6 +35,9 @@ public class ApolloDebugServer {
 
     /**
      * The URL where the server is established.
+     *
+     * - Warning: If running on a simulator, `serverURL` might return `nil`.
+     * Since there's no way to access host machine's network interfaces, `ApolloDebugServer` assumes `en0` or `en1` is the only available interfaces.
      */
     public var serverURL: URL? {
         return server.serverURL
@@ -92,14 +95,23 @@ public class ApolloDebugServer {
      * The server automatically stops and restarts when it's already running.
      *
      * - Parameter port: A port number. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occured while setting up a socket.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
      */
     public func start(port: UInt16) throws {
+        precondition(Thread.isMainThread)
         stop()
         try server.start(port: port)
         scheduleTimer()
     }
 
+    /**
+     * Starts HTTP server listening on a random port in the given range.
+     *
+     * This method should be invoked on the main thread.
+     *
+     * - Parameter ports: A range of ports. Avoid using well-known ports.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.     *
+     */
     public func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
         let port = try server.start(randomPortIn: ports)
         scheduleTimer()
@@ -113,6 +125,7 @@ public class ApolloDebugServer {
      * It's safe if you invoke this method even while the server isn't running.
      */
     public func stop() {
+        precondition(Thread.isMainThread)
         if isRunning {
             timer?.invalidate()
             server.stop()

@@ -25,7 +25,6 @@ protocol HTTPServerDelegate: class {
      *
      * - Parameter server: The server receiving a HTTP request.
      * - Parameter request: A raw HTTP message including header and complete body.
-     * - Parameter fileHandle: A file handle wrapping the underlying socket.
      * - Parameter completion: A completion handler. You must call it when the response ends.
      */
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection)
@@ -91,9 +90,10 @@ class HTTPServer {
      * This method should be invoked on the main thread.
      *
      * - Parameter port: A port number. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occured while setting up a socket.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
      */
     func start(port: UInt16) throws {
+        precondition(Thread.isMainThread)
         state = .starting
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
             throw HTTPServerError.socketCreationFailed
@@ -138,7 +138,16 @@ class HTTPServer {
         delegate?.server(self, didStartListeningTo: port)
     }
 
+    /**
+     * Starts HTTP server listening on a random port in the given range.
+     *
+     * This method should be invoked on the main thread.
+     *
+     * - Parameter ports: A range of ports. Avoid using well-known ports.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.     *
+     */
     func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
+        precondition(Thread.isMainThread)
         precondition(!ports.isEmpty)
         var errorsByPort = [UInt16: Error]()
         for port in ports.shuffled() {
@@ -158,6 +167,7 @@ class HTTPServer {
      * This method should be invoked on the main thread.
      */
     func stop() {
+        precondition(Thread.isMainThread)
         guard case .running = state else {
             return
         }

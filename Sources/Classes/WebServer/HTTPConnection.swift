@@ -12,6 +12,9 @@ protocol HTTPConnectionDelegate: class {
     func httpConnectionWillClose(_ connection: HTTPConnection)
 }
 
+/**
+ * `HTTPConnection` represents an individual connection of HTTP transmissions.
+ */
 class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
@@ -22,10 +25,6 @@ class HTTPConnection {
     init(httpVersion: String, fileHandle: FileHandle) {
         self.httpVersion = httpVersion
         self.fileHandle = fileHandle
-    }
-
-    func write(cachedResponse: CachedURLResponse) {
-        write(response: cachedResponse.response as! HTTPURLResponse, body: cachedResponse.data)
     }
 
     func write(chunkedResponse: HTTPChunkedResponse) {
