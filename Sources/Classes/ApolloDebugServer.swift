@@ -36,7 +36,7 @@ public class ApolloDebugServer {
     /**
      * The URL where the server is established.
      *
-     * Warning: If running on a simulator, `serverURL` might return `nil`.
+     * - Warning: If running on a simulator, `serverURL` might return `nil`.
      * Since there's no way to access host machine's network interfaces, `ApolloDebugServer` assumes `en0` or `en1` is the only available interfaces.
      */
     public var serverURL: URL? {
@@ -104,6 +104,14 @@ public class ApolloDebugServer {
         scheduleTimer()
     }
 
+    /**
+     * Starts HTTP server listening on a random port in the given range.
+     *
+     * This method should be invoked on the main thread.
+     *
+     * - Parameter ports: A range of ports. Avoid using well-known ports.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.     *
+     */
     public func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
         let port = try server.start(randomPortIn: ports)
         scheduleTimer()

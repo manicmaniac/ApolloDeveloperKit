@@ -13,6 +13,9 @@ protocol HTTPIncomingRequestDelegate: class {
     func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: URLRequest, connection: HTTPConnection)
 }
 
+/**
+ * `HTTPIncomingRequest` represents a provisional HTTP request towards a server.
+ */
 class HTTPIncomingRequest {
     private let httpVersion: String
     private let fileHandle: FileHandle

@@ -12,6 +12,9 @@ protocol HTTPConnectionDelegate: class {
     func httpConnectionWillClose(_ connection: HTTPConnection)
 }
 
+/**
+ * `HTTPConnection` represents an individual connection of HTTP transmissions.
+ */
 class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
