@@ -93,6 +93,7 @@ class HTTPServer {
      * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
      */
     func start(port: UInt16) throws {
+        precondition(Thread.isMainThread)
         state = .starting
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
             throw HTTPServerError.socketCreationFailed
@@ -146,6 +147,7 @@ class HTTPServer {
      * - Throws: `HTTPServerError` when an error occurred while setting up a socket.     *
      */
     func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
+        precondition(Thread.isMainThread)
         precondition(!ports.isEmpty)
         var errorsByPort = [UInt16: Error]()
         for port in ports.shuffled() {
@@ -165,6 +167,7 @@ class HTTPServer {
      * This method should be invoked on the main thread.
      */
     func stop() {
+        precondition(Thread.isMainThread)
         guard case .running = state else {
             return
         }

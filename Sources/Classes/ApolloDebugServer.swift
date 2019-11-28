@@ -98,6 +98,7 @@ public class ApolloDebugServer {
      * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
      */
     public func start(port: UInt16) throws {
+        precondition(Thread.isMainThread)
         stop()
         try server.start(port: port)
         scheduleTimer()
@@ -116,6 +117,7 @@ public class ApolloDebugServer {
      * It's safe if you invoke this method even while the server isn't running.
      */
     public func stop() {
+        precondition(Thread.isMainThread)
         if isRunning {
             timer?.invalidate()
             server.stop()
