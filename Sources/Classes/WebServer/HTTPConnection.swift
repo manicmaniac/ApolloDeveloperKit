@@ -27,10 +27,6 @@ class HTTPConnection {
         self.fileHandle = fileHandle
     }
 
-    func write(cachedResponse: CachedURLResponse) {
-        write(response: cachedResponse.response as! HTTPURLResponse, body: cachedResponse.data)
-    }
-
     func write(chunkedResponse: HTTPChunkedResponse) {
         write(data: chunkedResponse.data)
     }
