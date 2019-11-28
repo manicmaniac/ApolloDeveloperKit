@@ -12,7 +12,7 @@ import Foundation
 /**
  * `GraphQLRequest` is the class representing any kind of GraphQL operation including query, mutation and subscription.
  *
- * Any kind of oepration is recognized as GraphQLOperationType.query even if it isn't a query.
+ * Any kind of operation is recognized as GraphQLOperationType.query even if it isn't a query.
  * It doesn't cause a problem for now because it matters only when an operation is saved,
  * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.
  */

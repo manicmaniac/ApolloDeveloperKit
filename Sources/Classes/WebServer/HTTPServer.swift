@@ -90,7 +90,7 @@ class HTTPServer {
      * This method should be invoked on the main thread.
      *
      * - Parameter port: A port number. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occured while setting up a socket.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
      */
     func start(port: UInt16) throws {
         state = .starting
@@ -143,7 +143,7 @@ class HTTPServer {
      * This method should be invoked on the main thread.
      *
      * - Parameter ports: A range of ports. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occured while setting up a socket.     *
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.     *
      */
     func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
         precondition(!ports.isEmpty)

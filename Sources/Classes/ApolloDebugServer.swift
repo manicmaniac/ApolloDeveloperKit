@@ -10,7 +10,7 @@ import Apollo
 import Foundation
 
 /**
- * `ApolloDebugServer` is a HTTP server to communicate with `apollo-cient-devtools`.
+ * `ApolloDebugServer` is a HTTP server to communicate with `apollo-client-devtools`.
  *
  * The server works even after the app moves to the background for a while.
  * When the server is released, it stops itself automatically.
@@ -95,7 +95,7 @@ public class ApolloDebugServer {
      * The server automatically stops and restarts when it's already running.
      *
      * - Parameter port: A port number. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occured while setting up a socket.
+     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
      */
     public func start(port: UInt16) throws {
         stop()
