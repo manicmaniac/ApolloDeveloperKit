@@ -25,7 +25,6 @@ protocol HTTPServerDelegate: class {
      *
      * - Parameter server: The server receiving a HTTP request.
      * - Parameter request: A raw HTTP message including header and complete body.
-     * - Parameter fileHandle: A file handle wrapping the underlying socket.
      * - Parameter completion: A completion handler. You must call it when the response ends.
      */
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection)
@@ -138,6 +137,14 @@ class HTTPServer {
         delegate?.server(self, didStartListeningTo: port)
     }
 
+    /**
+     * Starts HTTP server listening on a random port in the given range.
+     *
+     * This method should be invoked on the main thread.
+     *
+     * - Parameter ports: A range of ports. Avoid using well-known ports.
+     * - Throws: `HTTPServerError` when an error occured while setting up a socket.     *
+     */
     func start<T: Collection>(randomPortIn ports: T) throws -> UInt16 where T.Element == UInt16 {
         precondition(!ports.isEmpty)
         var errorsByPort = [UInt16: Error]()

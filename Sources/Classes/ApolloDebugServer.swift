@@ -35,6 +35,9 @@ public class ApolloDebugServer {
 
     /**
      * The URL where the server is established.
+     *
+     * Warning: If running on a simulator, `serverURL` might return `nil`.
+     * Since there's no way to access host machine's network interfaces, `ApolloDebugServer` assumes `en0` or `en1` is the only available interfaces.
      */
     public var serverURL: URL? {
         return server.serverURL
