@@ -1,13 +1,6 @@
 {
   "warnings": [
     {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
-      "line": 103,
-      "symbol": "ApolloDebugServer.start(randomPortIn:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
       "line": 46,
       "symbol": "DebuggableNetworkTransport.send(operation:completionHandler:)",
@@ -123,62 +116,6 @@
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/Reference+JSONEncodable.swift",
       "line": 12,
       "symbol": "Reference.jsonValue",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 11,
-      "symbol": "HTTPServerError",
-      "symbol_kind": "source.lang.swift.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 12,
-      "symbol": "HTTPServerError.socketCreationFailed",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 13,
-      "symbol": "HTTPServerError.socketSetOptionFailed",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 14,
-      "symbol": "HTTPServerError.socketSetAddressFailed",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 15,
-      "symbol": "HTTPServerError.socketSetAddressTimeout",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 16,
-      "symbol": "HTTPServerError.socketListenFailed",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 17,
-      "symbol": "HTTPServerError.multipleSocketErrorOccurred(_:)",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
-      "line": 38,
-      "symbol": "HTTPServerError.localizedDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }
