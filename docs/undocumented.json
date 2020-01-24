@@ -2,7 +2,28 @@
   "warnings": [
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 22,
+      "symbol": "DebuggableNetworkTransport.clientName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 23,
+      "symbol": "DebuggableNetworkTransport.clientVersion",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
       "line": 46,
+      "symbol": "DebuggableNetworkTransport.send(operation:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 57,
       "symbol": "DebuggableNetworkTransport.send(operation:completionHandler:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -25,6 +46,27 @@
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
       "line": 71,
       "symbol": "DebuggableNormalizedCache.clear()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 79,
+      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 84,
+      "symbol": "DebuggableNormalizedCache.merge(records:callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 91,
+      "symbol": "DebuggableNormalizedCache.clear(callbackQueue:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
