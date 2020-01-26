@@ -345,8 +345,9 @@ extension ApolloDebugServer: HTTPServerDelegate {
 
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
+        let chunk = chunkForCurrentState()
         for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: chunkForCurrentState())
+            connection.write(chunkedResponse: chunk)
         }
     }
 }
@@ -355,20 +356,20 @@ extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
 
 extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
-        if !(operation is GraphQLRequest) {
-            queryManager.networkTransport(networkTransport, willSendOperation: operation)
-            for connection in eventStreamConnections.allObjects {
-                connection.write(chunkedResponse: chunkForCurrentState())
-            }
+        if operation is GraphQLRequest { return }
+        queryManager.networkTransport(networkTransport, willSendOperation: operation)
+        let chunk = chunkForCurrentState()
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunkedResponse: chunk)
         }
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
-        if !(operation is GraphQLRequest) {
-            queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
-            for connection in eventStreamConnections.allObjects {
-                connection.write(chunkedResponse: chunkForCurrentState())
-            }
+        if operation is GraphQLRequest { return }
+        queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
+        let chunk = chunkForCurrentState()
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunkedResponse: chunk)
         }
     }
 }

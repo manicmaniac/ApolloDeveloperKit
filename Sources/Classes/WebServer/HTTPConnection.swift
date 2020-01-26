@@ -36,11 +36,7 @@ class HTTPConnection {
         for case (let headerField as CFString, let value as CFString) in response.allHeaderFields {
             CFHTTPMessageSetHeaderFieldValue(message, headerField, value)
         }
-        if let body = body as CFData? {
-            CFHTTPMessageSetBody(message, body)
-        } else {
-            CFHTTPMessageSetBody(message, Data() as CFData)
-        }
+        CFHTTPMessageSetBody(message, (body ?? Data()) as CFData)
         write(message: message)
     }
 

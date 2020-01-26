@@ -53,18 +53,17 @@ class GraphQLRequest: GraphQLOperation, JSONDecodable {
      * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
      */
     required convenience init(jsonValue value: Any) throws {
-        if let jsonObject = value as? [String: Any], let query = jsonObject["query"] as? String {
-            let operationIdentifier = jsonObject["operationIdentifier"] as? String
-            let operationName = jsonObject["operationName"] as? String ?? ""
-            let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
-            self.init(operationType: .query,
-                      operationDefinition: query,
-                      operationIdentifier: operationIdentifier,
-                      operationName: operationName,
-                      variables: variables)
-        } else {
+        guard let jsonObject = value as? [String: Any], let query = jsonObject["query"] as? String else {
             throw JSONDecodingError.couldNotConvert(value: value, to: GraphQLRequest.self)
         }
+        let operationIdentifier = jsonObject["operationIdentifier"] as? String
+        let operationName = jsonObject["operationName"] as? String ?? ""
+        let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
+        self.init(operationType: .query,
+                  operationDefinition: query,
+                  operationIdentifier: operationIdentifier,
+                  operationName: operationName,
+                  variables: variables)
     }
 
     private init(operationType: GraphQLOperationType, operationDefinition: String, operationIdentifier: String?, operationName: String, variables: GraphQLMap?) {
