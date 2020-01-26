@@ -81,11 +81,7 @@ class QueryStore {
         store.removeValue(forKey: queryId)
     }
 
-    func reset(observableQueryIds: [String]) {
-        for queryId in store.keys {
-            if observableQueryIds.contains(queryId) {
-                stopQuery(queryId: queryId)
-            }
-        }
+    func reset(observableQueryIds: Set<String>) {
+        observableQueryIds.intersection(store.keys).forEach(stopQuery)
     }
 }
