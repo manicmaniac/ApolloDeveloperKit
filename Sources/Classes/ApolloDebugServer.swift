@@ -104,6 +104,10 @@ public class ApolloDebugServer {
      */
     public func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
+        // When running on iOS device, `UTTypeCreatePreferredIdentifierForTag` takes 10x longer time at first because it builds a cache.
+        // It could be critical when the server receives many requests (like a load test), so to warm up the cache,
+        // I need to call `UTTypeCreatePreferredIdentifierForTag` without a valid argument here.
+        _ = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, "" as CFString, nil)
         stop()
         try server.start(port: port)
         scheduleTimer()
