@@ -198,9 +198,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
     }
 
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
-        guard let path = request.url?.path else {
-            return
-        }
+        guard let path = request.url?.path else { return }
         switch (request.httpMethod, path) {
         case ("HEAD", "/events"):
             respondEventSource(to: request, in: connection, withBody: false)
