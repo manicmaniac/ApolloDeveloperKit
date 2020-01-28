@@ -42,7 +42,7 @@ jobs:
             swift: "5.1"
             destination: "platform=OS X,arch=x86_64"
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
       - name: Run build script tests
@@ -56,7 +56,7 @@ jobs:
   install-test:
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
       - name: Run install tests
@@ -64,7 +64,7 @@ jobs:
   lint-podspec:
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
       - name: Install dependencies
@@ -76,7 +76,7 @@ jobs:
   frontend-test:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install
       - name: Run frontend tests
