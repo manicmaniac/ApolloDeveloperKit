@@ -142,10 +142,8 @@ public class ApolloDebugServer {
     }
 
     @objc private func timerDidFire(_ timer: Timer) {
-        let ping = HTTPChunkedResponse(string: ":\n\n")
-        for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: ping)
-        }
+        // Ping to clients in order to keep the connection alive.
+        writeToEventStreamConnections(chunk: HTTPChunkedResponse(string: ":\n\n"))
     }
 
     private func scheduleTimer() {
@@ -161,6 +159,12 @@ public class ApolloDebugServer {
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
         rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
         return HTTPChunkedResponse(rawData: rawData)
+    }
+
+    private func writeToEventStreamConnections(chunk: HTTPChunkedResponse) {
+        for connection in eventStreamConnections.allObjects {
+            connection.write(chunkedResponse: chunk)
+        }
     }
 
     private func eventName(for destination: ConsoleRedirection.Destination) -> String {
@@ -183,10 +187,7 @@ public class ApolloDebugServer {
         guard let message = String(data: data, encoding: .utf8) else { return }
         let envelopedMessage = "data: " + message.replacingOccurrences(of: "\n", with: "\ndata: ")
         let payload = "event: \(eventName(for: destination))\n\(envelopedMessage)\n\n"
-        let chunk = HTTPChunkedResponse(string: payload)
-        for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: chunk)
-        }
+        writeToEventStreamConnections(chunk: HTTPChunkedResponse(string: payload))
     }
 }
 
@@ -369,10 +370,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
 
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
-        let chunk = chunkForCurrentState()
-        for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: chunk)
-        }
+        writeToEventStreamConnections(chunk: chunkForCurrentState())
     }
 }
 
@@ -382,18 +380,12 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, willSendOperation: operation)
-        let chunk = chunkForCurrentState()
-        for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: chunk)
-        }
+        writeToEventStreamConnections(chunk: chunkForCurrentState())
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
-        let chunk = chunkForCurrentState()
-        for connection in eventStreamConnections.allObjects {
-            connection.write(chunkedResponse: chunk)
-        }
+        writeToEventStreamConnections(chunk: chunkForCurrentState())
     }
 }
