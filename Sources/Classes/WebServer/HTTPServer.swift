@@ -74,10 +74,10 @@ class HTTPServer {
     private var primaryIPAddress: String? {
         #if targetEnvironment(simulator)
         // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
-        let expectedInterfaceNames = ["en0", "en1"]
+        let expectedInterfaceNames: Set<String> = ["en0", "en1"]
         #else
         // Wi-Fi interface on iOS
-        let expectedInterfaceNames = ["en0"]
+        let expectedInterfaceNames: Set<String> = ["en0"]
         #endif
         return NetworkInterfaceList.current?.first { networkInterface in
             networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
