@@ -37,18 +37,17 @@ struct NetworkInterface {
      * IPv4 address tied up with this interface.
      */
     var ipv4Address: String? {
-        let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: Int(NI_MAXHOST))
-        defer { buffer.deallocate() }
+        var host = [CChar](repeating: 0, count: Int(NI_MAXHOST))
         guard getnameinfo(addressPointer,
                           socklen_t(addressPointer.pointee.sa_len),
-                          buffer,
-                          socklen_t(NI_MAXHOST),
+                          &host,
+                          socklen_t(host.count),
                           nil,
                           0,
                           NI_NUMERICHOST | NI_NOFQDN) == 0 else {
             return nil
         }
-        return String(cString: buffer, encoding: .ascii)
+        return String(cString: host, encoding: .ascii)
     }
 
     init(addr: ifaddrs) {
