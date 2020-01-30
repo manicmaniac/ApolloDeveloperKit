@@ -28,12 +28,7 @@ extension NSNumber: JSONEncodable {
         case CFBooleanGetTypeID():
             return boolValue.jsonValue
         case CFNumberGetTypeID():
-            switch CFNumberGetType(self) {
-            case .floatType, .doubleType, .float32Type, .float64Type, .cgFloatType:
-                return doubleValue.jsonValue
-            default:
-                return intValue.jsonValue
-            }
+            return CFNumberIsFloatType(self) ? doubleValue.jsonValue : intValue.jsonValue
         default:
             fatalError("The underlying type of value must be CFBoolean or CFNumber")
         }

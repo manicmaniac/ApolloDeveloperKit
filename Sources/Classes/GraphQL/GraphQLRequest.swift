@@ -89,25 +89,9 @@ class GraphQLRequest: GraphQLOperation, JSONDecodable {
         case is NSNull:
             return JSONEncodable?.none
         case let value as NSNumber:
-            return convertNumberToJSONEncodable(value)
+            return value
         default:
             fatalError("invalid type of value: \(type(of: jsonObject))")
-        }
-    }
-
-    private static func convertNumberToJSONEncodable(_ number: NSNumber) -> JSONEncodable {
-        switch CFGetTypeID(number) {
-        case CFBooleanGetTypeID():
-            return number.boolValue
-        case CFNumberGetTypeID():
-            switch CFNumberGetType(number) {
-            case .floatType, .doubleType, .float32Type, .float64Type, .cgFloatType:
-                return number.doubleValue
-            default:
-                return number.intValue
-            }
-        default:
-            fatalError("The underlying type of value must be CFBoolean or CFNumber")
         }
     }
 }
