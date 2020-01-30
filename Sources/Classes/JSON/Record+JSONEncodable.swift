@@ -10,16 +10,13 @@ import Apollo
 
 extension Record: JSONEncodable {
     public var jsonValue: JSONValue {
-        var jsonObject = JSONObject(minimumCapacity: fields.count)
-        for (key, value) in fields {
+        return fields.mapValues { value -> JSONValue in
             if let value = value as? JSONEncodable {
-                jsonObject[key] = value.jsonValue
-            } else {
-                // As we cannot cast some kind of Objective-C types such as `NSCFString` to JSONEncodable,
-                // assume it as naturally JSON-encodable object.
-                jsonObject[key] = value
+                return value.jsonValue
             }
+            // As we cannot cast some kind of Objective-C types such as `NSCFString` to JSONEncodable,
+            // assume it as naturally JSON-encodable object.
+            return value
         }
-        return jsonObject
     }
 }
