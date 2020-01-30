@@ -89,12 +89,12 @@ class HTTPServer {
         }
 
         var reuse = 1
+        var noSigPipe = 1
         let fileDescriptor = CFSocketGetNative(socket)
         do {
             if setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) != 0 {
                 throw HTTPServerError.socketSetOptionFailed
             }
-            var noSigPipe = 1
             if setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) != 0 {
                 throw HTTPServerError.socketSetOptionFailed
             }
