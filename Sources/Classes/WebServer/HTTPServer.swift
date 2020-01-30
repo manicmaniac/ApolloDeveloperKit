@@ -38,19 +38,13 @@ protocol HTTPServerDelegate: class {
  * - SeeAlso: https://www.cocoawithlove.com/2009/07/simple-extensible-http-server-in-cocoa.html
  */
 class HTTPServer {
-    private enum State {
-        case idle
-        case starting
-        case running(port: UInt16)
-        case stopping
-    }
     weak var delegate: HTTPServerDelegate?
 
     /**
      * The URL where the server is established.
      */
     var serverURL: URL? {
-        guard case .running(port: let port) = state, let primaryIPAddress = primaryIPAddress else { return nil }
+        guard let port = port, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }
 
@@ -58,13 +52,10 @@ class HTTPServer {
      * A Boolean value indicating whether the server is running or not.
      */
     var isRunning: Bool {
-        if case .running = state {
-            return true
-        }
-        return false
+        return socket != nil
     }
 
-    private var state = State.idle
+    private var port: UInt16?
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
     private var incomingRequests = Set<HTTPIncomingRequest>()
@@ -93,11 +84,9 @@ class HTTPServer {
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
-        state = .starting
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
             throw HTTPServerError.socketCreationFailed
         }
-        self.socket = socket
 
         var reuse = 1
         let fileDescriptor = CFSocketGetNative(socket)
@@ -129,11 +118,12 @@ class HTTPServer {
             CFSocketInvalidate(socket)
             throw error
         }
+        self.socket = socket
+        self.port = port
         let listeningHandle = FileHandle(fileDescriptor: fileDescriptor, closeOnDealloc: true)
         self.listeningHandle = listeningHandle
         NotificationCenter.default.addObserver(self, selector: #selector(receiveIncomingConnectionNotification(_:)), name: .NSFileHandleConnectionAccepted, object: listeningHandle)
         listeningHandle.acceptConnectionInBackgroundAndNotify()
-        state = .running(port: port)
         delegate?.server(self, didStartListeningTo: port)
     }
 
@@ -167,10 +157,7 @@ class HTTPServer {
      */
     func stop() {
         precondition(Thread.isMainThread)
-        guard case .running = state else {
-            return
-        }
-        state = .stopping
+        guard isRunning else { return }
         NotificationCenter.default.removeObserver(self, name: .NSFileHandleConnectionAccepted, object: nil)
         listeningHandle?.closeFile()
         listeningHandle = nil
@@ -184,7 +171,7 @@ class HTTPServer {
             CFSocketInvalidate(socket)
         }
         socket = nil
-        state = .idle
+        port = nil
     }
 
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
