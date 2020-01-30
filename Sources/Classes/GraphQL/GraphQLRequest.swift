@@ -58,7 +58,7 @@ class GraphQLRequest: GraphQLOperation, JSONDecodable {
         }
         let operationIdentifier = jsonObject["operationIdentifier"] as? String
         let operationName = jsonObject["operationName"] as? String ?? ""
-        let variables = jsonObject["variables"].flatMap(GraphQLRequest.convertToGraphQLMap(_:))
+        let variables = jsonObject["variables"] as? GraphQLMap
         self.init(operationType: .query,
                   operationDefinition: query,
                   operationIdentifier: operationIdentifier,
@@ -72,26 +72,5 @@ class GraphQLRequest: GraphQLOperation, JSONDecodable {
         self.operationIdentifier = operationIdentifier
         self.operationName = operationName
         self.variables = variables
-    }
-
-    private static func convertToGraphQLMap(_ object: Any) -> GraphQLMap {
-        return recursivelyConvertToJSONEncodable(object) as! GraphQLMap
-    }
-
-    private static func recursivelyConvertToJSONEncodable(_ jsonObject: Any) -> JSONEncodable {
-        switch jsonObject {
-        case let value as String:
-            return value
-        case let value as [Any]:
-            return value.map(recursivelyConvertToJSONEncodable(_:))
-        case let value as [String: Any]:
-            return value.mapValues(recursivelyConvertToJSONEncodable(_:))
-        case is NSNull:
-            return JSONEncodable?.none
-        case let value as NSNumber:
-            return value
-        default:
-            fatalError("invalid type of value: \(type(of: jsonObject))")
-        }
     }
 }
