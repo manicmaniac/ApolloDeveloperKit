@@ -103,8 +103,8 @@ class HTTPServer {
                                       sin_port: port.bigEndian,
                                       sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
                                       sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-            let addressData = Data(bytes: &address, count: MemoryLayout<sockaddr_in>.size)
-            switch CFSocketSetAddress(socket, addressData as CFData) {
+            let addressData = Data(bytesNoCopy: &address, count: MemoryLayout<sockaddr_in>.size, deallocator: .none) as CFData
+            switch CFSocketSetAddress(socket, addressData) {
             case .success:
                 break
             case .error:
