@@ -54,7 +54,7 @@ class HTTPConnection {
         defer { lock.unlock() }
         guard isFileHandleOpen else { return }
         do {
-            try fileHandle.writeData(data)
+            try fileHandle.write(bytes: (data as NSData).bytes, length: data.count)
         } catch {
             close()
         }
