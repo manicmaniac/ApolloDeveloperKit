@@ -146,7 +146,6 @@ public class ApolloDebugServer {
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
         var rawData = try! JSONSerialization.data(withJSONObject: [
-            "action": [:],
             "state": [
                 "queries": queryManager.queryStore.store.jsonValue,
                 "mutations": queryManager.mutationStore.store.jsonValue

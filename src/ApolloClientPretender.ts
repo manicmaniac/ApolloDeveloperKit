@@ -5,7 +5,6 @@ import { ApolloCache, DataProxy } from 'apollo-cache';
 import ApolloCachePretender from './ApolloCachePretender';
 
 interface ApolloStateChangeEvent {
-  action?: object,
   state: {
     queries: {
       string: {
