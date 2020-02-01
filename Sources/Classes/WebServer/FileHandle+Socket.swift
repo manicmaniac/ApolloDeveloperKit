@@ -16,15 +16,12 @@ extension FileHandle {
      * we have to write raw bytes with POSIX `write(2)`.
      * This is the workaround to avoid using `write(2)` as it is.
      */
-    func writeData(_ data: Data) throws {
+    func write(bytes: UnsafeRawPointer, length: Int) throws {
         var totalWritten = 0
-        while totalWritten < data.count {
-            let written = Darwin.write(fileDescriptor, (data as NSData).bytes.advanced(by: totalWritten), data.count - totalWritten)
-            if written <= 0 {
-                let errno = Darwin.errno
-                throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: [
-                    NSLocalizedDescriptionKey: String(cString: strerror(errno), encoding: .utf8)!
-                ])
+        while totalWritten < length {
+            let written = Darwin.write(fileDescriptor, bytes.advanced(by: totalWritten), length - totalWritten)
+            guard written >= 0 else {
+                throw POSIXError(POSIXErrorCode(rawValue: errno)!)
             }
             totalWritten += written
         }

@@ -1,7 +1,7 @@
 import { ApolloCache, Cache, Transaction } from 'apollo-cache';
 
 export default class ApolloCachePretender extends ApolloCache<object> {
-    public onExtract?: () => void;
+    private onExtract?: () => void;
 
     constructor(onExtract?: () => void) {
         super();
@@ -36,9 +36,7 @@ export default class ApolloCachePretender extends ApolloCache<object> {
     }
 
     extract(optimistic: boolean = false): object {
-        if (this.onExtract) {
-            this.onExtract();
-        }
+        this.onExtract?.();
         return {};
     }
 

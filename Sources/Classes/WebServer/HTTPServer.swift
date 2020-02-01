@@ -38,19 +38,13 @@ protocol HTTPServerDelegate: class {
  * - SeeAlso: https://www.cocoawithlove.com/2009/07/simple-extensible-http-server-in-cocoa.html
  */
 class HTTPServer {
-    private enum State {
-        case idle
-        case starting
-        case running(port: UInt16)
-        case stopping
-    }
     weak var delegate: HTTPServerDelegate?
 
     /**
      * The URL where the server is established.
      */
     var serverURL: URL? {
-        guard case .running(port: let port) = state, let primaryIPAddress = primaryIPAddress else { return nil }
+        guard let port = port, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }
 
@@ -58,14 +52,10 @@ class HTTPServer {
      * A Boolean value indicating whether the server is running or not.
      */
     var isRunning: Bool {
-        if case .running = state {
-            return true
-        }
-        return false
+        return socket != nil
     }
 
-    private let httpVersion = kCFHTTPVersion1_1 as String
-    private var state = State.idle
+    private var port: UInt16?
     private var listeningHandle: FileHandle?
     private var socket: CFSocket?
     private var incomingRequests = Set<HTTPIncomingRequest>()
@@ -74,10 +64,10 @@ class HTTPServer {
     private var primaryIPAddress: String? {
         #if targetEnvironment(simulator)
         // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
-        let expectedInterfaceNames = ["en0", "en1"]
+        let expectedInterfaceNames: Set<String> = ["en0", "en1"]
         #else
         // Wi-Fi interface on iOS
-        let expectedInterfaceNames = ["en0"]
+        let expectedInterfaceNames: Set<String> = ["en0"]
         #endif
         return NetworkInterfaceList.current?.first { networkInterface in
             networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
@@ -94,19 +84,17 @@ class HTTPServer {
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
-        state = .starting
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
             throw HTTPServerError.socketCreationFailed
         }
-        self.socket = socket
 
         var reuse = 1
+        var noSigPipe = 1
         let fileDescriptor = CFSocketGetNative(socket)
         do {
             if setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) != 0 {
                 throw HTTPServerError.socketSetOptionFailed
             }
-            var noSigPipe = 1
             if setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) != 0 {
                 throw HTTPServerError.socketSetOptionFailed
             }
@@ -115,8 +103,8 @@ class HTTPServer {
                                       sin_port: port.bigEndian,
                                       sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
                                       sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-            let addressData = Data(bytes: &address, count: MemoryLayout<sockaddr_in>.size)
-            switch CFSocketSetAddress(socket, addressData as CFData) {
+            let addressData = Data(bytesNoCopy: &address, count: MemoryLayout<sockaddr_in>.size, deallocator: .none) as CFData
+            switch CFSocketSetAddress(socket, addressData) {
             case .success:
                 break
             case .error:
@@ -130,11 +118,12 @@ class HTTPServer {
             CFSocketInvalidate(socket)
             throw error
         }
+        self.socket = socket
+        self.port = port
         let listeningHandle = FileHandle(fileDescriptor: fileDescriptor, closeOnDealloc: true)
         self.listeningHandle = listeningHandle
         NotificationCenter.default.addObserver(self, selector: #selector(receiveIncomingConnectionNotification(_:)), name: .NSFileHandleConnectionAccepted, object: listeningHandle)
         listeningHandle.acceptConnectionInBackgroundAndNotify()
-        state = .running(port: port)
         delegate?.server(self, didStartListeningTo: port)
     }
 
@@ -168,10 +157,7 @@ class HTTPServer {
      */
     func stop() {
         precondition(Thread.isMainThread)
-        guard case .running = state else {
-            return
-        }
-        state = .stopping
+        guard isRunning else { return }
         NotificationCenter.default.removeObserver(self, name: .NSFileHandleConnectionAccepted, object: nil)
         listeningHandle?.closeFile()
         listeningHandle = nil
@@ -185,12 +171,12 @@ class HTTPServer {
             CFSocketInvalidate(socket)
         }
         socket = nil
-        state = .idle
+        port = nil
     }
 
     @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
         if let incomingFileHandle = notification.userInfo?[NSFileHandleNotificationFileHandleItem] as? FileHandle {
-            let incomingRequest = HTTPIncomingRequest(httpVersion: httpVersion, fileHandle: incomingFileHandle, delegate: self)
+            let incomingRequest = HTTPIncomingRequest(httpVersion: kCFHTTPVersion1_1 as String, fileHandle: incomingFileHandle, delegate: self)
             incomingRequests.insert(incomingRequest)
         }
         listeningHandle?.acceptConnectionInBackgroundAndNotify()
