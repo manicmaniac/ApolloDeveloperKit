@@ -80,23 +80,21 @@ class HTTPServer {
      * This method should be invoked on the main thread.
      *
      * - Parameter port: A port number. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
+     * - Throws: `POSIXError` when an error occurred while setting up a socket.
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
         guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
-            throw HTTPServerError.socketCreationFailed
+            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
 
         var reuse = 1
         var noSigPipe = 1
         let fileDescriptor = CFSocketGetNative(socket)
         do {
-            if setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) != 0 {
-                throw HTTPServerError.socketSetOptionFailed
-            }
-            if setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) != 0 {
-                throw HTTPServerError.socketSetOptionFailed
+            guard setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) == 0,
+                    setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) == 0 else {
+                throw POSIXError(POSIXErrorCode(rawValue: errno)!)
             }
             var address = sockaddr_in(sin_len: __uint8_t(MemoryLayout<sockaddr_in>.size),
                                       sin_family: sa_family_t(AF_INET),
@@ -104,15 +102,8 @@ class HTTPServer {
                                       sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
                                       sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
             let addressData = Data(bytesNoCopy: &address, count: MemoryLayout<sockaddr_in>.size, deallocator: .none) as CFData
-            switch CFSocketSetAddress(socket, addressData) {
-            case .success:
-                break
-            case .error:
-                throw HTTPServerError.socketSetAddressFailed
-            case .timeout:
-                throw HTTPServerError.socketSetAddressTimeout
-            @unknown default:
-                throw HTTPServerError.socketSetAddressFailed
+            guard CFSocketSetAddress(socket, addressData) == .success else {
+                throw POSIXError(POSIXErrorCode(rawValue: errno)!)
             }
         } catch let error {
             CFSocketInvalidate(socket)
