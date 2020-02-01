@@ -1,8 +1,32 @@
 import { parse } from 'graphql/language/parser';
 import { print } from 'graphql/language/printer';
-import { ApolloLink, Observable, RequestHandler } from 'apollo-link';
+import { ApolloLink, Observable, RequestHandler, DocumentNode } from 'apollo-link';
 import { ApolloCache, DataProxy } from 'apollo-cache';
 import ApolloCachePretender from './ApolloCachePretender';
+
+interface ApolloStateChangeEvent {
+  action?: object,
+  state: {
+    queries: {
+      string: {
+        document: DocumentNode,
+        variables?: object,
+        previousVariables?: object,
+        networkError?: object,
+        graphQLErrors?: [object]
+      }
+    },
+    mutations: {
+      string: {
+        mutation: DocumentNode,
+        variables?: object,
+        loading: boolean,
+        error?: object
+      }
+    }
+  },
+  dataWithOptimisticResults: object
+}
 
 const requestHandler: RequestHandler = (operation, _forward) => {
   return new Observable(observer => {
@@ -33,11 +57,11 @@ const requestHandler: RequestHandler = (operation, _forward) => {
 }
 
 export default class ApolloClientPretender implements DataProxy {
-  public version = '2.0.0';
-  public link: ApolloLink = new ApolloLink(requestHandler);
-  public cache: ApolloCache<object> = new ApolloCachePretender(this.startListening.bind(this));
+  public readonly version = '2.0.0';
+  public readonly link: ApolloLink = new ApolloLink(requestHandler);
+  public readonly cache: ApolloCache<object> = new ApolloCachePretender(this.startListening.bind(this));
 
-  private devToolsHookCb?: Function;
+  private devToolsHookCb?: (event: ApolloStateChangeEvent) => void;
   private eventSource?: EventSource;
 
   public readQuery(options: DataProxy.Query<any>, optimistic: boolean = false): null {
@@ -60,36 +84,37 @@ export default class ApolloClientPretender implements DataProxy {
     this.cache.writeData(options);
   }
 
-  private startListening(): void {
+  public startListening(): void {
     this.eventSource = new EventSource('/events');
     this.eventSource.onmessage = message => {
-      const event = transformEvent(JSON.parse(message.data));
+      const event = parseApolloStateChangeEvent(message.data);
       this.devToolsHookCb?.(event);
     };
-    this.eventSource.addEventListener('stdout', onLogMessageReceived);
-    this.eventSource.addEventListener('stderr', onLogMessageReceived);
+    this.eventSource.addEventListener('stdout', event => onLogMessageReceived(event as MessageEvent));
+    this.eventSource.addEventListener('stderr', event => onLogMessageReceived(event as MessageEvent));
   }
 
   public stopListening(): void {
     this.eventSource?.close();
   }
 
-  public __actionHookForDevTools(cb: () => any): void {
+  public __actionHookForDevTools(cb: (event: ApolloStateChangeEvent) => void): void {
     this.devToolsHookCb = cb;
   }
 }
 
-function onLogMessageReceived(event: any): void {
+function onLogMessageReceived(event: MessageEvent): void {
   const color = event.type === 'stdout' ? 'cadetblue' : 'tomato';
   console.log(`%c${event.data}`, `color: ${color}`);
 }
 
-function transformEvent(event: any): any {
-  Object.keys(event.state.queries).forEach(key => {
-    event.state.queries[key].document = parse(event.state.queries[key].document);
-  });
-  Object.keys(event.state.mutations).forEach(key => {
-    event.state.mutations[key].mutation = parse(event.state.mutations[key].mutation);
-  });
-  return event;
+function parseApolloStateChangeEvent(json: string): ApolloStateChangeEvent {
+  const event = JSON.parse(json);
+  for (let query of Object.values(event.state.queries) as [{document: any}]) {
+    query.document = parse(query.document);
+  }
+  for (let mutation of Object.values(event.state.mutations) as [{mutation: any}]) {
+    mutation.mutation = parse(mutation.mutation);
+  }
+  return event as ApolloStateChangeEvent;
 }
