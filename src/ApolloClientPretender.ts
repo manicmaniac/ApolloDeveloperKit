@@ -1,48 +1,44 @@
 import { parse } from 'graphql/language/parser';
 import { print } from 'graphql/language/printer';
-import { ApolloLink, Observable } from 'apollo-link';
+import { ApolloLink, Observable, RequestHandler } from 'apollo-link';
 import { ApolloCache, DataProxy } from 'apollo-cache';
 import ApolloCachePretender from './ApolloCachePretender';
 
+const requestHandler: RequestHandler = (operation, _forward) => {
+  return new Observable(observer => {
+    const body = {
+      variables: operation.variables,
+      extensions: operation.extensions,
+      operationName: operation.operationName,
+      query: print(operation.query)
+    };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    };
+    fetch('/request', options)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw Error(response.statusText);
+      })
+      .then(json => observer.next(json))
+      .then(() => observer.complete())
+      .catch(error => observer.error(error))
+  });
+}
+
 export default class ApolloClientPretender implements DataProxy {
   public version = '2.0.0';
-  public link: ApolloLink;
-  public cache: ApolloCache<object>
+  public link: ApolloLink = new ApolloLink(requestHandler);
+  public cache: ApolloCache<object> = new ApolloCachePretender(this.startListening.bind(this));
 
   private devToolsHookCb?: Function;
   private eventSource?: EventSource;
-
-  constructor() {
-    this.cache = new ApolloCachePretender(this.startListening.bind(this));
-    this.link = new ApolloLink((operation, forward) => {
-      return new Observable(observer => {
-        const body = {
-          variables: operation.variables,
-          extensions: operation.extensions,
-          operationName: operation.operationName,
-          query: print(operation.query)
-        };
-        const options = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        };
-        fetch('/request', options)
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw Error(response.statusText);
-            }
-          })
-          .then(json => observer.next(json))
-          .then(() => observer.complete())
-          .catch(error => observer.error(error))
-      });
-    });
-  }
 
   public readQuery(options: DataProxy.Query<any>, optimistic: boolean = false): null {
     return this.cache.readQuery(options, optimistic);
