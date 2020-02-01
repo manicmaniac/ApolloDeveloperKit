@@ -22,6 +22,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNetworkTransport.swift",
+      "line": 57,
+      "symbol": "DebuggableNetworkTransport.send(operation:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
       "line": 59,
       "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:)",
@@ -43,6 +50,27 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 79,
+      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 84,
+      "symbol": "DebuggableNormalizedCache.merge(records:callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
+      "line": 91,
+      "symbol": "DebuggableNormalizedCache.clear(callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
       "line": 20,
       "symbol": "NSString.jsonValue",
@@ -58,63 +86,63 @@
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 39,
+      "line": 44,
       "symbol": "NSDictionary.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 45,
+      "line": 50,
       "symbol": "NSArray.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 51,
+      "line": 56,
       "symbol": "NSNull.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 57,
+      "line": 62,
       "symbol": "CFString.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 63,
+      "line": 68,
       "symbol": "CFNumber.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 69,
+      "line": 74,
       "symbol": "CFBoolean.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 75,
+      "line": 80,
       "symbol": "CFDictionary.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 81,
+      "line": 86,
       "symbol": "CFArray.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSONCocoaTypeConversions.swift",
-      "line": 87,
+      "line": 92,
       "symbol": "CFNull.jsonValue",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
