@@ -95,7 +95,7 @@ public class ApolloDebugServer {
      * The server automatically stops and restarts when it's already running.
      *
      * - Parameter port: A port number. Avoid using well-known ports.
-     * - Throws: `HTTPServerError` when an error occurred while setting up a socket.
+     * - Throws: `POSIXError` when an error occurred while setting up a socket.
      */
     public func start(port: UInt16) throws {
         precondition(Thread.isMainThread)

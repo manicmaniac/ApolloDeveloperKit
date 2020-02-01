@@ -16,19 +16,10 @@ class HTTPServerErrorTests: XCTestCase {
     }
 
     func testErrorCode() {
-        XCTAssertEqual(HTTPServerError.socketCreationFailed.errorCode, 100)
-        XCTAssertEqual(HTTPServerError.socketSetOptionFailed.errorCode, 101)
-        XCTAssertEqual(HTTPServerError.socketSetAddressFailed.errorCode, 102)
-        XCTAssertEqual(HTTPServerError.socketSetAddressTimeout.errorCode, 103)
-        XCTAssertEqual(HTTPServerError.socketListenFailed.errorCode, 104)
+        XCTAssertEqual(HTTPServerError.multipleSocketErrorOccurred([:]).errorCode, 199)
     }
 
     func testLocalizedDescription() {
-        let defaultLocalizedDescriptionPrefix = "The operation"
-        XCTAssertFalse(HTTPServerError.socketCreationFailed.localizedDescription.hasPrefix(defaultLocalizedDescriptionPrefix))
-        XCTAssertFalse(HTTPServerError.socketSetOptionFailed.localizedDescription.hasPrefix(defaultLocalizedDescriptionPrefix))
-        XCTAssertFalse(HTTPServerError.socketSetAddressFailed.localizedDescription.hasPrefix(defaultLocalizedDescriptionPrefix))
-        XCTAssertFalse(HTTPServerError.socketSetAddressTimeout.localizedDescription.hasPrefix(defaultLocalizedDescriptionPrefix))
-        XCTAssertFalse(HTTPServerError.socketListenFailed.localizedDescription.hasPrefix(defaultLocalizedDescriptionPrefix))
+        XCTAssertTrue(HTTPServerError.multipleSocketErrorOccurred([:]).localizedDescription.contains("Multiple"))
     }
 }
