@@ -60,16 +60,16 @@ export default class ApolloClientPretender implements DataProxy {
     this.cache.writeData(options);
   }
 
-  public startListening(): void {
+  private startListening(): void {
     this.eventSource = new EventSource('/events');
     this.eventSource.onmessage = message => {
-      const event = this.transformEvent(JSON.parse(message.data));
+      const event = transformEvent(JSON.parse(message.data));
       if (this.devToolsHookCb) {
         this.devToolsHookCb(event);
       }
     };
-    this.eventSource.addEventListener('stdout', this.onLogMessageReceived);
-    this.eventSource.addEventListener('stderr', this.onLogMessageReceived);
+    this.eventSource.addEventListener('stdout', onLogMessageReceived);
+    this.eventSource.addEventListener('stderr', onLogMessageReceived);
   }
 
   public stopListening(): void {
@@ -81,19 +81,19 @@ export default class ApolloClientPretender implements DataProxy {
   public __actionHookForDevTools(cb: () => any): void {
     this.devToolsHookCb = cb;
   }
+}
 
-  private onLogMessageReceived(event: any): void {
-    const color = event.type === 'stdout' ? 'cadetblue' : 'tomato';
-    console.log(`%c${event.data}`, `color: ${color}`);
-  }
+function onLogMessageReceived(event: any): void {
+  const color = event.type === 'stdout' ? 'cadetblue' : 'tomato';
+  console.log(`%c${event.data}`, `color: ${color}`);
+}
 
-  private transformEvent(event: any): any {
-    Object.keys(event.state.queries).forEach(key => {
-      event.state.queries[key].document = parse(event.state.queries[key].document);
-    });
-    Object.keys(event.state.mutations).forEach(key => {
-      event.state.mutations[key].mutation = parse(event.state.mutations[key].mutation);
-    });
-    return event;
-  }
+function transformEvent(event: any): any {
+  Object.keys(event.state.queries).forEach(key => {
+    event.state.queries[key].document = parse(event.state.queries[key].document);
+  });
+  Object.keys(event.state.mutations).forEach(key => {
+    event.state.mutations[key].mutation = parse(event.state.mutations[key].mutation);
+  });
+  return event;
 }
