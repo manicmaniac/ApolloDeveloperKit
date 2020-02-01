@@ -64,18 +64,14 @@ export default class ApolloClientPretender implements DataProxy {
     this.eventSource = new EventSource('/events');
     this.eventSource.onmessage = message => {
       const event = transformEvent(JSON.parse(message.data));
-      if (this.devToolsHookCb) {
-        this.devToolsHookCb(event);
-      }
+      this.devToolsHookCb?.(event);
     };
     this.eventSource.addEventListener('stdout', onLogMessageReceived);
     this.eventSource.addEventListener('stderr', onLogMessageReceived);
   }
 
   public stopListening(): void {
-    if (this.eventSource) {
-      this.eventSource.close();
-    }
+    this.eventSource?.close();
   }
 
   public __actionHookForDevTools(cb: () => any): void {
