@@ -71,14 +71,6 @@ class MutationStoreTests: XCTestCase {
         XCTAssertEqual(value?.loading, false)
         XCTAssertNil(value?.error)
     }
-
-    func testReset() {
-        let store = MutationStore()
-        let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: "foo", mutation: mutation)
-        store.reset()
-        XCTAssertNil(store.get(mutationId: "foo"))
-    }
 }
 
 private class MockMutation: GraphQLMutation {

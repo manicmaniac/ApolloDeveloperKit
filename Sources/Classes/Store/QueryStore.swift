@@ -71,17 +71,4 @@ class QueryStore {
     func markQueryError(queryId: String, error: Error) {
         store[queryId]?.networkError = error
     }
-
-    func markQueryResultClient(queryId: String) {
-        store[queryId]?.networkError = nil
-        store[queryId]?.previousVariables = nil
-    }
-
-    func stopQuery(queryId: String) {
-        store.removeValue(forKey: queryId)
-    }
-
-    func reset(observableQueryIds: Set<String>) {
-        observableQueryIds.intersection(store.keys).forEach(stopQuery)
-    }
 }

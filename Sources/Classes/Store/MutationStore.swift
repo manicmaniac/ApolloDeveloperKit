@@ -64,8 +64,4 @@ class MutationStore {
         store[mutationId]?.loading = false
         store[mutationId]?.error = nil
     }
-
-    func reset() {
-        store.removeAll()
-    }
 }

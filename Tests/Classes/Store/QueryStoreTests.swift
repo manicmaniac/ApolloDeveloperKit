@@ -90,38 +90,6 @@ class QueryStoreTests: XCTestCase {
         XCTAssertEqual(value?.networkError as NSError?, URLError(.badURL) as NSError)
         XCTAssertEqual(value?.graphQLErrors.isEmpty, true)
     }
-
-    func testMarkQueryResultClient() {
-        let store = QueryStore()
-        let query = MockQuery(operationDefinition: operationDefinition)
-        store.initQuery(queryId: queryId, query: query)
-        store.markQueryError(queryId: queryId, error: URLError(.badURL))
-        store.markQueryResultClient(queryId: queryId)
-        let value = store.get(queryId: queryId)
-        XCTAssertEqual(value?.document, query.queryDocument)
-        XCTAssertNil(value?.variables)
-        XCTAssertNil(value?.previousVariables)
-        XCTAssertNil(value?.networkError)
-        XCTAssertEqual(value?.graphQLErrors.isEmpty, true)
-    }
-
-    func testStopQuery() {
-        let store = QueryStore()
-        let query = MockQuery(operationDefinition: operationDefinition)
-        store.initQuery(queryId: queryId, query: query)
-        store.stopQuery(queryId: queryId)
-        let value = store.get(queryId: queryId)
-        XCTAssertNil(value)
-    }
-
-    func testReset() {
-        let store = QueryStore()
-        let query = MockQuery(operationDefinition: operationDefinition)
-        store.initQuery(queryId: queryId, query: query)
-        store.reset(observableQueryIds: [queryId])
-        let value = store.get(queryId: queryId)
-        XCTAssertNil(value)
-    }
 }
 
 private class MockQuery: GraphQLQuery {
