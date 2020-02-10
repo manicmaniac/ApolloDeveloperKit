@@ -21,7 +21,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let dateFormatter = DateFormatter()
-    private let queryManager = QueryManager()
+    private let queryManager = OperationStoreController(store: OperationStore())
     private let backgroundTask = BackgroundTask()
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
@@ -146,10 +146,7 @@ public class ApolloDebugServer {
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
         var rawData = try! JSONSerialization.data(withJSONObject: [
-            "state": [
-                "queries": queryManager.queryStore.store.jsonValue,
-                "mutations": queryManager.mutationStore.store.jsonValue
-            ],
+            "state": queryManager.store.jsonValue,
             "dataWithOptimisticResults": cache.extract().jsonValue
             ], options: [])
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)

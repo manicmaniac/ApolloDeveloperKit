@@ -17,6 +17,8 @@
 		5B26FC2D22B3DB0800359E63 /* ApolloDeveloperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4322B3DB5800359E63 /* Assets.xcassets */; };
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
+		5B29A5A023F112A500475EEA /* OperationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29A59F23F112A500475EEA /* OperationStore.swift */; };
+		5B29A5A423F1309300475EEA /* OperationStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29A5A323F1309300475EEA /* OperationStoreController.swift */; };
 		5B2E1B29230C2CE0003C85CB /* NetworkInterfaceListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */; };
 		5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */; };
 		5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */; };
@@ -191,6 +193,8 @@
 		5B26FC4322B3DB5800359E63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B26FC4622B3DB5800359E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B26FC4822B3DB5800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B29A59F23F112A500475EEA /* OperationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStore.swift; sourceTree = "<group>"; };
+		5B29A5A323F1309300475EEA /* OperationStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStoreController.swift; sourceTree = "<group>"; };
 		5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceListTests.swift; sourceTree = "<group>"; };
 		5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceTests.swift; sourceTree = "<group>"; };
 		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
@@ -494,6 +498,8 @@
 				5B630E3F22B60C990000994D /* QueryManager.swift */,
 				5B630E3D22B60A210000994D /* MutationStore.swift */,
 				5B630E3922B575DA0000994D /* QueryStore.swift */,
+				5B29A59F23F112A500475EEA /* OperationStore.swift */,
+				5B29A5A323F1309300475EEA /* OperationStoreController.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -766,6 +772,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */,
+				5B29A5A023F112A500475EEA /* OperationStore.swift in Sources */,
 				5B0051132309125F00B9B2B2 /* NetworkInterfaceList.swift in Sources */,
 				5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */,
 				5B3A83A922C89835002B4FFB /* FileHandle+Socket.swift in Sources */,
@@ -777,6 +784,7 @@
 				5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */,
 				5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */,
 				5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */,
+				5B29A5A423F1309300475EEA /* OperationStoreController.swift in Sources */,
 				5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */,
 				5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */,
 				5B630E4022B60C990000994D /* QueryManager.swift in Sources */,
