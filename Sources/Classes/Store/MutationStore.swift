@@ -42,25 +42,25 @@ extension MutationStoreValue: JSONEncodable {
  * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/data/mutations.ts
  */
 class MutationStore {
-    private(set) var store = [String: MutationStoreValue]()
+    private(set) var store = [Int: MutationStoreValue]()
 
-    func get(mutationId: String) -> MutationStoreValue? {
+    func get(mutationId: Int) -> MutationStoreValue? {
         return store[mutationId]
     }
 
-    func initMutation<Operation: GraphQLOperation>(mutationId: String, mutation: Operation) {
+    func initMutation<Operation: GraphQLOperation>(mutationId: Int, mutation: Operation) {
         store[mutationId] = MutationStoreValue(mutation: mutation.queryDocument,
                                                variables: mutation.variables,
                                                loading: true,
                                                error: nil)
     }
 
-    func markMutationError(mutationId: String, error: Error) {
+    func markMutationError(mutationId: Int, error: Error) {
         store[mutationId]?.loading = false
         store[mutationId]?.error = error
     }
 
-    func markMutationResult(mutationId: String) {
+    func markMutationResult(mutationId: Int) {
         store[mutationId]?.loading = false
         store[mutationId]?.error = nil
     }

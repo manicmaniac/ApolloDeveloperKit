@@ -30,6 +30,7 @@ class MutationStoreValueTests: XCTestCase {
 }
 
 class MutationStoreTests: XCTestCase {
+    let queryId = 1
     let operationDefinition = """
         mutation UpvotePost($postId: Int!) {
           upvotePost(postId: $postId) {
@@ -43,8 +44,8 @@ class MutationStoreTests: XCTestCase {
     func testInitMutation() {
         let store = MutationStore()
         let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: "foo", mutation: mutation)
-        let value = store.get(mutationId: "foo")
+        store.initMutation(mutationId: queryId, mutation: mutation)
+        let value = store.get(mutationId: queryId)
         XCTAssertEqual(value?.mutation, mutation.queryDocument)
         XCTAssertEqual(value?.loading, true)
         XCTAssertNil(value?.error)
@@ -53,9 +54,9 @@ class MutationStoreTests: XCTestCase {
     func testMarkMutationError() {
         let store = MutationStore()
         let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: "foo", mutation: mutation)
-        store.markMutationError(mutationId: "foo", error: URLError(.badURL))
-        let value = store.get(mutationId: "foo")
+        store.initMutation(mutationId: queryId, mutation: mutation)
+        store.markMutationError(mutationId: queryId, error: URLError(.badURL))
+        let value = store.get(mutationId: queryId)
         XCTAssertEqual(value?.mutation, mutation.queryDocument)
         XCTAssertEqual(value?.loading, false)
         XCTAssertNotNil(value?.error)
@@ -64,9 +65,9 @@ class MutationStoreTests: XCTestCase {
     func testMarkMutationResult() {
         let store = MutationStore()
         let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: "foo", mutation: mutation)
-        store.markMutationResult(mutationId: "foo")
-        let value = store.get(mutationId: "foo")
+        store.initMutation(mutationId: queryId, mutation: mutation)
+        store.markMutationResult(mutationId: queryId)
+        let value = store.get(mutationId: queryId)
         XCTAssertEqual(value?.mutation, mutation.queryDocument)
         XCTAssertEqual(value?.loading, false)
         XCTAssertNil(value?.error)

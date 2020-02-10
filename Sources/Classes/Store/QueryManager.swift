@@ -19,13 +19,13 @@ import Dispatch
 class QueryManager {
     let mutationStore = MutationStore()
     let queryStore = QueryStore()
-    private var queries = [String: AnyObject]()
+    private var queries = [Int: AnyObject]()
     private let queue = DispatchQueue(label: "com.github.manicmaniac.ApolloDeveloperKit.QueryManager")
     private var counter = 0
 
-    private func generateQueryId() -> String {
+    private func generateQueryId() -> Int {
         counter += 1
-        return String(describing: counter)
+        return counter
     }
 }
 

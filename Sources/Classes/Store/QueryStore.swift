@@ -44,13 +44,13 @@ extension QueryStoreValue: JSONEncodable {
  * - SeeAlso: https://github.com/apollographql/apollo-client/blob/master/packages/apollo-client/src/data/queries.ts
  */
 class QueryStore {
-    private(set) var store = [String: QueryStoreValue]()
+    private(set) var store = [Int: QueryStoreValue]()
 
-    func get(queryId: String) -> QueryStoreValue? {
+    func get(queryId: Int) -> QueryStoreValue? {
         return store[queryId]
     }
 
-    func initQuery<Operation: GraphQLOperation>(queryId: String, query: Operation) {
+    func initQuery<Operation: GraphQLOperation>(queryId: Int, query: Operation) {
         let previousQuery = store[queryId]
         precondition(previousQuery == nil || previousQuery?.document == query.queryDocument,
                      "Internal Error: may not update existing query string in store")
@@ -62,13 +62,13 @@ class QueryStore {
         store[queryId] = value
     }
 
-    func markQueryResult(queryId: String, graphQLErrors: [Error]?) {
+    func markQueryResult(queryId: Int, graphQLErrors: [Error]?) {
         store[queryId]?.networkError = nil
         store[queryId]?.graphQLErrors = graphQLErrors ?? []
         store[queryId]?.previousVariables = nil
     }
 
-    func markQueryError(queryId: String, error: Error) {
+    func markQueryError(queryId: Int, error: Error) {
         store[queryId]?.networkError = error
     }
 }

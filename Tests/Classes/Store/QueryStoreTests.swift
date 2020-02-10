@@ -31,7 +31,7 @@ class QueryStoreValueTests: XCTestCase {
 }
 
 class QueryStoreTests: XCTestCase {
-    let queryId = "1"
+    let queryId = 1
     let operationDefinition = """
         query AllPosts {
           posts {
