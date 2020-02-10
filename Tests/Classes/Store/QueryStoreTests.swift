@@ -31,7 +31,7 @@ class QueryStoreValueTests: XCTestCase {
 }
 
 class QueryStoreTests: XCTestCase {
-    let queryId = 1
+    let queryId = 0
     let operationDefinition = """
         query AllPosts {
           posts {
@@ -56,7 +56,7 @@ class QueryStoreTests: XCTestCase {
     func testInitQuery() {
         let store = QueryStore()
         let query = MockQuery(operationDefinition: operationDefinition)
-        store.initQuery(queryId: queryId, query: query)
+        store.initQuery(query: query)
         let value = store.get(queryId: queryId)
         XCTAssertEqual(value?.document, query.queryDocument)
         XCTAssertNil(value?.variables)
@@ -67,7 +67,7 @@ class QueryStoreTests: XCTestCase {
     func testMarkQueryResult() {
         let store = QueryStore()
         let query = MockQuery(operationDefinition: operationDefinition)
-        store.initQuery(queryId: queryId, query: query)
+        store.initQuery(query: query)
         store.markQueryResult(queryId: queryId, graphQLErrors: [GraphQLError(["error": "some error"])])
         let value = store.get(queryId: queryId)
         XCTAssertEqual(value?.document, query.queryDocument)
@@ -79,7 +79,7 @@ class QueryStoreTests: XCTestCase {
     func testMarkQueryError() {
         let store = QueryStore()
         let query = MockQuery(operationDefinition: operationDefinition)
-        store.initQuery(queryId: queryId, query: query)
+        store.initQuery(query: query)
         store.markQueryError(queryId: queryId, error: URLError(.badURL))
         let value = store.get(queryId: queryId)
         XCTAssertEqual(value?.document, query.queryDocument)

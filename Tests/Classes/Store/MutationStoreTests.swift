@@ -30,7 +30,7 @@ class MutationStoreValueTests: XCTestCase {
 }
 
 class MutationStoreTests: XCTestCase {
-    let queryId = 1
+    let queryId = 0
     let operationDefinition = """
         mutation UpvotePost($postId: Int!) {
           upvotePost(postId: $postId) {
@@ -44,7 +44,7 @@ class MutationStoreTests: XCTestCase {
     func testInitMutation() {
         let store = MutationStore()
         let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: queryId, mutation: mutation)
+        store.initMutation(mutation: mutation)
         let value = store.get(mutationId: queryId)
         XCTAssertEqual(value?.mutation, mutation.queryDocument)
         XCTAssertEqual(value?.loading, true)
@@ -54,7 +54,7 @@ class MutationStoreTests: XCTestCase {
     func testMarkMutationError() {
         let store = MutationStore()
         let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: queryId, mutation: mutation)
+        store.initMutation(mutation: mutation)
         store.markMutationError(mutationId: queryId, error: URLError(.badURL))
         let value = store.get(mutationId: queryId)
         XCTAssertEqual(value?.mutation, mutation.queryDocument)
@@ -65,7 +65,7 @@ class MutationStoreTests: XCTestCase {
     func testMarkMutationResult() {
         let store = MutationStore()
         let mutation = MockMutation(operationDefinition: operationDefinition)
-        store.initMutation(mutationId: queryId, mutation: mutation)
+        store.initMutation(mutation: mutation)
         store.markMutationResult(mutationId: queryId)
         let value = store.get(mutationId: queryId)
         XCTAssertEqual(value?.mutation, mutation.queryDocument)
