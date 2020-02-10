@@ -16,7 +16,6 @@ import Apollo
 struct QueryStoreValue {
     let document: String
     let variables: GraphQLMap?
-    fileprivate(set) var previousVariables: GraphQLMap?
     fileprivate(set) var networkError: Error?
     fileprivate(set) var graphQLErrors: [Error]
 }
@@ -28,7 +27,7 @@ extension QueryStoreValue: JSONEncodable {
         return [
             "document": document,
             "variables": variables.jsonValue,
-            "previousVariables": previousVariables.jsonValue,
+            "previousVariables": NSNull(),
             "networkError": networkError.flatMap { JSError($0) }.jsonValue,
             "graphQLErrors": graphQLErrors.map { JSError($0) }.jsonValue
         ]
@@ -56,7 +55,6 @@ class QueryStore {
                      "Internal Error: may not update existing query string in store")
         let value = QueryStoreValue(document: query.queryDocument,
                                     variables: query.variables,
-                                    previousVariables: previousQuery?.variables,
                                     networkError: nil,
                                     graphQLErrors: previousQuery?.graphQLErrors ?? [])
         store[queryId] = value
@@ -65,7 +63,6 @@ class QueryStore {
     func markQueryResult(queryId: Int, graphQLErrors: [Error]?) {
         store[queryId]?.networkError = nil
         store[queryId]?.graphQLErrors = graphQLErrors ?? []
-        store[queryId]?.previousVariables = nil
     }
 
     func markQueryError(queryId: Int, error: Error) {

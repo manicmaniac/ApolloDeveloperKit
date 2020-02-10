@@ -12,14 +12,14 @@ import XCTest
 
 class QueryStoreValueTests: XCTestCase {
     func testJSONValue() {
-        let queryStoreValue = QueryStoreValue(document: "query { post($id) { votes } }", variables: ["id": 42], previousVariables: ["id": 41], networkError: URLError(.badURL), graphQLErrors: [])
+        let queryStoreValue = QueryStoreValue(document: "query { post($id) { votes } }", variables: ["id": 42], networkError: URLError(.badURL), graphQLErrors: [])
         guard let jsonObject = queryStoreValue.jsonValue as? [String: Any] else {
             return XCTFail()
         }
         XCTAssertEqual(jsonObject["document"] as? String, "query { post($id) { votes } }")
         XCTAssertEqual(jsonObject["variables"] as? NSDictionary, ["id": 42])
 
-        XCTAssertEqual(jsonObject["previousVariables"] as? NSDictionary, ["id": 41])
+        XCTAssertEqual(jsonObject["previousVariables"] as? NSNull, NSNull())
         guard let networkError = jsonObject["networkError"] as? [String: Any] else {
             return XCTFail()
         }
@@ -60,7 +60,6 @@ class QueryStoreTests: XCTestCase {
         let value = store.get(queryId: queryId)
         XCTAssertEqual(value?.document, query.queryDocument)
         XCTAssertNil(value?.variables)
-        XCTAssertNil(value?.previousVariables)
         XCTAssertNil(value?.networkError)
         XCTAssertEqual(value?.graphQLErrors.isEmpty, true)
     }
@@ -73,7 +72,6 @@ class QueryStoreTests: XCTestCase {
         let value = store.get(queryId: queryId)
         XCTAssertEqual(value?.document, query.queryDocument)
         XCTAssertNil(value?.variables)
-        XCTAssertNil(value?.previousVariables)
         XCTAssertNil(value?.networkError)
         XCTAssertEqual(value?.graphQLErrors.count, 1)
     }
@@ -86,7 +84,6 @@ class QueryStoreTests: XCTestCase {
         let value = store.get(queryId: queryId)
         XCTAssertEqual(value?.document, query.queryDocument)
         XCTAssertNil(value?.variables)
-        XCTAssertNil(value?.previousVariables)
         XCTAssertEqual(value?.networkError as NSError?, URLError(.badURL) as NSError)
         XCTAssertEqual(value?.graphQLErrors.isEmpty, true)
     }
