@@ -112,13 +112,13 @@ class MockNetworkTransport: NetworkTransport {
     #endif
 }
 
-class MockCancellable: Cancellable {
+private class MockCancellable: Cancellable {
     func cancel() {
         // do nothing
     }
 }
 
-class MockGraphQLQuery: GraphQLQuery {
+private class MockGraphQLQuery: GraphQLQuery {
     typealias Data = MockGraphQLSelectionSet
 
     let operationDefinition = ""
@@ -126,7 +126,7 @@ class MockGraphQLQuery: GraphQLQuery {
     let operationName = ""
 }
 
-class MockGraphQLSelectionSet: GraphQLSelectionSet {
+private class MockGraphQLSelectionSet: GraphQLSelectionSet {
     static let selections = [GraphQLSelection]()
     let resultMap: ResultMap
 
