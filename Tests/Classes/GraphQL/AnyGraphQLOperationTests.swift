@@ -1,5 +1,5 @@
 //
-//  GraphQLRequestTests.swift
+//  AnyGraphQLOperationTests.swift
 //  ApolloDeveloperKitTests
 //
 //  Created by Ryosuke Ito on 6/29/19.
@@ -10,7 +10,7 @@ import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
 
-class GraphQLRequestTests: XCTestCase {
+class AnyGraphQLOperationTests: XCTestCase {
     func testInitWithJSONObject_withValidJSONObject() throws {
         let jsonObject: JSONObject = [
             "variables": [
@@ -26,7 +26,7 @@ class GraphQLRequestTests: XCTestCase {
             "operationName": NSNull(),
             "query": "query { posts { id } }"
         ]
-        let request = try GraphQLRequest(jsonValue: jsonObject)
+        let request = try AnyGraphQLOperation(jsonValue: jsonObject)
         XCTAssertNil(request.operationIdentifier)
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")
@@ -45,12 +45,12 @@ class GraphQLRequestTests: XCTestCase {
         let invalidJSONObject: JSONObject = [
             "operationName": Set<String>()
         ]
-        XCTAssertThrowsError(try GraphQLRequest(jsonValue: invalidJSONObject)) { error in
+        XCTAssertThrowsError(try AnyGraphQLOperation(jsonValue: invalidJSONObject)) { error in
             guard case JSONDecodingError.couldNotConvert(value: let jsonObject, to: let type) = error else {
                 return XCTFail()
             }
             XCTAssertEqual(jsonObject as? NSDictionary, invalidJSONObject as NSDictionary)
-            XCTAssert(type is GraphQLRequest.Type)
+            XCTAssert(type is AnyGraphQLOperation.Type)
         }
     }
 }

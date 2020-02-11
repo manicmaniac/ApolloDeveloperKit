@@ -311,7 +311,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
-            let operation = try GraphQLRequest(jsonValue: jsonObject)
+            let operation = try AnyGraphQLOperation(jsonValue: jsonObject)
             _ = networkTransport.send(operation: operation) { [weak self] graphQLResponse, error in
                 guard let self = self else { return }
                 do {
@@ -352,8 +352,8 @@ extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
 
 extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
-        if operation is GraphQLRequest { return }
         queryManager.networkTransport(networkTransport, willSendOperation: operation)
+        if operation is AnyGraphQLOperation { return }
         let chunk = chunkForCurrentState()
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
@@ -361,8 +361,8 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
-        if operation is GraphQLRequest { return }
         queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
+        if operation is AnyGraphQLOperation { return }
         let chunk = chunkForCurrentState()
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
