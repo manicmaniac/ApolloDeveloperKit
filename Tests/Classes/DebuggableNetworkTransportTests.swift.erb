@@ -117,20 +117,3 @@ private class MockCancellable: Cancellable {
         // do nothing
     }
 }
-
-private class MockGraphQLQuery: GraphQLQuery {
-    typealias Data = MockGraphQLSelectionSet
-
-    let operationDefinition = ""
-    let operationIdentifier = ""
-    let operationName = ""
-}
-
-private class MockGraphQLSelectionSet: GraphQLSelectionSet {
-    static let selections = [GraphQLSelection]()
-    let resultMap: ResultMap
-
-    required init(unsafeResultMap: ResultMap) {
-        self.resultMap = unsafeResultMap
-    }
-}

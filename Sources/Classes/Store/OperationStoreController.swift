@@ -7,10 +7,16 @@
 //
 
 import Apollo
+import Dispatch
 
 final class OperationStoreController {
+    /**
+     * A queue where operations perform.
+     *
+     * This property is only visible for testing purpose.
+     */
+    let queue = DispatchQueue(label: "com.github.manicmaniac.ApolloDeveloperKit.OperationStoreController")
     private(set) var store: OperationStore
-    private let queue = DispatchQueue(label: "com.github.manicmaniac.ApolloDeveloperKit.OperationStoreController")
 
     init(store: OperationStore) {
         self.store = store
