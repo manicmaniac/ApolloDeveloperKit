@@ -55,6 +55,8 @@ struct InMemoryOperationStore: OperationStore {
     }
 }
 
+// MARK: JSONEncodable
+
 extension InMemoryOperationStore: JSONEncodable {
     var jsonValue: JSONValue {
         return [
