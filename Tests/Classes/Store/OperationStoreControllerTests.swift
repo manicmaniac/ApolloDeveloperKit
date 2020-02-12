@@ -16,10 +16,9 @@ class OperationStoreControllerTests: XCTestCase {
     private var networkTransport: DebuggableNetworkTransport!
 
     override func setUp() {
-        let url = URL(string: "http://test.host")!
         store = MockOperationStore()
         controller = OperationStoreController(store: store)
-        networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
+        networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport())
     }
 
     func testNetworkTransportWillSendOperation() {
