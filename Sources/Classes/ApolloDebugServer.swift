@@ -21,7 +21,7 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let dateFormatter = DateFormatter()
-    private let queryManager = OperationStoreController(store: OperationStore())
+    private let operationStoreController = OperationStoreController(store: InMemoryOperationStore())
     private let backgroundTask = BackgroundTask()
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
@@ -146,7 +146,7 @@ public class ApolloDebugServer {
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
         var rawData = try! JSONSerialization.data(withJSONObject: [
-            "state": queryManager.store.jsonValue,
+            "state": operationStoreController.store.jsonValue,
             "dataWithOptimisticResults": cache.extract().jsonValue
             ], options: [])
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
@@ -352,8 +352,8 @@ extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
 
 extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
-        queryManager.networkTransport(networkTransport, willSendOperation: operation)
         if operation is AnyGraphQLOperation { return }
+        operationStoreController.networkTransport(networkTransport, willSendOperation: operation)
         let chunk = chunkForCurrentState()
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
@@ -361,8 +361,8 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
-        queryManager.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
         if operation is AnyGraphQLOperation { return }
+        operationStoreController.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
         let chunk = chunkForCurrentState()
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
