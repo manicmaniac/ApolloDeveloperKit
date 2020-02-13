@@ -1,6 +1,6 @@
 //
 //  URLSessionConfiguration+Test.swift
-//  ApolloDeveloperKit
+//  ApolloDeveloperKitTests
 //
 //  Created by Ryosuke Ito on 11/10/19.
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.

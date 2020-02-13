@@ -1,5 +1,5 @@
 //
-//  GraphQLRequest.swift
+//  AnyGraphQLOperation.swift
 //  ApolloDeveloperKit
 //
 //  Created by Ryosuke Ito on 6/23/19.
@@ -10,13 +10,13 @@ import Apollo
 import Foundation
 
 /**
- * `GraphQLRequest` is the class representing any kind of GraphQL operation including query, mutation and subscription.
+ * `AnyGraphQLOperation` is the class representing any kind of GraphQL operation including query, mutation and subscription.
  *
  * Any kind of operation is recognized as GraphQLOperationType.query even if it isn't a query.
  * It doesn't cause a problem for now because it matters only when an operation is saved,
  * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.
  */
-class GraphQLRequest: GraphQLOperation, JSONDecodable {
+final class AnyGraphQLOperation: GraphQLOperation, JSONDecodable {
     typealias Data = AnyGraphQLSelectionSet
 
     /**
@@ -47,14 +47,14 @@ class GraphQLRequest: GraphQLOperation, JSONDecodable {
     let variables: GraphQLMap?
 
     /**
-     * Initializes a GraphQLRequest object.
+     * Initializes a AnyGraphQLOperation object.
      *
      * - Parameter jsonObject: JSON dictionary object that conforms to GraphQL request.
      * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
      */
     required convenience init(jsonValue value: Any) throws {
         guard let jsonObject = value as? [String: Any], let query = jsonObject["query"] as? String else {
-            throw JSONDecodingError.couldNotConvert(value: value, to: GraphQLRequest.self)
+            throw JSONDecodingError.couldNotConvert(value: value, to: AnyGraphQLOperation.self)
         }
         let operationIdentifier = jsonObject["operationIdentifier"] as? String
         let operationName = jsonObject["operationName"] as? String ?? ""
@@ -64,6 +64,16 @@ class GraphQLRequest: GraphQLOperation, JSONDecodable {
                   operationIdentifier: operationIdentifier,
                   operationName: operationName,
                   variables: variables)
+    }
+
+    convenience init<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
+        // Since Apollo (< 0.10.0) doesn't provide `operationName`, reflection is needed to get it.
+        let operationName = Mirror(reflecting: operation).descendant("operationName") as? String ?? ""
+        self.init(operationType: operation.operationType,
+                  operationDefinition: operation.operationDefinition,
+                  operationIdentifier: operation.operationIdentifier,
+                  operationName: operationName,
+                  variables: operation.variables)
     }
 
     private init(operationType: GraphQLOperationType, operationDefinition: String, operationIdentifier: String?, operationName: String, variables: GraphQLMap?) {
