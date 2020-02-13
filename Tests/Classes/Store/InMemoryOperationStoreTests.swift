@@ -23,7 +23,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         XCTAssertEqual(store.jsonValue as? NSDictionary, [
             "queries": [
                 [
-                    "document": "",
+                    "document": "query {}",
                     "variables": NSNull(),
                     "previousVariables": NSNull(),
                     "networkError": NSNull(),
@@ -41,7 +41,7 @@ class InMemoryOperationStoreTests: XCTestCase {
             "queries": [],
             "mutations": [
                 [
-                    "mutation": "",
+                    "mutation": "mutation {}",
                     "variables": NSNull(),
                     "loading": true,
                     "error": NSNull(),
@@ -66,7 +66,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.setFailure(for: query, networkError: error)
         let jsonObject = store.jsonValue as? [String: Any]
         let queries = jsonObject?["queries"] as? [[String: Any]]
-        XCTAssertEqual(queries?.first?["document"] as? String, "")
+        XCTAssertEqual(queries?.first?["document"] as? String, "query {}")
         XCTAssertTrue(queries?.first?["variables"] is NSNull)
         XCTAssertTrue(queries?.first?["previousVariables"] is NSNull)
         XCTAssertTrue(queries?.first?["graphQLErrors"] is NSNull)
@@ -81,7 +81,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.setFailure(for: query, networkError: error)
         let jsonObject = store.jsonValue as? [String: Any]
         let mutations = jsonObject?["mutations"] as? [[String: Any]]
-        XCTAssertEqual(mutations?.first?["mutation"] as? String, "")
+        XCTAssertEqual(mutations?.first?["mutation"] as? String, "mutation {}")
         XCTAssertTrue(mutations?.first?["variables"] is NSNull)
         XCTAssertEqual(mutations?.first?["loading"] as? Bool, false)
         XCTAssertTrue(mutations?.first?["error"] is [String: Any])
@@ -105,7 +105,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         XCTAssertEqual(store.jsonValue as? NSDictionary, [
             "queries": [
                 [
-                    "document": "",
+                    "document": "query {}",
                     "variables": NSNull(),
                     "previousVariables": NSNull(),
                     "networkError": NSNull(),
@@ -123,7 +123,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.setSuccess(for: query, graphQLErrors: [graphQLError])
         let jsonObject = store.jsonValue as? [String: Any]
         let queries = jsonObject?["queries"] as? [[String: Any]]
-        XCTAssertEqual(queries?.first?["document"] as? String, "")
+        XCTAssertEqual(queries?.first?["document"] as? String, "query {}")
         XCTAssertTrue(queries?.first?["variables"] is NSNull)
         XCTAssertTrue(queries?.first?["previousVariables"] is NSNull)
         let graphQLErrors = queries?.first?["graphQLErrors"] as? [[String: Any]]
@@ -140,7 +140,7 @@ class InMemoryOperationStoreTests: XCTestCase {
             "queries": [],
             "mutations": [
                 [
-                    "mutation": "",
+                    "mutation": "mutation {}",
                     "variables": NSNull(),
                     "loading": false,
                     "error": NSNull(),

@@ -42,7 +42,7 @@
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */; };
 		5B4CA52F23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */; };
-		5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */; };
+		5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift.erb */; };
 		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
 		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
@@ -218,7 +218,7 @@
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift.erb; sourceTree = "<group>"; };
 		5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApolloDeveloperKit.xcconfig; sourceTree = "<group>"; };
 		5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStoreTests.swift; sourceTree = "<group>"; };
-		5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGraphQLOperations.swift; sourceTree = "<group>"; };
+		5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockGraphQLOperations.swift.erb; sourceTree = "<group>"; };
 		5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
@@ -389,7 +389,7 @@
 				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
 				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */,
 				5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */,
-				5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */,
+				5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift.erb */,
 				5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift.erb */,
 			);
 			path = TestHelpers;
@@ -823,7 +823,7 @@
 				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */,
 				5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
-				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */,
+				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift.erb in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
 				5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* AnyGraphQLOperationTests.swift in Sources */,
