@@ -13,6 +13,8 @@ jobs:
         run: |
           gem install bundler -v 1.17.3
           bundle install --without documentation --jobs=3 --retry=3
+      - name: Update CocoaPods repository
+        run: bundle exec pod repo update
       - name: Publish to CocoaPods
         run: bundle exec pod trunk push --swift-version=5.1 --verbose ApolloDeveloperKit.podspec
         env:
