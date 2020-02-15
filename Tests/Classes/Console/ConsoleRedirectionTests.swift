@@ -28,7 +28,6 @@ class ConsoleRedirectionTests: XCTestCase {
     }
 
     func testInit() {
-        // Assigning to placeholder `_` doesn't retain the right side value so assigning to a named variable is necessary.
         let consoleRedirection = ConsoleRedirection.shared
         consoleRedirection.addObserver(delegateHandler!, selector: #selector(delegateHandler.didReceiveConsoleDidWriteNotification(_:)))
         XCTAssertEqual(mockDuplicator.dupInvocationHistory, [1, 2])
