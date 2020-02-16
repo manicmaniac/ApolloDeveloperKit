@@ -9,6 +9,11 @@
 import Apollo
 import Dispatch
 
+/**
+ * `OperationStoreController` is a controller class of `OperationStore`.
+ *
+ * It owns a `OperationStore` and manipulates the store in a thread-safe manner, delegating `DebuggableNetworkTransport`.
+ */
 final class OperationStoreController {
     /**
      * A queue where operations perform.
