@@ -16,6 +16,9 @@ extension Notification.Name {
 let consoleDataKey = "data"
 let consoleDestinationKey = "destination"
 
+/**
+ * `ConsoleRedirection` is a class responsible for manipulating file descriptors and notify its delegate when the files are written.
+ */
 final class ConsoleRedirection {
     enum Destination: Int {
         case standardOutput

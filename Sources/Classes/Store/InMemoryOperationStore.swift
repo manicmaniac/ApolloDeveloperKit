@@ -9,6 +9,20 @@
 import Apollo
 import Foundation
 
+/**
+ * `InMemoryOperationStore` stores queries and mutations in memory.
+ *
+ * The current implementation stores queries and mutations respectively in an ordered dictionary.
+ * Since Swift doesn't have a data structure like a mutable ordered dictionary, it is implemented with separate arrays,
+ * one of which stores keys and the other stores values.
+ *
+ * The design is strongly inspired by `QueryStore` and `MutationStore` of `apollo-client`.
+ *
+ * - Warning: All operations are thread-unsafe.
+ * - SeeAlso:
+ * [queries.ts](https://github.com/apollographql/apollo-client/blob/v2.6.8/packages/apollo-client/src/data/queries.ts)
+ * [mutations.ts](https://github.com/apollographql/apollo-client/blob/v2.6.8/packages/apollo-client/src/data/mutations.ts)]
+ */
 struct InMemoryOperationStore: OperationStore {
     private var queryObjectIdentifiers = [ObjectIdentifier]()
     private var queries = [OperationStoreValue]()

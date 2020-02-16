@@ -11,10 +11,6 @@ import Foundation
 
 /**
  * `AnyGraphQLOperation` is the class representing any kind of GraphQL operation including query, mutation and subscription.
- *
- * Any kind of operation is recognized as GraphQLOperationType.query even if it isn't a query.
- * It doesn't cause a problem for now because it matters only when an operation is saved,
- * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.
  */
 final class AnyGraphQLOperation: GraphQLOperation, JSONDecodable {
     typealias Data = AnyGraphQLSelectionSet
@@ -48,6 +44,10 @@ final class AnyGraphQLOperation: GraphQLOperation, JSONDecodable {
 
     /**
      * Initializes a AnyGraphQLOperation object.
+     *
+     * Any kind of operation is assumed as GraphQLOperationType.query even if it isn't a query.
+     * It doesn't cause a problem for now because it matters only when an operation is saved,
+     * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.     *
      *
      * - Parameter jsonObject: JSON dictionary object that conforms to GraphQL request.
      * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
