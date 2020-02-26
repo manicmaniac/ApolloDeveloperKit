@@ -44,7 +44,8 @@ class HTTPServer {
      * The URL where the server is established.
      */
     var serverURL: URL? {
-        guard let port = port, let primaryIPAddress = primaryIPAddress else { return nil }
+        let address = (socket?.address as NSData?)?.bytes.assumingMemoryBound(to: sockaddr_in.self).pointee
+        guard let port = address?.sin_port.bigEndian, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }
 
@@ -55,7 +56,6 @@ class HTTPServer {
         return socket != nil
     }
 
-    private var port: UInt16?
     private var socket: Socket?
     private var connections = Set<HTTPConnection>()
 
@@ -133,7 +133,6 @@ class HTTPServer {
         }
         socket?.invalidate()
         socket = nil
-        port = nil
     }
 }
 
