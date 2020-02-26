@@ -56,9 +56,7 @@ class HTTPServer {
     }
 
     private var port: UInt16?
-    private var listeningHandle: FileHandle?
-    private var socket: CFSocket?
-    private var incomingRequests = Set<HTTPIncomingRequest>()
+    private var socket: Socket?
     private var connections = Set<HTTPConnection>()
 
     private var primaryIPAddress: String? {
@@ -84,38 +82,19 @@ class HTTPServer {
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
-        guard let socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
-            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
-        }
-
-        var reuse = 1
-        var noSigPipe = 1
-        let fileDescriptor = CFSocketGetNative(socket)
-        do {
-            guard setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR, &reuse, socklen_t(MemoryLayout<Int>.size)) == 0,
-                    setsockopt(fileDescriptor, SOL_SOCKET, SO_NOSIGPIPE, &noSigPipe, socklen_t(MemoryLayout<Int>.size)) == 0 else {
-                throw POSIXError(POSIXErrorCode(rawValue: errno)!)
-            }
-            var address = sockaddr_in(sin_len: __uint8_t(MemoryLayout<sockaddr_in>.size),
-                                      sin_family: sa_family_t(AF_INET),
-                                      sin_port: port.bigEndian,
-                                      sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
-                                      sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-            let addressData = Data(bytesNoCopy: &address, count: MemoryLayout<sockaddr_in>.size, deallocator: .none) as CFData
-            guard CFSocketSetAddress(socket, addressData) == .success else {
-                throw POSIXError(POSIXErrorCode(rawValue: errno)!)
-            }
-        } catch let error {
-            CFSocketInvalidate(socket)
-            throw error
-        }
+        let socket = try Socket(protocolFamily: PF_INET, socketType: SOCK_STREAM, protocol: IPPROTO_TCP, callbackTypes: .acceptCallBack)
+        socket.delegate = self
+        try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
+        try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
+        var address = sockaddr_in(sin_len: UInt8(MemoryLayout<sockaddr_in>.size),
+                                  sin_family: sa_family_t(AF_INET),
+                                  sin_port: port.bigEndian,
+                                  sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
+                                  sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
+        let addressData = Data(bytes: &address, count: MemoryLayout.size(ofValue: address))
+        try socket.setAddress(addressData)
         self.socket = socket
-        self.port = port
-        let listeningHandle = FileHandle(fileDescriptor: fileDescriptor, closeOnDealloc: true)
-        self.listeningHandle = listeningHandle
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveIncomingConnectionNotification(_:)), name: .NSFileHandleConnectionAccepted, object: listeningHandle)
-        listeningHandle.acceptConnectionInBackgroundAndNotify()
-        delegate?.server(self, didStartListeningTo: port)
+        socket.schedule(in: .current, forMode: .default)
     }
 
     /**
@@ -149,49 +128,48 @@ class HTTPServer {
     func stop() {
         precondition(Thread.isMainThread)
         guard isRunning else { return }
-        NotificationCenter.default.removeObserver(self, name: .NSFileHandleConnectionAccepted, object: nil)
-        listeningHandle?.closeFile()
-        listeningHandle = nil
-        for incomingRequest in incomingRequests {
-            incomingRequest.abort()
-        }
         for connection in connections {
             connection.close()
         }
-        if let socket = socket {
-            CFSocketInvalidate(socket)
-        }
+        socket?.invalidate()
         socket = nil
         port = nil
-    }
-
-    @objc private func receiveIncomingConnectionNotification(_ notification: Notification) {
-        if let incomingFileHandle = notification.userInfo?[NSFileHandleNotificationFileHandleItem] as? FileHandle {
-            let incomingRequest = HTTPIncomingRequest(httpVersion: kCFHTTPVersion1_1 as String, fileHandle: incomingFileHandle, delegate: self)
-            incomingRequests.insert(incomingRequest)
-        }
-        listeningHandle?.acceptConnectionInBackgroundAndNotify()
-    }
-}
-
-// MARK: HTTPIncomingRequestDelegate
-
-extension HTTPServer: HTTPIncomingRequestDelegate {
-    func httpIncomingRequestDidStopReceiving(_ incomingRequest: HTTPIncomingRequest) {
-        incomingRequests.remove(incomingRequest)
-    }
-
-    func httpIncomingRequest(_ incomingRequest: HTTPIncomingRequest, didFinishWithRequest request: URLRequest, connection: HTTPConnection) {
-        connection.delegate = self
-        connections.insert(connection)
-        delegate?.server(self, didReceiveRequest: request, connection: connection)
     }
 }
 
 // MARK: HTTPConnectionDelegate
 
 extension HTTPServer: HTTPConnectionDelegate {
+    func httpConnection(_ connection: HTTPConnection, didReceive request: URLRequest) {
+        delegate?.server(self, didReceiveRequest: request, connection: connection)
+    }
+
     func httpConnectionWillClose(_ connection: HTTPConnection) {
         connections.remove(connection)
+    }
+}
+
+// MARK: SocketDelegate
+
+extension HTTPServer: SocketDelegate {
+    func socketDidBecomeReadable(_ socket: Socket) {
+    }
+
+    func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data) {
+        guard let connection = try? HTTPConnection(httpVersion: kCFHTTPVersion1_1 as String, nativeHandle: nativeHandle) else {
+            return
+        }
+        connection.delegate = self
+        connection.schedule(in: .current, forMode: .default)
+        connections.insert(connection)
+    }
+
+    func socket(_ socket: Socket, didReceive data: Data, address: Data) {
+    }
+
+    func socket(_ socket: Socket, didConnect error: Error?) {
+    }
+
+    func socketDidBecomeWritable(_ socket: Socket) {
     }
 }
