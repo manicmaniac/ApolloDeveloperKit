@@ -9,6 +9,7 @@
 import Foundation
 
 protocol HTTPConnectionDelegate: class {
+    func httpConnection(_ connection: HTTPConnection, didReceive request: URLRequest)
     func httpConnectionWillClose(_ connection: HTTPConnection)
 }
 
@@ -18,13 +19,19 @@ protocol HTTPConnectionDelegate: class {
 class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
-    private let fileHandle: FileHandle
-    private let lock = NSRecursiveLock()
-    private var isFileHandleOpen = true
+    private let incomingRequest = HTTPMessage(isRequest: true)
+    private let socket: Socket
 
-    init(httpVersion: String, fileHandle: FileHandle) {
+    init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
         self.httpVersion = httpVersion
-        self.fileHandle = fileHandle
+        let socket = try Socket(nativeHandle: nativeHandle, callbackTypes: .dataCallBack)
+        self.socket = socket
+        try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
+        socket.delegate = self
+    }
+
+    func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
+        socket.schedule(in: runLoop, forMode: mode)
     }
 
     func write(chunkedResponse: HTTPChunkedResponse) {
@@ -32,41 +39,31 @@ class HTTPConnection {
     }
 
     func write(response: HTTPURLResponse, body: Data?) {
-        let message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, response.statusCode, nil, httpVersion as CFString).takeRetainedValue()
-        for case (let headerField as CFString, let value as CFString) in response.allHeaderFields {
-            CFHTTPMessageSetHeaderFieldValue(message, headerField, value)
-        }
-        CFHTTPMessageSetBody(message, (body ?? Data()) as CFData)
+        let message = HTTPMessage(httpURLResponse: response, httpVersion: httpVersion)
+        message.body = body
         write(message: message)
     }
 
-    func write(message: CFHTTPMessage) {
-        assert(!CFHTTPMessageIsRequest(message))
-        assert(CFHTTPMessageIsHeaderComplete(message))
-        guard let data = CFHTTPMessageCopySerializedMessage(message)?.takeRetainedValue() as Data? else {
+    func write(message: HTTPMessage) {
+        assert(!message.isRequest)
+        assert(message.isHeaderComplete)
+        guard let data = message.serialize() else {
             return
         }
         write(data: data)
     }
 
     func write(data: Data) {
-        lock.lock()
-        defer { lock.unlock() }
-        guard isFileHandleOpen else { return }
         do {
-            try fileHandle.write(bytes: (data as NSData).bytes, length: data.count)
+            try socket.send(data: data, timeout: 60)
         } catch {
             close()
         }
     }
 
     func close() {
-        lock.lock()
-        defer { lock.unlock() }
-        guard isFileHandleOpen else { return }
         delegate?.httpConnectionWillClose(self)
-        fileHandle.closeFile()
-        isFileHandleOpen = false
+        socket.invalidate()
     }
 }
 
@@ -74,10 +71,35 @@ class HTTPConnection {
 
 extension HTTPConnection: Hashable {
     static func == (lhs: HTTPConnection, rhs: HTTPConnection) -> Bool {
-        return lhs.fileHandle == rhs.fileHandle
+        return lhs.socket == rhs.socket
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(fileHandle)
+        hasher.combine(socket)
+    }
+}
+
+// MARK: SocketDelegate
+
+extension HTTPConnection: SocketDelegate {
+    func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data) {
+        assertionFailure("'accept' callback must be disabled.")
+    }
+
+    func socket(_ socket: Socket, didReceive data: Data, address: Data) {
+        guard !data.isEmpty, incomingRequest.append(data) else {
+            return close()
+        }
+        guard incomingRequest.isHeaderComplete else {
+            return
+        }
+        let contentLength = incomingRequest.body?.count ?? 0
+        let expectedContentLength = incomingRequest.value(for: "Content-Length").flatMap(Int.init(_:)) ?? 0
+        guard contentLength >= expectedContentLength else {
+            return
+        }
+        socket.disableCallBacks(.dataCallBack)
+        let request = URLRequest(httpMessage: incomingRequest)
+        delegate?.httpConnection(self, didReceive: request)
     }
 }
