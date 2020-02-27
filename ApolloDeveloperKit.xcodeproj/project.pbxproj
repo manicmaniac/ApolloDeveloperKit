@@ -444,13 +444,13 @@
 			children = (
 				5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */,
 				5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */,
+				5B9B3F8624060F30007E1A8B /* HTTPMessage.swift */,
 				5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */,
 				5B71521F22DA007400002BA6 /* HTTPServerError.swift */,
+				5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */,
 				5B0051102308848E00B9B2B2 /* NetworkInterface.swift */,
 				5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */,
-				5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */,
 				5B9B3F84240600C9007E1A8B /* Socket.swift */,
-				5B9B3F8624060F30007E1A8B /* HTTPMessage.swift */,
 				5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */,
 			);
 			path = WebServer;
@@ -462,9 +462,9 @@
 				5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */,
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
+				5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */,
 				5B2E1B2C230CC93C003C85CB /* NetworkInterfaceTests.swift */,
 				5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */,
-				5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
