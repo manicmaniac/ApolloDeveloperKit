@@ -33,29 +33,8 @@ final class Socket {
         self.cfSocket = cfSocket
     }
 
-    var nativeHandle: CFSocketNativeHandle {
-        return CFSocketGetNative(cfSocket)
-    }
-
-    var isValid: Bool {
-        return CFSocketIsValid(cfSocket)
-    }
-
     var address: Data {
         return CFSocketCopyAddress(cfSocket) as Data
-    }
-
-    var peerAddress: Data {
-        return CFSocketCopyPeerAddress(cfSocket) as Data
-    }
-
-    var shouldCloseOnInvalidate: Bool {
-        get { return CFSocketGetSocketFlags(cfSocket) & kCFSocketCloseOnInvalidate > 0 }
-        set { CFSocketSetSocketFlags(cfSocket, kCFSocketCloseOnInvalidate) }
-    }
-
-    func enableCallBacks(_ callbacks: CFSocketCallBackType) {
-        CFSocketEnableCallBacks(cfSocket, callbacks.rawValue)
     }
 
     func disableCallBacks(_ callbacks: CFSocketCallBackType) {
@@ -110,29 +89,18 @@ extension Socket: Hashable {
 private func socketCallBack(cfSocket: CFSocket!, callbackType: CFSocketCallBackType, address: CFData?, data: UnsafeRawPointer?, info: UnsafeMutableRawPointer!) {
     let socket = Unmanaged<Socket>.fromOpaque(info).takeUnretainedValue()
     switch callbackType {
-    case .readCallBack:
-        socket.delegate?.socketDidBecomeReadable(socket)
     case .acceptCallBack:
         let nativeHandle = data!.assumingMemoryBound(to: CFSocketNativeHandle.self).pointee
         socket.delegate?.socket(socket, didAccept: nativeHandle, address: address! as Data)
     case .dataCallBack:
         let data = Unmanaged<CFData>.fromOpaque(data!).takeUnretainedValue() as Data
         socket.delegate?.socket(socket, didReceive: data, address: address! as Data)
-    case .connectCallBack:
-        let errorCode = data!.assumingMemoryBound(to: Int32.self).pointee
-        let error = POSIXErrorCode(rawValue: errorCode).flatMap { POSIXError($0) }
-        socket.delegate?.socket(socket, didConnect: error)
-    case .writeCallBack:
-        socket.delegate?.socketDidBecomeWritable(socket)
     default:
-        assertionFailure("Received unknown callback type: \(callbackType.rawValue)")
+        assertionFailure("Received unhandled callback type (\(callbackType.rawValue)).")
     }
 }
 
 protocol SocketDelegate: class {
-    func socketDidBecomeReadable(_ socket: Socket)
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data)
     func socket(_ socket: Socket, didReceive data: Data, address: Data)
-    func socket(_ socket: Socket, didConnect error: Error?)
-    func socketDidBecomeWritable(_ socket: Socket)
 }

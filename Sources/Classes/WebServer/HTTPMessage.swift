@@ -14,16 +14,8 @@ import Foundation
 final class HTTPMessage {
     private let cfHTTPMessage: CFHTTPMessage
 
-    init(_ httpMessage: HTTPMessage) {
-        self.cfHTTPMessage = CFHTTPMessageCreateCopy(kCFAllocatorDefault, httpMessage.cfHTTPMessage).takeRetainedValue()
-    }
-
     init(isRequest: Bool) {
         self.cfHTTPMessage = CFHTTPMessageCreateEmpty(kCFAllocatorDefault, isRequest).takeRetainedValue()
-    }
-
-    init(requestMethod: String, url: URL, httpVersion: String) {
-        self.cfHTTPMessage = CFHTTPMessageCreateRequest(kCFAllocatorDefault, requestMethod as CFString, url as CFURL, httpVersion as CFString).takeRetainedValue()
     }
 
     init(statusCode: Int, statusDescription: String? = nil, httpVersion: String) {
@@ -50,24 +42,12 @@ final class HTTPMessage {
         return CFHTTPMessageIsRequest(cfHTTPMessage)
     }
 
-    var version: String {
-        return CFHTTPMessageCopyVersion(cfHTTPMessage).takeRetainedValue() as String
-    }
-
     var requestURL: URL? {
         return CFHTTPMessageCopyRequestURL(cfHTTPMessage)?.takeRetainedValue() as URL?
     }
 
     var requestMethod: String? {
         return CFHTTPMessageCopyRequestMethod(cfHTTPMessage)?.takeRetainedValue() as String?
-    }
-
-    var responseStatusCode: Int {
-        return CFHTTPMessageGetResponseStatusCode(cfHTTPMessage)
-    }
-
-    var responseStatusLine: String? {
-        return CFHTTPMessageCopyResponseStatusLine(cfHTTPMessage)?.takeRetainedValue() as String?
     }
 
     var allHeaderFields: [String: String]? {

@@ -82,10 +82,8 @@ extension HTTPConnection: Hashable {
 // MARK: SocketDelegate
 
 extension HTTPConnection: SocketDelegate {
-    func socketDidBecomeReadable(_ socket: Socket) {
-    }
-
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data) {
+        assertionFailure("'accept' callback must be disabled.")
     }
 
     func socket(_ socket: Socket, didReceive data: Data, address: Data) {
@@ -103,11 +101,5 @@ extension HTTPConnection: SocketDelegate {
         socket.disableCallBacks(.dataCallBack)
         let request = URLRequest(httpMessage: incomingRequest)
         delegate?.httpConnection(self, didReceive: request)
-    }
-
-    func socket(_ socket: Socket, didConnect error: Error?) {
-    }
-
-    func socketDidBecomeWritable(_ socket: Socket) {
     }
 }

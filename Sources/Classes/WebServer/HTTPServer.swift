@@ -151,9 +151,6 @@ extension HTTPServer: HTTPConnectionDelegate {
 // MARK: SocketDelegate
 
 extension HTTPServer: SocketDelegate {
-    func socketDidBecomeReadable(_ socket: Socket) {
-    }
-
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data) {
         guard let connection = try? HTTPConnection(httpVersion: kCFHTTPVersion1_1 as String, nativeHandle: nativeHandle) else {
             return
@@ -164,11 +161,6 @@ extension HTTPServer: SocketDelegate {
     }
 
     func socket(_ socket: Socket, didReceive data: Data, address: Data) {
-    }
-
-    func socket(_ socket: Socket, didConnect error: Error?) {
-    }
-
-    func socketDidBecomeWritable(_ socket: Socket) {
+        assertionFailure("'data' callback must be disabled.")
     }
 }
