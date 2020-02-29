@@ -10,7 +10,7 @@ protocol PostListViewControllerDelegate: class {
 
 class PostListViewController: UITableViewController {
     var apollo: ApolloClient!
-    var serverURL: URL!
+    var serverURL: URL?
     weak var delegate: PostListViewControllerDelegate?
 
     var posts: [AllPostsQuery.Data.Post]? {
@@ -86,7 +86,7 @@ class PostListViewController: UITableViewController {
     }
 
     @IBAction private func actionButtonDidTouchUpInside(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: "IP address", message: serverURL.absoluteString, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "IP address", message: serverURL?.absoluteString ?? "(unknown)", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Toggle console redirection", style: .default) { action in
             self.delegate?.postListViewControllerWantsToToggleConsoleRedirection(self)
         })
