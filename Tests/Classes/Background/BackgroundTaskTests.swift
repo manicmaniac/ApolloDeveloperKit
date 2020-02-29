@@ -43,7 +43,8 @@ class BackgroundTaskTests: XCTestCase {
 private class MockBackgroundTaskExecutor: BackgroundTaskExecutor {
     var expirationHandlersByActiveTaskIdentifier = [UIBackgroundTaskIdentifier: () -> Void]()
 
-    func beginBackgroundTask(expirationHandler handler: (() -> Void)?) -> UIBackgroundTaskIdentifier {
+    func beginBackgroundTask(withName name: String?, expirationHandler handler: (() -> Void)?) -> UIBackgroundTaskIdentifier {
+        XCTAssertEqual(name, "com.github.manicmaniac.ApolloDeveloperKit.BackgroundTask")
         let taskIdentifier = generateNewTaskIdentifier()
         expirationHandlersByActiveTaskIdentifier[taskIdentifier] = handler ?? {}
         return taskIdentifier
