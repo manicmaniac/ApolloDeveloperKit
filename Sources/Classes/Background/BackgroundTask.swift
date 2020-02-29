@@ -9,20 +9,36 @@
 #if os(iOS)
 import UIKit
 
-class BackgroundTask {
-    #if swift(>=4.2)
-    private static let invalidBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
-    #else
-    private static let invalidBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-    #endif
-    private var backgroundTaskIdentifier = invalidBackgroundTaskIdentifier
+protocol BackgroundTaskExecutor {
+    func beginBackgroundTask(expirationHandler handler: (() -> Void)?) -> UIBackgroundTaskIdentifier
+    func endBackgroundTask(_ identifier: UIBackgroundTaskIdentifier)
+}
+
+extension UIApplication: BackgroundTaskExecutor {
+    // Already conformed.
+}
+
+#if swift(>=4.2)
+let invalidBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+#else
+let invalidBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+#endif
+
+final class BackgroundTask {
+    private(set) var currentIdentifier: UIBackgroundTaskIdentifier
+    private let executor: BackgroundTaskExecutor
+
+    init(executor: BackgroundTaskExecutor = UIApplication.shared) {
+        self.executor = executor
+        self.currentIdentifier = invalidBackgroundTaskIdentifier
+    }
 
     func beginBackgroundTaskIfPossible() {
         precondition(Thread.isMainThread)
-        guard backgroundTaskIdentifier == BackgroundTask.invalidBackgroundTaskIdentifier else { return }
-        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
-            self.backgroundTaskIdentifier = BackgroundTask.invalidBackgroundTaskIdentifier
+        guard currentIdentifier == invalidBackgroundTaskIdentifier else { return }
+        currentIdentifier = executor.beginBackgroundTask {
+            self.executor.endBackgroundTask(self.currentIdentifier)
+            self.currentIdentifier = invalidBackgroundTaskIdentifier
         }
     }
 }
