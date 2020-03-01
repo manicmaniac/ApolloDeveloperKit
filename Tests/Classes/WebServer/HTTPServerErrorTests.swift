@@ -20,6 +20,6 @@ class HTTPServerErrorTests: XCTestCase {
     }
 
     func testLocalizedDescription() {
-        XCTAssertTrue(HTTPServerError.multipleSocketErrorOccurred([:]).localizedDescription.contains("Multiple"))
+        XCTAssertTrue((HTTPServerError.multipleSocketErrorOccurred([:]) as Error).localizedDescription.contains("Multiple"))
     }
 }

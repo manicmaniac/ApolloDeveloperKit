@@ -11,7 +11,7 @@ import Foundation
 /**
  * `HTTPServerError` represents an error derives from an underlying HTTP server.
  */
-public enum HTTPServerError: CustomNSError {
+public enum HTTPServerError: CustomNSError, LocalizedError {
     /// Thrown when multiple errors occurred while creating a new socket.
     case multipleSocketErrorOccurred([UInt16: Error])
 
@@ -24,12 +24,7 @@ public enum HTTPServerError: CustomNSError {
         }
     }
 
-    /**
-     * The error's localized description.
-     *
-     * - Warning: Currently localized only in English.
-     */
-    public var localizedDescription: String {
+    public var errorDescription: String? {
         switch self {
         case .multipleSocketErrorOccurred:
             return "Multiple error occurred while creating socket(s)."
