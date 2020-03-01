@@ -24,10 +24,20 @@ protocol HTTPServerDelegate: class {
      * Invoked when the server receives a HTTP request.
      *
      * - Parameter server: The server receiving a HTTP request.
-     * - Parameter request: A raw HTTP message including header and complete body.
-     * - Parameter completion: A completion handler. You must call it when the response ends.
+     * - Parameter request: A raw HTTP request including header and complete body.
+     * - Parameter connection: An HTTP connection where the request received.
      */
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection)
+
+    /**
+     * Invoked when a server error occurs in a HTTP connection.
+     *
+     * - Parameter server: The server receiving a HTTP request.
+     * - Parameter request: An HTTP request which caused the error. It must not have body part.
+     * - Parameter connection: An HTTP connection where the error occurred.
+     * - Parameter error: An error object describing why the server couldn't handle the request.     *
+     */
+    func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error)
 }
 
 /**
@@ -145,6 +155,10 @@ extension HTTPServer: HTTPConnectionDelegate {
 
     func httpConnectionWillClose(_ connection: HTTPConnection) {
         connections.remove(connection)
+    }
+
+    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: URLRequest, error: Error) {
+        delegate?.server(self, didFailToHandle: request, connection: connection, error: error)
     }
 }
 

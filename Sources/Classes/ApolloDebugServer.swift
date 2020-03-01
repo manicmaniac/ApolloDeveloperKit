@@ -212,6 +212,10 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
+    func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error) {
+        respondError(to: request, in: connection, statusCode: 500, with: error.localizedDescription.data(using: .utf8)!)
+    }
+
     private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MIMEType?, contentLength: Int?, body: Data?) {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(contentLength ?? body?.count ?? 0),

@@ -17,9 +17,11 @@ class HTTPServerErrorTests: XCTestCase {
 
     func testErrorCode() {
         XCTAssertEqual(HTTPServerError.multipleSocketErrorOccurred([:]).errorCode, 199)
+        XCTAssertEqual(HTTPServerError.unsupportedBodyEncoding("chunked").errorCode, 200)
     }
 
     func testLocalizedDescription() {
         XCTAssertTrue((HTTPServerError.multipleSocketErrorOccurred([:]) as Error).localizedDescription.contains("Multiple"))
+        XCTAssertTrue((HTTPServerError.unsupportedBodyEncoding("chunked") as Error).localizedDescription.contains("chunked"))
     }
 }
