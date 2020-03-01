@@ -10,7 +10,7 @@
 import UIKit
 
 protocol BackgroundTaskExecutor {
-    func beginBackgroundTask(expirationHandler handler: (() -> Void)?) -> UIBackgroundTaskIdentifier
+    func beginBackgroundTask(withName name: String?, expirationHandler handler: (() -> Void)?) -> UIBackgroundTaskIdentifier
     func endBackgroundTask(_ identifier: UIBackgroundTaskIdentifier)
 }
 
@@ -36,7 +36,7 @@ final class BackgroundTask {
     func beginBackgroundTaskIfPossible() {
         precondition(Thread.isMainThread)
         guard currentIdentifier == invalidBackgroundTaskIdentifier else { return }
-        currentIdentifier = executor.beginBackgroundTask {
+        currentIdentifier = executor.beginBackgroundTask(withName: "com.github.manicmaniac.ApolloDeveloperKit.BackgroundTask") {
             self.executor.endBackgroundTask(self.currentIdentifier)
             self.currentIdentifier = invalidBackgroundTaskIdentifier
         }
