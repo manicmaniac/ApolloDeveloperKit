@@ -11,6 +11,7 @@ import Foundation
 protocol HTTPConnectionDelegate: class {
     func httpConnection(_ connection: HTTPConnection, didReceive request: URLRequest)
     func httpConnectionWillClose(_ connection: HTTPConnection)
+    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: URLRequest, error: Error)
 }
 
 /**
@@ -91,6 +92,13 @@ extension HTTPConnection: SocketDelegate {
             return close()
         }
         guard incomingRequest.isHeaderComplete else {
+            return
+        }
+        guard incomingRequest.value(for: "Transfer-Encoding")?.lowercased() != "chunked" else {
+            // As chunked encoding is not implemented yet, raise an error to notify the delegate.
+            var request = URLRequest(httpMessage: incomingRequest)
+            request.httpBody = nil
+            delegate?.httpConnection(self, didFailToHandle: request, error: HTTPServerError.unsupportedBodyEncoding("chunked"))
             return
         }
         let contentLength = incomingRequest.body?.count ?? 0

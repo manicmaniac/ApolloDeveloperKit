@@ -1,18 +1,19 @@
 //
-//  HTTPServerTests.swift
+//  HTTPServerChunkedEncodingTests.swift
 //  ApolloDeveloperKitTests
 //
-//  Created by Ryosuke Ito on 7/1/19.
-//  Copyright © 2019 Ryosuke Ito. All rights reserved.
+//  Created by Ryosuke Ito on 3/1/20.
+//  Copyright © 2020 Ryosuke Ito. All rights reserved.
 //
 
 import XCTest
 @testable import ApolloDeveloperKit
 
-class HTTPServerTests: XCTestCase {
+class HTTPServerChunkedEncodingTests: XCTestCase {
     private var server: HTTPServer!
     private var mockHTTPServerDelegate: MockHTTPServerDelegate!
     private var port = UInt16(0)
+    private var chunkedEncodingSessionTaskHandler: ChunkedEncodingSessionTaskHandler!
     private var session: URLSession!
 
     override func setUp() {
@@ -20,7 +21,8 @@ class HTTPServerTests: XCTestCase {
         mockHTTPServerDelegate = MockHTTPServerDelegate()
         server.delegate = mockHTTPServerDelegate
         port = try! server.start(randomPortIn: 49152...65535) // macOS ephemeral ports
-        session = URLSession(configuration: .test)
+        chunkedEncodingSessionTaskHandler = ChunkedEncodingSessionTaskHandler()
+        session = URLSession(configuration: .test, delegate: chunkedEncodingSessionTaskHandler, delegateQueue: nil)
     }
 
     override func tearDown() {
@@ -28,62 +30,44 @@ class HTTPServerTests: XCTestCase {
         server.stop()
     }
 
-    func testIsRunning() {
-        XCTAssertTrue(server.isRunning)
-    }
-
-    func testServerURL() {
-        let serverURL = server.serverURL
-        XCTAssertNotNil(serverURL)
-        if let serverURL = serverURL {
-            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:\(port)", options: [])
-            let range = NSRange(location: 0, length: serverURL.absoluteString.count)
-            let matches = regularExpression.matches(in: serverURL.absoluteString, options: [], range: range)
-            XCTAssertFalse(matches.isEmpty)
-        }
-    }
-
-    func testGetRequest() {
-        let expectation = self.expectation(description: "receive response")
-        let url = URL(string: "http://127.0.0.1:\(port)")!
-        let task = session.dataTask(with: url) { data, response, error in
-            let response = response as? HTTPURLResponse
-            XCTAssertEqual(response?.statusCode, 200)
-            XCTAssertNil(error)
-            let headerFields = response?.allHeaderFields as? [String: String]
-            XCTAssertEqual(headerFields?["Content-Type"], "text/plain; charset=utf-8")
-            XCTAssertEqual(headerFields?["X-Request-Method"], "GET")
-            XCTAssertEqual(headerFields?["X-Request-Url"], url.absoluteString + "/")
-            XCTAssertEqual(data?.count, 0)
-            expectation.fulfill()
-        }
-        task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
-    }
-
-    func testPostRequestWithContentLength() {
+    func testPostRequestWithChunkedEncoding() {
         let expectation = self.expectation(description: "receive response")
         let url = URL(string: "http://127.0.0.1:\(port)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = "foo".data(using: .utf8)!
-        request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
-        request.setValue("close", forHTTPHeaderField: "Connection")
+        request.httpBodyStream = InputStream(data: Data(repeating: 0x41, count: 1024))
+        request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
         let task = session.dataTask(with: request) { data, response, error in
             let response = response as? HTTPURLResponse
-            XCTAssertEqual(response?.statusCode, 200)
+            XCTAssertEqual(response?.statusCode, 500)
             XCTAssertNil(error)
             let headerFields = response?.allHeaderFields as? [String: String]
             XCTAssertEqual(headerFields?["Content-Type"], "text/plain; charset=utf-8")
-            XCTAssertEqual(headerFields?["Content-Length"], "3")
+            XCTAssertEqual(headerFields?["Content-Length"], "55")
             XCTAssertEqual(headerFields?["X-Request-Method"], "POST")
             XCTAssertEqual(headerFields?["X-Request-Url"], url.absoluteString + "/")
             let bodyString = data.flatMap { data in String(data: data, encoding: .utf8) }
-            XCTAssertEqual(bodyString, "foo")
+            XCTAssertEqual(bodyString, "Failed to parse the given HTTP body encoded in chunked.")
             expectation.fulfill()
         }
         task.resume()
         waitForExpectations(timeout: 0.25, handler: nil)
+    }
+}
+
+private class ChunkedEncodingSessionTaskHandler: NSObject, URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
+        let data = Data(repeating: 0x77, count: 1024)
+        let inputStream = InputStream(data: data)
+        completionHandler(inputStream)
+    }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        completionHandler(.allow)
+    }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
     }
 }
 
@@ -92,12 +76,17 @@ private class MockHTTPServerDelegate: HTTPServerDelegate {
     }
 
     func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
-        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
-            "Content-Length": String(request.httpBody?.count ?? 0),
-            "Content-Type": "text/plain; charset=utf-8",
+        var headerFields: [String: String] = [
             "X-Request-Method": request.httpMethod!,
             "X-Request-Url": request.url!.absoluteString
-        ])!
+        ]
+        if let contentType = request.value(forHTTPHeaderField: "Content-Type") {
+            headerFields["Content-Type"] = contentType
+        }
+        if let contentLength = request.httpBody?.count {
+            headerFields["Content-Length"] = String(contentLength)
+        }
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: headerFields)!
         connection.write(response: response, body: request.httpBody)
         connection.close()
     }
