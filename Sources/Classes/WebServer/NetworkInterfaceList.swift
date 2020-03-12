@@ -11,10 +11,7 @@ import Darwin
 /**
  * `NetworkInterfaceList` is a linked list of `NetworkInterface`s.
  */
-class NetworkInterfaceList: Sequence {
-    typealias Element = NetworkInterface
-    typealias Iterator = AnyIterator<NetworkInterface>
-
+final class NetworkInterfaceList: Sequence {
     /**
      * Returns newly initialized instance with the current device's state of network interfaces.
      */
@@ -42,7 +39,7 @@ class NetworkInterfaceList: Sequence {
         self.addressPointer = addressPointer
     }
 
-    func makeIterator() -> Iterator {
+    func makeIterator() -> AnyIterator<NetworkInterface> {
         let addressPointers = sequence(first: addressPointer, next: { $0.pointee.ifa_next })
         let networkInterfaces = addressPointers.lazy.map { NetworkInterface(addr: $0.pointee) }
         return AnyIterator(networkInterfaces.makeIterator())
