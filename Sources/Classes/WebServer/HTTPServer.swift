@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if os(macOS)
+import SystemConfiguration
+#endif
 
 /**
  * The protocol to handle raw HTTP request the server receives.
@@ -70,16 +73,28 @@ class HTTPServer {
     private var connections = Set<HTTPConnection>()
 
     private var primaryIPAddress: String? {
-        #if targetEnvironment(simulator)
-        // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
-        let expectedInterfaceNames: Set<String> = ["en0", "en1"]
-        #else
-        // Wi-Fi interface on iOS
-        let expectedInterfaceNames: Set<String> = ["en0"]
-        #endif
+        let expectedInterfaceNames = primaryNetworkInterfaceNames
         return NetworkInterfaceList.current?.first { networkInterface in
             networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
         }?.ipv4Address
+    }
+
+    private var primaryNetworkInterfaceNames: Set<String> {
+        #if os(macOS)
+        let key = SCDynamicStoreKeyCreateNetworkGlobalEntity(kCFAllocatorDefault, kSCDynamicStoreDomainState, kSCEntNetIPv4)
+        if let store = SCDynamicStoreCreate(kCFAllocatorDefault, "ApolloDeveloperKit" as CFString, nil, nil),
+            let info = SCDynamicStoreCopyValue(store, key) as? [CFString: Any],
+            let name = info[kSCDynamicStorePropNetPrimaryInterface] as? String {
+            return [name]
+        }
+        return ["lo0"]
+        #elseif targetEnvironment(simulator)
+        // Assume en0 is Ethernet and en1 is WiFi since there is no way to use SystemConfiguration framework in iOS Simulator
+        return ["en0", "en1"]
+        #else
+        // Wi-Fi interface on iOS
+        return ["en0"]
+        #endif
     }
 
     /**
