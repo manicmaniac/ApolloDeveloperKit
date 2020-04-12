@@ -6,9 +6,6 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
@@ -23,7 +20,6 @@ class DebuggableNormalizedCacheTests: XCTestCase {
 
     func testLoadRecords_whenUnderlyingCacheIsEmpty() {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
-        // <% if apollo_version >= '0.16.0' %>
         let expectation = self.expectation(description: "callback should be called.")
         cache.loadRecords(forKeys: ["foo"], callbackQueue: nil) { result in
             defer { expectation.fulfill() }
@@ -36,23 +32,12 @@ class DebuggableNormalizedCacheTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
-        // <% else %>
-        let promise = cache.loadRecords(forKeys: ["foo"]) as Promise<[Record?]>
-        do {
-            let records = try promise.await()
-            XCTAssertEqual(records.count, 1)
-            XCTAssertEqual(records.compactMap { $0 }.count, 0)
-        } catch let error {
-            XCTFail(error.localizedDescription)
-        }
-        // <% end %>
     }
 
     func testLoadRecords_whenUnderlyingCacheIsNotEmpty() {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
         let cachedFields: Record.Fields = ["bar": "baz"]
         let cachedRecords: RecordSet = ["foo": cachedFields]
-        // <% if apollo_version >= '0.16.0' %>
         let expectation = self.expectation(description: "callback should be called.")
         underlyingCache.merge(records: cachedRecords, callbackQueue: nil) { result in
             switch result {
@@ -74,26 +59,12 @@ class DebuggableNormalizedCacheTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
-        // <% else %>
-        do {
-            let promise1 = underlyingCache.merge(records: cachedRecords) as Promise<Set<CacheKey>>
-            _ = try promise1.await()
-            let promise2 = cache.loadRecords(forKeys: ["foo"]) as Promise<[Record?]>
-            let records = try promise2.await()
-            XCTAssertEqual(records.count, 1)
-            let cachedRecord = Record(key: "foo", cachedFields)
-            XCTAssertEqual(records.first??.key, cachedRecord.key)
-        } catch let error {
-            XCTFail(error.localizedDescription)
-        }
-        // <% end %>
     }
 
     func testMerge() {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
         let fields: Record.Fields = ["bar": "baz"]
         let records: RecordSet = ["foo": fields]
-        // <% if apollo_version >= '0.16.0' %>
         let expectation = self.expectation(description: "callback should be called.")
         cache.merge(records: records, callbackQueue: nil) { result in
             defer { expectation.fulfill() }
@@ -105,22 +76,12 @@ class DebuggableNormalizedCacheTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
-        // <% else %>
-        do {
-            let promise = cache.merge(records: records) as Promise<Set<CacheKey>>
-            let cacheKeys = try promise.await()
-            XCTAssertEqual(cacheKeys, ["foo.bar"])
-        } catch let error {
-            XCTFail(error.localizedDescription)
-        }
-        // <% end %>
     }
 
     func testClear() {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
         let cachedFields: Record.Fields = ["bar": "baz"]
         let cachedRecords: RecordSet = ["foo": cachedFields]
-        // <% if apollo_version >= '0.16.0' %>
         let expectation = self.expectation(description: "callback should be called.")
         cache.merge(records: cachedRecords, callbackQueue: nil) { result in
             switch result {
@@ -148,26 +109,12 @@ class DebuggableNormalizedCacheTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
-        // <% else %>
-        do {
-            let promise1 = cache.merge(records: cachedRecords) as Promise<Set<CacheKey>>
-            let cacheKeys = try promise1.await()
-            let promise2 = cache.clear() as Promise<Void>
-            try promise2.await()
-            let promise3 = cache.loadRecords(forKeys: Array(cacheKeys)) as Promise<[Record?]>
-            let records = try promise3.await()
-            XCTAssertEqual(records.compactMap { $0 }.count, 0)
-        } catch let error {
-            XCTFail(error.localizedDescription)
-        }
-        // <% end %>
     }
 
     func testExtract() {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
         let cachedFields: Record.Fields = ["bar": "baz"]
         let cachedRecords: RecordSet = ["foo": cachedFields]
-        // <% if apollo_version >= '0.16.0' %>
         let expectation = self.expectation(description: "callback should be called.")
         cache.merge(records: cachedRecords, callbackQueue: nil) { result in
             defer { expectation.fulfill() }
@@ -180,15 +127,5 @@ class DebuggableNormalizedCacheTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
-        // <% else %>
-        do {
-            let promise = cache.merge(records: cachedRecords) as Promise<Set<CacheKey>>
-            _ = try promise.await()
-            let storage = cache.extract()
-            XCTAssertEqual(storage.count, 1)
-        } catch let error {
-            XCTFail(error.localizedDescription)
-        }
-        // <% end %>
     }
 }

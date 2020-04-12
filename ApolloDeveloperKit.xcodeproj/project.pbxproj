@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0051102308848E00B9B2B2 /* NetworkInterface.swift */; };
 		5B0051132309125F00B9B2B2 /* NetworkInterfaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */; };
-		5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift.erb */; };
+		5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */; };
 		5B0EC96222B6D856003D7933 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
-		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift.erb */; };
+		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */; };
 		5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */; };
 		5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */; };
 		5B26FC2D22B3DB0800359E63 /* ApolloDeveloperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,14 +39,14 @@
 		5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */; };
 		5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */; };
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
-		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */; };
+		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
 		5B4B71192406E4B3009ADD7C /* URLRequest+HTTPMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */; };
 		5B4CA52F23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */; };
-		5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift.erb */; };
+		5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */; };
 		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
 		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
-		5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */; };
+		5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
@@ -182,8 +182,8 @@
 /* Begin PBXFileReference section */
 		5B0051102308848E00B9B2B2 /* NetworkInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterface.swift; sourceTree = "<group>"; };
 		5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceList.swift; sourceTree = "<group>"; };
-		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift.erb; sourceTree = "<group>"; };
-		5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockNetworkTransport.swift.erb; sourceTree = "<group>"; };
+		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
+		5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockNetworkTransport.swift; sourceTree = "<group>"; };
 		5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponse.swift; sourceTree = "<group>"; };
 		5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponseTests.swift; sourceTree = "<group>"; };
 		5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApolloDeveloperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,11 +216,11 @@
 		5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+JSONEncodableTests.swift"; sourceTree = "<group>"; };
 		5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
-		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift.erb; sourceTree = "<group>"; };
+		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
 		5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApolloDeveloperKit.xcconfig; sourceTree = "<group>"; };
 		5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+HTTPMessage.swift"; sourceTree = "<group>"; };
 		5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStoreTests.swift; sourceTree = "<group>"; };
-		5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockGraphQLOperations.swift.erb; sourceTree = "<group>"; };
+		5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockGraphQLOperations.swift; sourceTree = "<group>"; };
 		5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
-		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift.erb"; sourceTree = "<group>"; };
+		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift"; sourceTree = "<group>"; };
 		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
 		5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitExample-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B88CEF6237CDB69000B97AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -314,8 +314,8 @@
 				5B3A83AB22C9333A002B4FFB /* WebServer */,
 				5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */,
 				5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */,
-				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift.erb */,
-				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb */,
+				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */,
+				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -392,10 +392,10 @@
 			children = (
 				5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */,
 				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
-				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift.erb */,
+				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */,
 				5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */,
-				5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift.erb */,
-				5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift.erb */,
+				5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */,
+				5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */,
 			);
 			path = TestHelpers;
 			sourceTree = "<group>";
@@ -821,7 +821,7 @@
 			files = (
 				5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */,
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
-				5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift.erb in Sources */,
+				5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift in Sources */,
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
@@ -832,14 +832,14 @@
 				5BA76BC2240ABAB600501193 /* BackgroundTaskTests.swift in Sources */,
 				5B2E1B29230C2CE0003C85CB /* NetworkInterfaceListTests.swift in Sources */,
 				5B2EFC7F240BBAAA003EC9D3 /* HTTPServerChunkedEncodingTests.swift in Sources */,
-				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift.erb in Sources */,
+				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
 				5B3A838D22C6856D002B4FFB /* JSErrorTests.swift in Sources */,
-				5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift.erb in Sources */,
+				5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */,
 				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
-				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift.erb in Sources */,
+				5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */,
 				5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
-				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift.erb in Sources */,
+				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
 				5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* AnyGraphQLOperationTests.swift in Sources */,

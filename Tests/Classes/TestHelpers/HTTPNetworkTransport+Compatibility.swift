@@ -6,21 +6,12 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import Apollo
 
 extension HTTPNetworkTransport {
-    // <% if apollo_version >= '0.15.0' %>
     convenience init(url: URL, configuration: URLSessionConfiguration = .default, sendOperationIdentifiers: Bool = false, useGETForQueries: Bool = false, delegate: HTTPNetworkTransportDelegate? = nil) {
         let session = URLSession(configuration: configuration)
-        // <% if apollo_version >= '0.22.0' %>
         self.init(url: url, session: session, sendOperationIdentifiers: sendOperationIdentifiers, useGETForQueries: useGETForQueries)
         self.delegate = delegate
-        // <% else %>
-        self.init(url: url, session: session, sendOperationIdentifiers: sendOperationIdentifiers, useGETForQueries: useGETForQueries, delegate: delegate)
-        // <% end %>
     }
-    // <% end %>
 }
