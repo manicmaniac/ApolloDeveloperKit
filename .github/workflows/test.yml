@@ -8,37 +8,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        apollo: ["0.23.0", "0.19.0", "0.18.1"]
+        apollo: ["0.24.0"]
         sdk: ["iphonesimulator", "macosx"]
         include:
-          - apollo: "0.23.0"
+          - apollo: "0.24.0"
             sdk: "iphonesimulator"
             xcode: "11.3"
             swift: "5.1"
             destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
-          - apollo: "0.23.0"
+          - apollo: "0.24.0"
             sdk: "macosx"
             xcode: "11.3"
-            swift: "5.1"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.19.0"
-            sdk: "iphonesimulator"
-            xcode: "11.1"
-            swift: "5.1"
-            destination: "platform=iOS Simulator,OS=13.1,name=iPhone 11"
-          - apollo: "0.19.0"
-            sdk: "macosx"
-            xcode: "11.1"
-            swift: "5.1"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.18.1"
-            sdk: "iphonesimulator"
-            xcode: "11"
-            swift: "5.1"
-            destination: "platform=iOS Simulator,OS=13.0,name=iPhone 11"
-          - apollo: "0.18.1"
-            sdk: "macosx"
-            xcode: "11"
             swift: "5.1"
             destination: "platform=OS X,arch=x86_64"
     steps:
