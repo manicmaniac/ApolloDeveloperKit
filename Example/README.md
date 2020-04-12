@@ -22,11 +22,6 @@ Installation
 Notes
 -----
 
-### Code generation with ERB
-
-These example app projects are using compile time code generation with ERB so that they can be compiled with wider versions of `Apollo`.
-However you don't need to use this technique if your project doesn't need to adapt to more than one version of `Apollo`.
-
 ### Updating Schema
 
 Currently `API.swift` is generated with Node.js `apollo@2.16.3` package.
