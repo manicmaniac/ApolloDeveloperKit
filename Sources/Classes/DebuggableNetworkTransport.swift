@@ -31,12 +31,10 @@ public class DebuggableNetworkTransport {
      */
     public init(networkTransport: NetworkTransport) {
         self.networkTransport = networkTransport
-        // `clientName` and `clientVersion` have been introduced since Apollo 0.19.0.
-        // To keep backward compatibility, we have to use reflection to get the underlying `networkTransport`'s properties.
-        // As for before Apollo 0.19.0 these properties haven't been used so they will be an empty string.
-        let children = Mirror(reflecting: networkTransport).children
-        self.clientName = children.first { $0.label == "clientName" }?.value as? String ?? ""
-        self.clientVersion = children.first { $0.label == "clientVersion" }?.value as? String ?? ""
+        // Copies `clientName` and `clientVersion` in case someone wants to set
+        // a different name or version from the original network transport.
+        self.clientName = networkTransport.clientName
+        self.clientVersion = networkTransport.clientVersion
     }
 }
 
