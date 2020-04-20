@@ -18,11 +18,7 @@ extension UIApplication: BackgroundTaskExecutor {
     // Already conformed.
 }
 
-#if swift(>=4.2)
 let invalidBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
-#else
-let invalidBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-#endif
 
 final class BackgroundTask {
     private(set) var currentIdentifier: UIBackgroundTaskIdentifier

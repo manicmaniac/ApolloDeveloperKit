@@ -24,9 +24,9 @@ Screenshots
 Prerequisites
 -------------
 
-- Xcode `>= 10.1`
+- Xcode `>= 11.2.1
 - Google Chrome
-- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.9.1`, `< 0.24.0`
+- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.24.0`, `< 0.25.0`
 - [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools)
 
 Installation
@@ -53,21 +53,6 @@ github "manicmaniac/ApolloDeveloperKit"
 ```
 
 Then run `carthage update --platform iOS` or `carthage update --platform Mac`.
-
-#### For Xcode 10.1 (Swift 4.2)
-
-If you are using Xcode 10.1, where Swift 5 is not available, the install step could be a bit tricky though Cartfile can be as it is.
-Contrary to CocoaPods, Carthage doesn't select the compiler by itself so the only way to force it to use Swift 4.2 is to inject a Xcode configuration file.
-
-```bash
-echo APOLLO_DEVELOPER_KIT_SWIFT_VERSION=4.2 >ApolloDeveloperKit.xcconfig
-XCODE_XCCONFIG_FILE="$PWD/ApolloDeveloperKit.xcconfig" carthage update --platform iOS
-rm ApolloDeveloperKit.xcconfig
-```
-
-Note `XCODE_XCCONFIG_FILE` should be an absolute path somehow.
-
-Not recommended but as plan B, you can use `ApolloDeveloperKit ~> 0.3.3` which only supports Swift 4.2 as well.
 
 Setup
 -----

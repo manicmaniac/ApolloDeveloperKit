@@ -6,7 +6,7 @@ macOS and iOS example apps for `ApolloDeveloperKit`.
 Prerequisites
 -------------
 
-- Xcode (`>= 10.1`)
+- Xcode (`>= 11.2.1`)
 - Carthage
 
 Installation

@@ -75,7 +75,6 @@ extension DebuggableNormalizedCache: NormalizedCache {
         return clearMethod()
     }
 
-    #if swift(>=5)
     public func loadRecords(forKeys keys: [CacheKey], callbackQueue: DispatchQueue?, completion: @escaping (Swift.Result<[Record?], Error>) -> Void) {
         let loadRecordsMethod = cache.loadRecords as Any as! ([CacheKey], DispatchQueue?, @escaping (Swift.Result<[Record?], Error>) -> Void) -> Void
         loadRecordsMethod(keys, callbackQueue, completion)
@@ -94,5 +93,4 @@ extension DebuggableNormalizedCache: NormalizedCache {
         let clearMethod = cache.clear as Any as! (DispatchQueue?, ((Swift.Result<Void, Error>) -> Void)?) -> Void
         clearMethod(callbackQueue, completion)
     }
-    #endif
 }
