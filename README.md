@@ -24,7 +24,7 @@ Screenshots
 Prerequisites
 -------------
 
-- Xcode `>= 11.2.1
+- Xcode `>= 11.2.1`
 - Google Chrome
 - [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.24.0`, `< 0.25.0`
 - [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools)
@@ -196,7 +196,7 @@ Auto-generated API documentation is [here](https://manicmaniac.github.io/ApolloD
 ### Run Example App
 
 Since Example app is slightly modified version of [apollographql/frontpage-ios-app](https://github.com/apollographql/frontpage-ios-app),
-you need to start [apollographql/frontpage-server](https://github.com/apollographql/frontpage-server) before runnning the app.
+you need to start [apollographql/frontpage-server](https://github.com/apollographql/frontpage-server) before running the app.
 
 1. Open Xcode and select ApolloDeveloperKitExample scheme.
 2. Run and open `http://localhost:8081` in Google Chrome.
