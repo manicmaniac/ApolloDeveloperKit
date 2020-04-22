@@ -67,12 +67,10 @@ final class AnyGraphQLOperation: GraphQLOperation, JSONDecodable {
     }
 
     convenience init<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
-        // Since Apollo (< 0.10.0) doesn't provide `operationName`, reflection is needed to get it.
-        let operationName = Mirror(reflecting: operation).descendant("operationName") as? String ?? ""
         self.init(operationType: operation.operationType,
                   operationDefinition: operation.operationDefinition,
                   operationIdentifier: operation.operationIdentifier,
-                  operationName: operationName,
+                  operationName: operation.operationName,
                   variables: operation.variables)
     }
 

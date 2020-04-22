@@ -6,9 +6,6 @@
 //  Copyright © 2020 Ryosuke Ito. All rights reserved.
 //
 
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import Apollo
 @testable import ApolloDeveloperKit
 
@@ -17,9 +14,7 @@ class MockGraphQLQuery: GraphQLQuery {
 
     let operationDefinition = "query {}"
     let operationIdentifier = "MockGraphQLQuery 1"
-    // <% if apollo_version >= '0.10.0' %>
     let operationName = "MockGraphQLQuery"
-    // <% end %>
 }
 
 class MockGraphQLMutation: GraphQLMutation {
@@ -27,9 +22,7 @@ class MockGraphQLMutation: GraphQLMutation {
 
     let operationDefinition = "mutation {}"
     let operationIdentifier = "MockGraphQLMutation 1"
-    // <% if apollo_version >= '0.10.0' %>
     let operationName = "MockGraphQLMutation"
-    // <% end %>
 }
 
 class MockGraphQLSubscription: GraphQLSubscription {
@@ -37,9 +30,7 @@ class MockGraphQLSubscription: GraphQLSubscription {
 
     let operationDefinition = "subscription {}"
     let operationIdentifier = "MockGraphQLSubscription 1"
-    // <% if apollo_version >= '0.10.0' %>
     let operationName = "MockGraphQLSubscription"
-    // <% end %>
 }
 
 class MockGraphQLSelectionSet: GraphQLSelectionSet {

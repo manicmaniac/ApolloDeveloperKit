@@ -316,18 +316,19 @@ extension ApolloDebugServer: HTTPServerDelegate {
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
             let operation = try AnyGraphQLOperation(jsonValue: jsonObject)
-            _ = networkTransport.send(operation: operation) { [weak self] graphQLResponse, error in
+            _ = networkTransport.send(operation: operation) { [weak self] result in
                 guard let self = self else { return }
                 do {
-                    if let error = error {
+                    switch result {
+                    case .success(let response):
+                        // Cannot use JSONSerializationFormat.serialize(value:) here because
+                        // response.body may contain an Objective-C type like `NSString`,
+                        // that is not convertible to JSONValue directly.
+                        let body = try JSONSerialization.data(withJSONObject: response.body, options: [])
+                        self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
+                    case .failure(let error):
                         throw error
                     }
-                    guard let graphQLResponse = graphQLResponse else { fatalError("response must exist when error is nil") }
-                    // Cannot use JSONSerializationFormat.serialize(value:) here because
-                    // response.body may contain an Objective-C type like `NSString`,
-                    // that is not convertible to JSONValue directly.
-                    let body = try JSONSerialization.data(withJSONObject: graphQLResponse.body, options: [])
-                    self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
                 } catch let error as GraphQLHTTPResponseError {
                     connection.write(response: error.response, body: error.body)
                     connection.close()
@@ -364,9 +365,9 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
         }
     }
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResponse<Operation.Data>, Error>) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
-        operationStoreController.networkTransport(networkTransport, didSendOperation: operation, response: response, error: error)
+        operationStoreController.networkTransport(networkTransport, didSendOperation: operation, result: result)
         let chunk = chunkForCurrentState()
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)

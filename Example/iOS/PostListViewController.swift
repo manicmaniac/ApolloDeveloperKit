@@ -1,6 +1,3 @@
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import UIKit
 import Apollo
 
@@ -42,16 +39,6 @@ class PostListViewController: UITableViewController {
     var watcher: GraphQLQueryWatcher<AllPostsQuery>?
 
     func loadData(completion: (() -> Void)?) {
-        // <% if apollo_version < '0.13.0' %>
-        watcher = apollo.watch(query: AllPostsQuery()) { (result, error) in
-            if let error = error {
-                NSLog("Error while fetching query: \(error.localizedDescription)")
-            } else {
-                self.posts = result?.data?.posts
-            }
-            completion?()
-        }
-        // <% else %>
         watcher = apollo.watch(query: AllPostsQuery()) { result in
             switch result {
             case .success(let response):
@@ -61,7 +48,6 @@ class PostListViewController: UITableViewController {
             }
             completion?()
         }
-        // <% end %>
     }
 
     // MARK: - UITableViewDataSource
@@ -103,18 +89,10 @@ class PostListViewController: UITableViewController {
 
 extension PostListViewController: PostTableViewCellDelegate {
     func postTableViewCell(_ postTableViewCell: PostTableViewCell, didPerformUpvote postId: Int) {
-        // <% if apollo_version < '0.13.0' %>
-        apollo.perform(mutation: UpvotePostMutation(postId: postId)) { (result, error) in
-            if let error = error {
-                NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
-            }
-        }
-        // <% else %>
         apollo.perform(mutation: UpvotePostMutation(postId: postId)) { result in
             if case .failure(let error) = result {
                 NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
             }
         }
-        // <% end %>
     }
 }

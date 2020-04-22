@@ -6,16 +6,11 @@
 //  Copyright © 2020 Ryosuke Ito. All rights reserved.
 //
 
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import Apollo
 
 class MockNetworkTransport: NetworkTransport {
-    // <% if apollo_version >= '0.19.0' %>
     var clientName = "clientName"
     var clientVersion = "clientVersion"
-    // <% end %>
 
     private let response: Any?
     private let error: Error?
@@ -25,19 +20,12 @@ class MockNetworkTransport: NetworkTransport {
         self.error = nil
     }
 
-    init<Operation>(response: GraphQLResponse<Operation>?, error: Error?) where Operation : GraphQLOperation {
+    init<Data>(response: GraphQLResponse<Data>?, error: Error?) where Data: GraphQLSelectionSet {
         self.response = response
         self.error = error
     }
-
-    func send<Operation>(operation: Operation, completionHandler: @escaping (GraphQLResponse<Operation>?, Error?) -> Void) -> Cancellable where Operation : GraphQLOperation {
-        completionHandler(response as? GraphQLResponse<Operation>, error)
-        return MockCancellable()
-    }
-
-    #if swift(>=5)
-    func send<Operation>(operation: Operation, completionHandler: @escaping (Swift.Result<GraphQLResponse<Operation>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
-        if let response = response as? GraphQLResponse<Operation> {
+    func send<Operation>(operation: Operation, completionHandler: @escaping (Swift.Result<GraphQLResponse<Operation.Data>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+        if let response = response as? GraphQLResponse<Operation.Data> {
             completionHandler(.success(response))
         } else if let error = error {
             completionHandler(.failure(error))
@@ -46,7 +34,6 @@ class MockNetworkTransport: NetworkTransport {
         }
         return MockCancellable()
     }
-    #endif
 }
 
 class MockCancellable: Cancellable {

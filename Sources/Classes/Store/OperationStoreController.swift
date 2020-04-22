@@ -37,13 +37,14 @@ extension OperationStoreController: DebuggableNetworkTransportDelegate {
         }
     }
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, response: GraphQLResponse<Operation>?, error: Error?) where Operation: GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResponse<Operation.Data>, Error>) where Operation: GraphQLOperation {
         queue.async(flags: .barrier) { [weak self] in
-            if let error = error {
-                self?.store.setFailure(for: operation, networkError: error)
-            } else {
-                let graphQLErrors = (response?.body["errors"] as? [JSONObject])?.map(GraphQLError.init(_:)) ?? []
+            switch result {
+            case .success(let response):
+                let graphQLErrors = (response.body["errors"] as? [JSONObject])?.map(GraphQLError.init(_:)) ?? []
                 self?.store.setSuccess(for: operation, graphQLErrors: graphQLErrors)
+            case .failure(let error):
+                self?.store.setFailure(for: operation, networkError: error)
             }
         }
     }

@@ -13,48 +13,19 @@
 		5B75996F22E7622D002DE460 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996B22E7622D002DE460 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B88CEEC237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
 		5B88CEED237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
-		5BE2448622E0FB75008EDAAD /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */; };
+		5BE2448622E0FB75008EDAAD /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
 		5BE2448722E0FB75008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
 		5BE2448922E0FB75008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
 		5BE2448E22E0FB75008EDAAD /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */; };
 		5BE2448F22E0FB75008EDAAD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448322E0FB75008EDAAD /* API.swift */; };
 		5BE2449022E0FB75008EDAAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448422E0FB75008EDAAD /* AppDelegate.swift */; };
 		5BE2449422E0FBCA008EDAAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448422E0FB75008EDAAD /* AppDelegate.swift */; };
-		5BE2449522E0FBCA008EDAAD /* PostListViewController.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */; };
+		5BE2449522E0FBCA008EDAAD /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
 		5BE2449622E0FBCA008EDAAD /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448322E0FB75008EDAAD /* API.swift */; };
 		5BE2449722E0FBCA008EDAAD /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */; };
 		5BE2449A22E0FBCA008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
 		5BE2449B22E0FBCA008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		5B99DB0C233F5F03004AC5B2 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.erb";
-			fileType = pattern.proxy;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
-			);
-			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
-		};
-		5B99DB0D233F5F60004AC5B2 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.erb";
-			fileType = pattern.proxy;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
-			);
-			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
-		};
-/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		5B75997022E7622D002DE460 /* Embed Frameworks */ = {
@@ -76,7 +47,7 @@
 		5B75996B22E7622D002DE460 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
 		5B88CEEB237C9EC9000B97AA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-iOS-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift.erb; sourceTree = "<group>"; };
+		5BE2447822E0FB75008EDAAD /* PostListViewController.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift; sourceTree = "<group>"; };
 		5BE2447922E0FB75008EDAAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BE2447A22E0FB75008EDAAD /* PostTableViewCell.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostTableViewCell.graphql; sourceTree = "<group>"; };
 		5BE2447C22E0FB75008EDAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				5BE2448422E0FB75008EDAAD /* AppDelegate.swift */,
-				5BE2447822E0FB75008EDAAD /* PostListViewController.swift.erb */,
+				5BE2447822E0FB75008EDAAD /* PostListViewController.swift */,
 				5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */,
 				5BE2447922E0FB75008EDAAD /* Assets.xcassets */,
 				5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */,
@@ -184,7 +155,6 @@
 				5B75997022E7622D002DE460 /* Embed Frameworks */,
 			);
 			buildRules = (
-				5B99DB0D233F5F60004AC5B2 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -202,7 +172,6 @@
 				5BE2449922E0FBCA008EDAAD /* Resources */,
 			);
 			buildRules = (
-				5B99DB0C233F5F03004AC5B2 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -274,7 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BE2449022E0FB75008EDAAD /* AppDelegate.swift in Sources */,
-				5BE2448622E0FB75008EDAAD /* PostListViewController.swift.erb in Sources */,
+				5BE2448622E0FB75008EDAAD /* PostListViewController.swift in Sources */,
 				5BE2448F22E0FB75008EDAAD /* API.swift in Sources */,
 				5BE2448E22E0FB75008EDAAD /* PostTableViewCell.swift in Sources */,
 			);
@@ -285,7 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BE2449422E0FBCA008EDAAD /* AppDelegate.swift in Sources */,
-				5BE2449522E0FBCA008EDAAD /* PostListViewController.swift.erb in Sources */,
+				5BE2449522E0FBCA008EDAAD /* PostListViewController.swift in Sources */,
 				5BE2449622E0FBCA008EDAAD /* API.swift in Sources */,
 				5BE2449722E0FBCA008EDAAD /* PostTableViewCell.swift in Sources */,
 			);
@@ -439,7 +408,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -463,7 +431,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -483,7 +450,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -503,7 +469,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				RUBYLIB = "$(SRCROOT)/lib";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
