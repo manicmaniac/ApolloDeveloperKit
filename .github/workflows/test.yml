@@ -8,15 +8,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        apollo: ["0.24.0"]
+        apollo: ["0.25.0"]
         sdk: ["iphonesimulator", "macosx"]
         include:
-          - apollo: "0.24.0"
+          - apollo: "0.25.0"
             sdk: "iphonesimulator"
             xcode: "11.3"
             swift: "5.1"
             destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
-          - apollo: "0.24.0"
+          - apollo: "0.25.0"
             sdk: "macosx"
             xcode: "11.3"
             swift: "5.1"
