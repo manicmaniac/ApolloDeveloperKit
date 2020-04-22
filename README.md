@@ -26,7 +26,7 @@ Prerequisites
 
 - Xcode `>= 11.2.1`
 - Google Chrome
-- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.24.0`, `< 0.26.0`
+- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.24.0`, `< 0.27.0`
 - [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools)
 
 Installation
