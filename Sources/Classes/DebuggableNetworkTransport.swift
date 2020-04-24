@@ -41,7 +41,7 @@ public class DebuggableNetworkTransport {
 // MARK: NetworkTransport
 
 extension DebuggableNetworkTransport: NetworkTransport {
-    public func send<Operation>(operation: Operation, completionHandler: @escaping (Swift.Result<GraphQLResponse<Operation.Data>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
+    public func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation.Data>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
         return networkTransport.send(operation: operation) { [weak self] result in
             if let self = self {
