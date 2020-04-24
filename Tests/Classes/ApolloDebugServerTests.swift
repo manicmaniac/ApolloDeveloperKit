@@ -22,7 +22,7 @@ class ApolloDebugServerTests: XCTestCase {
         let url = URL(string: "http://localhost/graphql")!
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
-        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration, sendOperationIdentifiers: false))
+        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, session: URLSession(configuration: configuration), sendOperationIdentifiers: false))
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         store = ApolloStore(cache: cache)
         client = ApolloClient(networkTransport: networkTransport, store: store)
