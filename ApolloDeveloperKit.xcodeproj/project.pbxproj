@@ -46,7 +46,6 @@
 		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
 		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
-		5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
@@ -187,7 +186,6 @@
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
-		5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = "HTTPNetworkTransport+Compatibility.swift"; sourceTree = "<group>"; };
 		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
 		5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitExample-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B88CEF6237CDB69000B97AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -350,7 +348,6 @@
 			children = (
 				5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */,
 				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
-				5B783938233F7DFF00AEF367 /* HTTPNetworkTransport+Compatibility.swift */,
 				5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */,
 				5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */,
 				5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */,
@@ -776,7 +773,6 @@
 			files = (
 				5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */,
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
-				5B5D4351233F825A00AF5B5C /* HTTPNetworkTransport+Compatibility.swift in Sources */,
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
