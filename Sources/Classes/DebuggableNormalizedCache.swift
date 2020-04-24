@@ -75,22 +75,22 @@ extension DebuggableNormalizedCache: NormalizedCache {
         return clearMethod()
     }
 
-    public func loadRecords(forKeys keys: [CacheKey], callbackQueue: DispatchQueue?, completion: @escaping (Swift.Result<[Record?], Error>) -> Void) {
-        let loadRecordsMethod = cache.loadRecords as Any as! ([CacheKey], DispatchQueue?, @escaping (Swift.Result<[Record?], Error>) -> Void) -> Void
+    public func loadRecords(forKeys keys: [CacheKey], callbackQueue: DispatchQueue?, completion: @escaping (Result<[Record?], Error>) -> Void) {
+        let loadRecordsMethod = cache.loadRecords as Any as! ([CacheKey], DispatchQueue?, @escaping (Result<[Record?], Error>) -> Void) -> Void
         loadRecordsMethod(keys, callbackQueue, completion)
     }
 
-    public func merge(records: RecordSet, callbackQueue: DispatchQueue?, completion: @escaping (Swift.Result<Set<CacheKey>, Error>) -> Void) {
+    public func merge(records: RecordSet, callbackQueue: DispatchQueue?, completion: @escaping (Result<Set<CacheKey>, Error>) -> Void) {
         cachedRecords.merge(records: records)
         notifyRecordChange()
-        let mergeMethod = cache.merge as Any as! (RecordSet, DispatchQueue?, @escaping (Swift.Result<Set<CacheKey>, Error>) -> Void) -> Void
+        let mergeMethod = cache.merge as Any as! (RecordSet, DispatchQueue?, @escaping (Result<Set<CacheKey>, Error>) -> Void) -> Void
         mergeMethod(records, callbackQueue, completion)
     }
 
-    public func clear(callbackQueue: DispatchQueue?, completion: ((Swift.Result<Void, Error>) -> Void)?) {
+    public func clear(callbackQueue: DispatchQueue?, completion: ((Result<Void, Error>) -> Void)?) {
         cachedRecords.clear()
         notifyRecordChange()
-        let clearMethod = cache.clear as Any as! (DispatchQueue?, ((Swift.Result<Void, Error>) -> Void)?) -> Void
+        let clearMethod = cache.clear as Any as! (DispatchQueue?, ((Result<Void, Error>) -> Void)?) -> Void
         clearMethod(callbackQueue, completion)
     }
 }
