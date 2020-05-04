@@ -24,11 +24,9 @@ Notes
 
 ### Updating Schema
 
-Currently `API.swift` is generated with Node.js `apollo@2.16.3` package.
-
 To update schema, run the following command.
-You may want to change the version of `apollo` like `npx apollo@2.15.0 codegen:generate ...`.
 
 ```
-npx apollo@2.16.3 codegen:generate --includes=Example/*.graphql --target=swift --localSchemaFile=Example/schema.json Example/API.swift
+../Carthage/Checkouts/apollo-ios/scripts/run-bundled-codegen.sh schema:download --endpoint=http://localhost:8080/graphql
+../Carthage/Checkouts/apollo-ios/scripts/run-bundled-codegen.sh codegen:generate --includes=*.graphql --target=swift --localSchemaFile=schema.json API.swift
 ```

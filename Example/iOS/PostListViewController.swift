@@ -10,7 +10,7 @@ class PostListViewController: UITableViewController {
     var serverURL: URL?
     weak var delegate: PostListViewControllerDelegate?
 
-    var posts: [AllPostsQuery.Data.Post]? {
+    var posts: [AllPostsQuery.Data.Post?]? {
         didSet {
             tableView.reloadData()
         }
