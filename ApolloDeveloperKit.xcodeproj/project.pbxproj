@@ -46,12 +46,12 @@
 		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
 		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
-		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
+		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift.erb */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
 		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
-		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */; };
+		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift.erb in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift.erb */; };
 		5B88CEF7237CDB69000B97AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88CEF6237CDB69000B97AA /* AppDelegate.swift */; };
 		5B88CEF9237CDB69000B97AA /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88CEF8237CDB69000B97AA /* PostListViewController.swift */; };
 		5B88CEFB237CDB6C000B97AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEFA237CDB6C000B97AA /* Assets.xcassets */; };
@@ -86,33 +86,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
-		5B015B09233F4DFA00DA7A85 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.erb";
-			fileType = pattern.proxy;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
-			);
-			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
-		};
 		5B5D4350233F817900AF5B5C /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.erb";
-			fileType = pattern.proxy;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE)",
-			);
-			script = "erb -T - \"$SCRIPT_INPUT_FILE\" >\"$SCRIPT_OUTPUT_FILE_0\"\n";
-		};
-		5B88CF04237CDD1A000B97AA /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.erb";
@@ -223,12 +197,12 @@
 		5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
-		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
+		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerTests.swift.erb; sourceTree = "<group>"; };
 		5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLOperation.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
-		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
+		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift.erb */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift.erb; sourceTree = "<group>"; };
 		5B88CEF4237CDB69000B97AA /* ApolloDeveloperKitExample-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitExample-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B88CEF6237CDB69000B97AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B88CEF8237CDB69000B97AA /* PostListViewController.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
@@ -310,8 +284,8 @@
 				5B3A838B22C6855C002B4FFB /* JSON */,
 				5B3A839422C7221D002B4FFB /* Store */,
 				5B3A83AB22C9333A002B4FFB /* WebServer */,
-				5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */,
-				5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */,
+				5B60660022D64790002A2013 /* ApolloDebugServerTests.swift.erb */,
+				5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift.erb */,
 				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */,
 				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */,
 			);
@@ -814,13 +788,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */,
+				5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift.erb in Sources */,
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
 				5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */,
-				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,
+				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift.erb in Sources */,
 				5BBF4C8423F24E6B00FDC452 /* OperationStoreControllerTests.swift in Sources */,
 				5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */,
 				5BA76BC2240ABAB600501193 /* BackgroundTaskTests.swift in Sources */,
