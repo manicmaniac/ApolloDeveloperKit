@@ -15,7 +15,7 @@ jobs:
             sdk: "iphonesimulator"
             xcode: "11.4"
             swift: "5.2"
-            destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
+            destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
           - apollo: "0.26.0"
             sdk: "iphonesimulator"
             xcode: "11.3"
