@@ -81,7 +81,6 @@ class OperationStoreControllerTests: XCTestCase {
 
     func testNetworkTransportDidSendOperation_withNetworkErrorQuery() {
         let query = MockGraphQLQuery()
-        let response = GraphQLResponse(operation: query, body: [:])
         let error = URLError(.notConnectedToInternet)
         controller.networkTransport(networkTransport, didSendOperation: query, result: .failure(error))
         let expectation = self.expectation(description: "An invocation should be recoreded")
