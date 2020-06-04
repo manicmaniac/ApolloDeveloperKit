@@ -22,6 +22,7 @@ public class DebuggableNormalizedCache {
     weak var delegate: DebuggableNormalizedCacheDelegate?
     private let cache: NormalizedCache
     private var cachedRecords: RecordSet
+    private let recordLock = NSRecursiveLock()
 
     /**
      * Initializes the receiver with the underlying cache object.
@@ -50,14 +51,39 @@ extension DebuggableNormalizedCache: NormalizedCache {
     }
 
     public func merge(records: RecordSet, callbackQueue: DispatchQueue?, completion: @escaping (Result<Set<CacheKey>, Error>) -> Void) {
+        recordLock.lock()
         cachedRecords.merge(records: records)
         notifyRecordChange()
+        recordLock.unlock()
         cache.merge(records: records, callbackQueue: callbackQueue, completion: completion)
     }
 
     public func clear(callbackQueue: DispatchQueue?, completion: ((Result<Void, Error>) -> Void)?) {
+        recordLock.lock()
         cachedRecords.clear()
         notifyRecordChange()
+        recordLock.unlock()
         cache.clear(callbackQueue: callbackQueue, completion: completion)
+    }
+
+    public func clearImmediately() throws {
+        recordLock.lock()
+        cachedRecords.clear()
+        notifyRecordChange()
+        recordLock.unlock()
+        // Currently ApolloDeveloperKit supports Apollo < 0.28.0, where `clearImmediately()` is not implemented.
+        // So to avoid introducing breaking change, the following procedure synchronously invokes `clear()` instead.
+        var error: Error?
+        let semaphore = DispatchSemaphore(value: 0)
+        cache.clear(callbackQueue: .global()) { result in
+            if case .failure(let matchedError) = result {
+                error = matchedError
+            }
+            semaphore.signal()
+        }
+        semaphore.wait()
+        if let error = error {
+            throw error
+        }
     }
 }

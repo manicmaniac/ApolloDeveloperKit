@@ -111,6 +111,36 @@ class DebuggableNormalizedCacheTests: XCTestCase {
         waitForExpectations(timeout: 0.25, handler: nil)
     }
 
+    func testClearImmediately() {
+        let cache = DebuggableNormalizedCache(cache: underlyingCache)
+        let cachedFields: Record.Fields = ["bar": "baz"]
+        let cachedRecords: RecordSet = ["foo": cachedFields]
+        let expectation = self.expectation(description: "callback should be called.")
+        cache.merge(records: cachedRecords, callbackQueue: nil) { result in
+            do {
+                switch result {
+                case .success(let cacheKeys):
+                    try cache.clearImmediately()
+                    cache.loadRecords(forKeys: Array(cacheKeys), callbackQueue: nil) { result in
+                        defer { expectation.fulfill() }
+                        switch result {
+                        case .success(let records):
+                            XCTAssert(records.compactMap { $0 }.isEmpty)
+                        case .failure(let error):
+                            XCTFail(error.localizedDescription)
+                        }
+                    }
+                case .failure(let error):
+                    throw error
+                }
+            } catch let error {
+                XCTFail(error.localizedDescription)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 0.25, handler: nil)
+    }
+
     func testExtract() {
         let cache = DebuggableNormalizedCache(cache: underlyingCache)
         let cachedFields: Record.Fields = ["bar": "baz"]
