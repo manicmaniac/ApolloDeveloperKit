@@ -1,1 +1,1 @@
-github "apollographql/apollo-ios" ~> 0.27.1
+github "apollographql/apollo-ios" >= 0.25.0
