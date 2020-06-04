@@ -319,16 +319,12 @@ extension ApolloDebugServer: HTTPServerDelegate {
             _ = networkTransport.send(operation: operation) { [weak self] result in
                 guard let self = self else { return }
                 do {
-                    switch result {
-                    case .success(let response):
-                        // Cannot use JSONSerializationFormat.serialize(value:) here because
-                        // response.body may contain an Objective-C type like `NSString`,
-                        // that is not convertible to JSONValue directly.
-                        let body = try JSONSerialization.data(withJSONObject: response.body, options: [])
-                        self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
-                    case .failure(let error):
-                        throw error
-                    }
+                    let response = try result.get()
+                    // Cannot use JSONSerializationFormat.serialize(value:) here because
+                    // response.body may contain an Objective-C type like `NSString`,
+                    // that is not convertible to JSONValue directly.
+                    let body = try JSONSerialization.data(withJSONObject: response.body, options: [])
+                    self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
                 } catch let error as GraphQLHTTPResponseError {
                     connection.write(response: error.response, body: error.body)
                     connection.close()
