@@ -11,7 +11,7 @@ do
     input_path="$(eval printf \$SCRIPT_INPUT_FILE_$i)"
     input_base="$(basename "$input_path")"
     output_path="$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/$input_base"
-    cp -R "$input_path" "$output_path"
+    ditto "$input_path" "$output_path"
     if [ x"$CODE_SIGNING_ALLOWED" = x'YES' ]; then
         codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --preserve-metadata=identifier,entitlements "$output_path"
     fi
