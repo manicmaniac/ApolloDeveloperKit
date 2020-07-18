@@ -8,48 +8,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        apollo: ["0.28.0", "0.27.1", "0.26.0", "0.25.0"]
+        apollo: ["0.29.0"]
         sdk: ["iphonesimulator", "macosx"]
         include:
-          - apollo: "0.28.0"
+          - apollo: "0.29.0"
             sdk: "iphonesimulator"
             xcode: "11.4"
             swift: "5.2"
             destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
-          - apollo: "0.27.1"
-            sdk: "iphonesimulator"
-            xcode: "11.4"
-            swift: "5.2"
-            destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
-          - apollo: "0.26.0"
-            sdk: "iphonesimulator"
-            xcode: "11.3"
-            swift: "5.2"
-            destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
-          - apollo: "0.28.0"
+          - apollo: "0.29.0"
             sdk: "macosx"
             xcode: "11.4"
             swift: "5.2"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.27.1"
-            sdk: "macosx"
-            xcode: "11.4"
-            swift: "5.2"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.26.0"
-            sdk: "macosx"
-            xcode: "11.3"
-            swift: "5.2"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.25.0"
-            sdk: "iphonesimulator"
-            xcode: "11.3"
-            swift: "5.1"
-            destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
-          - apollo: "0.25.0"
-            sdk: "macosx"
-            xcode: "11.3"
-            swift: "5.1"
             destination: "platform=OS X,arch=x86_64"
     steps:
       - uses: actions/checkout@v2
