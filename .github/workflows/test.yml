@@ -14,12 +14,10 @@ jobs:
           - apollo: "0.29.0"
             sdk: "iphonesimulator"
             xcode: "11.4"
-            swift: "5.2"
             destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
           - apollo: "0.29.0"
             sdk: "macosx"
             xcode: "11.4"
-            swift: "5.2"
             destination: "platform=OS X,arch=x86_64"
     steps:
       - uses: actions/checkout@v2
@@ -32,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: ./Scripts/quick-install-dependencies -f '${{ matrix.sdk }}'
       - name: Run unit tests
-        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
+        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
     runs-on: macOS-latest
     steps:
@@ -52,7 +50,7 @@ jobs:
           gem install bundler -v 1.17.3
           bundle install --without documentation --jobs=3 --retry=3
       - name: Lint podspec
-        run: bundle exec pod lib lint --swift-version=5.1 --verbose
+        run: bundle exec pod lib lint --verbose
   frontend-test:
     runs-on: ubuntu-18.04
     steps:
