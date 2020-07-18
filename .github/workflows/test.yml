@@ -34,7 +34,7 @@ jobs:
       - name: Modify Cartfile.resolved
         run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
       - name: Install dependencies
-        run: ./Scripts/quick-install-dependencies -f '${{ matrix.sdk }}'
+        run: ./bin/quick-install-dependencies -f '${{ matrix.sdk }}'
       - name: Run unit tests
         run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
