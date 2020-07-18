@@ -2,6 +2,8 @@
 
 # Do almost the same thing as Carthage but don't make a fat binary.
 
+set -e
+
 show_help() {
     cat <<-EOS
 Usage: quick-install-dependencies [-h] [-f] <SDK>
@@ -68,14 +70,14 @@ if [ -z "$sdk" ]; then
     exit 1
 fi
 
-if [ $force -eq 0 -a -f "$carthage_root/Apollo.framework/Apollo" ]; then
+if [ $force -eq 0 -a -f "$carthage_root/Apollo.framework/Apollo" -a -f "$carthage_root/ApolloCore.framework/ApolloCore" ]; then
     echo 'Valid cache found.' >&2
     exit
 fi
 
 carthage checkout apollo-ios
 
-derived_data_path="$TMPDIR/DerivedData/Apollo"
+derived_data_path="$(mktemp -d -t DerivedData)"
 
 mkdir -p "$derived_data_path"
 trap "rm -rf '$derived_data_path'" EXIT
@@ -92,6 +94,19 @@ xcodebuild build \
     CODE_SIGN_IDENTITY= \
     CARTHAGE=YES
 
+xcodebuild build \
+    -project Carthage/Checkouts/apollo-ios/Apollo.xcodeproj \
+    -scheme ApolloCore \
+    -configuration Release \
+    -derivedDataPath "$derived_data_path" \
+    -sdk "$sdk" \
+    -quiet \
+    ONLY_ACTIVE_ARCH=NO \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGN_IDENTITY= \
+    CARTHAGE=YES
+
 rm -rf "$carthage_root"
 mkdir -p "$carthage_root"
-mv "$TMPDIR/DerivedData/Apollo/Build/Products/$release_dir/Apollo.framework" "$carthage_root"
+mv "$derived_data_path/Build/Products/$release_dir/Apollo.framework" "$carthage_root"
+mv "$derived_data_path/Build/Products/$release_dir/ApolloCore.framework" "$carthage_root"
