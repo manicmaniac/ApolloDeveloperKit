@@ -10,7 +10,6 @@
 		5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0051102308848E00B9B2B2 /* NetworkInterface.swift */; };
 		5B0051132309125F00B9B2B2 /* NetworkInterfaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */; };
 		5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */; };
-		5B0EC96222B6D856003D7933 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */; };
 		5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */; };
 		5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */; };
@@ -18,7 +17,6 @@
 		5B21028624C2F40400053E9D /* ApolloCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028424C2F3D000053E9D /* ApolloCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B21028724C2F41800053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; };
 		5B21028824C2F41B00053E9D /* ApolloCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5B21028924C2F43D00053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; };
 		5B26FC2D22B3DB0800359E63 /* ApolloDeveloperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4322B3DB5800359E63 /* Assets.xcassets */; };
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
@@ -77,7 +75,6 @@
 		5B9B3F85240600C9007E1A8B /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9B3F84240600C9007E1A8B /* Socket.swift */; };
 		5B9B3F8724060F30007E1A8B /* HTTPMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9B3F8624060F30007E1A8B /* HTTPMessage.swift */; };
 		5BA76BC2240ABAB600501193 /* BackgroundTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA76BC1240ABAB600501193 /* BackgroundTaskTests.swift */; };
-		5BB24721237A4CDE001C6578 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */; };
 		5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */; };
 		5BBF4C8223F19DDF00FDC452 /* OperationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF4C8123F19DDF00FDC452 /* OperationStore.swift */; };
@@ -232,8 +229,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B0EC96222B6D856003D7933 /* Apollo.framework in Frameworks */,
-				5B21028924C2F43D00053E9D /* ApolloCore.framework in Frameworks */,
 				5B3A837722C674C0002B4FFB /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,7 +257,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BB24721237A4CDE001C6578 /* Apollo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,7 +727,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH=\"$CARTHAGE_SEARCH_PATHS:$PATH\" carthage copy-frameworks\n";
+			shellScript = "./bin/copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -871,7 +865,6 @@
 				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/Mac";
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -940,7 +933,6 @@
 				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/Mac";
-				CARTHAGE_SEARCH_PATHS = "/opt/local/bin:/usr/local/bin:/usr/bin:/bin";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1007,7 +999,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "@rpath";
@@ -1026,6 +1017,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Apollo,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1052,7 +1047,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "@rpath";
@@ -1071,6 +1065,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Apollo,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1093,7 +1091,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "";
@@ -1132,7 +1129,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "";
