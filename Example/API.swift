@@ -18,7 +18,7 @@ public final class AllPostsQuery: GraphQLQuery {
 
   public let operationName: String = "AllPosts"
 
-  public var queryDocument: String { return operationDefinition.appending(PostDetails.fragmentDefinition) }
+  public var queryDocument: String { return operationDefinition.appending("\n" + PostDetails.fragmentDefinition) }
 
   public init() {
   }
