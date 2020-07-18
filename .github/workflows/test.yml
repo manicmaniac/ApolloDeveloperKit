@@ -8,48 +8,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        apollo: ["0.28.0", "0.27.1", "0.26.0", "0.25.0"]
+        apollo: ["0.29.0"]
         sdk: ["iphonesimulator", "macosx"]
         include:
-          - apollo: "0.28.0"
+          - apollo: "0.29.0"
             sdk: "iphonesimulator"
             xcode: "11.4"
-            swift: "5.2"
             destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
-          - apollo: "0.27.1"
-            sdk: "iphonesimulator"
-            xcode: "11.4"
-            swift: "5.2"
-            destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
-          - apollo: "0.26.0"
-            sdk: "iphonesimulator"
-            xcode: "11.3"
-            swift: "5.2"
-            destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
-          - apollo: "0.28.0"
+          - apollo: "0.29.0"
             sdk: "macosx"
             xcode: "11.4"
-            swift: "5.2"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.27.1"
-            sdk: "macosx"
-            xcode: "11.4"
-            swift: "5.2"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.26.0"
-            sdk: "macosx"
-            xcode: "11.3"
-            swift: "5.2"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.25.0"
-            sdk: "iphonesimulator"
-            xcode: "11.3"
-            swift: "5.1"
-            destination: "platform=iOS Simulator,OS=13.3,name=iPhone 11"
-          - apollo: "0.25.0"
-            sdk: "macosx"
-            xcode: "11.3"
-            swift: "5.1"
             destination: "platform=OS X,arch=x86_64"
     steps:
       - uses: actions/checkout@v2
@@ -62,13 +30,13 @@ jobs:
       - name: Install dependencies
         run: ./Scripts/quick-install-dependencies -f '${{ matrix.sdk }}'
       - name: Run unit tests
-        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' APOLLO_DEVELOPER_KIT_SWIFT_VERSION=${{ matrix.swift }} | xcpretty
+        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
+        run: sudo xcode-select -s /Applications/Xcode_11.2.1.app/Contents/Developer
       - name: Run install tests
         run: make -C InstallTests carthage
   lint-podspec:
@@ -76,13 +44,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
+        run: sudo xcode-select -s /Applications/Xcode_11.2.1.app/Contents/Developer
       - name: Install dependencies
         run: |
           gem install bundler -v 1.17.3
           bundle install --without documentation --jobs=3 --retry=3
       - name: Lint podspec
-        run: bundle exec pod lib lint --swift-version=5.1 --verbose
+        run: bundle exec pod lib lint --verbose
   frontend-test:
     runs-on: ubuntu-18.04
     steps:

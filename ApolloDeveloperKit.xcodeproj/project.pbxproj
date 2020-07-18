@@ -14,6 +14,11 @@
 		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */; };
 		5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */; };
 		5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */; };
+		5B21028524C2F3D000053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028424C2F3D000053E9D /* ApolloCore.framework */; };
+		5B21028624C2F40400053E9D /* ApolloCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028424C2F3D000053E9D /* ApolloCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B21028724C2F41800053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; };
+		5B21028824C2F41B00053E9D /* ApolloCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B21028924C2F43D00053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; };
 		5B26FC2D22B3DB0800359E63 /* ApolloDeveloperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4322B3DB5800359E63 /* Assets.xcassets */; };
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
@@ -133,6 +138,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5B88CF0B237CDDC4000B97AA /* Apollo.framework in Embed Frameworks */,
+				5B21028624C2F40400053E9D /* ApolloCore.framework in Embed Frameworks */,
 				5B88CF0E237CDDC5000B97AA /* ApolloDeveloperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -145,6 +151,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */,
+				5B21028824C2F41B00053E9D /* ApolloCore.framework in Embed Frameworks */,
 				5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -159,6 +166,8 @@
 		5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockNetworkTransport.swift; sourceTree = "<group>"; };
 		5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponse.swift; sourceTree = "<group>"; };
 		5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponseTests.swift; sourceTree = "<group>"; };
+		5B21028224C2F34E00053E9D /* ApolloCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloCore.framework; path = Carthage/Build/iOS/ApolloCore.framework; sourceTree = "<group>"; };
+		5B21028424C2F3D000053E9D /* ApolloCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloCore.framework; path = Carthage/Build/Mac/ApolloCore.framework; sourceTree = "<group>"; };
 		5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApolloDeveloperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApolloDeveloperKit.h; sourceTree = "<group>"; };
 		5B26FC2022B3DB0800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -190,7 +199,6 @@
 		5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
-		5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ApolloDeveloperKit.xcconfig; sourceTree = "<group>"; };
 		5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+HTTPMessage.swift"; sourceTree = "<group>"; };
 		5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStoreTests.swift; sourceTree = "<group>"; };
 		5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockGraphQLOperations.swift; sourceTree = "<group>"; };
@@ -241,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B0EC96222B6D856003D7933 /* Apollo.framework in Frameworks */,
+				5B21028924C2F43D00053E9D /* ApolloCore.framework in Frameworks */,
 				5B3A837722C674C0002B4FFB /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */,
+				5B21028724C2F41800053E9D /* ApolloCore.framework in Frameworks */,
 				5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B88CF0A237CDDC4000B97AA /* Apollo.framework in Frameworks */,
+				5B21028524C2F3D000053E9D /* ApolloCore.framework in Frameworks */,
 				5B88CF0D237CDDC5000B97AA /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,7 +310,6 @@
 				5B26FC2922B3DB0800359E63 /* Tests */,
 				5BE2442122E0F53E008EDAAD /* InstallTests */,
 				5B26FC3B22B3DB5600359E63 /* Example */,
-				5B4357202337BAD100177AF9 /* Configurations */,
 				5B26FC1D22B3DB0800359E63 /* Products */,
 				5B26FC4E22B3DCF400359E63 /* Frameworks */,
 			);
@@ -353,6 +363,8 @@
 		5B26FC4E22B3DCF400359E63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B21028224C2F34E00053E9D /* ApolloCore.framework */,
+				5B21028424C2F3D000053E9D /* ApolloCore.framework */,
 				5B2F821322B430A80025A211 /* Apollo.framework */,
 				5B88CF07237CDD81000B97AA /* Apollo.framework */,
 			);
@@ -444,14 +456,6 @@
 				5B2E1B28230C2CE0003C85CB /* NetworkInterfaceListTests.swift */,
 			);
 			path = WebServer;
-			sourceTree = "<group>";
-		};
-		5B4357202337BAD100177AF9 /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */,
-			);
-			path = Configurations;
 			sourceTree = "<group>";
 		};
 		5B4F460C2370AAA70039495A /* Console */ = {
@@ -737,6 +741,7 @@
 			);
 			inputPaths = (
 				"$(CARTHAGE_ROOT)/Apollo.framework",
+				"$(CARTHAGE_ROOT)/ApolloCore.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputFileListPaths = (
@@ -878,7 +883,6 @@
 /* Begin XCBuildConfiguration section */
 		5B26FC2E22B3DB0800359E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
@@ -940,6 +944,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -947,7 +952,6 @@
 		};
 		5B26FC2F22B3DB0800359E63 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B4357212337BAF700177AF9 /* ApolloDeveloperKit.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
@@ -1002,6 +1006,7 @@
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1019,6 +1024,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "@rpath";
@@ -1043,7 +1049,6 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				"TARGETED_DEVICE_FAMILY[sdk=iphoneos*]" = "1,2";
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,2";
 				VALID_ARCHS = "";
@@ -1064,6 +1069,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "@rpath";
@@ -1087,7 +1093,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				"TARGETED_DEVICE_FAMILY[sdk=iphoneos*]" = "1,2";
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,2";
 				VALID_ARCHS = "";
@@ -1105,6 +1110,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "";
@@ -1128,7 +1134,6 @@
 				RUBYLIB = "$(SRCROOT)/lib";
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "";
 				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
@@ -1145,6 +1150,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(CARTHAGE_ROOT)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "";
@@ -1167,7 +1173,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUBYLIB = "$(SRCROOT)/lib";
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator";
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "";
 				"VALID_ARCHS[sdk=iphoneos*]" = "arm64 armv7 armv7s";
@@ -1195,7 +1200,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1218,7 +1222,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1240,7 +1243,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 			};
 			name = Debug;
 		};
@@ -1261,7 +1263,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = "$(APOLLO_DEVELOPER_KIT_SWIFT_VERSION)";
 			};
 			name = Release;
 		};
