@@ -9,11 +9,11 @@
 import Darwin
 
 extension ifaddrs {
-    init(name: inout [CChar], flags: Int32, ifa_addr: inout sockaddr) {
+    init<T: BinaryInteger>(name: UnsafeMutablePointer<Int8>, flags: T, addr: UnsafeMutablePointer<sockaddr>) {
         self.init(ifa_next: nil,
-                  ifa_name: &name,
+                  ifa_name: name,
                   ifa_flags: UInt32(flags),
-                  ifa_addr: &ifa_addr,
+                  ifa_addr: addr,
                   ifa_netmask: nil,
                   ifa_dstaddr: nil,
                   ifa_data: nil)

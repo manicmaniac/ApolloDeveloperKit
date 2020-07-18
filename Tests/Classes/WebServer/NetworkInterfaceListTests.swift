@@ -23,9 +23,9 @@ class NetworkInterfaceListTests: XCTestCase {
 
     override func setUp() {
         let flags = IFF_UP | IFF_BROADCAST | IFF_RUNNING | IFF_PROMISC | IFF_SIMPLEX | IFF_MULTICAST
-        en0 = ifaddrs(name: &en0Name, flags: flags, ifa_addr: &socketAddress)
-        en1 = ifaddrs(name: &en1Name, flags: flags, ifa_addr: &socketAddress)
-        en2 = ifaddrs(name: &en2Name, flags: flags, ifa_addr: &socketAddress)
+        en0 = ifaddrs(name: &en0Name, flags: flags, addr: &socketAddress)
+        en1 = ifaddrs(name: &en1Name, flags: flags, addr: &socketAddress)
+        en2 = ifaddrs(name: &en2Name, flags: flags, addr: &socketAddress)
         withUnsafeMutablePointer(to: &en1) { en0.ifa_next = $0 }
         withUnsafeMutablePointer(to: &en2) { en1.ifa_next = $0 }
         self.networkInterfaceList = withUnsafeMutablePointer(to: &en0, NetworkInterfaceList.init(addressPointer:))
