@@ -732,8 +732,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "frameworks_dir=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Frameworks\"\nmkdir \"$frameworks_dir\"\ni=0\nwhile [ $i -lt $SCRIPT_INPUT_FILE_COUNT ]\ndo\n    input_file=\"$(eval printf \\$SCRIPT_INPUT_FILE_$i)\"\n    cp -R \"$input_file\" \"$frameworks_dir\"\n    i=$(expr $i + 1)\ndone\n";
+			shellPath = "/bin/sh -x";
+			shellScript = "frameworks_dir=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Frameworks\"\nmkdir \"$frameworks_dir\"\ni=0\nwhile [ $i -lt $SCRIPT_INPUT_FILE_COUNT ]\ndo\n    input_file=\"$(eval printf \\$SCRIPT_INPUT_FILE_$i)\"\n    framework_path=\"$frameworks_dir/$(basename \"$input_file\")\"\n    cp -R \"$input_file\" \"$framework_path\"\n    if [ x\"$CODE_SIGNING_ALLOWED\" = xYES ]; then\n        codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --preserve-metadata=identifier,entitlements \"$framework_path\"\n    fi\n    i=$(expr $i + 1)\ndone\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
