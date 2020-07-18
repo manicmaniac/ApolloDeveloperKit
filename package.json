@@ -10,6 +10,7 @@
   },
   "author": "Ryosuke Ito <rito.0305@gmail.com>",
   "license": "MIT",
+  "private": true,
   "devDependencies": {
     "@babel/preset-env": "^7.6.3",
     "@types/graphql": "^14.2.1",
