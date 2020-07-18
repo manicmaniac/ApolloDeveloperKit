@@ -31,8 +31,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-      - name: Run build script tests
-        run: RUBYLIB=lib ruby test/apollo_version_test.rb
       - name: Modify Cartfile.resolved
         run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
       - name: Install dependencies
