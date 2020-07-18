@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
+        run: sudo xcode-select -s /Applications/Xcode_11.2.1.app/Contents/Developer
       - name: Run install tests
         run: make -C InstallTests carthage
   lint-podspec:
@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_11.1.app/Contents/Developer
+        run: sudo xcode-select -s /Applications/Xcode_11.2.1.app/Contents/Developer
       - name: Install dependencies
         run: |
           gem install bundler -v 1.17.3
