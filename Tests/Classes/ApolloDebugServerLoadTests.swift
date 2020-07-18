@@ -6,9 +6,6 @@
 //  Copyright © 2019 Ryosuke Ito. All rights reserved.
 //
 
-// <% require 'apollo_version' %>
-// <% apollo_version = ApolloVersion.find! %>
-
 import Apollo
 import XCTest
 @testable import ApolloDeveloperKit
@@ -24,11 +21,7 @@ class ApolloDebugServerLoadTests: XCTestCase {
         let url = URL(string: "https://localhost/graphql")!
         let configuration = URLSessionConfiguration.test
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
-        // <% if apollo_version >= '0.27.0' %>
         let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, client: URLSessionClient(sessionConfiguration: configuration), sendOperationIdentifiers: false))
-        // <% else %>
-        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, session: URLSession(configuration: configuration), sendOperationIdentifiers: false))
-        // <% end %>
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         store = ApolloStore(cache: cache)
         client = ApolloClient(networkTransport: networkTransport, store: store)
