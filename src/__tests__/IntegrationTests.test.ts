@@ -1,4 +1,4 @@
-import {} from 'apollo-client-devtools';
+import {} from '../types/apollo-client-devtools';
 import Bridge from 'apollo-client-devtools/src/bridge';
 import { initBackend } from 'apollo-client-devtools/src/backend';
 import { installHook } from 'apollo-client-devtools/src/backend/hook';
