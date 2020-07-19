@@ -2,21 +2,21 @@
   "warnings": [
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
-      "line": 348,
+      "line": 344,
       "symbol": "ApolloDebugServer.normalizedCache(_:didChangeRecords:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
-      "line": 359,
+      "line": 355,
       "symbol": "ApolloDebugServer.networkTransport(_:willSendOperation:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
-      "line": 368,
+      "line": 364,
       "symbol": "ApolloDebugServer.networkTransport(_:didSendOperation:result:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -30,22 +30,8 @@
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 48,
-      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:callbackQueue:completion:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 52,
-      "symbol": "DebuggableNormalizedCache.merge(records:callbackQueue:completion:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 58,
-      "symbol": "DebuggableNormalizedCache.clear(callbackQueue:completion:)",
+      "line": 69,
+      "symbol": "DebuggableNormalizedCache.clearImmediately()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
