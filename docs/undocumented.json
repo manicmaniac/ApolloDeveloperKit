@@ -1,24 +1,59 @@
 {
   "warnings": [
     {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
+      "line": 348,
+      "symbol": "ApolloDebugServer.normalizedCache(_:didChangeRecords:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
+      "line": 359,
+      "symbol": "ApolloDebugServer.networkTransport(_:willSendOperation:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/ApolloDebugServer.swift",
+      "line": 368,
+      "symbol": "ApolloDebugServer.networkTransport(_:didSendOperation:result:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/Console/ConsoleRedirection.swift",
+      "line": 13,
+      "symbol": "Notification.Name.consoleDidWrite",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 59,
-      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:)",
+      "line": 48,
+      "symbol": "DebuggableNormalizedCache.loadRecords(forKeys:callbackQueue:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 64,
-      "symbol": "DebuggableNormalizedCache.merge(records:)",
+      "line": 52,
+      "symbol": "DebuggableNormalizedCache.merge(records:callbackQueue:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/DebuggableNormalizedCache.swift",
-      "line": 71,
-      "symbol": "DebuggableNormalizedCache.clear()",
+      "line": 58,
+      "symbol": "DebuggableNormalizedCache.clear(callbackQueue:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/JSON/JSError.swift",
+      "line": 47,
+      "symbol": "JSError.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
@@ -113,10 +148,94 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/Store/InMemoryOperationStore.swift",
+      "line": 75,
+      "symbol": "InMemoryOperationStore.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/Store/OperationStoreController.swift",
+      "line": 34,
+      "symbol": "OperationStoreController.networkTransport(_:willSendOperation:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/Store/OperationStoreController.swift",
+      "line": 40,
+      "symbol": "OperationStoreController.networkTransport(_:didSendOperation:result:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPConnection.swift",
+      "line": 86,
+      "symbol": "HTTPConnection.socket(_:didAccept:address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPConnection.swift",
+      "line": 90,
+      "symbol": "HTTPConnection.socket(_:didReceive:address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServer.swift",
+      "line": 167,
+      "symbol": "HTTPServer.httpConnection(_:didReceive:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServer.swift",
+      "line": 171,
+      "symbol": "HTTPServer.httpConnectionWillClose(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServer.swift",
+      "line": 175,
+      "symbol": "HTTPServer.httpConnection(_:didFailToHandle:error:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServer.swift",
+      "line": 183,
+      "symbol": "HTTPServer.socket(_:didAccept:address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServer.swift",
+      "line": 192,
+      "symbol": "HTTPServer.socket(_:didReceive:address:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/HTTPServerError.swift",
       "line": 17,
       "symbol": "HTTPServerError.unsupportedBodyEncoding(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/Classes/WebServer/URLRequest+HTTPMessage.swift",
+      "line": 12,
+      "symbol": "URLRequest.init(httpMessage:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Tests/Classes/TestHelpers/URLSessionConfiguration+Test.swift",
+      "line": 12,
+      "symbol": "URLSessionConfiguration.test",
+      "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     }
   ],
