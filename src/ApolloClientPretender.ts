@@ -63,23 +63,23 @@ export default class ApolloClientPretender implements DataProxy {
   private devToolsHookCb?: (event: ApolloStateChangeEvent) => void
   private eventSource?: EventSource
 
-  public readQuery(options: DataProxy.Query<any>, optimistic: boolean = false): null {
+  public readQuery(options: DataProxy.Query<unknown>, optimistic = false): null {
     return this.cache.readQuery(options, optimistic)
   }
 
-  public readFragment(options: DataProxy.Fragment<any>, optimistic: boolean = false): null {
+  public readFragment(options: DataProxy.Fragment<unknown>, optimistic = false): null {
     return this.cache.readFragment(options, optimistic)
   }
 
-  public writeQuery(options: DataProxy.WriteQueryOptions<any, any>): void {
+  public writeQuery(options: DataProxy.WriteQueryOptions<unknown, unknown>): void {
     this.cache.writeQuery(options)
   }
 
-  public writeFragment(options: DataProxy.WriteFragmentOptions<any, any>): void {
+  public writeFragment(options: DataProxy.WriteFragmentOptions<unknown, unknown>): void {
     this.cache.writeFragment(options)
   }
 
-  public writeData(options: DataProxy.WriteDataOptions<any>): void {
+  public writeData(options: DataProxy.WriteDataOptions<unknown>): void {
     this.cache.writeData(options)
   }
 
@@ -109,11 +109,11 @@ function onLogMessageReceived(event: MessageEvent): void {
 
 function parseApolloStateChangeEvent(json: string): ApolloStateChangeEvent {
   const event = JSON.parse(json)
-  for (let query of Object.values(event.state.queries) as [{document: any}]) {
-    query.document = parse(query.document)
+  for (let query of Object.values(event.state.queries) as [{document: string | DocumentNode}]) {
+    query.document = parse(query.document as string)
   }
-  for (let mutation of Object.values(event.state.mutations) as [{mutation: any}]) {
-    mutation.mutation = parse(mutation.mutation)
+  for (let mutation of Object.values(event.state.mutations) as [{mutation: string | DocumentNode}]) {
+    mutation.mutation = parse(mutation.mutation as string)
   }
   return event as ApolloStateChangeEvent
 }

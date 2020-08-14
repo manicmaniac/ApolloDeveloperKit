@@ -1,5 +1,7 @@
 import { ApolloCache, Cache, Transaction } from 'apollo-cache'
 
+type CacheObject = {}
+
 export default class ApolloCachePretender extends ApolloCache<object> {
   private onExtract?: () => void
 
@@ -8,14 +10,14 @@ export default class ApolloCachePretender extends ApolloCache<object> {
     this.onExtract = onExtract
   }
 
-  read(query: Cache.ReadOptions<any>): null {
+  read(query: Cache.ReadOptions<unknown>): null {
     return null
   }
 
-  write(write: Cache.WriteOptions) {
+  write(write: Cache.WriteOptions): void {
   }
 
-  diff(query: Cache.DiffOptions): Cache.DiffResult<any> {
+  diff<T>(query: Cache.DiffOptions): Cache.DiffResult<T> {
     return {}
   }
 
@@ -35,17 +37,17 @@ export default class ApolloCachePretender extends ApolloCache<object> {
     return this
   }
 
-  extract(optimistic: boolean = false): object {
+  extract(optimistic: boolean = false): CacheObject {
     this.onExtract?.()
     return {}
   }
 
-  removeOptimistic(id: string) {
+  removeOptimistic(id: string): void {
   }
 
-  performTransaction(transaction: Transaction<object>) {
+  performTransaction(transaction: Transaction<object>): void {
   }
 
-  recordOptimisticTransaction(transaction: Transaction<object>, id: string) {
+  recordOptimisticTransaction(transaction: Transaction<object>, id: string): void {
   }
 }

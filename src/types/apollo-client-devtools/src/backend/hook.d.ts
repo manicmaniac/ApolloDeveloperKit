@@ -1,7 +1,7 @@
 export function installHook(window: Window, devToolsVersion: string): void
 
 export interface Hook {
-  ApolloClient: any
+  ApolloClient: unknown
   actionLog: string[]
   devToolsVersion: string
   on(event: string, fn: Function): void

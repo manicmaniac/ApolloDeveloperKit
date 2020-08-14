@@ -9,6 +9,6 @@ interface Wall {
 
 export default class Bridge extends EventEmitter {
   constructor(wall: Wall)
-  send(event: string, payload: any): void
+  send(event: string, payload: unknown): void
   log(message: string): void
 }
