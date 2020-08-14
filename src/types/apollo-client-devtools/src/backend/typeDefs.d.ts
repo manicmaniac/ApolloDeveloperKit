@@ -1,1 +1,1 @@
-export function buildSchemasFromTypeDefs(typeDefs: string | object): [{ definition: string, directives: string }];
+export function buildSchemasFromTypeDefs(typeDefs: string | object): [{ definition: string, directives: string }]
