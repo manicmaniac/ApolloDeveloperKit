@@ -1,26 +1,41 @@
 import { DocumentNode } from 'apollo-link'
 
+type Variables = {
+  [key: string]: any
+}
+
+type CacheStorage = {
+  [key: string]: Record
+}
+
+type Record = {
+  key: string
+  fields: {
+    [key: string]: any
+  }
+}
+
+type Query = {
+  document: string | DocumentNode,
+  variables?: Variables,
+  previousVariables?: Variables,
+  networkError?: Error,
+  graphQLErrors?: [Error]
+}
+
+type Mutation = {
+  mutation: string | DocumentNode,
+  variables?: Variables,
+  loading: boolean,
+  error?: Error
+}
+
 type ApolloStateChangeEvent = {
   state: {
-    queries: {
-      string: {
-        document: DocumentNode,
-        variables?: object,
-        previousVariables?: object,
-        networkError?: object,
-        graphQLErrors?: [object]
-      }
-    },
-    mutations: {
-      string: {
-        mutation: DocumentNode,
-        variables?: object,
-        loading: boolean,
-        error?: object
-      }
-    }
+    queries: {[key: string]: Query},
+    mutations: {[key: string]: Mutation}
   },
-  dataWithOptimisticResults: object
+  dataWithOptimisticResults: CacheStorage
 }
 
 export default ApolloStateChangeEvent

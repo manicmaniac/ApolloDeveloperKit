@@ -1,6 +1,6 @@
 import { parse } from 'graphql/language/parser'
 import { print } from 'graphql/language/printer'
-import { ApolloLink, Observable, RequestHandler, DocumentNode } from 'apollo-link'
+import { ApolloLink, Observable, RequestHandler } from 'apollo-link'
 import { ApolloCache, DataProxy } from 'apollo-cache'
 import ApolloCachePretender from './ApolloCachePretender'
 import ApolloStateChangeEvent from './ApolloStateChangeEvent'
@@ -86,11 +86,11 @@ function onLogMessageReceived(event: MessageEvent): void {
 }
 
 function parseApolloStateChangeEvent(json: string): ApolloStateChangeEvent {
-  const event = JSON.parse(json)
-  for (let query of Object.values(event.state.queries) as [{document: string | DocumentNode}]) {
+  const event = JSON.parse(json) as ApolloStateChangeEvent
+  for (let query of Object.values(event.state.queries)) {
     query.document = parse(query.document as string)
   }
-  for (let mutation of Object.values(event.state.mutations) as [{mutation: string | DocumentNode}]) {
+  for (let mutation of Object.values(event.state.mutations)) {
     mutation.mutation = parse(mutation.mutation as string)
   }
   return event as ApolloStateChangeEvent
