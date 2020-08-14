@@ -3,29 +3,7 @@ import { print } from 'graphql/language/printer'
 import { ApolloLink, Observable, RequestHandler, DocumentNode } from 'apollo-link'
 import { ApolloCache, DataProxy } from 'apollo-cache'
 import ApolloCachePretender from './ApolloCachePretender'
-
-interface ApolloStateChangeEvent {
-  state: {
-    queries: {
-      string: {
-        document: DocumentNode,
-        variables?: object,
-        previousVariables?: object,
-        networkError?: object,
-        graphQLErrors?: [object]
-      }
-    },
-    mutations: {
-      string: {
-        mutation: DocumentNode,
-        variables?: object,
-        loading: boolean,
-        error?: object
-      }
-    }
-  },
-  dataWithOptimisticResults: object
-}
+import ApolloStateChangeEvent from './ApolloStateChangeEvent'
 
 const requestHandler: RequestHandler = (operation, _forward) => {
   return new Observable(observer => {
