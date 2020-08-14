@@ -36,7 +36,7 @@ const requestHandler: RequestHandler = (operation, _forward) => {
 export default class ApolloClientPretender implements DataProxy {
   public readonly version = '2.0.0'
   public readonly link: ApolloLink = new ApolloLink(requestHandler)
-  public readonly cache: ApolloCache<object> = new ApolloCachePretender(this.startListening.bind(this))
+  public readonly cache: ApolloCache<unknown> = new ApolloCachePretender(this.startListening.bind(this))
 
   private devToolsHookCb?: (event: ApolloStateChangeEvent) => void
   private eventSource?: EventSource
