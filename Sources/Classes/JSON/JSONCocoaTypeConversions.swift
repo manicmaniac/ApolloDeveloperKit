@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import Foundation
 
 /**
  * `Apollo` has its own utility extensions to convert Swift standard types to JSON object and uses it widely in the project.
@@ -37,13 +38,13 @@ extension NSNumber: JSONEncodable {
 
 extension NSDictionary: JSONEncodable {
     public var jsonValue: JSONValue {
-        return (self as! [AnyHashable: Any]).jsonValue
+        return (self as [NSObject: AnyObject]).jsonValue
     }
 }
 
 extension NSArray: JSONEncodable {
     public var jsonValue: JSONValue {
-        return (self as! [Any]).jsonValue
+        return (self as [AnyObject]).jsonValue
     }
 }
 
