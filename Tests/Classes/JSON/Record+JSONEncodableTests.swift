@@ -70,17 +70,17 @@ class Record_JSONEncodableTests: XCTestCase {
             "CFArray<CFArray<CFNumber>>": [[0 as CFNumber, 42 as CFNumber] as CFArray] as CFArray,
             "CFDictionary<CFString, CFString>": ["foo" as CFString: "bar" as CFString] as CFDictionary
         ])
-        guard let object = record.jsonValue as? [String: Any] else {
+        guard let object = record.jsonValue as? [String: CFTypeRef] else {
             return XCTFail()
         }
-        XCTAssertEqual(object["CFString"] as! CFString, "foo" as CFString)
-        XCTAssertEqual(object["CFNumber-Int"] as! CFNumber, 42 as CFNumber)
-        XCTAssertEqual(object["CFNumber-Double"] as! CFNumber, 1.5 as CFNumber)
-        XCTAssertEqual(object["CFBoolean"] as! CFBoolean, true as CFBoolean)
-        XCTAssertEqual(object["CFNull"] as! CFNull, kCFNull!)
-        XCTAssertEqual(object["CFArray<CFString>"] as! CFArray, ["foo" as CFString, "bar" as CFString] as CFArray)
-        XCTAssertEqual(object["CFArray<CFArray<CFNumber>>"] as! CFArray, [[0 as CFNumber, 42 as CFNumber] as CFArray] as CFArray)
-        XCTAssertEqual(object["CFDictionary<CFString, CFString>"] as! CFDictionary, ["foo" as CFString: "bar" as CFString] as CFDictionary)
+        XCTAssert(CFEqual(object["CFString"], "foo" as CFString))
+        XCTAssert(CFEqual(object["CFNumber-Int"], 42 as CFNumber))
+        XCTAssert(CFEqual(object["CFNumber-Double"], 1.5 as CFNumber))
+        XCTAssert(CFEqual(object["CFBoolean"], true as CFBoolean))
+        XCTAssert(CFEqual(object["CFNull"], kCFNull))
+        XCTAssert(CFEqual(object["CFArray<CFString>"], ["foo" as CFString, "bar" as CFString] as CFArray))
+        XCTAssert(CFEqual(object["CFArray<CFArray<CFNumber>>"], [[0 as CFNumber, 42 as CFNumber] as CFArray] as CFArray))
+        XCTAssert(CFEqual(object["CFDictionary<CFString, CFString>"], ["foo" as CFString: "bar" as CFString] as CFDictionary))
     }
 
     func testJSONValue_whenValueIsHybridType() {
