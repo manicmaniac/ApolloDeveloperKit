@@ -24,7 +24,8 @@ final class HTTPMessage {
 
     convenience init(httpURLResponse: HTTPURLResponse, httpVersion: String) {
         self.init(statusCode: httpURLResponse.statusCode, httpVersion: httpVersion)
-        for (headerField, value) in httpURLResponse.allHeaderFields as! [String: String] {
+        assert(httpURLResponse.allHeaderFields is [String: String], "Just in case API changes")
+        for case (let headerField as String, let value as String) in httpURLResponse.allHeaderFields {
             self.setValue(value, for: headerField)
         }
     }
