@@ -57,8 +57,8 @@ private class ConsoleRedirectionDelegateHandler {
 
     @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
         let console = notification.object as! ConsoleRedirection
-        let data = notification.userInfo?[consoleDataKey] as! Data
-        let destination = notification.userInfo?[consoleDestinationKey] as! ConsoleRedirection.Destination
+        let data = notification.userInfo?["data"] as! Data
+        let destination = notification.userInfo?["destination"] as! ConsoleRedirection.Destination
         consoleDidWriteDataToDestinationCallback?(console, data, destination)
     }
 }

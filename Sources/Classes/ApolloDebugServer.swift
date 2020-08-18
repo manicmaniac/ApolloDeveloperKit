@@ -168,12 +168,10 @@ public class ApolloDebugServer {
      * It is only visible for testing purpose.
      */
     @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
-        guard notification.object as? ConsoleRedirection === ConsoleRedirection.shared else { return }
-        let data = notification.userInfo![consoleDataKey] as! Data
-        let destination = notification.userInfo![consoleDestinationKey] as! ConsoleRedirection.Destination
-        guard let message = String(data: data, encoding: .utf8) else { return }
+        guard let notification = ConsoleDidWriteNotification(rawValue: notification) else { return }
+        guard let message = String(data: notification.data, encoding: .utf8) else { return }
         let envelopedMessage = "data: " + message.replacingOccurrences(of: "\n", with: "\ndata: ")
-        let payload = "event: \(eventName(for: destination))\n\(envelopedMessage)\n\n"
+        let payload = "event: \(eventName(for: notification.destination))\n\(envelopedMessage)\n\n"
         let chunk = HTTPChunkedResponse(string: payload)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)

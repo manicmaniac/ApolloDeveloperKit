@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B0051112308848E00B9B2B2 /* NetworkInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0051102308848E00B9B2B2 /* NetworkInterface.swift */; };
 		5B0051132309125F00B9B2B2 /* NetworkInterfaceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */; };
+		5B05890824EB53220071DB57 /* ConsoleDidWriteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */; };
 		5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */; };
 		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */; };
 		5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */; };
@@ -143,6 +144,7 @@
 /* Begin PBXFileReference section */
 		5B0051102308848E00B9B2B2 /* NetworkInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterface.swift; sourceTree = "<group>"; };
 		5B0051122309125F00B9B2B2 /* NetworkInterfaceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkInterfaceList.swift; sourceTree = "<group>"; };
+		5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleDidWriteNotification.swift; sourceTree = "<group>"; };
 		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
 		5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockNetworkTransport.swift; sourceTree = "<group>"; };
 		5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponse.swift; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 			isa = PBXGroup;
 			children = (
 				5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */,
+				5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */,
 				5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */,
 				5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */,
 			);
@@ -754,6 +757,7 @@
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */,
 				5B9B3F8724060F30007E1A8B /* HTTPMessage.swift in Sources */,
+				5B05890824EB53220071DB57 /* ConsoleDidWriteNotification.swift in Sources */,
 				5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */,
 				5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */,
 				5BF045FD22B6E62D0083A52D /* JSError.swift in Sources */,

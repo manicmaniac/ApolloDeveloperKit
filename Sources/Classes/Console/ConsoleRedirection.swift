@@ -8,14 +8,6 @@
 
 import Foundation
 
-extension Notification.Name {
-    // `userInfo` will be [consoleDataKey: Data, consoleDestinationKey: ConsoleRedirection.Destination]
-    static let consoleDidWrite = Notification.Name("ADKConsoleDidWriteNotification")
-}
-
-let consoleDataKey = "data"
-let consoleDestinationKey = "destination"
-
 /**
  * `ConsoleRedirection` is a class responsible for manipulating file descriptors and notify its delegate when the files are written.
  */
@@ -90,11 +82,11 @@ final class ConsoleRedirection {
         self.standardErrorFileDescriptor = duplicator.dup(STDERR_FILENO)
         duplicator.dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
         standardOutputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
-            self?.standardOutputPipeWillRead(fileHandle)
+            try? self?.standardOutputPipeWillRead(fileHandle)
         }
         duplicator.dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
         standardErrorPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
-            self?.standardErrorPipeWillRead(fileHandle)
+            try? self?.standardErrorPipeWillRead(fileHandle)
         }
     }
 
@@ -107,31 +99,39 @@ final class ConsoleRedirection {
         }
     }
 
-    private func standardOutputPipeWillRead(_ fileHandle: FileHandle) {
+    private func standardOutputPipeWillRead(_ fileHandle: FileHandle) throws {
         guard let standardOutputFileDescriptor = standardOutputFileDescriptor else { return }
-        let data = fileHandle.availableData as NSData
-        let written = write(standardOutputFileDescriptor, data.bytes, data.length)
-        assert(written >= 0)
+        let data = fileHandle.availableData
+        let written = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
+            guard let baseAddress = bytes.baseAddress else { return 0 }
+            return write(standardOutputFileDescriptor, baseAddress, bytes.count)
+        }
+        assert(written >= -1)
+        if written == -1 {
+            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
+        }
         queue.async { [weak self] in
             guard let self = self else { return }
-            self.notificationCenter.post(name: .consoleDidWrite, object: self, userInfo: [
-                consoleDataKey: data,
-                consoleDestinationKey: Destination.standardOutput
-            ])
+            let notification = ConsoleDidWriteNotification(object: self, data: data, destination: .standardOutput)
+            self.notificationCenter.post(notification.rawValue)
         }
     }
 
-    private func standardErrorPipeWillRead(_ fileHandle: FileHandle) {
+    private func standardErrorPipeWillRead(_ fileHandle: FileHandle) throws {
         guard let standardErrorFileDescriptor = standardErrorFileDescriptor else { return }
-        let data = fileHandle.availableData as NSData
-        let written = write(standardErrorFileDescriptor, data.bytes, data.length)
-        assert(written >= 0)
+        let data = fileHandle.availableData
+        let written = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
+            guard let baseAddress = bytes.baseAddress else { return 0 }
+            return write(standardErrorFileDescriptor, baseAddress, data.count)
+        }
+        assert(written >= -1)
+        if written == -1 {
+            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
+        }
         queue.async { [weak self] in
             guard let self = self else { return }
-            self.notificationCenter.post(name: .consoleDidWrite, object: self, userInfo: [
-                consoleDataKey: data,
-                consoleDestinationKey: Destination.standardError
-            ])
+            let notification = ConsoleDidWriteNotification(object: self, data: data, destination: .standardError)
+            self.notificationCenter.post(notification.rawValue)
         }
     }
 }
