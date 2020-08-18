@@ -18,7 +18,6 @@ final class ConsoleRedirection {
     }
 
     private(set) static var shared = ConsoleRedirection(notificationCenter: .default, queue: .main, duplicator: defaultFileDescriptorDuplicator)
-    private static let sharedInstanceLock = NSLock()
     private static let defaultFileDescriptorDuplicator = DarwinFileDescriptorDuplicator()
 
     private let notificationCenter: NotificationCenter
@@ -30,17 +29,6 @@ final class ConsoleRedirection {
     private var standardOutputFileDescriptor: Int32?
     private var standardErrorFileDescriptor: Int32?
     private var observersCount = 0
-
-    /**
-     * Set a given instance to be shared singleton instance.
-     *
-     * DO NOT use this method. It is only visible for testing purpose.
-     */
-    static func setShared(_ consoleRedirection: ConsoleRedirection) {
-        sharedInstanceLock.lock()
-        defer { sharedInstanceLock.unlock() }
-        shared = consoleRedirection
-    }
 
     /**
      * Initialize a new instance of `ConsoleRedirection`.
@@ -82,11 +70,11 @@ final class ConsoleRedirection {
         self.standardErrorFileDescriptor = duplicator.dup(STDERR_FILENO)
         duplicator.dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
         standardOutputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
-            try? self?.standardOutputPipeWillRead(fileHandle)
+            try? self?.postNotificationAfterCopying(from: fileHandle, to: .standardOutput)
         }
         duplicator.dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
         standardErrorPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
-            try? self?.standardErrorPipeWillRead(fileHandle)
+            try? self?.postNotificationAfterCopying(from: fileHandle, to: .standardError)
         }
     }
 
@@ -99,12 +87,12 @@ final class ConsoleRedirection {
         }
     }
 
-    private func standardOutputPipeWillRead(_ fileHandle: FileHandle) throws {
-        guard let standardOutputFileDescriptor = standardOutputFileDescriptor else { return }
+    private func postNotificationAfterCopying(from fileHandle: FileHandle, to destination: Destination) throws {
+        guard let fileDescriptor = self.fileDescriptor(for: destination) else { return }
         let data = fileHandle.availableData
         let written = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
             guard let baseAddress = bytes.baseAddress else { return 0 }
-            return write(standardOutputFileDescriptor, baseAddress, bytes.count)
+            return write(fileDescriptor, baseAddress, data.count)
         }
         assert(written >= -1)
         if written == -1 {
@@ -112,26 +100,17 @@ final class ConsoleRedirection {
         }
         queue.async { [weak self] in
             guard let self = self else { return }
-            let notification = ConsoleDidWriteNotification(object: self, data: data, destination: .standardOutput)
+            let notification = ConsoleDidWriteNotification(object: self, data: data, destination: destination)
             self.notificationCenter.post(notification.rawValue)
         }
     }
 
-    private func standardErrorPipeWillRead(_ fileHandle: FileHandle) throws {
-        guard let standardErrorFileDescriptor = standardErrorFileDescriptor else { return }
-        let data = fileHandle.availableData
-        let written = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
-            guard let baseAddress = bytes.baseAddress else { return 0 }
-            return write(standardErrorFileDescriptor, baseAddress, data.count)
-        }
-        assert(written >= -1)
-        if written == -1 {
-            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
-        }
-        queue.async { [weak self] in
-            guard let self = self else { return }
-            let notification = ConsoleDidWriteNotification(object: self, data: data, destination: .standardError)
-            self.notificationCenter.post(notification.rawValue)
+    private func fileDescriptor(for destination: Destination) -> Int32? {
+        switch destination {
+        case .standardOutput:
+            return standardOutputFileDescriptor
+        case .standardError:
+            return standardErrorFileDescriptor
         }
     }
 }
