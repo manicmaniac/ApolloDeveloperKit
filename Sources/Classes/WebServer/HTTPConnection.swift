@@ -20,7 +20,7 @@ protocol HTTPConnectionDelegate: class {
 class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
-    private let incomingRequest = HTTPMessage(isRequest: true)
+    private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
 
     init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
@@ -40,13 +40,12 @@ class HTTPConnection {
     }
 
     func write(response: HTTPURLResponse, body: Data?) {
-        let message = HTTPMessage(httpURLResponse: response, httpVersion: httpVersion)
-        message.body = body
+        let message = HTTPResponseMessage(httpURLResponse: response, httpVersion: httpVersion)
+        message.setBody(body)
         write(message: message)
     }
 
-    func write(message: HTTPMessage) {
-        assert(!message.isRequest)
+    func write(message: HTTPResponseMessage) {
         assert(message.isHeaderComplete)
         guard let data = message.serialize() else {
             return

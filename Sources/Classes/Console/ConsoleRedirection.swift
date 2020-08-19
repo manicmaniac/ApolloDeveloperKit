@@ -91,7 +91,10 @@ final class ConsoleRedirection {
         guard let fileDescriptor = self.fileDescriptor(for: destination) else { return }
         let data = fileHandle.availableData
         let written = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
-            guard let baseAddress = bytes.baseAddress else { return 0 }
+            guard let baseAddress = bytes.baseAddress else {
+                // I think data.withUnsafeBytes doesn't pass a null pointer but just in case, ignore it.
+                return 0
+            }
             return write(fileDescriptor, baseAddress, data.count)
         }
         assert(written >= -1)

@@ -9,8 +9,7 @@
 import Foundation
 
 extension URLRequest {
-    init(httpMessage: HTTPMessage) {
-        assert(httpMessage.isRequest)
+    init(httpMessage: HTTPRequestMessage) {
         self.init(url: httpMessage.requestURL!)
         self.httpMethod = httpMessage.requestMethod
         self.allHTTPHeaderFields = httpMessage.allHeaderFields
