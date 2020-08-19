@@ -17,7 +17,7 @@ protocol HTTPConnectionDelegate: class {
 /**
  * `HTTPConnection` represents an individual connection of HTTP transmissions.
  */
-class HTTPConnection {
+final class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
     private let incomingRequest = HTTPRequestMessage()
