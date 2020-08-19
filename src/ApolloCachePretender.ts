@@ -1,51 +1,53 @@
-import { ApolloCache, Cache, Transaction } from 'apollo-cache';
+import { ApolloCache, Cache, Transaction } from 'apollo-cache'
 
-export default class ApolloCachePretender extends ApolloCache<object> {
-    private onExtract?: () => void;
+type CacheObject = {}
 
-    constructor(onExtract?: () => void) {
-        super();
-        this.onExtract = onExtract;
-    }
+export default class ApolloCachePretender extends ApolloCache<unknown> {
+  private onExtract?: () => void
 
-    read(query: Cache.ReadOptions<any>): null {
-        return null;
-    }
+  constructor(onExtract?: () => void) {
+    super()
+    this.onExtract = onExtract
+  }
 
-    write(write: Cache.WriteOptions) {
-    }
+  read(_query: Cache.ReadOptions<unknown>): null {
+    return null
+  }
 
-    diff(query: Cache.DiffOptions): Cache.DiffResult<any> {
-        return {};
-    }
+  write(_write: Cache.WriteOptions): void {
+  }
 
-    watch(watch: Cache.WatchOptions): () => void {
-        return () => {};
-    }
+  diff<T>(_query: Cache.DiffOptions): Cache.DiffResult<T> {
+    return {}
+  }
 
-    evict(query: Cache.EvictOptions): Cache.EvictionResult {
-        return { success: false };
-    }
+  watch(_watch: Cache.WatchOptions): () => void {
+    return () => {}
+  }
 
-    reset(): Promise<void> {
-        return new Promise(() => {});
-    }
+  evict(_query: Cache.EvictOptions): Cache.EvictionResult {
+    return { success: true }
+  }
 
-    restore(serializedState: object): ApolloCache<object> {
-        return this;
-    }
+  reset(): Promise<void> {
+    return Promise.resolve()
+  }
 
-    extract(optimistic: boolean = false): object {
-        this.onExtract?.();
-        return {};
-    }
+  restore(_serializedState: unknown): ApolloCache<unknown> {
+    return this
+  }
 
-    removeOptimistic(id: string) {
-    }
+  extract(_optimistic = false): CacheObject {
+    this.onExtract?.()
+    return {}
+  }
 
-    performTransaction(transaction: Transaction<object>) {
-    }
+  removeOptimistic(_id: string): void {
+  }
 
-    recordOptimisticTransaction(transaction: Transaction<object>, id: string) {
-    }
+  performTransaction(_transaction: Transaction<unknown>): void {
+  }
+
+  recordOptimisticTransaction(_transaction: Transaction<unknown>, id: string): void {
+  }
 }
