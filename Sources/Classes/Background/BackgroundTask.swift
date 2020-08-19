@@ -39,7 +39,7 @@ final class BackgroundTask {
     }
 }
 #else
-class BackgroundTask {
+final class BackgroundTask {
     func beginBackgroundTaskIfPossible() {
     }
 }

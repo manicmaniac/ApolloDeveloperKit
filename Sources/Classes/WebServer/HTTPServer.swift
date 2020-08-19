@@ -50,7 +50,7 @@ protocol HTTPServerDelegate: class {
  *
  * - SeeAlso: https://www.cocoawithlove.com/2009/07/simple-extensible-http-server-in-cocoa.html
  */
-class HTTPServer {
+final class HTTPServer {
     weak var delegate: HTTPServerDelegate?
 
     /**

@@ -10,7 +10,6 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class ConsoleRedirectionTests: XCTestCase {
-    private let previousConsoleRedirection = ConsoleRedirection.shared
     private var notificationCenter: NotificationCenter!
     private var delegateHandler: ConsoleRedirectionDelegateHandler!
     private var mockDuplicator: MockFileDescriptorDuplicator!
@@ -19,16 +18,10 @@ class ConsoleRedirectionTests: XCTestCase {
         notificationCenter = NotificationCenter()
         delegateHandler = ConsoleRedirectionDelegateHandler()
         mockDuplicator = MockFileDescriptorDuplicator()
-        let consoleRedirection = ConsoleRedirection(notificationCenter: notificationCenter, queue: .main, duplicator: mockDuplicator)
-        ConsoleRedirection.setShared(consoleRedirection)
-    }
-
-    override func tearDown() {
-        ConsoleRedirection.setShared(previousConsoleRedirection)
     }
 
     func testInit() {
-        let consoleRedirection = ConsoleRedirection.shared
+        let consoleRedirection = ConsoleRedirection(notificationCenter: notificationCenter, queue: .main, duplicator: mockDuplicator)
         consoleRedirection.addObserver(delegateHandler!, selector: #selector(delegateHandler.didReceiveConsoleDidWriteNotification(_:)))
         XCTAssertEqual(mockDuplicator.dupInvocationHistory, [1, 2])
         guard mockDuplicator.dup2InvocationHistory.count == 2 else {
@@ -40,7 +33,7 @@ class ConsoleRedirectionTests: XCTestCase {
     }
 
     func testDeinit() {
-        let consoleRedirection = ConsoleRedirection.shared
+        let consoleRedirection = ConsoleRedirection(notificationCenter: notificationCenter, queue: .main, duplicator: mockDuplicator)
         consoleRedirection.addObserver(delegateHandler!, selector: #selector(delegateHandler.didReceiveConsoleDidWriteNotification(_:)))
         mockDuplicator.clearInvocationHistory()
         consoleRedirection.removeObserver(delegateHandler!)
@@ -57,8 +50,8 @@ private class ConsoleRedirectionDelegateHandler {
 
     @objc func didReceiveConsoleDidWriteNotification(_ notification: Notification) {
         let console = notification.object as! ConsoleRedirection
-        let data = notification.userInfo?[consoleDataKey] as! Data
-        let destination = notification.userInfo?[consoleDestinationKey] as! ConsoleRedirection.Destination
+        let data = notification.userInfo?["data"] as! Data
+        let destination = notification.userInfo?["destination"] as! ConsoleRedirection.Destination
         consoleDidWriteDataToDestinationCallback?(console, data, destination)
     }
 }

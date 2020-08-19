@@ -76,8 +76,8 @@ class ApolloDebugServerTests: XCTestCase {
         webView.loadHTMLString(html, baseURL: server.serverURL!)
         wait(for: [expectationOnMessage], timeout: 5.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
-            consoleDataKey: consoleMessage.data(using: .utf8)!,
-            consoleDestinationKey: ConsoleRedirection.Destination.standardOutput
+            "data": consoleMessage.data(using: .utf8)!,
+            "destination": ConsoleRedirection.Destination.standardOutput
         ])
         server.didReceiveConsoleDidWriteNotification(notification)
         wait(for: [expectationOnStdout], timeout: 5.0)
