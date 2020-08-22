@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode=development",
     "dist": "webpack --mode=production",
-    "test": "jest"
+    "test": "jest",
+    "generate:type:swift": "quicktype -l swift --just-types -t Schema -s schema -o Sources/Classes/JSON/Schema.swift src/ApolloDeveloperKit.schema.json"
   },
   "author": "Ryosuke Ito <rito.0305@gmail.com>",
   "license": "MIT",
