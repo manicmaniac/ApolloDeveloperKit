@@ -7,6 +7,7 @@
     "build": "webpack --mode=development",
     "dist": "webpack --mode=production",
     "test": "jest",
+    "generate:type": "npm run generate:type:swift & npm run generate:type:typescript & wait",
     "generate:type:swift": "quicktype -l swift --just-types -t Schema -s schema -o Sources/Classes/JSON/Schema.swift src/ApolloDeveloperKit.schema.json",
     "generate:type:typescript": "quicktype -l typescript --just-types -t Schema -s schema -o src/types/apollo-developer-kit/index.d.ts src/ApolloDeveloperKit.schema.json"
   },
