@@ -1,3 +1,4 @@
-*.swift.erb linguist-language=Swift
-docs/**/* -diff linguist-documentation
 Sources/Assets/bundle.js -diff linguist-generated
+Sources/Classes/JSON/Schema.swift -diff linguist-generated
+docs/**/* -diff linguist-documentation
+src/types/apollo-developer-kit/index.d.ts -diff linguist-generated

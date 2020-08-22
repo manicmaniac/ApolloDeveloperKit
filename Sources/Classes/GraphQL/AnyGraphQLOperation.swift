@@ -12,7 +12,7 @@ import Foundation
 /**
  * `AnyGraphQLOperation` is the class representing any kind of GraphQL operation including query, mutation and subscription.
  */
-final class AnyGraphQLOperation: GraphQLOperation, JSONDecodable {
+final class AnyGraphQLOperation: GraphQLOperation {
     typealias Data = AnyGraphQLSelectionSet
 
     /**
@@ -49,21 +49,15 @@ final class AnyGraphQLOperation: GraphQLOperation, JSONDecodable {
      * It doesn't cause a problem for now because it matters only when an operation is saved,
      * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.     *
      *
-     * - Parameter jsonObject: JSON dictionary object that conforms to GraphQL request.
+     * - Parameter operation: Operation object defined in JSON schema
      * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
      */
-    required convenience init(jsonValue value: Any) throws {
-        guard let jsonObject = value as? [String: Any], let query = jsonObject["query"] as? String else {
-            throw JSONDecodingError.couldNotConvert(value: value, to: AnyGraphQLOperation.self)
-        }
-        let operationIdentifier = jsonObject["operationIdentifier"] as? String
-        let operationName = jsonObject["operationName"] as? String ?? ""
-        let variables = jsonObject["variables"] as? GraphQLMap
+    convenience init(operation: Operation) throws {
         self.init(operationType: .query,
-                  operationDefinition: query,
-                  operationIdentifier: operationIdentifier,
-                  operationName: operationName,
-                  variables: variables)
+                  operationDefinition: operation.query,
+                  operationIdentifier: operation.operationIdentifier,
+                  operationName: operation.operationName ?? "",
+                  variables: operation.variables as? GraphQLMap)
     }
 
     convenience init<Operation>(_ operation: Operation) where Operation: GraphQLOperation {

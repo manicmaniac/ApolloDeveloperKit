@@ -137,7 +137,7 @@ private class MockOperationStore: OperationStore {
         invocationHistory.append(.setSuccess(AnyGraphQLOperation(operation), graphQLErrors))
     }
 
-    var jsonValue: JSONValue {
-        return ""
+    var state: State {
+        return State(mutations: [], queries: [])
     }
 }

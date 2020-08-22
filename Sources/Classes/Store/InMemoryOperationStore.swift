@@ -29,6 +29,23 @@ struct InMemoryOperationStore: OperationStore {
     private var mutationObjectIdentifiers = [ObjectIdentifier]()
     private var mutations = [OperationStoreValue]()
 
+    var state: State {
+        let mutations = self.mutations.map { mutation in
+            Mutation(error: mutation.networkError.flatMap(ErrorLike.init(error:)),
+                     loading: mutation.isLoading,
+                     mutation: mutation.queryDocument,
+                     variables: mutation.variables)
+        }
+        let queries = self.queries.map { query in
+            Query(document: query.queryDocument,
+                  graphQLErrors: query.graphQLErrors?.map(ErrorLike.init(error:)),
+                  networkError: query.networkError.flatMap(ErrorLike.init(error:)),
+                  previousVariables: nil,
+                  variables: query.variables)
+        }
+        return State(mutations: mutations, queries: queries)
+    }
+
     mutating func add<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
@@ -66,32 +83,6 @@ struct InMemoryOperationStore: OperationStore {
         case .subscription:
             break
         }
-    }
-}
-
-// MARK: JSONEncodable
-
-extension InMemoryOperationStore: JSONEncodable {
-    var jsonValue: JSONValue {
-        return [
-            "queries": queries.map { query in
-                [
-                    "document": query.queryDocument,
-                    "variables": query.variables.jsonValue,
-                    "previousVariables": NSNull(),
-                    "networkError": query.networkError.flatMap { JSError($0) }.jsonValue,
-                    "graphQLErrors": (query.graphQLErrors?.map { JSError($0) }).jsonValue
-                ]
-            },
-            "mutations": mutations.map { mutation in
-                [
-                    "mutation": mutation.queryDocument,
-                    "variables": mutation.variables.jsonValue,
-                    "loading": mutation.isLoading,
-                    "error": mutation.networkError.flatMap { JSError($0) }.jsonValue
-                ]
-            }
-        ]
     }
 }
 

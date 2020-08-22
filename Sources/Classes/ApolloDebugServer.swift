@@ -145,10 +145,8 @@ public class ApolloDebugServer {
     }
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
-        var rawData = try! JSONSerialization.data(withJSONObject: [
-            "state": operationStoreController.store.jsonValue,
-            "dataWithOptimisticResults": cache.extract().jsonValue
-            ], options: [])
+        let stateChange = StateChange(dataWithOptimisticResults: cache.extract(), state: operationStoreController.store.state)
+        var rawData = try! JSONSerialization.data(withJSONObject: stateChange.jsonValue, options: [])
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
         rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
         return HTTPChunkedResponse(rawData: rawData)
@@ -249,7 +247,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         connection.close()
     }
 
-    private func respondBadRequest(to request: URLRequest, in connection: HTTPConnection, jsError: JSError) {
+    private func respondBadRequest(to request: URLRequest, in connection: HTTPConnection, jsError: ErrorLike) {
         let body = try? JSONSerializationFormat.serialize(value: jsError)
         respondError(to: request, in: connection, statusCode: 400, with: body)
     }
@@ -314,7 +312,8 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
-            let operation = try AnyGraphQLOperation(jsonValue: jsonObject)
+            let operationJSONObject = try Operation(jsonValue: jsonObject)
+            let operation = try AnyGraphQLOperation(operation: operationJSONObject)
             _ = networkTransport.send(operation: operation) { [weak self] result in
                 guard let self = self else { return }
                 do {
@@ -328,11 +327,11 @@ extension ApolloDebugServer: HTTPServerDelegate {
                     connection.write(response: error.response, body: error.body)
                     connection.close()
                 } catch let error {
-                    self.respondBadRequest(to: request, in: connection, jsError: JSError(error))
+                    self.respondBadRequest(to: request, in: connection, jsError: ErrorLike(error: error))
                 }
             }
         } catch let error {
-            respondBadRequest(to: request, in: connection, jsError: JSError(error))
+            respondBadRequest(to: request, in: connection, jsError: ErrorLike(error: error))
         }
     }
 }

@@ -6,7 +6,10 @@
   "scripts": {
     "build": "webpack --mode=development",
     "dist": "webpack --mode=production",
-    "test": "jest"
+    "test": "jest",
+    "generate:type": "npm run generate:type:swift & npm run generate:type:typescript & wait",
+    "generate:type:swift": "quicktype -l swift --just-types -t Schema -s schema -o Sources/Classes/JSON/Schema.swift src/ApolloDeveloperKit.schema.json",
+    "generate:type:typescript": "quicktype -l typescript --just-types -t Schema -s schema -o src/types/apollo-developer-kit/index.d.ts src/ApolloDeveloperKit.schema.json"
   },
   "author": "Ryosuke Ito <rito.0305@gmail.com>",
   "license": "MIT",
@@ -19,6 +22,7 @@
     "apollo-client-devtools": "^2.3.1",
     "graphql": "^14.7.0",
     "jest": "^24.9.0",
+    "quicktype": "^15.0.256",
     "ts-jest": "^24.3.0",
     "ts-loader": "^6.2.2",
     "typescript": "^3.9.7",

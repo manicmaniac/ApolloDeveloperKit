@@ -4,6 +4,7 @@
 // TypeScript Version: 3.5.2
 
 import { Hook } from 'apollo-client-devtools/src/backend/hook'
+import { DocumentNode } from 'apollo-link'
 
 declare global {
   interface Window {
@@ -12,4 +13,33 @@ declare global {
   }
 }
 
-export {}
+type Variables = {
+  [key: string]: any
+}
+
+type CacheStorage = {
+  [key: string]: any
+}
+
+type Query = {
+  document: DocumentNode,
+  variables?: Variables,
+  previousVariables?: Variables,
+  networkError?: Error,
+  graphQLErrors?: Error[]
+}
+
+type Mutation = {
+  mutation: DocumentNode,
+  variables?: Variables,
+  loading: boolean,
+  error?: Error
+}
+
+export type StateChange = {
+  state: {
+    queries: Query[],
+    mutations: Mutation[]
+  },
+  dataWithOptimisticResults: CacheStorage
+}
