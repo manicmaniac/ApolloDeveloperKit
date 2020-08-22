@@ -19,6 +19,7 @@
     "apollo-client-devtools": "^2.3.1",
     "graphql": "^14.7.0",
     "jest": "^24.9.0",
+    "quicktype": "^15.0.256",
     "ts-jest": "^24.3.0",
     "ts-loader": "^6.2.2",
     "typescript": "^3.9.7",
