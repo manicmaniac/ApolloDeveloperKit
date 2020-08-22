@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "properties": {
+    "operation": {
+      "$id": "#operation",
+      "title": "Operation",
+      "description": "GraphQL operation request passed from client to server.",
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "operationIdentifier": {
+          "type": "string"
+        },
+        "operationName": {
+          "type": "string"
+        },
+        "variables": {
+          "$ref": "#/definitions/variables"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    },
+    "stateChange": {
+      "$id": "#stateChange",
+      "title": "StateChange",
+      "description": "State change event pushed from server to client.",
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "object",
+          "properties": {
+            "queries": {
+              "type": "array",
+              "items": {
+                "title": "Query",
+                "type": "object",
+                "properties": {
+                  "document": {
+                    "type": "string"
+                  },
+                  "variables": {
+                    "$ref": "#/definitions/variables"
+                  },
+                  "previousVariables": {
+                    "$ref": "#/definitions/variables"
+                  },
+                  "networkError": {
+                    "$ref": "#/definitions/error"
+                  },
+                  "graphQLErrors": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/error"
+                    }
+                  }
+                },
+                "required": [
+                  "document"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "mutations": {
+              "type": "array",
+              "items": {
+                "title": "Mutation",
+                "type": "object",
+                "properties": {
+                  "mutation": {
+                    "type": "string"
+                  },
+                  "variables": {
+                    "$ref": "#/definitions/variables"
+                  },
+                  "loading": {
+                    "type": "boolean"
+                  },
+                  "error": {
+                    "$ref": "#/definitions/error"
+                  }
+                },
+                "required": [
+                  "mutation",
+                  "loading"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "queries",
+            "mutations"
+          ],
+          "additionalProperties": false
+        },
+        "dataWithOptimisticResults": {
+          "title": "DataWithOptimisticResults",
+          "type": "object"
+        }
+      },
+      "required": [
+        "state",
+        "dataWithOptimisticResults"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "error": {
+      "title": "ErrorLike",
+      "description": "JavaScript error serialized to JSON.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "lineNumber": {
+          "type": "integer"
+        },
+        "columnNumber": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "variables": {
+      "title": "Variables",
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
