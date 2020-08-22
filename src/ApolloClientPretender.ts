@@ -1,41 +1,14 @@
 import { parse } from 'graphql/language/parser'
 import { print } from 'graphql/language/printer'
-import { ApolloLink, Observable, RequestHandler } from 'apollo-link'
+import { ApolloLink, FetchResult, Operation as LinkOperation, fromPromise } from 'apollo-link'
 import { ApolloCache, DataProxy } from 'apollo-cache'
 import { StateChange as DevtoolsStateChange } from './types/apollo-client-devtools'
 import { Operation, StateChange as DeveloperKitStateChange } from './types/apollo-developer-kit'
 import ApolloCachePretender from './ApolloCachePretender'
 
-const requestHandler: RequestHandler = (operation, _forward) => {
-  return new Observable(observer => {
-    const body: Operation = {
-      variables: operation.variables,
-      operationName: operation.operationName,
-      query: print(operation.query)
-    }
-    const options: RequestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    }
-    fetch('/request', options)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-        throw Error(response.statusText)
-      })
-      .then(json => observer.next(json))
-      .then(() => observer.complete())
-      .catch(error => observer.error(error))
-  })
-}
-
 export default class ApolloClientPretender implements DataProxy {
   public readonly version = '2.0.0'
-  public readonly link: ApolloLink = new ApolloLink(requestHandler)
+  public readonly link: ApolloLink = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
   public readonly cache: ApolloCache<unknown> = new ApolloCachePretender(this.startListening.bind(this))
 
   private devToolsHookCb?: (event: DevtoolsStateChange) => void
@@ -79,6 +52,24 @@ export default class ApolloClientPretender implements DataProxy {
   public __actionHookForDevTools(cb: (event: DevtoolsStateChange) => void): void {
     this.devToolsHookCb = cb
   }
+}
+
+async function requestOperation(operation: LinkOperation): Promise<FetchResult> {
+  const body: Operation = {
+    variables: operation.variables,
+    operationName: operation.operationName,
+    query: print(operation.query)
+  }
+  const options: RequestInit = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }
+  const response = await fetch('/request', options)
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+  return await response.json()
 }
 
 function onLogMessageReceived(event: MessageEvent): void {
