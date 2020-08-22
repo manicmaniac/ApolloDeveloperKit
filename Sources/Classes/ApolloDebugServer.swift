@@ -247,7 +247,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         connection.close()
     }
 
-    private func respondBadRequest(to request: URLRequest, in connection: HTTPConnection, jsError: JSError) {
+    private func respondBadRequest(to request: URLRequest, in connection: HTTPConnection, jsError: ErrorLike) {
         let body = try? JSONSerializationFormat.serialize(value: jsError)
         respondError(to: request, in: connection, statusCode: 400, with: body)
     }
@@ -327,11 +327,11 @@ extension ApolloDebugServer: HTTPServerDelegate {
                     connection.write(response: error.response, body: error.body)
                     connection.close()
                 } catch let error {
-                    self.respondBadRequest(to: request, in: connection, jsError: JSError(error))
+                    self.respondBadRequest(to: request, in: connection, jsError: ErrorLike(error: error))
                 }
             }
         } catch let error {
-            respondBadRequest(to: request, in: connection, jsError: JSError(error))
+            respondBadRequest(to: request, in: connection, jsError: ErrorLike(error: error))
         }
     }
 }
