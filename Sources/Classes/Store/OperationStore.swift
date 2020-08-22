@@ -16,7 +16,8 @@ import Apollo
  * - SeeAlso:
  * [QueryManager.ts](https://github.com/apollographql/apollo-client/blob/v2.6.8/packages/apollo-client/src/core/QueryManager.ts)
  */
-protocol OperationStore: JSONEncodable {
+protocol OperationStore {
+    var state: State { get }
     mutating func add<Operation>(_ operation: Operation) where Operation: GraphQLOperation
     mutating func setFailure<Operation>(for operation: Operation, networkError: Error) where Operation: GraphQLOperation
     mutating func setSuccess<Operation>(for operation: Operation, graphQLErrors: [Error]) where Operation: GraphQLOperation

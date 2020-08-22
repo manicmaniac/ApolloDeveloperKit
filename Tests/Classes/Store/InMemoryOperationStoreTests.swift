@@ -20,7 +20,7 @@ class InMemoryOperationStoreTests: XCTestCase {
     func testAdd_withQuery() throws {
         let query = MockGraphQLQuery()
         store.add(query)
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [
                 [
                     "document": "query {}",
@@ -37,7 +37,7 @@ class InMemoryOperationStoreTests: XCTestCase {
     func testAdd_withMutation() {
         let mutation = MockGraphQLMutation()
         store.add(mutation)
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [],
             "mutations": [
                 [
@@ -53,7 +53,7 @@ class InMemoryOperationStoreTests: XCTestCase {
     func testAdd_withSubscription() {
         let subscription = MockGraphQLSubscription()
         store.add(subscription)
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [],
             "mutations": []
         ])
@@ -64,7 +64,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.add(query)
         let error = URLError(.notConnectedToInternet)
         store.setFailure(for: query, networkError: error)
-        let jsonObject = store.jsonValue as? [String: Any]
+        let jsonObject = store.state.jsonValue as? [String: Any]
         let queries = jsonObject?["queries"] as? [[String: Any]]
         XCTAssertEqual(queries?.first?["document"] as? String, "query {}")
         XCTAssertTrue(queries?.first?["variables"] is NSNull)
@@ -79,7 +79,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.add(query)
         let error = URLError(.notConnectedToInternet)
         store.setFailure(for: query, networkError: error)
-        let jsonObject = store.jsonValue as? [String: Any]
+        let jsonObject = store.state.jsonValue as? [String: Any]
         let mutations = jsonObject?["mutations"] as? [[String: Any]]
         XCTAssertEqual(mutations?.first?["mutation"] as? String, "mutation {}")
         XCTAssertTrue(mutations?.first?["variables"] is NSNull)
@@ -92,7 +92,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.add(subscription)
         let error = URLError(.notConnectedToInternet)
         store.setFailure(for: subscription, networkError: error)
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [],
             "mutations": []
         ])
@@ -102,7 +102,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         let query = MockGraphQLQuery()
         store.add(query)
         store.setSuccess(for: query, graphQLErrors: [])
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [
                 [
                     "document": "query {}",
@@ -121,7 +121,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         store.add(query)
         let graphQLError = GraphQLError(["message": ""])
         store.setSuccess(for: query, graphQLErrors: [graphQLError])
-        let jsonObject = store.jsonValue as? [String: Any]
+        let jsonObject = store.state.jsonValue as? [String: Any]
         let queries = jsonObject?["queries"] as? [[String: Any]]
         XCTAssertEqual(queries?.first?["document"] as? String, "query {}")
         XCTAssertTrue(queries?.first?["variables"] is NSNull)
@@ -136,7 +136,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         let mutation = MockGraphQLMutation()
         store.add(mutation)
         store.setSuccess(for: mutation, graphQLErrors: [])
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [],
             "mutations": [
                 [
@@ -153,7 +153,7 @@ class InMemoryOperationStoreTests: XCTestCase {
         let subscription = MockGraphQLSubscription()
         store.add(subscription)
         store.setSuccess(for: subscription, graphQLErrors: [])
-        XCTAssertEqual(store.jsonValue as? NSDictionary, [
+        XCTAssertEqual(store.state.jsonValue as? NSDictionary, [
             "queries": [],
             "mutations": []
         ])

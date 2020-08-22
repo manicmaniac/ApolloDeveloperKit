@@ -26,7 +26,8 @@ class AnyGraphQLOperationTests: XCTestCase {
             "operationName": NSNull(),
             "query": "query { posts { id } }"
         ]
-        let request = try AnyGraphQLOperation(jsonValue: jsonObject)
+        let operation = try Operation(jsonValue: jsonObject)
+        let request = try AnyGraphQLOperation(operation: operation)
         XCTAssertNil(request.operationIdentifier)
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")
@@ -39,18 +40,5 @@ class AnyGraphQLOperationTests: XCTestCase {
         XCTAssertEqual(input["float"] as? Double, 4.2)
         XCTAssertEqual(input["boolean"] as? Bool, true)
         XCTAssertEqual(input["array"] as? [String], ["foo"])
-    }
-
-    func testInitWithJSONObject_withInvalidJSONObject() {
-        let invalidJSONObject: JSONObject = [
-            "operationName": Set<String>()
-        ]
-        XCTAssertThrowsError(try AnyGraphQLOperation(jsonValue: invalidJSONObject)) { error in
-            guard case JSONDecodingError.couldNotConvert(value: let jsonObject, to: let type) = error else {
-                return XCTFail()
-            }
-            XCTAssertEqual(jsonObject as? NSDictionary, invalidJSONObject as NSDictionary)
-            XCTAssert(type is AnyGraphQLOperation.Type)
-        }
     }
 }

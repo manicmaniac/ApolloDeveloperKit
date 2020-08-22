@@ -145,10 +145,8 @@ public class ApolloDebugServer {
     }
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
-        var rawData = try! JSONSerialization.data(withJSONObject: [
-            "state": operationStoreController.store.jsonValue,
-            "dataWithOptimisticResults": cache.extract().jsonValue
-            ], options: [])
+        let stateChange = StateChange(dataWithOptimisticResults: cache.extract(), state: operationStoreController.store.state)
+        var rawData = try! JSONSerialization.data(withJSONObject: stateChange.jsonValue, options: [])
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
         rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
         return HTTPChunkedResponse(rawData: rawData)
@@ -314,7 +312,8 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
-            let operation = try AnyGraphQLOperation(jsonValue: jsonObject)
+            let operationJSONObject = try Operation(jsonValue: jsonObject)
+            let operation = try AnyGraphQLOperation(operation: operationJSONObject)
             _ = networkTransport.send(operation: operation) { [weak self] result in
                 guard let self = self else { return }
                 do {
