@@ -57,7 +57,7 @@ final class HTTPServer {
      * The URL where the server is established.
      */
     var serverURL: URL? {
-        let address = (socket?.address as NSData?)?.bytes.assumingMemoryBound(to: sockaddr_in.self).pointee
+        let address = socket?.address.withUnsafeBytes { $0.load(as: sockaddr_in.self) }
         guard let port = address?.sin_port.bigEndian, let primaryIPAddress = primaryIPAddress else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
     }

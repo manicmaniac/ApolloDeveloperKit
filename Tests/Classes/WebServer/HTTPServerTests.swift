@@ -36,9 +36,9 @@ class HTTPServerTests: XCTestCase {
         let serverURL = server.serverURL
         XCTAssertNotNil(serverURL)
         if let serverURL = serverURL {
-            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:\(port)", options: [])
+            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:\(port)")
             let range = NSRange(location: 0, length: serverURL.absoluteString.count)
-            let matches = regularExpression.matches(in: serverURL.absoluteString, options: [], range: range)
+            let matches = regularExpression.matches(in: serverURL.absoluteString, range: range)
             XCTAssertFalse(matches.isEmpty)
         }
     }
