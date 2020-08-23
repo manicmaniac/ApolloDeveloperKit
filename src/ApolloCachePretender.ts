@@ -1,4 +1,5 @@
-import { ApolloCache, Cache, Transaction } from 'apollo-cache'
+import type { Cache, Transaction } from 'apollo-cache'
+import { ApolloCache } from 'apollo-cache'
 
 type CacheObject = {}
 

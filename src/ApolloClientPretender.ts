@@ -1,9 +1,10 @@
+import type { FetchResult, Operation as LinkOperation } from 'apollo-link'
+import type { ApolloCache, DataProxy } from 'apollo-cache'
+import type { StateChange as DevtoolsStateChange } from 'apollo-client-devtools'
+import type { Operation, StateChange as DeveloperKitStateChange } from 'apollo-developer-kit'
 import { parse } from 'graphql/language/parser'
 import { print } from 'graphql/language/printer'
-import { ApolloLink, FetchResult, Operation as LinkOperation, fromPromise } from 'apollo-link'
-import { ApolloCache, DataProxy } from 'apollo-cache'
-import { StateChange as DevtoolsStateChange } from 'apollo-client-devtools'
-import { Operation, StateChange as DeveloperKitStateChange } from 'apollo-developer-kit'
+import { ApolloLink, fromPromise } from 'apollo-link'
 import ApolloCachePretender from './ApolloCachePretender'
 
 export default class ApolloClientPretender implements DataProxy {
