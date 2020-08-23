@@ -394,7 +394,7 @@ class ApolloDebugServerTests: XCTestCase {
                     "dataWithOptimisticResults": [:]
                 ]
                 XCTAssertNoThrow({
-                    let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? NSDictionary
+                    let jsonObject = try JSONSerialization.jsonObject(with: jsonData) as? NSDictionary
                     XCTAssertEqual(jsonObject, expected)
                 })
             }
@@ -481,7 +481,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
-            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
+            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data)) as? NSDictionary else {
                 return XCTFail("failed to parse JSON response")
             }
             XCTAssertEqual(jsonObject, queryResponseJSONObject)
@@ -511,7 +511,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
-            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
+            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data)) as? NSDictionary else {
                 return XCTFail("failed to parse JSON response")
             }
             XCTAssertEqual(jsonObject, mutationResponseJSONObject)
@@ -541,7 +541,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
             }
-            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [])) as? NSDictionary else {
+            guard let jsonObject = (try? JSONSerialization.jsonObject(with: data)) as? NSDictionary else {
                 return XCTFail("failed to parse JSON response")
             }
             XCTAssertEqual(jsonObject, serverErrorResponseJSONObject)
@@ -606,7 +606,7 @@ private class MockHTTPURLProtocol: URLProtocol {
         httpBodyStream.open()
         let requestBody = readData(from: httpBodyStream, upto: 8192)
         httpBodyStream.close()
-        guard let requestJSONObject = (try? JSONSerialization.jsonObject(with: requestBody, options: [])) as? NSDictionary else {
+        guard let requestJSONObject = (try? JSONSerialization.jsonObject(with: requestBody)) as? NSDictionary else {
             return sendErrorResponse(url: url, statusCode: 400)
         }
         guard let query = requestJSONObject["query"] as? String else {
@@ -696,7 +696,7 @@ private let query = """
     }
     """.data(using: .utf8)!
 
-private let queryJSONObject = try! JSONSerialization.jsonObject(with: query, options: []) as! NSDictionary
+private let queryJSONObject = try! JSONSerialization.jsonObject(with: query) as! NSDictionary
 
 private let queryResponse = """
     {
@@ -710,7 +710,7 @@ private let queryResponse = """
     }
     """.data(using: .utf8)!
 
-private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: queryResponse, options: []) as! NSDictionary
+private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: queryResponse) as! NSDictionary
 
 private let mutation = """
     {
@@ -726,7 +726,7 @@ private let mutation = """
     }
     """.data(using: .utf8)!
 
-private let mutationJSONObject = try! JSONSerialization.jsonObject(with: mutation, options: []) as! NSDictionary
+private let mutationJSONObject = try! JSONSerialization.jsonObject(with: mutation) as! NSDictionary
 
 private let mutationResponse = """
     {
@@ -736,7 +736,7 @@ private let mutationResponse = """
     }
     """.data(using: .utf8)!
 
-private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse, options: []) as! NSDictionary
+private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse) as! NSDictionary
 
 private let serverError = """
     {
@@ -745,7 +745,7 @@ private let serverError = """
     }
     """.data(using: .utf8)!
 
-private let serverErrorJSONObject = try! JSONSerialization.jsonObject(with: serverError, options: []) as! NSDictionary
+private let serverErrorJSONObject = try! JSONSerialization.jsonObject(with: serverError) as! NSDictionary
 
 private let serverErrorResponse = """
     {
@@ -769,4 +769,4 @@ private let serverErrorResponse = """
     }
     """.data(using: .utf8)!
 
-private let serverErrorResponseJSONObject = try! JSONSerialization.jsonObject(with: serverErrorResponse, options: []) as! NSDictionary
+private let serverErrorResponseJSONObject = try! JSONSerialization.jsonObject(with: serverErrorResponse) as! NSDictionary

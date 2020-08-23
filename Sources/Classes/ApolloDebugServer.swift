@@ -146,7 +146,7 @@ public class ApolloDebugServer {
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
         let stateChange = StateChange(dataWithOptimisticResults: cache.extract(), state: operationStoreController.store.state)
-        var rawData = try! JSONSerialization.data(withJSONObject: stateChange.jsonValue, options: [])
+        var rawData = try! JSONSerialization.data(withJSONObject: stateChange.jsonValue)
         rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
         rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
         return HTTPChunkedResponse(rawData: rawData)
@@ -311,7 +311,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
             return respondError(to: request, in: connection, statusCode: 400, withDefaultBody: true)
         }
         do {
-            let jsonObject = try JSONSerialization.jsonObject(with: body, options: [])
+            let jsonObject = try JSONSerialization.jsonObject(with: body)
             let operationJSONObject = try Operation(jsonValue: jsonObject)
             let operation = try AnyGraphQLOperation(operation: operationJSONObject)
             _ = networkTransport.send(operation: operation) { [weak self] result in
@@ -321,7 +321,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
                     // Cannot use JSONSerializationFormat.serialize(value:) here because
                     // response.body may contain an Objective-C type like `NSString`,
                     // that is not convertible to JSONValue directly.
-                    let body = try JSONSerialization.data(withJSONObject: response.body, options: [])
+                    let body = try JSONSerialization.data(withJSONObject: response.body)
                     self.respond(to: request, in: connection, contentType: .json, contentLength: nil, body: body)
                 } catch let error as GraphQLHTTPResponseError {
                     connection.write(response: error.response, body: error.body)
