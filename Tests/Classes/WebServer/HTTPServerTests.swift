@@ -66,7 +66,7 @@ class HTTPServerTests: XCTestCase {
         let url = URL(string: "http://127.0.0.1:\(port)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = "foo".data(using: .utf8)!
+        request.httpBody = Data("foo".utf8)
         request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
         request.setValue("close", forHTTPHeaderField: "Connection")
         let task = session.dataTask(with: request) { data, response, error in
@@ -103,7 +103,7 @@ private class MockHTTPServerDelegate: HTTPServerDelegate {
     }
 
     func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error) {
-        let body = error.localizedDescription.data(using: .utf8)!
+        let body = Data(error.localizedDescription.utf8)
         let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body.count),
             "Content-Type": "text/plain; charset=utf-8",

@@ -21,13 +21,13 @@ struct HTTPChunkedResponse {
     }
 
     init(string: String) {
-        self.rawData = string.data(using: .utf8)!
+        self.rawData = Data(string.utf8)
     }
 
     var data: Data {
-        var data = String(format: "%x\r\n", rawData.count).data(using: .utf8)!
+        var data = Data(String(format: "%x\r\n", rawData.count).utf8)
         data.append(rawData)
-        data.append("\r\n".data(using: .utf8)!)
+        data.append(Data("\r\n".utf8))
         return data
     }
 }
