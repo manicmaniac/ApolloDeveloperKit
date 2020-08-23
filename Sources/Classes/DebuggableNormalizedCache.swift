@@ -71,19 +71,6 @@ extension DebuggableNormalizedCache: NormalizedCache {
         cachedRecords.clear()
         notifyRecordChange()
         recordLock.unlock()
-        // Currently ApolloDeveloperKit supports Apollo < 0.28.0, where `clearImmediately()` is not implemented.
-        // So to avoid introducing breaking change, the following procedure synchronously invokes `clear()` instead.
-        var error: Error?
-        let semaphore = DispatchSemaphore(value: 0)
-        cache.clear(callbackQueue: .global()) { result in
-            if case .failure(let matchedError) = result {
-                error = matchedError
-            }
-            semaphore.signal()
-        }
-        semaphore.wait()
-        if let error = error {
-            throw error
-        }
+        try cache.clearImmediately()
     }
 }
