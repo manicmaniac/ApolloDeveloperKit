@@ -1,40 +1,41 @@
+import type { FetchResult, Operation as LinkOperation } from 'apollo-link'
+import type { ApolloCache, DataProxy } from 'apollo-cache'
+import type { StateChange as DevtoolsStateChange } from 'apollo-client-devtools'
+import type { Operation, StateChange as DeveloperKitStateChange } from 'apollo-developer-kit'
 import { parse } from 'graphql/language/parser'
 import { print } from 'graphql/language/printer'
-import { ApolloLink, FetchResult, Operation as LinkOperation, fromPromise } from 'apollo-link'
-import { ApolloCache, DataProxy } from 'apollo-cache'
-import { StateChange as DevtoolsStateChange } from './types/apollo-client-devtools'
-import { Operation, StateChange as DeveloperKitStateChange } from './types/apollo-developer-kit'
+import { ApolloLink, fromPromise } from 'apollo-link'
 import ApolloCachePretender from './ApolloCachePretender'
 
 export default class ApolloClientPretender implements DataProxy {
-  public readonly version = '2.0.0'
-  public readonly link: ApolloLink = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
-  public readonly cache: ApolloCache<unknown> = new ApolloCachePretender(this.startListening.bind(this))
+  readonly version = '2.0.0'
+  readonly link: ApolloLink = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
+  readonly cache: ApolloCache<unknown> = new ApolloCachePretender(this.startListening.bind(this))
 
   private devToolsHookCb?: (event: DevtoolsStateChange) => void
   private eventSource?: EventSource
 
-  public readQuery(options: DataProxy.Query<unknown>, optimistic = false): null {
+  readQuery(options: DataProxy.Query<unknown>, optimistic = false): null {
     return this.cache.readQuery(options, optimistic)
   }
 
-  public readFragment(options: DataProxy.Fragment<unknown>, optimistic = false): null {
+  readFragment(options: DataProxy.Fragment<unknown>, optimistic = false): null {
     return this.cache.readFragment(options, optimistic)
   }
 
-  public writeQuery(options: DataProxy.WriteQueryOptions<unknown, unknown>): void {
+  writeQuery(options: DataProxy.WriteQueryOptions<unknown, unknown>): void {
     this.cache.writeQuery(options)
   }
 
-  public writeFragment(options: DataProxy.WriteFragmentOptions<unknown, unknown>): void {
+  writeFragment(options: DataProxy.WriteFragmentOptions<unknown, unknown>): void {
     this.cache.writeFragment(options)
   }
 
-  public writeData(options: DataProxy.WriteDataOptions<unknown>): void {
+  writeData(options: DataProxy.WriteDataOptions<unknown>): void {
     this.cache.writeData(options)
   }
 
-  public startListening(): void {
+  startListening(): void {
     this.eventSource = new EventSource('/events')
     this.eventSource.onmessage = message => {
       const event = JSON.parse(message.data) as DeveloperKitStateChange
@@ -45,11 +46,11 @@ export default class ApolloClientPretender implements DataProxy {
     this.eventSource.addEventListener('stderr', event => onLogMessageReceived(event as MessageEvent))
   }
 
-  public stopListening(): void {
+  stopListening(): void {
     this.eventSource?.close()
   }
 
-  public __actionHookForDevTools(cb: (event: DevtoolsStateChange) => void): void {
+  __actionHookForDevTools(cb: (event: DevtoolsStateChange) => void): void {
     this.devToolsHookCb = cb
   }
 }
