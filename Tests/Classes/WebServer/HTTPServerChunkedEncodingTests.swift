@@ -92,7 +92,7 @@ private class MockHTTPServerDelegate: HTTPServerDelegate {
     }
 
     func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error) {
-        let body = error.localizedDescription.data(using: .utf8)!
+        let body = Data(error.localizedDescription.utf8)
         let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body.count),
             "Content-Type": "text/plain; charset=utf-8",

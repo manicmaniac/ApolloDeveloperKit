@@ -83,7 +83,7 @@ private class MockHTTPURLProtocol: URLProtocol {
         let headerFields = ["Content-Type": "text/plain; charset=utf-8"]
         let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: httpVersion, headerFields: headerFields)!
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        client?.urlProtocol(self, didLoad: HTTPURLResponse.localizedString(forStatusCode: 500).data(using: .utf8)!)
+        client?.urlProtocol(self, didLoad: Data(HTTPURLResponse.localizedString(forStatusCode: 500).utf8))
         client?.urlProtocolDidFinishLoading(self)
     }
 

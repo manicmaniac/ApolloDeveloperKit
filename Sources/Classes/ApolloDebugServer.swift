@@ -147,8 +147,8 @@ public class ApolloDebugServer {
     private func chunkForCurrentState() -> HTTPChunkedResponse {
         let stateChange = StateChange(dataWithOptimisticResults: cache.extract(), state: operationStoreController.store.state)
         var rawData = try! JSONSerialization.data(withJSONObject: stateChange.jsonValue)
-        rawData.insert(contentsOf: "data: ".data(using: .utf8)!, at: 0)
-        rawData.append(contentsOf: "\n\n".data(using: .utf8)!)
+        rawData.insert(contentsOf: Data("data: ".utf8), at: 0)
+        rawData.append(contentsOf: Data("\n\n".utf8))
         return HTTPChunkedResponse(rawData: rawData)
     }
 
@@ -210,7 +210,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
     }
 
     func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error) {
-        respondError(to: request, in: connection, statusCode: 500, with: error.localizedDescription.data(using: .utf8)!)
+        respondError(to: request, in: connection, statusCode: 500, with: Data(error.localizedDescription.utf8))
     }
 
     private func respond(to request: URLRequest, in connection: HTTPConnection, contentType: MIMEType?, contentLength: Int?, body: Data?) {
@@ -224,7 +224,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
     }
 
     private func respondError(to request: URLRequest, in connection: HTTPConnection, statusCode: Int, withDefaultBody: Bool) {
-        let body = withDefaultBody ? "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".data(using: .utf8) : nil
+        let body = withDefaultBody ? Data("\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".utf8) : nil
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body?.count ?? 0),
             "Content-Type": "text/plain; charset=utf-8",
@@ -254,7 +254,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
 
     private func respondMethodNotAllowed(to request: URLRequest, in connection: HTTPConnection, allowedMethods: [String], withBody: Bool) {
         let statusCode = 405
-        let body = withBody ? "\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".data(using: .utf8) : nil
+        let body = withBody ? Data("\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".utf8) : nil
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Allow": allowedMethods.joined(separator: ", "),
             "Content-Length": String(body?.count ?? 0),
@@ -298,7 +298,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         } catch CocoaError.fileReadNoSuchFile {
             respondError(to: request, in: connection, statusCode: 404, withDefaultBody: withBody)
         } catch let error {
-            let body = error.localizedDescription.data(using: .utf8)
+            let body = Data(error.localizedDescription.utf8)
             respondError(to: request, in: connection, statusCode: 500, with: body)
         }
     }

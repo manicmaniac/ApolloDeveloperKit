@@ -12,11 +12,11 @@ import XCTest
 class HTTPChunkedResponseTests: XCTestCase {
     func testData_withEmptyData() {
         let chunk = HTTPChunkedResponse(rawData: Data())
-        XCTAssertEqual(chunk.data, "0\r\n\r\n".data(using: .utf8)!)
+        XCTAssertEqual(chunk.data, Data("0\r\n\r\n".utf8))
     }
 
     func testData_withNonemptyData() {
-        let chunk = HTTPChunkedResponse(rawData: "data: foo\n\n".data(using: .utf8)!)
-        XCTAssertEqual(chunk.data, "b\r\ndata: foo\n\n\r\n".data(using: .utf8)!)
+        let chunk = HTTPChunkedResponse(rawData: Data("data: foo\n\n".utf8))
+        XCTAssertEqual(chunk.data, Data("b\r\ndata: foo\n\n\r\n".utf8))
     }
 }

@@ -76,7 +76,7 @@ class ApolloDebugServerTests: XCTestCase {
         webView.loadHTMLString(html, baseURL: server.serverURL!)
         wait(for: [expectationOnMessage], timeout: 5.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
-            "data": consoleMessage.data(using: .utf8)!,
+            "data": Data(consoleMessage.utf8),
             "destination": ConsoleRedirection.Destination.standardOutput
         ])
         server.didReceiveConsoleDidWriteNotification(notification)
@@ -380,9 +380,9 @@ class ApolloDebugServerTests: XCTestCase {
             }
             if urlSessionDataTaskDidReceiveDataIsCalled {
                 // It should be just a *ping* data
-                XCTAssertEqual(data, ":\n\n".data(using: .ascii))
+                XCTAssertEqual(data, Data(":\n\n".utf8))
             } else {
-                XCTAssert(data.starts(with: "data: ".data(using: .ascii)!))
+                XCTAssert(data.starts(with: Data("data: ".utf8)))
                 // Drop first 5 letters (`data: `)
                 let jsonData = data.dropFirst(5)
                 let expected: NSDictionary = [
@@ -631,7 +631,7 @@ private class MockHTTPURLProtocol: URLProtocol {
         let headerFields = ["Content-Type": "text/plain; charset=utf-8"]
         let response = HTTPURLResponse(url: url, statusCode: statusCode, httpVersion: httpVersion, headerFields: headerFields)!
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        client?.urlProtocol(self, didLoad: HTTPURLResponse.localizedString(forStatusCode: statusCode).data(using: .utf8)!)
+        client?.urlProtocol(self, didLoad: Data(HTTPURLResponse.localizedString(forStatusCode: statusCode).utf8))
         client?.urlProtocolDidFinishLoading(self)
     }
 
@@ -686,7 +686,7 @@ private class ScriptMessageHandlerBlock: NSObject, WKScriptMessageHandler {
 
 // MARK: Fixtures
 
-private let query = """
+private let query = Data("""
     {
         "operationName": "query",
         "query": "query Employee($id: ID!) { employee(id: $id) { id name department { name } } }",
@@ -694,11 +694,11 @@ private let query = """
             "id": "42"
         }
     }
-    """.data(using: .utf8)!
+    """.utf8)
 
 private let queryJSONObject = try! JSONSerialization.jsonObject(with: query) as! NSDictionary
 
-private let queryResponse = """
+private let queryResponse = Data("""
     {
         "employee": {
             "id": "42",
@@ -708,11 +708,11 @@ private let queryResponse = """
             }
         }
     }
-    """.data(using: .utf8)!
+    """.utf8)
 
 private let queryResponseJSONObject = try! JSONSerialization.jsonObject(with: queryResponse) as! NSDictionary
 
-private let mutation = """
+private let mutation = Data("""
     {
         "operationName": "mutation",
         "query": "mutation AddEmployee($input: AddEmployeeInput) { addEmployee(input: $input) { id } }",
@@ -724,30 +724,30 @@ private let mutation = """
             }
         }
     }
-    """.data(using: .utf8)!
+    """.utf8)
 
 private let mutationJSONObject = try! JSONSerialization.jsonObject(with: mutation) as! NSDictionary
 
-private let mutationResponse = """
+private let mutationResponse = Data("""
     {
         "employee": {
             "id": "43",
         }
     }
-    """.data(using: .utf8)!
+    """.utf8)
 
 private let mutationResponseJSONObject = try! JSONSerialization.jsonObject(with: mutationResponse) as! NSDictionary
 
-private let serverError = """
+private let serverError = Data("""
     {
         "operationName": "serverError",
         "query": "serverError"
     }
-    """.data(using: .utf8)!
+    """.utf8)
 
 private let serverErrorJSONObject = try! JSONSerialization.jsonObject(with: serverError) as! NSDictionary
 
-private let serverErrorResponse = """
+private let serverErrorResponse = Data("""
     {
         "data": {
             "employees": null
@@ -767,6 +767,6 @@ private let serverErrorResponse = """
             }
         ]
     }
-    """.data(using: .utf8)!
+    """.utf8)
 
 private let serverErrorResponseJSONObject = try! JSONSerialization.jsonObject(with: serverErrorResponse) as! NSDictionary
