@@ -1,1 +1,10 @@
-export function buildSchemasFromTypeDefs(typeDefs: string | object): [{ definition: string, directives: string }]
+type TypeDefs = string | {
+    [key: string]: any
+}
+
+export interface Schema {
+    definition: string,
+    directives: string
+}
+
+export function buildSchemasFromTypeDefs(typeDefs: TypeDefs): [Schema]

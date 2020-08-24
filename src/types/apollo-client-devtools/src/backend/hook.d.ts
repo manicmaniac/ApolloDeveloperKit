@@ -4,8 +4,8 @@ export interface Hook {
   ApolloClient: unknown
   actionLog: string[]
   devToolsVersion: string
-  on(event: string, fn: Function): void
-  once(event: string, fn: Function): void
-  off(event: string, fn: Function): void
+  on(event: string, fn: (...args: unknown[]) => void): void
+  once(event: string, fn: (...args: unknown[]) => void): void
+  off(event: string, fn: (...args: unknown[]) => void): void
   emit(event: string): void
 }

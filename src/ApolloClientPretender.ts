@@ -9,31 +9,17 @@ import ApolloCachePretender from './ApolloCachePretender'
 
 export default class ApolloClientPretender implements DataProxy {
   readonly version = '2.0.0'
-  readonly link: ApolloLink = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
-  readonly cache: ApolloCache<unknown> = new ApolloCachePretender(this.startListening.bind(this))
+  readonly link = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
+  readonly cache = new ApolloCachePretender(this.startListening.bind(this))
 
   private devToolsHookCb?: (event: DevtoolsStateChange) => void
   private eventSource?: EventSource
 
-  readQuery(options: DataProxy.Query<unknown>, optimistic = false): null {
-    return this.cache.readQuery(options, optimistic)
-  }
-
-  readFragment(options: DataProxy.Fragment<unknown>, optimistic = false): null {
-    return this.cache.readFragment(options, optimistic)
-  }
-
-  writeQuery(options: DataProxy.WriteQueryOptions<unknown, unknown>): void {
-    this.cache.writeQuery(options)
-  }
-
-  writeFragment(options: DataProxy.WriteFragmentOptions<unknown, unknown>): void {
-    this.cache.writeFragment(options)
-  }
-
-  writeData(options: DataProxy.WriteDataOptions<unknown>): void {
-    this.cache.writeData(options)
-  }
+  readQuery = this.cache.readQuery.bind(this.cache)
+  readFragment = this.cache.readFragment.bind(this.cache)
+  writeQuery = this.cache.writeQuery.bind(this.cache)
+  writeFragment = this.cache.writeFragment.bind(this.cache)
+  writeData = this.cache.writeData.bind(this.cache)
 
   startListening(): void {
     this.eventSource = new EventSource('/events')
