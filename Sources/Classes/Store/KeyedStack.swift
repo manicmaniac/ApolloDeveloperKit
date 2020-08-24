@@ -26,17 +26,20 @@ struct KeyedStack<Key, Value> where Key: Equatable {
      */
     subscript(key: Key) -> Value? {
         get {
-            guard let index = elements.lastIndex(where: { k, _ in k == key }) else { return nil }
-            return elements[index].1
+            return index(for: key).flatMap { elements[$0].1 }
         }
         set {
-            guard let index = elements.lastIndex(where: { k, _ in k == key }) else { return }
+            guard let index = self.index(for: key) else { return }
             if let newValue = newValue {
                 elements[index] = (key, newValue)
             } else {
                 elements.remove(at: index)
             }
         }
+    }
+
+    private func index(for key: Key) -> Int? {
+        return elements.lastIndex { $0.0 == key }
     }
 }
 
