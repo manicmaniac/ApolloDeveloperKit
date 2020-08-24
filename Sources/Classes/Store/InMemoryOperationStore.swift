@@ -56,22 +56,19 @@ struct InMemoryOperationStore: OperationStore {
     }
 
     mutating func setFailure<Operation>(for operation: Operation, networkError: Error) where Operation: GraphQLOperation {
-        switch operation.operationType {
-        case .query:
-            queries[ObjectIdentifier(operation)]?.state = .failure(networkError: networkError)
-        case .mutation:
-            mutations[ObjectIdentifier(operation)]?.state = .failure(networkError: networkError)
-        case .subscription:
-            break
-        }
+        setState(.failure(networkError: networkError), for: operation)
     }
 
     mutating func setSuccess<Operation>(for operation: Operation, graphQLErrors: [Error]) where Operation: GraphQLOperation {
+        setState(.success(graphQLErrors: graphQLErrors), for: operation)
+    }
+
+    private mutating func setState<Operation>(_ state: OperationState, for operation: Operation) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
-            queries[ObjectIdentifier(operation)]?.state = .success(graphQLErrors: graphQLErrors)
+            queries[ObjectIdentifier(operation)]?.state = state
         case .mutation:
-            mutations[ObjectIdentifier(operation)]?.state = .success(graphQLErrors: graphQLErrors)
+            mutations[ObjectIdentifier(operation)]?.state = state
         case .subscription:
             break
         }
