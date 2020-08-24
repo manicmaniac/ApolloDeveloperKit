@@ -24,19 +24,17 @@ import Foundation
  * [mutations.ts](https://github.com/apollographql/apollo-client/blob/v2.6.8/packages/apollo-client/src/data/mutations.ts)]
  */
 struct InMemoryOperationStore: OperationStore {
-    private var queryObjectIdentifiers = [ObjectIdentifier]()
-    private var queries = [OperationStoreValue]()
-    private var mutationObjectIdentifiers = [ObjectIdentifier]()
-    private var mutations = [OperationStoreValue]()
+    private var queries = KeyedStack<ObjectIdentifier, OperationStoreValue>()
+    private var mutations = KeyedStack<ObjectIdentifier, OperationStoreValue>()
 
     var state: State {
-        let mutations = self.mutations.map { mutation in
+        let mutations = self.mutations.map { _, mutation in
             Mutation(error: mutation.networkError.flatMap(ErrorLike.init(error:)),
                      loading: mutation.isLoading,
                      mutation: mutation.queryDocument,
                      variables: mutation.variables)
         }
-        let queries = self.queries.map { query in
+        let queries = self.queries.map { _, query in
             Query(document: query.queryDocument,
                   graphQLErrors: query.graphQLErrors?.map(ErrorLike.init(error:)),
                   networkError: query.networkError.flatMap(ErrorLike.init(error:)),
@@ -49,11 +47,9 @@ struct InMemoryOperationStore: OperationStore {
     mutating func add<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
-            queryObjectIdentifiers.append(ObjectIdentifier(operation))
-            queries.append(OperationStoreValue(operation: operation))
+            queries.push(OperationStoreValue(operation), for: ObjectIdentifier(operation))
         case .mutation:
-            mutationObjectIdentifiers.append(ObjectIdentifier(operation))
-            mutations.append(OperationStoreValue(operation: operation))
+            mutations.push(OperationStoreValue(operation), for: ObjectIdentifier(operation))
         case .subscription:
             break
         }
@@ -62,11 +58,9 @@ struct InMemoryOperationStore: OperationStore {
     mutating func setFailure<Operation>(for operation: Operation, networkError: Error) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
-            guard let index = queryObjectIdentifiers.lastIndex(of: ObjectIdentifier(operation)) else { return }
-            queries[index].state = .failure(networkError: networkError)
+            queries[ObjectIdentifier(operation)]?.state = .failure(networkError: networkError)
         case .mutation:
-            guard let index = mutationObjectIdentifiers.lastIndex(of: ObjectIdentifier(operation)) else { return }
-            mutations[index].state = .failure(networkError: networkError)
+            mutations[ObjectIdentifier(operation)]?.state = .failure(networkError: networkError)
         case .subscription:
             break
         }
@@ -75,11 +69,9 @@ struct InMemoryOperationStore: OperationStore {
     mutating func setSuccess<Operation>(for operation: Operation, graphQLErrors: [Error]) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
-            guard let index = queryObjectIdentifiers.lastIndex(of: ObjectIdentifier(operation)) else { return }
-            queries[index].state = .success(graphQLErrors: graphQLErrors)
+            queries[ObjectIdentifier(operation)]?.state = .success(graphQLErrors: graphQLErrors)
         case .mutation:
-            guard let index = mutationObjectIdentifiers.lastIndex(of: ObjectIdentifier(operation)) else { return }
-            mutations[index].state = .success(graphQLErrors: graphQLErrors)
+            mutations[ObjectIdentifier(operation)]?.state = .success(graphQLErrors: graphQLErrors)
         case .subscription:
             break
         }
@@ -91,7 +83,7 @@ private struct OperationStoreValue {
     let variables: GraphQLMap?
     var state = OperationState.loading
 
-    init<Operation>(operation: Operation) where Operation: GraphQLOperation {
+    init<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
         self.queryDocument = operation.queryDocument
         self.variables = operation.variables
     }
