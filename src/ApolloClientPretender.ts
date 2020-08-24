@@ -79,24 +79,17 @@ function onLogMessageReceived(event: MessageEvent): void {
 }
 
 function translateApolloStateChangeEvent(event: DeveloperKitStateChange): DevtoolsStateChange {
-  const newEvent: DevtoolsStateChange = {
+  return {
+    ...event,
     state: {
-      queries: [],
-      mutations: []
-    },
-    dataWithOptimisticResults: event.dataWithOptimisticResults
+      queries: event.state.queries.map(query => ({
+        ...query,
+        document: parse(query.document)
+      })),
+      mutations: event.state.mutations.map(mutation => ({
+        ...mutation,
+        mutation: parse(mutation.mutation)
+      }))
+    }
   }
-  for (const query of Object.values(event.state.queries)) {
-    newEvent.state.queries.push({
-      ...query,
-      document: parse(query.document)
-    })
-  }
-  for (const mutation of Object.values(event.state.mutations)) {
-    newEvent.state.mutations.push({
-      ...mutation,
-      mutation: parse(mutation.mutation)
-    })
-  }
-  return newEvent
 }
