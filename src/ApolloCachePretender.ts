@@ -30,11 +30,10 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
     return { success: true }
   }
 
-  reset(): Promise<void> {
-    return Promise.resolve()
+  async reset(): Promise<void> {
   }
 
-  restore(_serializedState: unknown): ApolloCache<unknown> {
+  restore(_serializedState: unknown): this {
     return this
   }
 

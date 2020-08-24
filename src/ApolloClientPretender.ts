@@ -9,8 +9,8 @@ import ApolloCachePretender from './ApolloCachePretender'
 
 export default class ApolloClientPretender implements DataProxy {
   readonly version = '2.0.0'
-  readonly link: ApolloLink = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
-  readonly cache: ApolloCache<unknown> = new ApolloCachePretender(this.startListening.bind(this))
+  readonly link = new ApolloLink((operation) => fromPromise(requestOperation(operation)))
+  readonly cache = new ApolloCachePretender(this.startListening.bind(this))
 
   private devToolsHookCb?: (event: DevtoolsStateChange) => void
   private eventSource?: EventSource
