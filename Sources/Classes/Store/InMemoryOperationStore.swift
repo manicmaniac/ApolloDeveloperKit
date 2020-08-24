@@ -23,7 +23,7 @@ import Foundation
  * [queries.ts](https://github.com/apollographql/apollo-client/blob/v2.6.8/packages/apollo-client/src/data/queries.ts)
  * [mutations.ts](https://github.com/apollographql/apollo-client/blob/v2.6.8/packages/apollo-client/src/data/mutations.ts)]
  */
-struct InMemoryOperationStore: OperationStore {
+final class InMemoryOperationStore: OperationStore {
     private var queries = KeyedStack<ObjectIdentifier, OperationStoreValue>()
     private var mutations = KeyedStack<ObjectIdentifier, OperationStoreValue>()
 
@@ -44,7 +44,7 @@ struct InMemoryOperationStore: OperationStore {
         return State(mutations: mutations, queries: queries)
     }
 
-    mutating func add<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
+    func add<Operation>(_ operation: Operation) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
             queries.push(OperationStoreValue(operation), for: ObjectIdentifier(operation))
@@ -55,15 +55,15 @@ struct InMemoryOperationStore: OperationStore {
         }
     }
 
-    mutating func setFailure<Operation>(for operation: Operation, networkError: Error) where Operation: GraphQLOperation {
+    func setFailure<Operation>(for operation: Operation, networkError: Error) where Operation: GraphQLOperation {
         setState(.failure(networkError: networkError), for: operation)
     }
 
-    mutating func setSuccess<Operation>(for operation: Operation, graphQLErrors: [Error]) where Operation: GraphQLOperation {
+    func setSuccess<Operation>(for operation: Operation, graphQLErrors: [Error]) where Operation: GraphQLOperation {
         setState(.success(graphQLErrors: graphQLErrors), for: operation)
     }
 
-    private mutating func setState<Operation>(_ state: OperationState, for operation: Operation) where Operation: GraphQLOperation {
+    private func setState<Operation>(_ state: OperationState, for operation: Operation) where Operation: GraphQLOperation {
         switch operation.operationType {
         case .query:
             queries[ObjectIdentifier(operation)]?.state = state
