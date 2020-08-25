@@ -73,3 +73,15 @@ jobs:
         run: npm install
       - name: Run frontend tests
         run: npm test
+  frontend-rebuild:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Generate types
+        run: npm run generate:type
+      - name: Build bundle.js
+        run: npm run dist
+      - name: Check differences
+        run: git diff --exit-code .
