@@ -29,11 +29,15 @@ struct KeyedStack<Key, Value> where Key: Equatable {
             return index(for: key).flatMap { elements[$0].1 }
         }
         set {
-            guard let index = self.index(for: key) else { return }
-            if let newValue = newValue {
+            switch (index(for: key), newValue) {
+            case (let index?, let newValue?):
                 elements[index] = (key, newValue)
-            } else {
+            case (let index?, nil):
                 elements.remove(at: index)
+            case (nil, let newValue?):
+                push(newValue, for: key)
+            case (nil, nil):
+                break
             }
         }
     }
