@@ -84,6 +84,8 @@
 		5BBF4C8423F24E6B00FDC452 /* OperationStoreControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF4C8323F24E6B00FDC452 /* OperationStoreControllerTests.swift */; };
 		5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */; };
 		5BCC23BF238464A400D26A79 /* JSONCocoaTypeConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCC23BE238464A400D26A79 /* JSONCocoaTypeConversions.swift */; };
+		5BCE500724F4441900310E26 /* KeyedStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE500624F4441900310E26 /* KeyedStack.swift */; };
+		5BCE500924F4A8A300310E26 /* KeyedStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE500824F4A8A300310E26 /* KeyedStackTests.swift */; };
 		5BD3BEF524F1505C005D069A /* Schema+JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */; };
 		5BD3BEF724F15463005D069A /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF624F15463005D069A /* Schema.swift */; };
 		5BD3BEF924F154FE005D069A /* Schema+JSONDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */; };
@@ -228,6 +230,8 @@
 		5BBF4C8323F24E6B00FDC452 /* OperationStoreControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStoreControllerTests.swift; sourceTree = "<group>"; };
 		5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirection.swift; sourceTree = "<group>"; };
 		5BCC23BE238464A400D26A79 /* JSONCocoaTypeConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCocoaTypeConversions.swift; sourceTree = "<group>"; };
+		5BCE500624F4441900310E26 /* KeyedStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedStack.swift; sourceTree = "<group>"; };
+		5BCE500824F4A8A300310E26 /* KeyedStackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedStackTests.swift; sourceTree = "<group>"; };
 		5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONDecodable.swift"; sourceTree = "<group>"; };
 		5BD3BEF624F15463005D069A /* Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONDecodableTests.swift"; sourceTree = "<group>"; };
@@ -413,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */,
+				5BCE500824F4A8A300310E26 /* KeyedStackTests.swift */,
 				5BBF4C8323F24E6B00FDC452 /* OperationStoreControllerTests.swift */,
 			);
 			path = Store;
@@ -471,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				5B29A59F23F112A500475EEA /* InMemoryOperationStore.swift */,
+				5BCE500624F4441900310E26 /* KeyedStack.swift */,
 				5BBF4C8123F19DDF00FDC452 /* OperationStore.swift */,
 				5B29A5A323F1309300475EEA /* OperationStoreController.swift */,
 			);
@@ -763,6 +769,7 @@
 				5B9B3F85240600C9007E1A8B /* Socket.swift in Sources */,
 				5B15067424F149960081B1E8 /* Schema+JSONEncodable.swift in Sources */,
 				5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */,
+				5BCE500724F4441900310E26 /* KeyedStack.swift in Sources */,
 				5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */,
 				5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */,
 				5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */,
@@ -798,6 +805,7 @@
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
+				5BCE500924F4A8A300310E26 /* KeyedStackTests.swift in Sources */,
 				5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */,
 				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,
 				5BBF4C8423F24E6B00FDC452 /* OperationStoreControllerTests.swift in Sources */,
