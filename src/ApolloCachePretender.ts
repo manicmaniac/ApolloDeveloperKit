@@ -45,9 +45,11 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
   removeOptimistic(_id: string): void {
   }
 
-  performTransaction(_transaction: Transaction<unknown>): void {
+  performTransaction(transaction: Transaction<unknown>): void {
+    transaction(this)
   }
 
-  recordOptimisticTransaction(_transaction: Transaction<unknown>, id: string): void {
+  recordOptimisticTransaction(transaction: Transaction<unknown>, id: string): void {
+    transaction(this)
   }
 }
