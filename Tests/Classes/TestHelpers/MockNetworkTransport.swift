@@ -12,25 +12,31 @@ class MockNetworkTransport: NetworkTransport {
     var clientName = "clientName"
     var clientVersion = "clientVersion"
 
-    private let response: Any?
-    private let error: Error?
+    private var results = ArraySlice<Result<Any, Error>>()
 
-    init() {
-        self.response = nil
-        self.error = nil
+    var isResultsEmpty: Bool {
+        return results.isEmpty
     }
 
-    init<Data>(response: GraphQLResponse<Data>?, error: Error?) where Data: GraphQLSelectionSet {
-        self.response = response
-        self.error = error
+    func append<Data>(response: GraphQLResponse<Data>) where Data: GraphQLSelectionSet {
+        results.append(.success(response))
     }
+
+    func append(error: Error) {
+        results.append(.failure(error))
+    }
+
     func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation.Data>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
-        if let response = response as? GraphQLResponse<Operation.Data> {
+        let result = results.popFirst()
+        switch result {
+        case .success(let response as GraphQLResponse<Operation.Data>)?:
             completionHandler(.success(response))
-        } else if let error = error {
+        case .failure(let error)?:
             completionHandler(.failure(error))
-        } else {
-            preconditionFailure("Either of response and error should exist")
+        case .success:
+            fatalError("The type of the next response doesn't match the expected type.")
+        case nil:
+            fatalError("The number of invocation of send(operation:completionHandler:) exceeds the number of results.")
         }
         return MockCancellable()
     }

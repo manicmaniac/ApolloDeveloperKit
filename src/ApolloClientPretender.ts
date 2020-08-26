@@ -1,5 +1,5 @@
 import type { FetchResult, Operation as LinkOperation } from 'apollo-link'
-import type { ApolloCache, DataProxy } from 'apollo-cache'
+import type { DataProxy } from 'apollo-cache'
 import type { StateChange as DevtoolsStateChange } from 'apollo-client-devtools'
 import type { Operation, StateChange as DeveloperKitStateChange } from 'apollo-developer-kit'
 import { parse } from 'graphql/language/parser'
