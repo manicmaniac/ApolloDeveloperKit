@@ -109,6 +109,30 @@
         "dataWithOptimisticResults"
       ],
       "additionalProperties": false
+    },
+    "consoleEvent": {
+      "$id": "#consoleEvent",
+      "title": "ConsoleEvent",
+      "description": "Console event pushed from client to server.",
+      "type": "object",
+      "properties": {
+        "type": {
+          "title": "ConsoleEventType",
+          "type": "string",
+          "enum": [
+            "stdout",
+            "stderr"
+          ]
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "data"
+      ],
+      "additionalProperties": false
     }
   },
   "additionalProperties": false,
