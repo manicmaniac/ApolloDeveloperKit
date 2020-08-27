@@ -152,12 +152,12 @@ public class ApolloDebugServer {
         return HTTPChunkedResponse(rawData: rawData)
     }
 
-    private func eventName(for destination: ConsoleRedirection.Destination) -> String {
+    private func eventType(for destination: ConsoleRedirection.Destination) -> ConsoleEventType {
         switch destination {
         case .standardOutput:
-            return "stdout"
+            return .stdout
         case .standardError:
-            return "stderr"
+            return .stderr
         }
     }
 
@@ -170,7 +170,7 @@ public class ApolloDebugServer {
             notification.object === ConsoleRedirection.shared,
             let message = String(data: notification.data, encoding: .utf8) else { return }
         let envelopedMessage = "data: " + message.replacingOccurrences(of: "\n", with: "\ndata: ")
-        let payload = "event: \(eventName(for: notification.destination))\n\(envelopedMessage)\n\n"
+        let payload = "event: \(eventType(for: notification.destination))\n\(envelopedMessage)\n\n"
         let chunk = HTTPChunkedResponse(string: payload)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
