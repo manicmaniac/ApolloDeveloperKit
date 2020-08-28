@@ -133,7 +133,7 @@ public class ApolloDebugServer {
     }
 
     @objc private func timerDidFire(_ timer: Timer) {
-        let ping = HTTPChunkedResponse(string: ":\n\n")
+        let ping = HTTPChunkedResponse(event: EventStreamMessage.ping)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: ping)
         }
@@ -146,10 +146,7 @@ public class ApolloDebugServer {
 
     private func chunkForCurrentState() -> HTTPChunkedResponse {
         let stateChange = StateChange(dataWithOptimisticResults: cache.extract(), state: operationStoreController.store.state)
-        var rawData = try! JSONSerialization.data(withJSONObject: stateChange.jsonValue)
-        rawData.insert(contentsOf: Data("data: ".utf8), at: 0)
-        rawData.append(contentsOf: Data("\n\n".utf8))
-        return HTTPChunkedResponse(rawData: rawData)
+        return HTTPChunkedResponse(event: stateChange)
     }
 
     private func eventType(for destination: ConsoleRedirection.Destination) -> ConsoleEventType {
@@ -169,9 +166,8 @@ public class ApolloDebugServer {
         guard let notification = ConsoleDidWriteNotification(rawValue: notification),
             notification.object === ConsoleRedirection.shared,
             let message = String(data: notification.data, encoding: .utf8) else { return }
-        let envelopedMessage = "data: " + message.replacingOccurrences(of: "\n", with: "\ndata: ")
-        let payload = "event: \(eventType(for: notification.destination))\n\(envelopedMessage)\n\n"
-        let chunk = HTTPChunkedResponse(string: payload)
+        let event = ConsoleEvent(data: message, type: eventType(for: notification.destination))
+        let chunk = HTTPChunkedResponse(event: event)
         for connection in eventStreamConnections.allObjects {
             connection.write(chunkedResponse: chunk)
         }

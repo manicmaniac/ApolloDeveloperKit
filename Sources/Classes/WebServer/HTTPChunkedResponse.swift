@@ -20,10 +20,6 @@ struct HTTPChunkedResponse {
         self.rawData = rawData
     }
 
-    init(string: String) {
-        self.rawData = Data(string.utf8)
-    }
-
     init(event: EventStreamMessageConvertible) {
         self.init(rawData: event.message.rawData)
     }
