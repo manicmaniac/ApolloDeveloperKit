@@ -19,4 +19,9 @@ class HTTPChunkedResponseTests: XCTestCase {
         let chunk = HTTPChunkedResponse(rawData: Data("data: foo\n\n".utf8))
         XCTAssertEqual(chunk.data, Data("b\r\ndata: foo\n\n\r\n".utf8))
     }
+
+    func testData_withEventStreamMessage() {
+        let chunk = HTTPChunkedResponse(event: EventStreamMessage.ping)
+        XCTAssertEqual(chunk.data, Data("3\r\n:\n\n\r\n".utf8))
+    }
 }

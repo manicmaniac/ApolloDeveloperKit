@@ -7,10 +7,24 @@ import Foundation
 
 // MARK: - Schema
 struct Schema {
+    /// Console event pushed from client to server.
+    let consoleEvent: ConsoleEvent?
     /// GraphQL operation request passed from client to server.
     let operation: Operation?
     /// State change event pushed from server to client.
     let stateChange: StateChange?
+}
+
+/// Console event pushed from client to server.
+// MARK: - ConsoleEvent
+struct ConsoleEvent {
+    let data: String
+    let type: ConsoleEventType
+}
+
+enum ConsoleEventType {
+    case stderr
+    case stdout
 }
 
 /// GraphQL operation request passed from client to server.

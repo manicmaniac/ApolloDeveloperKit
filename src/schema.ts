@@ -1,5 +1,9 @@
 export interface Schema {
     /**
+     * Console event pushed from client to server.
+     */
+    consoleEvent?: ConsoleEvent;
+    /**
      * GraphQL operation request passed from client to server.
      */
     operation?: Operation;
@@ -7,6 +11,19 @@ export interface Schema {
      * State change event pushed from server to client.
      */
     stateChange?: StateChange;
+}
+
+/**
+ * Console event pushed from client to server.
+ */
+export interface ConsoleEvent {
+    data: string;
+    type: ConsoleEventType;
+}
+
+export enum ConsoleEventType {
+    Stderr = "stderr",
+    Stdout = "stdout",
 }
 
 /**

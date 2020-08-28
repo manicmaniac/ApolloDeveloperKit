@@ -53,6 +53,9 @@
 		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
 		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
+		5B53B14B24F9BB9700A946D4 /* EventStreamMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */; };
+		5B53B14D24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */; };
+		5B53B15324F9C33E00A946D4 /* EventStreamMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
@@ -200,6 +203,9 @@
 		5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
+		5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamMessage.swift; sourceTree = "<group>"; };
+		5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+EventStreamMessageConvertible.swift"; sourceTree = "<group>"; };
+		5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamMessageTests.swift; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLOperation.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
@@ -289,6 +295,7 @@
 				5B2E1B34230CD19E003C85CB /* TestHelpers */,
 				5BA76BC0240ABA9900501193 /* Background */,
 				5B4F460C2370AAA70039495A /* Console */,
+				5B53B15124F9C32700A946D4 /* EventStreamMessage */,
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A838B22C6855C002B4FFB /* JSON */,
 				5B3A839422C7221D002B4FFB /* Store */,
@@ -387,8 +394,10 @@
 			children = (
 				5B8983CC237A3E1B00C857D6 /* Background */,
 				5BF9B11923494CF8009A6463 /* Console */,
+				5B53B14924F9BB7C00A946D4 /* EventStreamMessage */,
 				5B67343D22BFF02200A09DF7 /* GraphQL */,
 				5B7C983622BABA06000F4D7B /* JSON */,
+				5B53B15024F9C27A00A946D4 /* Schema */,
 				5B7C983422BAB9E3000F4D7B /* Store */,
 				5B3A83A522C87F3B002B4FFB /* WebServer */,
 				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
@@ -469,6 +478,33 @@
 			path = Console;
 			sourceTree = "<group>";
 		};
+		5B53B14924F9BB7C00A946D4 /* EventStreamMessage */ = {
+			isa = PBXGroup;
+			children = (
+				5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */,
+			);
+			path = EventStreamMessage;
+			sourceTree = "<group>";
+		};
+		5B53B15024F9C27A00A946D4 /* Schema */ = {
+			isa = PBXGroup;
+			children = (
+				5BD3BEF624F15463005D069A /* Schema.swift */,
+				5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */,
+				5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */,
+				5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */,
+			);
+			path = Schema;
+			sourceTree = "<group>";
+		};
+		5B53B15124F9C32700A946D4 /* EventStreamMessage */ = {
+			isa = PBXGroup;
+			children = (
+				5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */,
+			);
+			path = EventStreamMessage;
+			sourceTree = "<group>";
+		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,9 +532,6 @@
 				5BCC23BE238464A400D26A79 /* JSONCocoaTypeConversions.swift */,
 				5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */,
 				5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */,
-				5BD3BEF624F15463005D069A /* Schema.swift */,
-				5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */,
-				5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -786,8 +819,10 @@
 				5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */,
 				5B05890A24EB5DC60071DB57 /* HTTPRequestMessage.swift in Sources */,
 				5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */,
+				5B53B14B24F9BB9700A946D4 /* EventStreamMessage.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */,
+				5B53B14D24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift in Sources */,
 				5B05890824EB53220071DB57 /* ConsoleDidWriteNotification.swift in Sources */,
 				5B15067624F14B520081B1E8 /* ErrorLike+Error.swift in Sources */,
 				5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */,
@@ -811,6 +846,7 @@
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
+				5B53B15324F9C33E00A946D4 /* EventStreamMessageTests.swift in Sources */,
 				5BCE500924F4A8A300310E26 /* KeyedStackTests.swift in Sources */,
 				5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */,
 				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,

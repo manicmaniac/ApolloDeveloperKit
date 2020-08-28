@@ -1,11 +1,13 @@
 import type { FetchResult, Operation as LinkOperation } from 'apollo-link'
 import type { DataProxy } from 'apollo-cache'
 import type { StateChange as DevtoolsStateChange } from 'apollo-client-devtools'
-import type { Operation, StateChange as DeveloperKitStateChange } from './schema'
+import type { ConsoleEvent, Operation, StateChange as DeveloperKitStateChange } from './schema'
+import assert from 'assert'
 import { parse } from 'graphql/language/parser'
 import { print } from 'graphql/language/printer'
 import { ApolloLink, fromPromise } from 'apollo-link'
 import ApolloCachePretender from './ApolloCachePretender'
+import { ConsoleEventType } from './schema'
 
 export default class ApolloClientPretender implements DataProxy {
   readonly version = '2.0.0'
@@ -28,8 +30,8 @@ export default class ApolloClientPretender implements DataProxy {
       const newEvent = translateApolloStateChangeEvent(event)
       this.devToolsHookCb?.(newEvent)
     }
-    this.eventSource.addEventListener('stdout', event => onLogMessageReceived(event as MessageEvent))
-    this.eventSource.addEventListener('stderr', event => onLogMessageReceived(event as MessageEvent))
+    this.eventSource.addEventListener('stdout', event => onConsoleEventReceived(event))
+    this.eventSource.addEventListener('stderr', event => onConsoleEventReceived(event))
   }
 
   stopListening(): void {
@@ -59,9 +61,18 @@ async function requestOperation(operation: LinkOperation): Promise<FetchResult> 
   return await response.json()
 }
 
-function onLogMessageReceived(event: MessageEvent): void {
-  const color = event.type === 'stdout' ? 'cadetblue' : 'tomato'
-  console.log(`%c${event.data}`, `color: ${color}`)
+function isConsoleEvent(object: any): object is ConsoleEvent {
+  return Object.values(ConsoleEventType).includes(object?.type) && ((typeof object?.data === 'string') || object?.data instanceof String)
+}
+
+const consoleEventTypeColorMap: Readonly<Record<ConsoleEventType, string>> = Object.freeze({
+  'stdout': 'cadetblue',
+  'stderr': 'tomato'
+})
+
+function onConsoleEventReceived(event: Event): void {
+  assert(isConsoleEvent(event))
+  console.log(`%c${event.data}`, `color: ${consoleEventTypeColorMap[event.type]}`)
 }
 
 function translateApolloStateChangeEvent(event: DeveloperKitStateChange): DevtoolsStateChange {

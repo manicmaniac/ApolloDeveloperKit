@@ -8,7 +8,7 @@
     "dist": "webpack --mode=production",
     "test": "jest",
     "generate:type": "npm run generate:type:swift & npm run generate:type:typescript & wait",
-    "generate:type:swift": "quicktype -l swift --just-types -t Schema -s schema -o Sources/Classes/JSON/Schema.swift ApolloDeveloperKit.schema.json",
+    "generate:type:swift": "quicktype -l swift --just-types -t Schema -s schema -o Sources/Classes/Schema/Schema.swift ApolloDeveloperKit.schema.json",
     "generate:type:typescript": "quicktype -l typescript --just-types -t Schema -s schema -o src/schema.ts ApolloDeveloperKit.schema.json"
   },
   "author": "Ryosuke Ito <rito.0305@gmail.com>",
