@@ -55,6 +55,7 @@
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
 		5B53B14B24F9BB9700A946D4 /* EventStreamMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */; };
 		5B53B14D24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */; };
+		5B53B15324F9C33E00A946D4 /* EventStreamMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
@@ -204,6 +205,7 @@
 		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
 		5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamMessage.swift; sourceTree = "<group>"; };
 		5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+EventStreamMessageConvertible.swift"; sourceTree = "<group>"; };
+		5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamMessageTests.swift; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLOperation.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				5B2E1B34230CD19E003C85CB /* TestHelpers */,
 				5BA76BC0240ABA9900501193 /* Background */,
 				5B4F460C2370AAA70039495A /* Console */,
+				5B53B15124F9C32700A946D4 /* EventStreamMessage */,
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A838B22C6855C002B4FFB /* JSON */,
 				5B3A839422C7221D002B4FFB /* Store */,
@@ -492,6 +495,14 @@
 				5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */,
 			);
 			path = Schema;
+			sourceTree = "<group>";
+		};
+		5B53B15124F9C32700A946D4 /* EventStreamMessage */ = {
+			isa = PBXGroup;
+			children = (
+				5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */,
+			);
+			path = EventStreamMessage;
 			sourceTree = "<group>";
 		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
@@ -835,6 +846,7 @@
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
+				5B53B15324F9C33E00A946D4 /* EventStreamMessageTests.swift in Sources */,
 				5BCE500924F4A8A300310E26 /* KeyedStackTests.swift in Sources */,
 				5B2E1B2D230CC93C003C85CB /* NetworkInterfaceTests.swift in Sources */,
 				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,
