@@ -24,6 +24,10 @@ struct HTTPChunkedResponse {
         self.rawData = Data(string.utf8)
     }
 
+    init(event: EventStreamMessageConvertible) {
+        self.init(rawData: event.message.rawData)
+    }
+
     var data: Data {
         var data = Data(String(format: "%x\r\n", rawData.count).utf8)
         data.append(rawData)
