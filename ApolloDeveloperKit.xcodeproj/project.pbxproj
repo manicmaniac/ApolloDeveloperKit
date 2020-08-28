@@ -54,8 +54,7 @@
 		5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */; };
 		5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */; };
 		5B53B14B24F9BB9700A946D4 /* EventStreamMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */; };
-		5B53B14D24F9BFA000A946D4 /* ConsoleEvent+EventStreamMessageConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14C24F9BFA000A946D4 /* ConsoleEvent+EventStreamMessageConvertible.swift */; };
-		5B53B14F24F9C0D800A946D4 /* StateChange+EventStreamMessageConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14E24F9C0D800A946D4 /* StateChange+EventStreamMessageConvertible.swift */; };
+		5B53B14D24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
@@ -204,8 +203,7 @@
 		5B4F460A2370A8540039495A /* DarwinFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
 		5B4F460D2370AAB50039495A /* ConsoleRedirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirectionTests.swift; sourceTree = "<group>"; };
 		5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamMessage.swift; sourceTree = "<group>"; };
-		5B53B14C24F9BFA000A946D4 /* ConsoleEvent+EventStreamMessageConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConsoleEvent+EventStreamMessageConvertible.swift"; sourceTree = "<group>"; };
-		5B53B14E24F9C0D800A946D4 /* StateChange+EventStreamMessageConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StateChange+EventStreamMessageConvertible.swift"; sourceTree = "<group>"; };
+		5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+EventStreamMessageConvertible.swift"; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLOperation.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
@@ -396,6 +394,7 @@
 				5B53B14924F9BB7C00A946D4 /* EventStreamMessage */,
 				5B67343D22BFF02200A09DF7 /* GraphQL */,
 				5B7C983622BABA06000F4D7B /* JSON */,
+				5B53B15024F9C27A00A946D4 /* Schema */,
 				5B7C983422BAB9E3000F4D7B /* Store */,
 				5B3A83A522C87F3B002B4FFB /* WebServer */,
 				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
@@ -480,10 +479,19 @@
 			isa = PBXGroup;
 			children = (
 				5B53B14A24F9BB9700A946D4 /* EventStreamMessage.swift */,
-				5B53B14C24F9BFA000A946D4 /* ConsoleEvent+EventStreamMessageConvertible.swift */,
-				5B53B14E24F9C0D800A946D4 /* StateChange+EventStreamMessageConvertible.swift */,
 			);
 			path = EventStreamMessage;
+			sourceTree = "<group>";
+		};
+		5B53B15024F9C27A00A946D4 /* Schema */ = {
+			isa = PBXGroup;
+			children = (
+				5BD3BEF624F15463005D069A /* Schema.swift */,
+				5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */,
+				5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */,
+				5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */,
+			);
+			path = Schema;
 			sourceTree = "<group>";
 		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
@@ -513,9 +521,6 @@
 				5BCC23BE238464A400D26A79 /* JSONCocoaTypeConversions.swift */,
 				5B2F84F922B4C8F40025A211 /* Record+JSONEncodable.swift */,
 				5B3A839022C72167002B4FFB /* Reference+JSONEncodable.swift */,
-				5BD3BEF624F15463005D069A /* Schema.swift */,
-				5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */,
-				5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -806,7 +811,7 @@
 				5B53B14B24F9BB9700A946D4 /* EventStreamMessage.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */,
-				5B53B14D24F9BFA000A946D4 /* ConsoleEvent+EventStreamMessageConvertible.swift in Sources */,
+				5B53B14D24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift in Sources */,
 				5B05890824EB53220071DB57 /* ConsoleDidWriteNotification.swift in Sources */,
 				5B15067624F14B520081B1E8 /* ErrorLike+Error.swift in Sources */,
 				5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */,
@@ -815,7 +820,6 @@
 				5B05890C24EB5DCF0071DB57 /* HTTPResponseMessage.swift in Sources */,
 				5BCC23BF238464A400D26A79 /* JSONCocoaTypeConversions.swift in Sources */,
 				5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */,
-				5B53B14F24F9C0D800A946D4 /* StateChange+EventStreamMessageConvertible.swift in Sources */,
 				5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */,
 				5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */,
 				5BBF4C8223F19DDF00FDC452 /* OperationStore.swift in Sources */,
