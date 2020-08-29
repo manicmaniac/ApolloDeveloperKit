@@ -8,13 +8,21 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/DebuggableNetworkTransport" class="dashAnchor"></a>
     <a title="DebuggableNetworkTransport Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">ApolloDeveloperKit Docs</a> (63% documented)</p>
+        <p><a href="../index.html">ApolloDeveloperKit 0.14.0 Docs</a> (74% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -71,24 +79,6 @@
                 <a href="../Extensions/CFString.html">CFString</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/HTTPConnection.html">HTTPConnection</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/HTTPMessage.html">HTTPMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/HTTPServer.html">HTTPServer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/InMemoryOperationStore.html">InMemoryOperationStore</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/JSError.html">JSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/MIMEType.html">MIMEType</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSArray.html">NSArray</a>
               </li>
               <li class="nav-group-task">
@@ -104,28 +94,10 @@
                 <a href="../Extensions/NSString.html">NSString</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/Notification.html">Notification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/Notification/Name.html">– Name</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/OperationStoreController.html">OperationStoreController</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/Record.html">Record</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/Reference.html">Reference</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/Socket.html">Socket</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/URLRequest.html">URLRequest</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/URLSessionConfiguration.html">URLSessionConfiguration</a>
               </li>
             </ul>
           </li>
@@ -137,7 +109,9 @@
             <h1>DebuggableNetworkTransport</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">DebuggableNetworkTransport</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">DebuggableNetworkTransport</span><span class="p">:</span> <span class="kt">NetworkTransport</span></code></pre>
 
                 </div>
               </div>
@@ -206,7 +180,7 @@
                     <code>
                     <a name="/s:18ApolloDeveloperKit26DebuggableNetworkTransportC07networkF0AC0A00eF0_p_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(networkTransport:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit26DebuggableNetworkTransportC07networkF0AC0A00eF0_p_tcfc">init(networkTransport:)</a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit26DebuggableNetworkTransportC07networkF0AC0A00eF0_p_tcfc">init(networkTransport:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -253,9 +227,11 @@
               <div class="task-name-container">
                 <a name="/NetworkTransport"></a>
                 <a name="//apple_ref/swift/Section/NetworkTransport" class="dashAnchor"></a>
-                <a href="#/NetworkTransport">
-                  <h3 class="section-name">NetworkTransport</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/NetworkTransport"></a>
+                  <h3 class="section-name"><p>NetworkTransport</p>
+</h3>
+                </div>
               </div>
               <ul>
                 <li class="item">
@@ -263,7 +239,7 @@
                     <code>
                     <a name="/s:6Apollo16NetworkTransportP4send9operation17completionHandlerAA11Cancellable_pqd___ys6ResultOyAA15GraphQLResponseCy4DataQyd__Gs5Error_pGctAA0J11QLOperationRd__lF"></a>
                     <a name="//apple_ref/swift/Method/send(operation:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo16NetworkTransportP4send9operation17completionHandlerAA11Cancellable_pqd___ys6ResultOyAA15GraphQLResponseCy4DataQyd__Gs5Error_pGctAA0J11QLOperationRd__lF">send(operation:completionHandler:)</a>
+                    <a class="token" href="#/s:6Apollo16NetworkTransportP4send9operation17completionHandlerAA11Cancellable_pqd___ys6ResultOyAA15GraphQLResponseCy4DataQyd__Gs5Error_pGctAA0J11QLOperationRd__lF">send(operation:<wbr>completionHandler:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -277,7 +253,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">send</span><span class="o">&lt;</span><span class="kt">Operation</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">operation</span><span class="p">:</span> <span class="kt">Operation</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">GraphQLResponse</span><span class="o">&lt;</span><span class="kt">Operation</span><span class="o">.</span><span class="kt">Data</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Cancellable</span> <span class="k">where</span> <span class="kt">Operation</span><span class="p">:</span> <span class="kt">GraphQLOperation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">send</span><span class="o">&lt;</span><span class="kt">Operation</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">operation</span><span class="p">:</span> <span class="kt">Operation</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">GraphQLResponse</span><span class="o">&lt;</span><span class="kt">Operation</span><span class="o">.</span><span class="kt">Data</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Cancellable</span> <span class="k">where</span> <span class="kt">Operation</span> <span class="p">:</span> <span class="kt">GraphQLOperation</span></code></pre>
 
                         </div>
                       </div>
@@ -289,8 +265,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-07-19)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-08-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

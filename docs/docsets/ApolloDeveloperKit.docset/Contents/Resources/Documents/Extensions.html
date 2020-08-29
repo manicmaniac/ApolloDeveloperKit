@@ -8,13 +8,21 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Section/Extensions" class="dashAnchor"></a>
     <a title="Extensions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ApolloDeveloperKit Docs</a> (63% documented)</p>
+        <p><a href="index.html">ApolloDeveloperKit 0.14.0 Docs</a> (74% documented)</p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -71,24 +79,6 @@
                 <a href="Extensions/CFString.html">CFString</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/HTTPConnection.html">HTTPConnection</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/HTTPMessage.html">HTTPMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/HTTPServer.html">HTTPServer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/InMemoryOperationStore.html">InMemoryOperationStore</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/JSError.html">JSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/MIMEType.html">MIMEType</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/NSArray.html">NSArray</a>
               </li>
               <li class="nav-group-task">
@@ -104,28 +94,10 @@
                 <a href="Extensions/NSString.html">NSString</a>
               </li>
               <li class="nav-group-task">
-                <a href="Extensions/Notification.html">Notification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/Notification/Name.html">– Name</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/OperationStoreController.html">OperationStoreController</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Extensions/Record.html">Record</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/Reference.html">Reference</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/Socket.html">Socket</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/URLRequest.html">URLRequest</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Extensions/URLSessionConfiguration.html">URLSessionConfiguration</a>
               </li>
             </ul>
           </li>
@@ -139,67 +111,6 @@
 
           </section>
           <section class="section task-group-section">
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/"></a>
-                    <a name="//apple_ref/swift/Extension/Notification" class="dashAnchor"></a>
-                    <a class="token" href="#/">Notification</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/Notification.html" class="slightly-smaller">See more</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/JSONEncodable"></a>
-                <a name="//apple_ref/swift/Section/JSONEncodable" class="dashAnchor"></a>
-                <a href="#/JSONEncodable">
-                  <h3 class="section-name">JSONEncodable</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit7JSErrorV"></a>
-                    <a name="//apple_ref/swift/Extension/JSError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit7JSErrorV">JSError</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/JSError.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">JSError</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
             <div class="task-group">
               <ul>
                 <li class="item">
@@ -504,10 +415,6 @@
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -535,10 +442,6 @@
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -568,325 +471,11 @@
                 </li>
               </ul>
             </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/JSONEncodable2"></a>
-                <a name="//apple_ref/swift/Section/JSONEncodable" class="dashAnchor"></a>
-                <a href="#/JSONEncodable2">
-                  <h3 class="section-name">JSONEncodable</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit22InMemoryOperationStoreV"></a>
-                    <a name="//apple_ref/swift/Extension/InMemoryOperationStore" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit22InMemoryOperationStoreV">InMemoryOperationStore</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/InMemoryOperationStore.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">InMemoryOperationStore</span><span class="p">:</span> <span class="kt">JSONEncodable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/DebuggableNetworkTransportDelegate"></a>
-                <a name="//apple_ref/swift/Section/DebuggableNetworkTransportDelegate" class="dashAnchor"></a>
-                <a href="#/DebuggableNetworkTransportDelegate">
-                  <h3 class="section-name">DebuggableNetworkTransportDelegate</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit24OperationStoreControllerC"></a>
-                    <a name="//apple_ref/swift/Extension/OperationStoreController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit24OperationStoreControllerC">OperationStoreController</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/OperationStoreController.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">OperationStoreController</span><span class="p">:</span> <span class="kt">DebuggableNetworkTransportDelegate</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Hashable"></a>
-                <a name="//apple_ref/swift/Section/Hashable" class="dashAnchor"></a>
-                <a href="#/Hashable">
-                  <h3 class="section-name">Hashable</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit14HTTPConnectionC"></a>
-                    <a name="//apple_ref/swift/Extension/HTTPConnection" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit14HTTPConnectionC">HTTPConnection</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/HTTPConnection.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">HTTPConnection</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit11HTTPMessageC"></a>
-                    <a name="//apple_ref/swift/Extension/HTTPMessage" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit11HTTPMessageC">HTTPMessage</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/HTTPMessage.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">HTTPMessage</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/HTTPConnectionDelegate"></a>
-                <a name="//apple_ref/swift/Section/HTTPConnectionDelegate" class="dashAnchor"></a>
-                <a href="#/HTTPConnectionDelegate">
-                  <h3 class="section-name">HTTPConnectionDelegate</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit10HTTPServerC"></a>
-                    <a name="//apple_ref/swift/Extension/HTTPServer" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit10HTTPServerC">HTTPServer</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/HTTPServer.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">HTTPServer</span><span class="p">:</span> <span class="kt">HTTPConnectionDelegate</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/CustomStringConvertible"></a>
-                <a name="//apple_ref/swift/Section/CustomStringConvertible" class="dashAnchor"></a>
-                <a href="#/CustomStringConvertible">
-                  <h3 class="section-name">CustomStringConvertible</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit8MIMETypeO"></a>
-                    <a name="//apple_ref/swift/Extension/MIMEType" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit8MIMETypeO">MIMEType</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/MIMEType.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">MIMEType</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:18ApolloDeveloperKit6SocketC"></a>
-                    <a name="//apple_ref/swift/Extension/Socket" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit6SocketC">Socket</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/Socket.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Socket</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10Foundation10URLRequestV"></a>
-                    <a name="//apple_ref/swift/Extension/URLRequest" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10Foundation10URLRequestV">URLRequest</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/URLRequest.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">URLRequest</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)NSURLSessionConfiguration"></a>
-                    <a name="//apple_ref/swift/Extension/URLSessionConfiguration" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)NSURLSessionConfiguration">URLSessionConfiguration</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                        <a href="Extensions/URLSessionConfiguration.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">URLSessionConfiguration</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-07-19)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-08-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
