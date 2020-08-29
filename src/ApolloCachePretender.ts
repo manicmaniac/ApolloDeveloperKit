@@ -52,7 +52,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
     transaction(this)
   }
 
-  recordOptimisticTransaction(transaction: Transaction<unknown>, id: string): void {
+  recordOptimisticTransaction(transaction: Transaction<unknown>, _id: string): void {
     transaction(this)
   }
 }
