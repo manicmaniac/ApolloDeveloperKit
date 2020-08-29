@@ -16,7 +16,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@types/jest": "^24.9.1",
+    "@types/jest": "^26.0.10",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "apollo-cache": "^1.3.5",
@@ -24,13 +24,13 @@
     "apollo-client-devtools": "^2.3.1",
     "eslint": "^7.7.0",
     "eventsourcemock": "^2.0.0",
-    "graphql": "^14.7.0",
-    "jest": "^24.9.0",
+    "graphql": "^15.3.0",
+    "jest": "^26.4.2",
     "quicktype": "^15.0.256",
-    "ts-jest": "^24.3.0",
-    "ts-loader": "^6.2.2",
-    "typescript": "^3.9.7",
-    "webpack": "^4.43.0",
+    "ts-jest": "^26.3.0",
+    "ts-loader": "^8.0.3",
+    "typescript": "^4.0.2",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
   "eslintConfig": {
