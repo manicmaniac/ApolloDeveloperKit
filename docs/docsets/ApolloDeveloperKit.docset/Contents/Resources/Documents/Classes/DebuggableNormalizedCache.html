@@ -8,13 +8,21 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/DebuggableNormalizedCache" class="dashAnchor"></a>
     <a title="DebuggableNormalizedCache Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">ApolloDeveloperKit Docs</a> (63% documented)</p>
+        <p><a href="../index.html">ApolloDeveloperKit 0.14.0 Docs</a> (74% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -71,24 +79,6 @@
                 <a href="../Extensions/CFString.html">CFString</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/HTTPConnection.html">HTTPConnection</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/HTTPMessage.html">HTTPMessage</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/HTTPServer.html">HTTPServer</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/InMemoryOperationStore.html">InMemoryOperationStore</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/JSError.html">JSError</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/MIMEType.html">MIMEType</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/NSArray.html">NSArray</a>
               </li>
               <li class="nav-group-task">
@@ -104,28 +94,10 @@
                 <a href="../Extensions/NSString.html">NSString</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/Notification.html">Notification</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/Notification/Name.html">– Name</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/OperationStoreController.html">OperationStoreController</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/Record.html">Record</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/Reference.html">Reference</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/Socket.html">Socket</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/URLRequest.html">URLRequest</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Extensions/URLSessionConfiguration.html">URLSessionConfiguration</a>
               </li>
             </ul>
           </li>
@@ -137,7 +109,9 @@
             <h1>DebuggableNormalizedCache</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">DebuggableNormalizedCache</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">DebuggableNormalizedCache</span><span class="p">:</span> <span class="kt">NormalizedCache</span></code></pre>
 
                 </div>
               </div>
@@ -154,7 +128,7 @@
                     <code>
                     <a name="/s:18ApolloDeveloperKit25DebuggableNormalizedCacheC5cacheAC0A00eF0_p_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(cache:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:18ApolloDeveloperKit25DebuggableNormalizedCacheC5cacheAC0A00eF0_p_tcfc">init(cache:)</a>
+                    <a class="token" href="#/s:18ApolloDeveloperKit25DebuggableNormalizedCacheC5cacheAC0A00eF0_p_tcfc">init(cache:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -201,9 +175,11 @@
               <div class="task-name-container">
                 <a name="/NormalizedCache"></a>
                 <a name="//apple_ref/swift/Section/NormalizedCache" class="dashAnchor"></a>
-                <a href="#/NormalizedCache">
-                  <h3 class="section-name">NormalizedCache</h3>
-                </a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/NormalizedCache"></a>
+                  <h3 class="section-name"><p>NormalizedCache</p>
+</h3>
+                </div>
               </div>
               <ul>
                 <li class="item">
@@ -211,7 +187,7 @@
                     <code>
                     <a name="/s:6Apollo15NormalizedCacheP11loadRecords7forKeys13callbackQueue10completionySaySSG_So17OS_dispatch_queueCSgys6ResultOySayAA6RecordVSgGs5Error_pGctF"></a>
                     <a name="//apple_ref/swift/Method/loadRecords(forKeys:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo15NormalizedCacheP11loadRecords7forKeys13callbackQueue10completionySaySSG_So17OS_dispatch_queueCSgys6ResultOySayAA6RecordVSgGs5Error_pGctF">loadRecords(forKeys:callbackQueue:completion:)</a>
+                    <a class="token" href="#/s:6Apollo15NormalizedCacheP11loadRecords7forKeys13callbackQueue10completionySaySSG_So17OS_dispatch_queueCSgys6ResultOySayAA6RecordVSgGs5Error_pGctF">loadRecords(forKeys:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -237,7 +213,7 @@
                     <code>
                     <a name="/s:6Apollo15NormalizedCacheP5merge7records13callbackQueue10completionyAA9RecordSetV_So17OS_dispatch_queueCSgys6ResultOyShySSGs5Error_pGctF"></a>
                     <a name="//apple_ref/swift/Method/merge(records:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo15NormalizedCacheP5merge7records13callbackQueue10completionyAA9RecordSetV_So17OS_dispatch_queueCSgys6ResultOyShySSGs5Error_pGctF">merge(records:callbackQueue:completion:)</a>
+                    <a class="token" href="#/s:6Apollo15NormalizedCacheP5merge7records13callbackQueue10completionyAA9RecordSetV_So17OS_dispatch_queueCSgys6ResultOyShySSGs5Error_pGctF">merge(records:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -263,7 +239,7 @@
                     <code>
                     <a name="/s:6Apollo15NormalizedCacheP5clear13callbackQueue10completionySo17OS_dispatch_queueCSg_ys6ResultOyyts5Error_pGcSgtF"></a>
                     <a name="//apple_ref/swift/Method/clear(callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo15NormalizedCacheP5clear13callbackQueue10completionySo17OS_dispatch_queueCSg_ys6ResultOyyts5Error_pGcSgtF">clear(callbackQueue:completion:)</a>
+                    <a class="token" href="#/s:6Apollo15NormalizedCacheP5clear13callbackQueue10completionySo17OS_dispatch_queueCSg_ys6ResultOyyts5Error_pGcSgtF">clear(callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -316,8 +292,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-07-19)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-08-30)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
