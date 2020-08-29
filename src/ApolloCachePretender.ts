@@ -16,6 +16,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
   }
 
   write(_write: Cache.WriteOptions): void {
+    // do nothing
   }
 
   diff<T>(_query: Cache.DiffOptions): Cache.DiffResult<T> {
@@ -23,7 +24,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
   }
 
   watch(_watch: Cache.WatchOptions): () => void {
-    return () => {}
+    return () => { /* do nothing */}
   }
 
   evict(_query: Cache.EvictOptions): Cache.EvictionResult {
@@ -31,6 +32,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
   }
 
   async reset(): Promise<void> {
+    // do nothing
   }
 
   restore(_serializedState: unknown): this {
@@ -43,6 +45,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
   }
 
   removeOptimistic(_id: string): void {
+    // do nothing
   }
 
   performTransaction(transaction: Transaction<unknown>): void {
