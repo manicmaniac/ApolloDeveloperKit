@@ -61,6 +61,7 @@ async function requestOperation(operation: LinkOperation): Promise<FetchResult> 
   return await response.json()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isConsoleEvent(object: any): object is ConsoleEvent {
   return Object.values(ConsoleEventType).includes(object?.type) && ((typeof object?.data === 'string') || object?.data instanceof String)
 }

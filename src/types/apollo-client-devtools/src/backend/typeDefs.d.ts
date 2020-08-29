@@ -1,6 +1,4 @@
-type TypeDefs = string | {
-    [key: string]: any
-}
+type TypeDefs = string | Record<string, unknown>
 
 export interface Schema {
     definition: string,

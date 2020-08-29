@@ -10,14 +10,14 @@ describe('integration', () => {
   beforeAll(done => {
     window.__APOLLO_CLIENT__ = new ApolloClientPretender()
     bridge = new Bridge({
-      listen(fn: Function) {
-        const listener = (evt: any) => {
+      listen(fn) {
+        const listener = (evt: MessageEvent) => {
           fn(evt.data.payload)
         }
         window.addEventListener('message', listener)
       },
-      send(data: { event: string, payload: any }) {
-        window.postMessage({ payload: data }, '*')
+      send(payload) {
+        window.postMessage({ payload }, '*')
       }
     })
     installHook(window, 'test')
