@@ -1,7 +1,7 @@
 import type { Cache, Transaction } from 'apollo-cache'
 import { ApolloCache } from 'apollo-cache'
 
-type CacheObject = {}
+type CacheObject = Record<string, unknown>
 
 export default class ApolloCachePretender extends ApolloCache<unknown> {
   private onExtract?: () => void

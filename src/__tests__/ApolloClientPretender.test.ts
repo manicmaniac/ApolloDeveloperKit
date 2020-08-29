@@ -22,7 +22,7 @@ describe('ApolloClientPretender', () => {
     mocked(ApolloCachePretender).mockClear()
     mocked(console.log).mockClear()
     originalEventSource = window.EventSource
-    window.EventSource = EventSourceMock as any
+    window.EventSource = EventSourceMock as typeof EventSource
     client = new ApolloClientPretender()
     cache = mocked(ApolloCachePretender).mock.instances[0]
   })

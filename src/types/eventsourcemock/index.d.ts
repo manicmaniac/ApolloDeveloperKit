@@ -10,7 +10,7 @@ declare const defaultOptions: {
   withCredentials: false
 }
 
-export const sources: { [key: string]: EventSource }
+export const sources: Record<string, EventSource>
 
 export default class EventSource {
   static CONNECTING: ReadyStateType
@@ -22,9 +22,9 @@ export default class EventSource {
   CLOSED: ReadyStateType
 
   __emitter: EventEmitter
-  onerror: ((this: EventSource, ev: Event) => any) | null
-  onmessage: ((this: EventSource, ev: MessageEvent) => any) | null
-  onopen: ((this: EventSource, ev: Event) => any) | null
+  onerror: ((this: EventSource, ev: Event) => unknown) | null
+  onmessage: ((this: EventSource, ev: MessageEvent) => unknown) | null
+  onopen: ((this: EventSource, ev: Event) => unknown) | null
   readyState: ReadyStateType
   url: string
   withCredentials: boolean
@@ -34,13 +34,13 @@ export default class EventSource {
     configuration?: EventSourceInit
   )
 
-  addEventListener(eventName: string, listener: Function): void
-  removeEventListener(eventName: string, listener: Function): void
+  addEventListener(eventName: string, listener: (ev: Event) => void): void
+  removeEventListener(eventName: string, listener: (ev: Event) => void): void
   close(): void
   emit(eventName: string, messageEvent?: MessageEvent): void
-  emitError(error: any): void
+  emitError(error: Event): void
   emitOpen(): void
-  emitMessage(message: any): void
+  emitMessage(message: MessageEvent): void
 
   // Actually missing
   dispatchEvent(event: Event): boolean

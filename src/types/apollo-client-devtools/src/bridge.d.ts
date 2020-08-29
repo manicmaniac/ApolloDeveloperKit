@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events'
 
-type Message = string | { event: string, payload: object }
+export type Message = string | { event: string, payload: unknown }
 
-interface Wall {
+export interface Wall {
   listen(fn: (message: Message) => void): void
   send(message: Message): void
 }

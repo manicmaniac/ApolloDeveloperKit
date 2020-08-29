@@ -9,7 +9,7 @@ describe('ApolloCachePretender', () => {
   }
 
   let cache: ApolloCachePretender
-  let onExtract = jest.fn()
+  const onExtract = jest.fn()
 
   beforeEach(() => {
     cache = new ApolloCachePretender(onExtract)

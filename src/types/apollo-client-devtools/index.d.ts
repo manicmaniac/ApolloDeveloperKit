@@ -13,13 +13,9 @@ declare global {
   }
 }
 
-type Variables = {
-  [key: string]: any
-}
+type Variables = Record<string, unknown>
 
-type CacheStorage = {
-  [key: string]: any
-}
+type CacheStorage = Record<string, unknown>
 
 type Query = {
   document: DocumentNode,
