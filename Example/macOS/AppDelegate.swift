@@ -37,7 +37,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         apollo.cacheKeyForObject = { $0["id"] }
         let postListViewController = NSApplication.shared.windows.first!.contentViewController as! PostListViewController
         postListViewController.apollo = apollo
+        #if DEBUG
         postListViewController.serverURL = server.serverURL
+        #endif
         postListViewController.delegate = self
         postListViewController.loadData(completion: nil)
     }
@@ -45,6 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: PostListViewControllerDelegate {
     func postListViewControllerWantsToToggleConsoleRedirection(_ postListViewController: PostListViewController) {
+        #if DEBUG
         server.enableConsoleRedirection = !server.enableConsoleRedirection
+        #endif
     }
 }
