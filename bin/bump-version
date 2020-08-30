@@ -5,10 +5,7 @@ if [ $# -ne 1 -o "$1" = '-h' -o "$1" = '--help' ]; then
     exit 1
 fi
 
-cd "$(git rev-parse --show-toplevel)"
-
-agvtool new-marketing-version "$1" &
-ruby -pi -e "\$_=\$_.sub(/[0-9]+[.][0-9]+[.][0-9]+/,'$1') if /^ *spec[.]version/" ApolloDeveloperKit.podspec &
+agvtool new-version "${1%.*}"
+agvtool new-marketing-version "$1"
+ruby -pi -e "\$_=\$_.sub(/[0-9]+[.][0-9]+[.][0-9]+/,'$1') if /^ *spec[.]version/" ApolloDeveloperKit.podspec
 echo package.json package-lock.json | xargs -n1 ruby -rjson -i -e "puts JSON.pretty_generate(JSON[$<.read].merge('version'=>'$1'))"
-
-wait
