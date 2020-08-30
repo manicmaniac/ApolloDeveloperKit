@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ $# -ne 1 -o "$1" = '-h' -o "$1" = '--help' ]; then
     echo 'Usage: bump-version [-h|--help] <VERSION>' >&2
     exit 1
