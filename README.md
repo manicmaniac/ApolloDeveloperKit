@@ -12,7 +12,7 @@ ApolloDeveloperKit
 Overview
 --------
 
-ApolloDeveloperKit is an iOS / macOS library which works as a bridge between Apollo iOS client and [Apollo Client Developer tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm).
+ApolloDeveloperKit is an iOS / macOS library which works as a bridge between Apollo iOS client and [Apollo Client Developer tools](https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools).
 
 This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.
 
@@ -25,9 +25,8 @@ Prerequisites
 -------------
 
 - Xcode `>= 11.2.1`
-- Google Chrome
 - [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.29.0`, `< 0.32.0`
-- [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools)
+- [Apollo Client Devtools](https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools)
 
 Installation
 ------------
@@ -116,14 +115,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 Usage
 -----
 
-**If you don't have [Google Chrome](https://www.google.com/chrome) and [Apollo Client Developer Tools](https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm), install them before proceeding the following steps.**
+**If you don't have [Apollo Client Developer Tools](https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools), install it before proceeding the following steps.**
 
 1. Launch your app on your device or simulator.
-2. Open Google Chrome and jump to the server's URL (in case your app runs the above example on a simulator, the URL would be `http://localhost:8081`).
+2. Open your browser and jump to the server's URL (in case your app runs the above example on a simulator, the URL would be `http://localhost:8081`).
     - You will see `ApolloDebugServer is running!` on your browser's tab.
     - If not, make sure the server runs and the specified URL is correct.
     - On a real device, the host would be other than `localhost` but you can check what it is with `ApolloDebugServer.serverURL`.
-3. Open [Google Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/open).
+3. Open developer tools.
+    - [In Google Chrome](https://developers.google.com/web/tools/chrome-devtools/open)
+    - [In Mozilla Firefox](https://developer.mozilla.org/docs/Tools)
 4. Select `Apollo` tab.
     - You will see tabs like `GraphiQL`, `Queries`, `Mutations` on the left pane.
     - If not, reload the tab and wait until it's connected again.
@@ -179,7 +180,7 @@ debugServer = ApolloDebugServer(networkTransport: networkTransport, cache: cache
 debugServer.enableConsoleRedirection = true
 ```
 
-Then open the console in Google Chrome Devtools.
+Then open the console in your browser's developer tools.
 You will see logs in your iPhone or simulator.
 
 In the browser console, logs written in stdout are colored in [blue-green](https://www.color-hex.com/color/5f9ea0) and stderr are [orange](https://www.color-hex.com/color/ff6347) so that you can distinguish them from ordinary browser logs.
@@ -199,7 +200,7 @@ Since Example app is slightly modified version of [apollographql/frontpage-ios-a
 you need to start [apollographql/frontpage-server](https://github.com/apollographql/frontpage-server) before running the app.
 
 1. Open Xcode and select ApolloDeveloperKitExample scheme.
-2. Run and open `http://localhost:8081` in Google Chrome.
+2. Run and open `http://localhost:8081` in your browser.
 
 License
 -------
