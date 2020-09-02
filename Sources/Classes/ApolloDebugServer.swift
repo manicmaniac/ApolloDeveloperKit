@@ -16,10 +16,10 @@ import Foundation
  * When the server is released, it stops itself automatically.
  */
 public class ApolloDebugServer {
-    private let server: HTTPServer
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
+    private let server = HTTPServer()
     private let dateFormatter = DateFormatter()
     private let operationStoreController = OperationStoreController(store: InMemoryOperationStore())
     private let backgroundTask = BackgroundTask()
@@ -74,7 +74,6 @@ public class ApolloDebugServer {
     init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache, keepAliveInterval: TimeInterval) {
         self.networkTransport = networkTransport
         self.cache = cache
-        self.server = HTTPServer()
         self.keepAliveInterval = keepAliveInterval
         self.dateFormatter.locale = Locale(identifier: "en_US")
         self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
