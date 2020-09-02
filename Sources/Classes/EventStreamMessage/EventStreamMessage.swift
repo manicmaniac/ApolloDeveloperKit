@@ -6,6 +6,8 @@
 //  Copyright © 2020 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
+
 protocol EventStreamMessageConvertible {
     var message: EventStreamMessage { get }
 }
