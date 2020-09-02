@@ -36,7 +36,7 @@ class BackgroundTaskTests: XCTestCase {
         backgroundTask.beginBackgroundTaskIfPossible()
         executor.expireBackgroundTask(backgroundTask.currentIdentifier)
         XCTAssertTrue(executor.expirationHandlersByActiveTaskIdentifier.isEmpty)
-        XCTAssertEqual(backgroundTask.currentIdentifier, invalidBackgroundTaskIdentifier)
+        XCTAssertEqual(backgroundTask.currentIdentifier, .invalid)
     }
 }
 
