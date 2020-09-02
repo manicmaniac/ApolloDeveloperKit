@@ -7,8 +7,8 @@ Pod::Spec.new do |spec|
                    This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.
                    DESC
   spec.homepage = "https://github.com/manicmaniac/ApolloDeveloperKit"
-  spec.screenshots = "https://user-images.githubusercontent.com/1672393/59568132-81a20180-90b1-11e9-9207-b2070b26e790.png"
-  spec.documentation_url = "https://manicmaniac.github.com/ApolloDeveloperKit"
+  spec.screenshots = "https://user-images.githubusercontent.com/1672393/92017937-6fcc7d00-ed8f-11ea-8611-baf3aef386cf.png"
+  spec.documentation_url = "https://manicmaniac.github.io/ApolloDeveloperKit"
   spec.license = { :type => "MIT", :file => "LICENSE" }
   spec.authors = { "Ryosuke Ito" => "rito.0305@gmail.com" }
   spec.ios.deployment_target = '9.0'
