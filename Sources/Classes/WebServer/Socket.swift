@@ -90,7 +90,7 @@ private func socketCallBack(cfSocket: CFSocket!, callbackType: CFSocketCallBackT
     let socket = Unmanaged<Socket>.fromOpaque(info).takeUnretainedValue()
     switch callbackType {
     case .acceptCallBack:
-        let nativeHandle = data!.assumingMemoryBound(to: CFSocketNativeHandle.self).pointee
+        let nativeHandle = data!.load(as: CFSocketNativeHandle.self)
         socket.delegate?.socket(socket, didAccept: nativeHandle, address: address! as Data)
     case .dataCallBack:
         let data = Unmanaged<CFData>.fromOpaque(data!).takeUnretainedValue() as Data
