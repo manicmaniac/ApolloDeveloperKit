@@ -43,11 +43,15 @@ struct EventStreamMessage: RawRepresentable {
     }
 }
 
+// MARK: Equatable
+
 extension EventStreamMessage: Equatable {
     static func == (lhs: EventStreamMessage, rhs: EventStreamMessage) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
+
+// MARK: Hashable
 
 extension EventStreamMessage: Hashable {
     func hash(into hasher: inout Hasher) {
@@ -55,17 +59,23 @@ extension EventStreamMessage: Hashable {
     }
 }
 
+// MARK: CustomStringConvertible
+
 extension EventStreamMessage: CustomStringConvertible {
     var description: String {
         return rawValue
     }
 }
 
+// MARK: LosslessStringConvertible
+
 extension EventStreamMessage: LosslessStringConvertible {
     init?(_ description: String) {
         self.init(rawValue: description)
     }
 }
+
+// MARK: EventStreamMessageConvertible
 
 extension EventStreamMessage: EventStreamMessageConvertible {
     var message: EventStreamMessage {
