@@ -192,13 +192,13 @@ extension ApolloDebugServer: HTTPServerDelegate {
         case (_, "/events"):
             respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         case ("POST", "/request"):
-            respondToRequestForGraphQLRequest(request, connection: connection)
+            respondGraphQLRequest(to: request, in: connection)
         case (_, "/request"):
             respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["POST"], withBody: true)
         case ("HEAD", _):
-            respondDocument(to: request, connection: connection, withBody: false)
+            respondDocument(to: request, in: connection, withBody: false)
         case ("GET", _):
-            respondDocument(to: request, connection: connection, withBody: true)
+            respondDocument(to: request, in: connection, withBody: true)
         case (_, _):
             respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         }
@@ -275,7 +275,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
-    private func respondDocument(to request: URLRequest, connection: HTTPConnection, withBody: Bool) {
+    private func respondDocument(to request: URLRequest, in connection: HTTPConnection, withBody: Bool) {
         var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
         if let path = request.url?.path {
             documentURL.appendPathComponent(path)
@@ -298,7 +298,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
-    private func respondToRequestForGraphQLRequest(_ request: URLRequest, connection: HTTPConnection) {
+    private func respondGraphQLRequest(to request: URLRequest, in connection: HTTPConnection) {
         guard request.value(forHTTPHeaderField: "Content-Length") != nil else {
             return respondError(to: request, in: connection, statusCode: 411, withDefaultBody: false)
         }
