@@ -27,6 +27,32 @@ public class ApolloDebugServer {
     private weak var timer: Timer?
 
     /**
+     * Initializes `ApolloDebugServer` instance.
+     *
+     * - Parameter networkTransport: An underlying network transport object.
+     * - Parameter cache: An underlying cache object.
+     */
+    public convenience init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
+        self.init(networkTransport: networkTransport, cache: cache, keepAliveInterval: 30.0)
+    }
+
+    init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache, keepAliveInterval: TimeInterval) {
+        self.networkTransport = networkTransport
+        self.cache = cache
+        self.keepAliveInterval = keepAliveInterval
+        self.dateFormatter.locale = Locale(identifier: "en_US")
+        self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
+        self.server.delegate = self
+        self.cache.delegate = self
+        self.networkTransport.delegate = self
+    }
+
+    deinit {
+        stop()
+    }
+
+    /**
      * A Boolean value indicating whether the server is running or not.
      */
     public var isRunning: Bool {
@@ -59,32 +85,6 @@ public class ApolloDebugServer {
                 ConsoleRedirection.shared.removeObserver(self)
             }
         }
-    }
-
-    /**
-     * Initializes `ApolloDebugServer` instance.
-     *
-     * - Parameter networkTransport: An underlying network transport object.
-     * - Parameter cache: An underlying cache object.
-     */
-    public convenience init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
-        self.init(networkTransport: networkTransport, cache: cache, keepAliveInterval: 30.0)
-    }
-
-    init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache, keepAliveInterval: TimeInterval) {
-        self.networkTransport = networkTransport
-        self.cache = cache
-        self.keepAliveInterval = keepAliveInterval
-        self.dateFormatter.locale = Locale(identifier: "en_US")
-        self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
-        self.server.delegate = self
-        self.cache.delegate = self
-        self.networkTransport.delegate = self
-    }
-
-    deinit {
-        stop()
     }
 
     /**
