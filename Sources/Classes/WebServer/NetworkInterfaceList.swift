@@ -35,7 +35,7 @@ final class NetworkInterfaceList: Sequence {
     /**
      * Returns newly initialized instance with the current device's state of network interfaces.
      */
-    class var current: NetworkInterfaceList? {
+    static var current: NetworkInterfaceList? {
         var addressPointer: UnsafeMutablePointer<ifaddrs>!
         guard withUnsafeMutablePointer(to: &addressPointer, getifaddrs) >= 0 else {
             return nil
