@@ -27,7 +27,7 @@ class AnyGraphQLOperationTests: XCTestCase {
             "query": "query { posts { id } }"
         ]
         let operation = try Operation(jsonValue: jsonObject)
-        let request = try AnyGraphQLOperation(operation: operation)
+        let request = AnyGraphQLOperation(operation: operation)
         XCTAssertNil(request.operationIdentifier)
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")

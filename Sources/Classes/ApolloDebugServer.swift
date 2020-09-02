@@ -308,7 +308,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body)
             let operationJSONObject = try Operation(jsonValue: jsonObject)
-            let operation = try AnyGraphQLOperation(operation: operationJSONObject)
+            let operation = AnyGraphQLOperation(operation: operationJSONObject)
             _ = networkTransport.send(operation: operation) { [weak self] result in
                 guard let self = self else { return }
                 do {
