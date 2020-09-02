@@ -173,7 +173,7 @@ public class ApolloDebugServer {
     }
 }
 
-// MARK: HTTPRequestHandler
+// MARK: HTTPServerDelegate
 
 extension ApolloDebugServer: HTTPServerDelegate {
     func server(_ server: HTTPServer, didStartListeningTo port: UInt16) {
