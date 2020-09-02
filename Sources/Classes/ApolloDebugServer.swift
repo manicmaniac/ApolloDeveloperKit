@@ -79,8 +79,8 @@ public class ApolloDebugServer {
         self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
         self.server.delegate = self
-        cache.delegate = self
-        networkTransport.delegate = self
+        self.cache.delegate = self
+        self.networkTransport.delegate = self
     }
 
     deinit {
