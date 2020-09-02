@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol SocketDelegate: class {
+    func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data)
+    func socket(_ socket: Socket, didReceive data: Data, address: Data)
+}
+
 /**
  * A thin wrapper for Swift-incompatible type `CFSocket`.
  */
@@ -74,18 +79,6 @@ final class Socket {
     }
 }
 
-extension Socket: Equatable {
-    static func == (lhs: Socket, rhs: Socket) -> Bool {
-        return CFEqual(lhs.cfSocket, rhs.cfSocket)
-    }
-}
-
-extension Socket: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(CFHash(cfSocket))
-    }
-}
-
 private func socketCallBack(cfSocket: CFSocket!, callbackType: CFSocketCallBackType, address: CFData?, data: UnsafeRawPointer?, info: UnsafeMutableRawPointer!) {
     let socket = Unmanaged<Socket>.fromOpaque(info).takeUnretainedValue()
     switch callbackType {
@@ -100,7 +93,18 @@ private func socketCallBack(cfSocket: CFSocket!, callbackType: CFSocketCallBackT
     }
 }
 
-protocol SocketDelegate: class {
-    func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data)
-    func socket(_ socket: Socket, didReceive data: Data, address: Data)
+// MARK: Equatable
+
+extension Socket: Equatable {
+    static func == (lhs: Socket, rhs: Socket) -> Bool {
+        return CFEqual(lhs.cfSocket, rhs.cfSocket)
+    }
+}
+
+// MARK: Hashable
+
+extension Socket: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(CFHash(cfSocket))
+    }
 }
