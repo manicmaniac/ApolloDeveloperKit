@@ -1,6 +1,7 @@
 disabled_rules:
   - force_cast
   - force_try
+  - identifier_name
   - line_length
 
 excluded:
