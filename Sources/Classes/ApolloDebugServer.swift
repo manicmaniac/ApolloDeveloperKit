@@ -222,7 +222,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         let body = withDefaultBody ? Data("\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".utf8) : nil
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body?.count ?? 0),
-            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Type": String(describing: MIMEType.plainText(.utf8)),
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -235,7 +235,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body.count),
-            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Type": String(describing: MIMEType.plainText(.utf8)),
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -253,7 +253,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Allow": allowedMethods.joined(separator: ", "),
             "Content-Length": String(body?.count ?? 0),
-            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Type": String(describing: MIMEType.plainText(.utf8)),
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -262,7 +262,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
 
     private func respondEventSource(to request: URLRequest, in connection: HTTPConnection, withBody: Bool) {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
-            "Content-Type": "text/event-stream",
+            "Content-Type": String(describing: MIMEType.eventStream),
             "Date": dateFormatter.string(from: Date()),
             "Transfer-Encoding": "chunked"
         ])!
