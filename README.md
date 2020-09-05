@@ -25,7 +25,7 @@ Prerequisites
 -------------
 
 - Xcode `>= 11.2.1`
-- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.29.0`, `< 0.32.0`
+- [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.29.0`, `< 0.33.0`
 - [Apollo Client Devtools](https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools)
 
 Installation

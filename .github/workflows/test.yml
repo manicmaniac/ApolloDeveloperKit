@@ -1,85 +1,99 @@
+---
 name: Test
-
-on: [push]
-
+on:
+- push
 jobs:
   unit-test:
     runs-on: macOS-latest
     strategy:
       fail-fast: false
       matrix:
-        apollo: ["0.31.0", "0.30.0", "0.29.0"]
-        sdk: ["iphonesimulator", "macosx"]
+        apollo:
+        - 0.32.0
+        - 0.31.0
+        - 0.30.0
+        - 0.29.0
+        sdk:
+        - iphonesimulator
+        - macosx
         include:
-          - apollo: "0.31.0"
-            sdk: "iphonesimulator"
-            xcode: "11.5"
-            destination: "platform=iOS Simulator,OS=13.5,name=iPhone 11"
-          - apollo: "0.30.0"
-            sdk: "iphonesimulator"
-            xcode: "11.4"
-            destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
-          - apollo: "0.29.0"
-            sdk: "iphonesimulator"
-            xcode: "11.4"
-            destination: "platform=iOS Simulator,OS=13.4,name=iPhone 11"
-          - apollo: "0.31.0"
-            sdk: "macosx"
-            xcode: "11.5"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.30.0"
-            sdk: "macosx"
-            xcode: "11.4"
-            destination: "platform=OS X,arch=x86_64"
-          - apollo: "0.29.0"
-            sdk: "macosx"
-            xcode: "11.4"
-            destination: "platform=OS X,arch=x86_64"
+        - apollo: 0.32.0
+          sdk: iphonesimulator
+          xcode: '11.5'
+          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
+        - apollo: 0.31.0
+          sdk: iphonesimulator
+          xcode: '11.5'
+          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
+        - apollo: 0.30.0
+          sdk: iphonesimulator
+          xcode: '11.4'
+          destination: platform=iOS Simulator,OS=13.4,name=iPhone 11
+        - apollo: 0.29.0
+          sdk: iphonesimulator
+          xcode: '11.4'
+          destination: platform=iOS Simulator,OS=13.4,name=iPhone 11
+        - apollo: 0.32.0
+          sdk: macosx
+          xcode: '11.5'
+          destination: platform=OS X,arch=x86_64
+        - apollo: 0.31.0
+          sdk: macosx
+          xcode: '11.5'
+          destination: platform=OS X,arch=x86_64
+        - apollo: 0.30.0
+          sdk: macosx
+          xcode: '11.4'
+          destination: platform=OS X,arch=x86_64
+        - apollo: 0.29.0
+          sdk: macosx
+          xcode: '11.4'
+          destination: platform=OS X,arch=x86_64
     steps:
-      - uses: actions/checkout@v2
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
-      - name: Modify Cartfile.resolved
-        run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
-      - name: Install dependencies
-        run: ./bin/quick-install-dependencies -f '${{ matrix.sdk }}'
-      - name: Run unit tests
-        run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+    - uses: actions/checkout@v2
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+    - name: Modify Cartfile.resolved
+      run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
+    - name: Install dependencies
+      run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
+    - name: Run unit tests
+      run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_11.6.app/Contents/Developer
-      - name: Run install tests
-        run: make -C InstallTests carthage
+    - uses: actions/checkout@v2
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_11.6.app/Contents/Developer
+    - name: Run install tests
+      run: make -C InstallTests carthage
   lint-podspec:
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_11.6.app/Contents/Developer
-      - name: Install dependencies
-        run: bundle install --without=documentation --without=test --jobs=4 --retry=3
-      - name: Lint podspec
-        run: bundle exec pod lib lint --verbose
+    - uses: actions/checkout@v2
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_11.6.app/Contents/Developer
+    - name: Install dependencies
+      run: bundle install --without=documentation --without=test --jobs=4 --retry=3
+    - name: Lint podspec
+      run: bundle exec pod lib lint --verbose
   frontend-test:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
-      - name: Run frontend tests
-        run: npm test
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npm install
+    - name: Run frontend tests
+      run: npm test
   frontend-rebuild:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
-      - name: Generate types
-        run: npm run generate:type
-      - name: Build bundle.js
-        run: npm run dist
-      - name: Check differences
-        run: git diff --exit-code .
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npm install
+    - name: Generate types
+      run: npm run generate:type
+    - name: Build bundle.js
+      run: npm run dist
+    - name: Check differences
+      run: git diff --exit-code .
