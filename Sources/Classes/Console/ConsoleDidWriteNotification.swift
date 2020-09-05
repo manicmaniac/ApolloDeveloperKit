@@ -19,18 +19,6 @@ struct ConsoleDidWriteNotification: RawRepresentable {
 
     let rawValue: Notification
 
-    var object: ConsoleRedirection {
-        return rawValue.object as! ConsoleRedirection
-    }
-
-    var data: Data {
-        return rawValue.userInfo![ConsoleDidWriteNotification.dataKey] as! Data
-    }
-
-    var destination: ConsoleRedirection.Destination {
-        return rawValue.userInfo![ConsoleDidWriteNotification.destinationKey] as! ConsoleRedirection.Destination
-    }
-
     init(object: ConsoleRedirection, data: Data, destination: ConsoleRedirection.Destination) {
         self.rawValue = Notification(name: .consoleDidWrite, object: object, userInfo: [
             ConsoleDidWriteNotification.dataKey: data,
@@ -41,5 +29,17 @@ struct ConsoleDidWriteNotification: RawRepresentable {
     init?(rawValue: Notification) {
         guard rawValue.name == Notification.Name.consoleDidWrite else { return nil }
         self.rawValue = rawValue
+    }
+
+    var object: ConsoleRedirection {
+        return rawValue.object as! ConsoleRedirection
+    }
+
+    var data: Data {
+        return rawValue.userInfo![ConsoleDidWriteNotification.dataKey] as! Data
+    }
+
+    var destination: ConsoleRedirection.Destination {
+        return rawValue.userInfo![ConsoleDidWriteNotification.destinationKey] as! ConsoleRedirection.Destination
     }
 }

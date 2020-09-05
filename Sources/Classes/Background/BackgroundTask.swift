@@ -18,23 +18,21 @@ extension UIApplication: BackgroundTaskExecutor {
     // Already conformed.
 }
 
-let invalidBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
-
 final class BackgroundTask {
     private(set) var currentIdentifier: UIBackgroundTaskIdentifier
     private let executor: BackgroundTaskExecutor
 
     init(executor: BackgroundTaskExecutor = UIApplication.shared) {
         self.executor = executor
-        self.currentIdentifier = invalidBackgroundTaskIdentifier
+        self.currentIdentifier = .invalid
     }
 
     func beginBackgroundTaskIfPossible() {
         precondition(Thread.isMainThread)
-        guard currentIdentifier == invalidBackgroundTaskIdentifier else { return }
+        guard currentIdentifier == .invalid else { return }
         currentIdentifier = executor.beginBackgroundTask(withName: "com.github.manicmaniac.ApolloDeveloperKit.BackgroundTask") {
             self.executor.endBackgroundTask(self.currentIdentifier)
-            self.currentIdentifier = invalidBackgroundTaskIdentifier
+            self.currentIdentifier = .invalid
         }
     }
 }

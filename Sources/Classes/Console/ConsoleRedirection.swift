@@ -17,7 +17,7 @@ final class ConsoleRedirection {
         case standardError
     }
 
-    private(set) static var shared = ConsoleRedirection(notificationCenter: .default, queue: .main, duplicator: defaultFileDescriptorDuplicator)
+    static let shared = ConsoleRedirection(notificationCenter: .default, queue: .main, duplicator: defaultFileDescriptorDuplicator)
     private static let defaultFileDescriptorDuplicator = DarwinFileDescriptorDuplicator()
 
     private let notificationCenter: NotificationCenter

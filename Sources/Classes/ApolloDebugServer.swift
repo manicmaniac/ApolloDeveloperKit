@@ -16,15 +16,41 @@ import Foundation
  * When the server is released, it stops itself automatically.
  */
 public class ApolloDebugServer {
-    private let server: HTTPServer
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
+    private let server = HTTPServer()
     private let dateFormatter = DateFormatter()
     private let operationStoreController = OperationStoreController(store: InMemoryOperationStore())
     private let backgroundTask = BackgroundTask()
     private var eventStreamConnections = NSHashTable<HTTPConnection>.weakObjects()
     private weak var timer: Timer?
+
+    /**
+     * Initializes `ApolloDebugServer` instance.
+     *
+     * - Parameter networkTransport: An underlying network transport object.
+     * - Parameter cache: An underlying cache object.
+     */
+    public convenience init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
+        self.init(networkTransport: networkTransport, cache: cache, keepAliveInterval: 30.0)
+    }
+
+    init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache, keepAliveInterval: TimeInterval) {
+        self.networkTransport = networkTransport
+        self.cache = cache
+        self.keepAliveInterval = keepAliveInterval
+        self.dateFormatter.locale = Locale(identifier: "en_US")
+        self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
+        self.server.delegate = self
+        self.cache.delegate = self
+        self.networkTransport.delegate = self
+    }
+
+    deinit {
+        stop()
+    }
 
     /**
      * A Boolean value indicating whether the server is running or not.
@@ -59,33 +85,6 @@ public class ApolloDebugServer {
                 ConsoleRedirection.shared.removeObserver(self)
             }
         }
-    }
-
-    /**
-     * Initializes `ApolloDebugServer` instance.
-     *
-     * - Parameter networkTransport: An underlying network transport object.
-     * - Parameter cache: An underlying cache object.
-     */
-    public convenience init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache) {
-        self.init(networkTransport: networkTransport, cache: cache, keepAliveInterval: 30.0)
-    }
-
-    init(networkTransport: DebuggableNetworkTransport, cache: DebuggableNormalizedCache, keepAliveInterval: TimeInterval) {
-        self.networkTransport = networkTransport
-        self.cache = cache
-        self.server = HTTPServer()
-        self.keepAliveInterval = keepAliveInterval
-        self.dateFormatter.locale = Locale(identifier: "en_US")
-        self.dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        self.dateFormatter.dateFormat = "EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'"
-        self.server.delegate = self
-        cache.delegate = self
-        networkTransport.delegate = self
-    }
-
-    deinit {
-        stop()
     }
 
     /**
@@ -174,7 +173,7 @@ public class ApolloDebugServer {
     }
 }
 
-// MARK: HTTPRequestHandler
+// MARK: HTTPServerDelegate
 
 extension ApolloDebugServer: HTTPServerDelegate {
     func server(_ server: HTTPServer, didStartListeningTo port: UInt16) {
@@ -193,13 +192,13 @@ extension ApolloDebugServer: HTTPServerDelegate {
         case (_, "/events"):
             respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         case ("POST", "/request"):
-            respondToRequestForGraphQLRequest(request, connection: connection)
+            respondGraphQLRequest(to: request, in: connection)
         case (_, "/request"):
             respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["POST"], withBody: true)
         case ("HEAD", _):
-            respondDocument(to: request, connection: connection, withBody: false)
+            respondDocument(to: request, in: connection, withBody: false)
         case ("GET", _):
-            respondDocument(to: request, connection: connection, withBody: true)
+            respondDocument(to: request, in: connection, withBody: true)
         case (_, _):
             respondMethodNotAllowed(to: request, in: connection, allowedMethods: ["HEAD", "GET"], withBody: true)
         }
@@ -223,7 +222,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         let body = withDefaultBody ? Data("\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".utf8) : nil
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body?.count ?? 0),
-            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Type": String(describing: MIMEType.plainText(.utf8)),
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -236,7 +235,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Content-Length": String(body.count),
-            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Type": String(describing: MIMEType.plainText(.utf8)),
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -254,7 +253,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: connection.httpVersion, headerFields: [
             "Allow": allowedMethods.joined(separator: ", "),
             "Content-Length": String(body?.count ?? 0),
-            "Content-Type": "text/plain; charset=utf-8",
+            "Content-Type": String(describing: MIMEType.plainText(.utf8)),
             "Date": dateFormatter.string(from: Date())
         ])!
         connection.write(response: response, body: body)
@@ -263,7 +262,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
 
     private func respondEventSource(to request: URLRequest, in connection: HTTPConnection, withBody: Bool) {
         let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
-            "Content-Type": "text/event-stream",
+            "Content-Type": String(describing: MIMEType.eventStream),
             "Date": dateFormatter.string(from: Date()),
             "Transfer-Encoding": "chunked"
         ])!
@@ -276,7 +275,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
-    private func respondDocument(to request: URLRequest, connection: HTTPConnection, withBody: Bool) {
+    private func respondDocument(to request: URLRequest, in connection: HTTPConnection, withBody: Bool) {
         var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
         if let path = request.url?.path {
             documentURL.appendPathComponent(path)
@@ -299,7 +298,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
-    private func respondToRequestForGraphQLRequest(_ request: URLRequest, connection: HTTPConnection) {
+    private func respondGraphQLRequest(to request: URLRequest, in connection: HTTPConnection) {
         guard request.value(forHTTPHeaderField: "Content-Length") != nil else {
             return respondError(to: request, in: connection, statusCode: 411, withDefaultBody: false)
         }
@@ -309,7 +308,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body)
             let operationJSONObject = try Operation(jsonValue: jsonObject)
-            let operation = try AnyGraphQLOperation(operation: operationJSONObject)
+            let operation = AnyGraphQLOperation(operation: operationJSONObject)
             _ = networkTransport.send(operation: operation) { [weak self] result in
                 guard let self = self else { return }
                 do {

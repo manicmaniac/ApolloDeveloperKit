@@ -19,6 +19,12 @@ struct NetworkInterface {
     private let addressPointer: UnsafeMutablePointer<sockaddr>
     private let flags: UInt32
 
+    init(addr: ifaddrs) {
+        self.name = String(cString: addr.ifa_name)
+        self.flags = addr.ifa_flags
+        self.addressPointer = addr.ifa_addr
+    }
+
     /**
      * Boolean value representing whether if this interface is up or down.
      */
@@ -48,11 +54,5 @@ struct NetworkInterface {
             return nil
         }
         return String(cString: host, encoding: .ascii)
-    }
-
-    init(addr: ifaddrs) {
-        self.name = String(cString: addr.ifa_name)
-        self.flags = addr.ifa_flags
-        self.addressPointer = addr.ifa_addr
     }
 }

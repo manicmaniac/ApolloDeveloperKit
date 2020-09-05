@@ -50,9 +50,8 @@ final class AnyGraphQLOperation: GraphQLOperation {
      * and ApolloDeveloperKit won't save any kind of operation given from devtool's GraphiQL.     *
      *
      * - Parameter operation: Operation object defined in JSON schema
-     * - Throws: `JSONDecodableError` when JSON could not be converted to GraphQL request.
      */
-    convenience init(operation: Operation) throws {
+    convenience init(operation: Operation) {
         self.init(operationType: .query,
                   operationDefinition: operation.query,
                   operationIdentifier: operation.operationIdentifier,
