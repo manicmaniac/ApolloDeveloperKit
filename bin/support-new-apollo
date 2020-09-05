@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'rubygems/version'
+require 'tempfile'
+require 'yaml'
+
+def modify_file_inplace(path)
+  tempfile = Tempfile.new(File.basename(path))
+  begin
+    File.open(path, 'r') do |file|
+      file.each_line do |line|
+        tempfile.puts(yield(line))
+      end
+    end
+    tempfile.close
+    FileUtils.mv(tempfile.path, path)
+  ensure
+    tempfile.close
+    tempfile.unlink
+  end
+end
+
+def git_working_directory_is_clean?
+  `git status --untracked-files=no --porcelain`.empty?
+end
+
+def update_podspec(next_version)
+  modify_file_inplace('ApolloDeveloperKit.podspec') do |line|
+    (line =~ /spec\.dependency/) ? line.sub(/< \d+\.\d+\.\d+/, "< #{next_version}") : line
+  end
+end
+
+def update_readme(next_version)
+  modify_file_inplace('README.md') do |line|
+    (line =~ /- \[Apollo iOS\]/) ? line.sub(/< \d+\.\d+\.\d+/, "< #{next_version}") : line
+  end
+end
+
+def update_test_workflow(version)
+  path = '.github/workflows/test.yml'
+  yaml = YAML.load_file(path)
+  matrix = yaml['jobs']['unit-test']['strategy']['matrix']
+  matrix['apollo'].unshift(version)
+  includes = matrix['include']
+  # iOS test conditions
+  new_params = includes[0].dup
+  new_params['apollo'] = version
+  includes.unshift(new_params)
+  # MacOS test conditions
+  new_params_index = includes.index { |item| item['sdk'] == 'macosx' }
+  new_params = includes[new_params_index].dup
+  new_params['apollo'] = version
+  includes.insert(new_params_index, new_params)
+  # Write to file
+  File.open(path, 'w') do |file|
+    YAML.dump(yaml, file, line_width: 200)
+  end
+  modify_file_inplace(path) do |line|
+    line.sub(/^true:/, 'on:')
+  end
+end
+
+if ARGV.size != 1 || %w(-h --help).include?(ARGV[0])
+  STDERR.puts 'Usage: support-new-apollo [-h|--help] <VERSION>'
+  exit(1)
+end
+
+raise 'Git working directory is not clean' unless git_working_directory_is_clean?
+
+version = Gem::Version.new(ARGV[0])
+next_version = version.bump.to_s + '.0'
+
+update_podspec(next_version)
+update_readme(next_version)
+update_test_workflow(version.to_s)
