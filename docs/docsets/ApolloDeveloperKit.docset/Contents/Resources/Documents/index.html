@@ -16,7 +16,7 @@
     <a title="ApolloDeveloperKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ApolloDeveloperKit 0.14.0 Docs</a> (74% documented)</p>
+        <p><a href="index.html">ApolloDeveloperKit 0.14.1 Docs</a> (74% documented)</p>
         <p class="header-right">
           <form role="search" action="search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -117,7 +117,7 @@
 <p><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a> bridge for <a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a>.</p>
 <h2 id='overview' class='heading'>Overview</h2>
 
-<p>ApolloDeveloperKit is an iOS / macOS library which works as a bridge between Apollo iOS client and <a href="https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm">Apollo Client Developer tools</a>.</p>
+<p>ApolloDeveloperKit is an iOS / macOS library which works as a bridge between Apollo iOS client and <a href="https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools">Apollo Client Developer tools</a>.</p>
 
 <p>This library adds an ability to watch the sent queries or mutations simultaneously, and also has the feature to request arbitrary operations from embedded GraphiQL console.</p>
 <h2 id='screenshots' class='heading'>Screenshots</h2>
@@ -127,16 +127,15 @@
 
 <ul>
 <li>Xcode <code>&gt;= 11.2.1</code></li>
-<li>Google Chrome</li>
-<li><a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a> <code>&gt;= 0.29.0</code>, <code>&lt; 0.32.0</code></li>
-<li><a href="https://github.com/apollographql/apollo-client-devtools">Apollo Client Devtools</a></li>
+<li><a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a> <code>&gt;= 0.29.0</code>, <code>&lt; 0.33.0</code></li>
+<li><a href="https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools">Apollo Client Devtools</a></li>
 </ul>
 <h2 id='installation' class='heading'>Installation</h2>
 <h3 id='install-from-cocoapods' class='heading'>Install from CocoaPods</h3>
 
 <p>Add the following lines to your Podfile.</p>
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'Apollo'</span>
-<span class="n">pod</span> <span class="s1">'ApolloDeveloperKit'</span><span class="p">,</span> <span class="s1">'~&gt; 0.14.0'</span>
+<span class="n">pod</span> <span class="s1">'ApolloDeveloperKit'</span><span class="p">,</span> <span class="s1">'~&gt; 0.14.1'</span><span class="p">,</span> <span class="ss">configurations: </span><span class="p">[</span><span class="s1">'Debug'</span><span class="p">]</span>
 </code></pre>
 
 <p>Then run <code>pod install</code>.</p>
@@ -199,18 +198,23 @@ github "manicmaniac/ApolloDeveloperKit"
 </code></pre>
 <h2 id='usage' class='heading'>Usage</h2>
 
-<p><strong>If you don&rsquo;t have <a href="https://www.google.com/chrome">Google Chrome</a> and <a href="https://chrome.google.com/webstore/detail/apollo-client-developer-t/jdkknkkbebbapilgoeccciglkfbmbnfm">Apollo Client Developer Tools</a>, install them before proceeding the following steps.</strong></p>
+<p><strong>If you don&rsquo;t have <a href="https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools">Apollo Client Developer Tools</a>, install it before proceeding the following steps.</strong></p>
 
 <ol>
 <li>Launch your app on your device or simulator.</li>
-<li>Open Google Chrome and jump to the server&rsquo;s URL (in case your app runs the above example on a simulator, the URL would be <code>http://localhost:8081</code>).
+<li>Open your browser and jump to the server&rsquo;s URL (in case your app runs the above example on a simulator, the URL would be <code>http://localhost:8081</code>).
 
 <ul>
 <li>You will see <code>ApolloDebugServer is running!</code> on your browser&rsquo;s tab.</li>
 <li>If not, make sure the server runs and the specified URL is correct.</li>
 <li>On a real device, the host would be other than <code>localhost</code> but you can check what it is with <code><a href="Classes/ApolloDebugServer.html#/s:18ApolloDeveloperKit0A11DebugServerC9serverURL10Foundation0G0VSgvp">ApolloDebugServer.serverURL</a></code>.</li>
 </ul></li>
-<li>Open <a href="https://developers.google.com/web/tools/chrome-devtools/open">Google Chrome DevTools</a>.</li>
+<li>Open developer tools.
+
+<ul>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/open">In Google Chrome</a></li>
+<li><a href="https://developer.mozilla.org/docs/Tools">In Mozilla Firefox</a></li>
+</ul></li>
 <li>Select <code>Apollo</code> tab.
 
 <ul>
@@ -261,7 +265,7 @@ When it is enabled, all logs written in stdout (usually written with <code>print
 <span class="n">debugServer</span><span class="o">.</span><span class="n">enableConsoleRedirection</span> <span class="o">=</span> <span class="kc">true</span>
 </code></pre>
 
-<p>Then open the console in Google Chrome Devtools.
+<p>Then open the console in your browser&rsquo;s developer tools.
 You will see logs in your iPhone or simulator.</p>
 
 <p>In the browser console, logs written in stdout are colored in <a href="https://www.color-hex.com/color/5f9ea0">blue-green</a> and stderr are <a href="https://www.color-hex.com/color/ff6347">orange</a> so that you can distinguish them from ordinary browser logs.</p>
@@ -278,7 +282,7 @@ you need to start <a href="https://github.com/apollographql/frontpage-server">ap
 
 <ol>
 <li>Open Xcode and select ApolloDeveloperKitExample scheme.</li>
-<li>Run and open <code>http://localhost:8081</code> in Google Chrome.</li>
+<li>Run and open <code>http://localhost:8081</code> in your browser.</li>
 </ol>
 <h2 id='license' class='heading'>License</h2>
 
@@ -288,7 +292,7 @@ See LICENSE for more detail.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-08-30)</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-09-06)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
