@@ -1,0 +1,23 @@
+---
+name: Support New Apollo
+on:
+  repository_dispatch:
+    types:
+      - support-new-apollo
+jobs:
+  support-new-apollo:
+    if: endsWith('0', github.event.client_payload.url)
+    runs-on: macOS-latest
+    steps:
+      - name: Export version
+        run: echo "::set-env name=APOLLO_VERSION::$(basename ${{ github.event.client_payload.url }})"
+      - uses: actions/checkout@v2
+      - name: Make changes
+        run: ./bin/support-new-apollo "$APOLLO_VERSION"
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Support Apollo ${{ env.APOLLO_VERSION }}
+          branch: support-apollo-${{ env.APOLLO_VERSION }}
+          title: Support Apollo ${{ env.APOLLO_VERSION }}
+          body: ${{ github.event.client_payload.url }}
