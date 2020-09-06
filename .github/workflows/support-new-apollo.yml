@@ -6,7 +6,7 @@ on:
       - support-new-apollo
 jobs:
   support-new-apollo:
-    if: endsWith('0', github.event.client_payload.url)
+    if: endsWith(github.event.client_payload.url, '.0')
     runs-on: macOS-latest
     steps:
       - name: Export version
