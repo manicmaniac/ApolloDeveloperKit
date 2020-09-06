@@ -17,6 +17,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           commit-message: Support Apollo ${{ env.APOLLO_VERSION }}
           branch: support-apollo-${{ env.APOLLO_VERSION }}
           title: Support Apollo ${{ env.APOLLO_VERSION }}
