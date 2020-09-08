@@ -29,7 +29,7 @@ struct NetworkInterface {
      * Boolean value representing whether if this interface is up or down.
      */
     var isUp: Bool {
-        return (flags & UInt32(IFF_UP)) == 1
+        return (flags & UInt32(IFF_UP)) != 0
     }
 
     /**
