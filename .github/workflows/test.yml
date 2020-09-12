@@ -68,6 +68,27 @@ jobs:
       run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
     - name: Run unit tests
       run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+  swiftpm-test:
+    runs-on: macOS-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk:
+        - iphonesimulator
+        - macosx
+        include:
+        - sdk: iphonesimulator
+          destination: platform=iOS Simulator,name=iPhone 11
+        - sdk: macosx
+          destination: platform=OS X,arch=x86_64
+    steps:
+    - uses: actions/checkout@v2
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_12_beta.app/Contents/Developer
+    - name: Generate project
+      run: swift package generate-xcodeproj
+    - name: Run unit tests
+      run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
     runs-on: macOS-latest
     env:
