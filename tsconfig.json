@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "./Sources/Assets/",
     "allowJs": true,
     "esModuleInterop": true,
     "module": "es2015",
