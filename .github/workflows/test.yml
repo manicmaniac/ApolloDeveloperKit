@@ -88,7 +88,7 @@ jobs:
     - name: Generate project
       run: swift package generate-xcodeproj
     - name: Run unit tests
-      run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}'
   install-test:
     runs-on: macOS-latest
     env:
