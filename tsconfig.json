@@ -1,21 +1,13 @@
 {
   "compilerOptions": {
     "outDir": "./Sources/Assets/",
-    "sourceMap": true,
-    "lib": [
-      "dom",
-      "es6",
-      "esnext.asynciterable"
-    ],
     "allowJs": true,
     "esModuleInterop": true,
-    "removeComments": true,
     "module": "es2015",
     "target": "es2015",
     "moduleResolution": "node",
     "strict": true,
-    "baseUrl": "src/types",
-    "noImplicitAny": true
+    "baseUrl": "src/types"
   },
   "files": [
     "src/index.ts",
