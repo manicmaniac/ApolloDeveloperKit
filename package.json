@@ -8,8 +8,7 @@
   "private": true,
   "module": "src/index.ts",
   "scripts": {
-    "build": "webpack --mode=development",
-    "dist": "webpack --mode=production",
+    "build": "webpack",
     "lint": "eslint . --ext .ts",
     "test": "jest",
     "generate:type": "npm run generate:type:swift & npm run generate:type:typescript & wait",
