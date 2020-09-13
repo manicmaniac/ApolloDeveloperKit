@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   mode: 'production',
@@ -18,4 +18,4 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'Sources/Assets')
   }
-};
+}
