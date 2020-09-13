@@ -3,6 +3,10 @@
   "version": "0.14.1",
   "description": "Visual debug your app, that is based on Apollo iOS",
   "repository": "https://github.com/manicmaniac/ApolloDeveloperKit",
+  "author": "Ryosuke Ito <rito.0305@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "module": "src/index.ts",
   "scripts": {
     "build": "webpack --mode=development",
     "dist": "webpack --mode=production",
@@ -12,9 +16,6 @@
     "generate:type:swift": "quicktype -l swift --just-types -t Schema -s schema -o Sources/Classes/Schema/Schema.swift ApolloDeveloperKit.schema.json",
     "generate:type:typescript": "quicktype -l typescript --just-types -t Schema -s schema -o src/schema.ts ApolloDeveloperKit.schema.json"
   },
-  "author": "Ryosuke Ito <rito.0305@gmail.com>",
-  "license": "MIT",
-  "private": true,
   "devDependencies": {
     "@types/jest": "^26.0.10",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
