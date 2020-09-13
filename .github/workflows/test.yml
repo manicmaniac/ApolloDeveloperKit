@@ -94,6 +94,6 @@ jobs:
     - name: Generate types
       run: npm run generate:type
     - name: Build bundle.js
-      run: npm run dist
+      run: npm run build
     - name: Check differences
       run: git diff --exit-code .
