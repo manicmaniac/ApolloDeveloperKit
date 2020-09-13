@@ -1,9 +1,9 @@
 import type { Cache, Transaction } from 'apollo-cache'
 import { ApolloCache } from 'apollo-cache'
 
-type CacheObject = Record<string, unknown>
+type CacheObject = Record<string, any>
 
-export default class ApolloCachePretender extends ApolloCache<unknown> {
+export default class ApolloCachePretender extends ApolloCache<any> {
   private onExtract?: () => void
 
   constructor(onExtract?: () => void) {
@@ -11,7 +11,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
     this.onExtract = onExtract
   }
 
-  read(_query: Cache.ReadOptions<unknown>): null {
+  read(_query: Cache.ReadOptions<any>): null {
     return null
   }
 
@@ -35,7 +35,7 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
     // do nothing
   }
 
-  restore(_serializedState: unknown): this {
+  restore(_serializedState: any): this {
     return this
   }
 
@@ -48,11 +48,11 @@ export default class ApolloCachePretender extends ApolloCache<unknown> {
     // do nothing
   }
 
-  performTransaction(transaction: Transaction<unknown>): void {
+  performTransaction(transaction: Transaction<any>): void {
     transaction(this)
   }
 
-  recordOptimisticTransaction(transaction: Transaction<unknown>, _id: string): void {
+  recordOptimisticTransaction(transaction: Transaction<any>, _id: string): void {
     transaction(this)
   }
 }
