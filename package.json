@@ -7,6 +7,9 @@
   "license": "MIT",
   "private": true,
   "module": "src/index.ts",
+  "sideEffects": [
+    "src/index.ts"
+  ],
   "scripts": {
     "build": "webpack",
     "lint": "eslint . --ext .ts",
