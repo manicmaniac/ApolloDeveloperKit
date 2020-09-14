@@ -9,9 +9,9 @@
 import Foundation
 
 protocol HTTPConnectionDelegate: class {
-    func httpConnection(_ connection: HTTPConnection, didReceive request: URLRequest)
+    func httpConnection(_ connection: HTTPConnection, didReceive request: HTTPRequestMessage)
     func httpConnectionWillClose(_ connection: HTTPConnection)
-    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: URLRequest, error: Error)
+    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: HTTPRequestMessage, error: Error)
 }
 
 /**
@@ -20,6 +20,7 @@ protocol HTTPConnectionDelegate: class {
 final class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
+    private(set) lazy var stream = HTTPOutputStream(connection: self)
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
 
@@ -35,30 +36,8 @@ final class HTTPConnection {
         socket.schedule(in: runLoop, forMode: mode)
     }
 
-    func write(chunkedResponse: HTTPChunkedResponse) {
-        write(data: chunkedResponse.data)
-    }
-
-    func write(response: HTTPURLResponse, body: Data?) {
-        let message = HTTPResponseMessage(httpURLResponse: response, httpVersion: httpVersion)
-        message.setBody(body)
-        write(message: message)
-    }
-
-    func write(message: HTTPResponseMessage) {
-        assert(message.isHeaderComplete)
-        guard let data = message.serialize() else {
-            return
-        }
-        write(data: data)
-    }
-
-    func write(data: Data) {
-        do {
-            try socket.send(data: data, timeout: 60)
-        } catch {
-            close()
-        }
+    fileprivate func send(data: Data, timeout: TimeInterval) throws {
+        try socket.send(data: data, timeout: timeout)
     }
 
     func close() {
@@ -95,9 +74,7 @@ extension HTTPConnection: SocketDelegate {
         }
         guard incomingRequest.value(for: "Transfer-Encoding")?.lowercased() != "chunked" else {
             // As chunked encoding is not implemented yet, raise an error to notify the delegate.
-            var request = URLRequest(httpMessage: incomingRequest)
-            request.httpBody = nil
-            delegate?.httpConnection(self, didFailToHandle: request, error: HTTPServerError.unsupportedBodyEncoding("chunked"))
+            delegate?.httpConnection(self, didFailToHandle: incomingRequest, error: HTTPServerError.unsupportedBodyEncoding("chunked"))
             return
         }
         let contentLength = incomingRequest.body?.count ?? 0
@@ -106,7 +83,30 @@ extension HTTPConnection: SocketDelegate {
             return
         }
         socket.disableCallBacks(.dataCallBack)
-        let request = URLRequest(httpMessage: incomingRequest)
-        delegate?.httpConnection(self, didReceive: request)
+        delegate?.httpConnection(self, didReceive: incomingRequest)
+    }
+}
+
+final class HTTPOutputStream {
+    private unowned let connection: HTTPConnection
+
+    fileprivate init(connection: HTTPConnection) {
+        self.connection = connection
+    }
+
+    func write(chunkedResponse: HTTPChunkedResponse) {
+        write(data: chunkedResponse.data)
+    }
+
+    func write(data: Data) {
+        do {
+            try connection.send(data: data, timeout: 60)
+        } catch {
+            close()
+        }
+    }
+
+    func close() {
+        connection.close()
     }
 }

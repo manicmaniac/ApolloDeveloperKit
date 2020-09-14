@@ -92,6 +92,7 @@
 		5BCE500924F4A8A300310E26 /* KeyedStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE500824F4A8A300310E26 /* KeyedStackTests.swift */; };
 		5BCE500B24F4BD4400310E26 /* ConsoleDidWriteNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE500A24F4BD4400310E26 /* ConsoleDidWriteNotificationTests.swift */; };
 		5BCE500E24F4C06400310E26 /* MockFileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE500C24F4C01400310E26 /* MockFileDescriptorDuplicator.swift */; };
+		5BCF219F250F419400279D4E /* HTTPRequestContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF219E250F419400279D4E /* HTTPRequestContext.swift */; };
 		5BD3BEF524F1505C005D069A /* Schema+JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */; };
 		5BD3BEF724F15463005D069A /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF624F15463005D069A /* Schema.swift */; };
 		5BD3BEF924F154FE005D069A /* Schema+JSONDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */; };
@@ -244,6 +245,7 @@
 		5BCE500824F4A8A300310E26 /* KeyedStackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyedStackTests.swift; sourceTree = "<group>"; };
 		5BCE500A24F4BD4400310E26 /* ConsoleDidWriteNotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleDidWriteNotificationTests.swift; sourceTree = "<group>"; };
 		5BCE500C24F4C01400310E26 /* MockFileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFileDescriptorDuplicator.swift; sourceTree = "<group>"; };
+		5BCF219E250F419400279D4E /* HTTPRequestContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestContext.swift; sourceTree = "<group>"; };
 		5BD3BEF424F1505C005D069A /* Schema+JSONDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONDecodable.swift"; sourceTree = "<group>"; };
 		5BD3BEF624F15463005D069A /* Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONDecodableTests.swift"; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 				5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */,
 				5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */,
 				5B05890924EB5DC60071DB57 /* HTTPRequestMessage.swift */,
+				5BCF219E250F419400279D4E /* HTTPRequestContext.swift */,
 				5B05890B24EB5DCF0071DB57 /* HTTPResponseMessage.swift */,
 				5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */,
 				5B71521F22DA007400002BA6 /* HTTPServerError.swift */,
@@ -835,6 +838,7 @@
 				5BCC23BF238464A400D26A79 /* JSONCocoaTypeConversions.swift in Sources */,
 				5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */,
 				5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */,
+				5BCF219F250F419400279D4E /* HTTPRequestContext.swift in Sources */,
 				5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */,
 				5BBF4C8223F19DDF00FDC452 /* OperationStore.swift in Sources */,
 			);
