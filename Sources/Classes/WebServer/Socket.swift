@@ -23,6 +23,7 @@ final class Socket {
     init(protocolFamily: Int32, socketType: Int32, `protocol`: Int32, callbackTypes: CFSocketCallBackType) throws {
         let pointerToSelf = Unmanaged.passUnretained(self).toOpaque()
         var context = CFSocketContext(version: 0, info: pointerToSelf, retain: nil, release: nil, copyDescription: nil)
+        errno = 0
         guard let cfSocket = CFSocketCreate(kCFAllocatorDefault, protocolFamily, socketType, `protocol`, callbackTypes.rawValue, socketCallBack(cfSocket:callbackType:address:data:info:), &context) else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
@@ -32,6 +33,7 @@ final class Socket {
     init(nativeHandle: CFSocketNativeHandle, callbackTypes: CFSocketCallBackType) throws {
         let pointerToSelf = Unmanaged.passUnretained(self).toOpaque()
         var context = CFSocketContext(version: 0, info: pointerToSelf, retain: nil, release: nil, copyDescription: nil)
+        errno = 0
         guard let cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault, nativeHandle, callbackTypes.rawValue, socketCallBack(cfSocket:callbackType:address:data:info:), &context) else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
@@ -47,12 +49,14 @@ final class Socket {
     }
 
     func setAddress(_ address: Data) throws {
+        errno = 0
         guard CFSocketSetAddress(cfSocket, address as CFData) == .success else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
     }
 
     func setValue<T>(_ value: inout T, for level: Int32, option: Int32) throws {
+        errno = 0
         guard setsockopt(CFSocketGetNative(cfSocket), level, option, &value, socklen_t(MemoryLayout.size(ofValue: value))) != -1 else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
@@ -68,6 +72,7 @@ final class Socket {
     }
 
     func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws {
+        errno = 0
         guard CFSocketSendData(cfSocket, address as CFData?, data as CFData, timeout) == .success else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
