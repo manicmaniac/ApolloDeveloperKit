@@ -46,6 +46,7 @@
 		5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */; };
 		5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */; };
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
+		5B3E177425102FB3000376FB /* HTTPOutputStreamSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E177325102FB3000376FB /* HTTPOutputStreamSet.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
 		5B4B71192406E4B3009ADD7C /* URLRequest+HTTPMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */; };
 		5B4CA52F23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */; };
@@ -97,6 +98,7 @@
 		5BD3BEF724F15463005D069A /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF624F15463005D069A /* Schema.swift */; };
 		5BD3BEF924F154FE005D069A /* Schema+JSONDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */; };
 		5BD3BEFB24F1566D005D069A /* Schema+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEFA24F1566D005D069A /* Schema+JSONEncodableTests.swift */; };
+		5BDB7DB62510318100BE4DE4 /* HTTPOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDB7DB52510318100BE4DE4 /* HTTPOutputStream.swift */; };
 		5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */; };
 		5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -198,6 +200,7 @@
 		5B3A839222C72197002B4FFB /* Reference+JSONEncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reference+JSONEncodableTests.swift"; sourceTree = "<group>"; };
 		5B3A83A622C87FA2002B4FFB /* HTTPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
+		5B3E177325102FB3000376FB /* HTTPOutputStreamSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPOutputStreamSet.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
 		5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+HTTPMessage.swift"; sourceTree = "<group>"; };
 		5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStoreTests.swift; sourceTree = "<group>"; };
@@ -250,6 +253,7 @@
 		5BD3BEF624F15463005D069A /* Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONDecodableTests.swift"; sourceTree = "<group>"; };
 		5BD3BEFA24F1566D005D069A /* Schema+JSONEncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONEncodableTests.swift"; sourceTree = "<group>"; };
+		5BDB7DB52510318100BE4DE4 /* HTTPOutputStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPOutputStream.swift; sourceTree = "<group>"; };
 		5BE2444622E0F6ED008EDAAD /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
 		5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -447,6 +451,8 @@
 			children = (
 				5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */,
 				5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */,
+				5BDB7DB52510318100BE4DE4 /* HTTPOutputStream.swift */,
+				5B3E177325102FB3000376FB /* HTTPOutputStreamSet.swift */,
 				5B05890924EB5DC60071DB57 /* HTTPRequestMessage.swift */,
 				5BCF219E250F419400279D4E /* HTTPRequestContext.swift */,
 				5B05890B24EB5DCF0071DB57 /* HTTPResponseMessage.swift */,
@@ -815,6 +821,7 @@
 				5B15067424F149960081B1E8 /* Schema+JSONEncodable.swift in Sources */,
 				5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */,
 				5BCE500724F4441900310E26 /* KeyedStack.swift in Sources */,
+				5BDB7DB62510318100BE4DE4 /* HTTPOutputStream.swift in Sources */,
 				5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */,
 				5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */,
 				5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */,
@@ -833,6 +840,7 @@
 				5B15067624F14B520081B1E8 /* ErrorLike+Error.swift in Sources */,
 				5B3A839122C72168002B4FFB /* Reference+JSONEncodable.swift in Sources */,
 				5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */,
+				5B3E177425102FB3000376FB /* HTTPOutputStreamSet.swift in Sources */,
 				5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */,
 				5B05890C24EB5DCF0071DB57 /* HTTPResponseMessage.swift in Sources */,
 				5BCC23BF238464A400D26A79 /* JSONCocoaTypeConversions.swift in Sources */,

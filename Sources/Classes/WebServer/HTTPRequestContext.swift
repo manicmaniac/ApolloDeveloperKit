@@ -60,8 +60,8 @@ final class HTTPRequestContext {
         }
         message.setValue(HTTPRequestContext.dateFormatter.string(from: Date()), for: "Date")
         message.setBody(Data())
-        connection.stream.write(data: message.serialize()!)
-        return connection.stream
+        connection.write(data: message.serialize()!)
+        return connection
     }
 
     func respond(proxying response: HTTPURLResponse) -> HTTPOutputStream {

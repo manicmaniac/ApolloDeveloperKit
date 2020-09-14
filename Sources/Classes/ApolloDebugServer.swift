@@ -23,7 +23,7 @@ public class ApolloDebugServer {
     private let dateFormatter = DateFormatter()
     private let operationStoreController = OperationStoreController(store: InMemoryOperationStore())
     private let backgroundTask = BackgroundTask()
-    private var eventStreams = NSHashTable<HTTPOutputStream>.weakObjects()
+    private var eventStreams = HTTPOutputStreamSet()
     private weak var timer: Timer?
 
     /**
@@ -130,9 +130,7 @@ public class ApolloDebugServer {
 
     @objc private func timerDidFire(_ timer: Timer) {
         let ping = HTTPChunkedResponse(event: EventStreamMessage.ping)
-        for stream in eventStreams.allObjects {
-            stream.write(chunkedResponse: ping)
-        }
+        eventStreams.broadcast(data: ping.data)
     }
 
     private func scheduleTimer() {
@@ -164,9 +162,7 @@ public class ApolloDebugServer {
             let message = String(data: notification.data, encoding: .utf8) else { return }
         let event = ConsoleEvent(data: message, type: eventType(for: notification.destination))
         let chunk = HTTPChunkedResponse(event: event)
-        for stream in eventStreams.allObjects {
-            stream.write(chunkedResponse: chunk)
-        }
+        eventStreams.broadcast(data: chunk.data)
     }
 }
 
@@ -257,8 +253,9 @@ extension ApolloDebugServer: HTTPServerDelegate {
         context.setValue("chunked", forResponse: "Transfer-Encoding")
         let stream = context.respond(statusCode: 200)
         if withBody {
-            stream.write(chunkedResponse: chunkForCurrentState())
-            eventStreams.add(stream)
+            let chunk = chunkForCurrentState()
+            stream.write(data: chunk.data)
+            eventStreams.insert(stream)
         } else {
             stream.close()
         }
@@ -326,9 +323,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
 extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
     func normalizedCache(_ normalizedCache: DebuggableNormalizedCache, didChangeRecords records: RecordSet) {
         let chunk = chunkForCurrentState()
-        for stream in eventStreams.allObjects {
-            stream.write(chunkedResponse: chunk)
-        }
+        eventStreams.broadcast(data: chunk.data)
     }
 }
 
@@ -339,17 +334,13 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, willSendOperation: operation)
         let chunk = chunkForCurrentState()
-        for stream in eventStreams.allObjects {
-            stream.write(chunkedResponse: chunk)
-        }
+        eventStreams.broadcast(data: chunk.data)
     }
 
     func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResponse<Operation.Data>, Error>) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, didSendOperation: operation, result: result)
         let chunk = chunkForCurrentState()
-        for stream in eventStreams.allObjects {
-            stream.write(chunkedResponse: chunk)
-        }
+        eventStreams.broadcast(data: chunk.data)
     }
 }

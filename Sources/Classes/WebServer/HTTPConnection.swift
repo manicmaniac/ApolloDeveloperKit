@@ -20,7 +20,6 @@ protocol HTTPConnectionDelegate: class {
 final class HTTPConnection {
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
-    private(set) lazy var stream = HTTPOutputStream(connection: self)
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
 
@@ -35,9 +34,17 @@ final class HTTPConnection {
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
         socket.schedule(in: runLoop, forMode: mode)
     }
+}
 
-    fileprivate func send(data: Data, timeout: TimeInterval) throws {
-        try socket.send(data: data, timeout: timeout)
+// MARK: HTTPOutputStream
+
+extension HTTPConnection: HTTPOutputStream {
+    func write(data: Data) {
+        do {
+            try socket.send(data: data, timeout: 60)
+        } catch {
+            close()
+        }
     }
 
     func close() {
@@ -84,29 +91,5 @@ extension HTTPConnection: SocketDelegate {
         }
         socket.disableCallBacks(.dataCallBack)
         delegate?.httpConnection(self, didReceive: incomingRequest)
-    }
-}
-
-final class HTTPOutputStream {
-    private unowned let connection: HTTPConnection
-
-    fileprivate init(connection: HTTPConnection) {
-        self.connection = connection
-    }
-
-    func write(chunkedResponse: HTTPChunkedResponse) {
-        write(data: chunkedResponse.data)
-    }
-
-    func write(data: Data) {
-        do {
-            try connection.send(data: data, timeout: 60)
-        } catch {
-            close()
-        }
-    }
-
-    func close() {
-        connection.close()
     }
 }
