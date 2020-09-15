@@ -10,5 +10,6 @@ import Foundation
 
 protocol HTTPOutputStream: class {
     func write(data: Data)
+    func writeAndClose(contentsOf url: URL) throws
     func close()
 }

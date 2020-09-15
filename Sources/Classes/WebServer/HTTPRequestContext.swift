@@ -71,6 +71,60 @@ final class HTTPRequestContext {
         return respond(statusCode: response.statusCode)
     }
 
+    func respondDocument(rootURL: URL, withBody: Bool) {
+        let documentURL = rootURL.appendingPathComponent(requestURL.path)
+        do {
+            let resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
+            guard !resourceValues.isDirectory! else {
+                return respondDocument(rootURL: documentURL.appendingPathComponent("index.html"), withBody: withBody)
+            }
+            setContentType(MIMEType(pathExtension: documentURL.pathExtension, encoding: .utf8))
+            setContentLength(resourceValues.fileSize!)
+            let stream = respond(statusCode: 200)
+            if withBody {
+                try stream.writeAndClose(contentsOf: documentURL)
+            } else {
+                stream.close()
+            }
+        } catch CocoaError.fileReadNoSuchFile {
+            respondError(statusCode: 404, withBody: withBody)
+        } catch let error {
+            let body = Data(error.localizedDescription.utf8)
+            respondError(statusCode: 500, contentType: .plainText(.utf8), body: body)
+        }
+    }
+
+    func respondJSONData(_ data: Data) {
+        setContentLength(data.count)
+        setContentType(.json)
+        let stream = respond(statusCode: 200)
+        stream.write(data: data)
+        stream.close()
+    }
+
+    func respondError(statusCode: Int, withBody: Bool) {
+        if withBody {
+            let body = Data("\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".utf8)
+            respondError(statusCode: statusCode, contentType: .plainText(.utf8), body: body)
+        } else {
+            respond(statusCode: statusCode).close()
+        }
+    }
+
+    func respondError(statusCode: Int, contentType: MIMEType, body: Data) {
+        setContentLength(body.count)
+        setContentType(contentType)
+        let stream = respond(statusCode: statusCode)
+        stream.write(data: body)
+        stream.close()
+    }
+
+    func respondEventSource() -> HTTPOutputStream {
+        setContentType(.eventStream)
+        setValue("chunked", forResponse: "Transfer-Encoding")
+        return respond(statusCode: 200)
+    }
+
     func setValue(_ value: String, forResponse headerField: String) {
         responseHeaderFields[headerField] = value
     }

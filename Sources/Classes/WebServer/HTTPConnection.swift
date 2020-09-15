@@ -45,9 +45,27 @@ extension HTTPConnection: HTTPOutputStream {
         tryFlush()
     }
 
+    func writeAndClose(contentsOf url: URL) throws {
+        let fileHandle = try FileHandle(forReadingFrom: url)
+        NotificationCenter.default.addObserver(self, selector: #selector(fileHandleDidReadToEndOfFileInBackground(_:)), name: .NSFileHandleReadToEndOfFileCompletion, object: fileHandle)
+        fileHandle.readToEndOfFileInBackgroundAndNotify()
+    }
+
     func close() {
         delegate?.httpConnectionWillClose(self)
         socket.invalidate()
+    }
+
+    @objc private func fileHandleDidReadToEndOfFileInBackground(_ notification: Notification) {
+        defer {
+            NotificationCenter.default.removeObserver(self, name: .NSFileHandleReadToEndOfFileCompletion, object: notification.object)
+        }
+        guard let fileHandle = notification.object as? FileHandle,
+              let data = notification.userInfo?[NSFileHandleNotificationDataItem] as? Data
+        else { return }
+        fileHandle.closeFile()
+        write(data: data)
+        close()
     }
 
     private func tryFlush() {

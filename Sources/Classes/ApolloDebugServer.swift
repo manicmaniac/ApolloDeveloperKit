@@ -16,6 +16,7 @@ import Foundation
  * When the server is released, it stops itself automatically.
  */
 public class ApolloDebugServer {
+    private static let documentRootURL = Bundle(for: ApolloDebugServer.self).url(forResource: "Assets", withExtension: nil)!
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
@@ -186,53 +187,22 @@ extension ApolloDebugServer: HTTPServerDelegate {
         case (_, "/request"):
             respondMethodNotAllowed(context, allowedMethods: ["POST"], withBody: true)
         case ("HEAD", _):
-            respondDocument(context, withBody: false)
+            context.respondDocument(rootURL: ApolloDebugServer.documentRootURL, withBody: false)
         case ("GET", _):
-            respondDocument(context, withBody: true)
+            context.respondDocument(rootURL: ApolloDebugServer.documentRootURL, withBody: true)
         case (_, _):
             respondMethodNotAllowed(context, allowedMethods: ["HEAD", "GET"], withBody: true)
         }
     }
 
     func server(_ server: HTTPServer, didFailToHandle context: HTTPRequestContext, error: Error) {
-        respondError(context, statusCode: 500, with: Data(error.localizedDescription.utf8))
-    }
-
-    private func respond(_ context: HTTPRequestContext, contentType: MIMEType?, contentLength: Int?, body: Data?) {
-        context.setContentLength(contentLength ?? body?.count ?? 0)
-        context.setContentType(contentType ?? .octetStream)
-        let stream = context.respond(statusCode: 200)
-        if let body = body {
-            stream.write(data: body)
-        }
-        stream.close()
-    }
-
-    private func respondError(_ context: HTTPRequestContext, statusCode: Int, withDefaultBody: Bool) {
-        let body = withDefaultBody ? Data("\(statusCode) \(HTTPURLResponse.localizedString(forStatusCode: statusCode))\n".utf8) : nil
-        context.setContentLength(body?.count ?? 0)
-        context.setContentType(.plainText(.utf8))
-        let stream = context.respond(statusCode: statusCode)
-        if let body = body {
-            stream.write(data: body)
-        }
-        stream.close()
-    }
-
-    private func respondError(_ context: HTTPRequestContext, statusCode: Int, with body: Data?) {
-        guard let body = body else {
-            return respondError(context, statusCode: statusCode, withDefaultBody: true)
-        }
-        context.setContentLength(body.count)
-        context.setContentType(.plainText(.utf8))
-        let stream = context.respond(statusCode: statusCode)
-        stream.write(data: body)
-        stream.close()
+        let body = Data(error.localizedDescription.utf8)
+        context.respondError(statusCode: 500, contentType: .plainText(.utf8), body: body)
     }
 
     private func respondBadRequest(_ context: HTTPRequestContext, jsError: ErrorLike) {
-        let body = try? JSONSerializationFormat.serialize(value: jsError)
-        respondError(context, statusCode: 400, with: body)
+        let body = try! JSONSerializationFormat.serialize(value: jsError)
+        context.respondError(statusCode: 400, contentType: .json, body: body)
     }
 
     private func respondMethodNotAllowed(_ context: HTTPRequestContext, allowedMethods: [String], withBody: Bool) {
@@ -249,9 +219,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
     }
 
     private func respondEventSource(_ context: HTTPRequestContext, withBody: Bool) {
-        context.setContentType(.eventStream)
-        context.setValue("chunked", forResponse: "Transfer-Encoding")
-        let stream = context.respond(statusCode: 200)
+        let stream = context.respondEventSource()
         if withBody {
             let chunk = chunkForCurrentState()
             stream.write(data: chunk.data)
@@ -261,33 +229,12 @@ extension ApolloDebugServer: HTTPServerDelegate {
         }
     }
 
-    private func respondDocument(_ context: HTTPRequestContext, withBody: Bool) {
-        var documentURL = Bundle(for: type(of: self)).url(forResource: "Assets", withExtension: nil)!
-        documentURL.appendPathComponent(context.requestURL.path)
-        do {
-            var resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
-            if resourceValues.isDirectory! {
-                documentURL.appendPathComponent("index.html")
-                resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey])
-            }
-            let contentType = MIMEType(pathExtension: documentURL.pathExtension, encoding: .utf8)
-            let body = withBody ? try Data(contentsOf: documentURL) : nil
-            let contentLength = resourceValues.fileSize!
-            respond(context, contentType: contentType, contentLength: contentLength, body: body)
-        } catch CocoaError.fileReadNoSuchFile {
-            respondError(context, statusCode: 404, withDefaultBody: withBody)
-        } catch let error {
-            let body = Data(error.localizedDescription.utf8)
-            respondError(context, statusCode: 500, with: body)
-        }
-    }
-
     private func respondGraphQLRequest(_ context: HTTPRequestContext) {
         guard context.value(forRequest: "Content-Length") != nil else {
-            return respondError(context, statusCode: 411, withDefaultBody: false)
+            return context.respondError(statusCode: 411, withBody: false)
         }
         guard let body = context.requestBody else {
-            return respondError(context, statusCode: 400, withDefaultBody: true)
+            return context.respondError(statusCode: 400, withBody: true)
         }
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: body)
@@ -297,11 +244,8 @@ extension ApolloDebugServer: HTTPServerDelegate {
                 guard let self = self else { return }
                 do {
                     let response = try result.get()
-                    // Cannot use JSONSerializationFormat.serialize(value:) here because
-                    // response.body may contain an Objective-C type like `NSString`,
-                    // that is not convertible to JSONValue directly.
                     let body = try JSONSerialization.data(withJSONObject: response.body)
-                    self.respond(context, contentType: .json, contentLength: nil, body: body)
+                    context.respondJSONData(body)
                 } catch let error as GraphQLHTTPResponseError {
                     let stream = context.respond(proxying: error.response)
                     if let body = error.body {
