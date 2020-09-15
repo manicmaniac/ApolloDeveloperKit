@@ -1,5 +1,5 @@
 //
-//  NetworkInterfaceListTests.swift
+//  InterfaceAddressIteratorTests.swift
 //  ApolloDeveloperKitTests
 //
 //  Created by Ryosuke Ito on 8/20/19.
@@ -9,8 +9,8 @@
 import XCTest
 @testable import ApolloDeveloperKit
 
-class NetworkInterfaceListTests: XCTestCase {
-    private var networkInterfaceList: NetworkInterfaceList!
+class InterfaceAddressIteratorTests: XCTestCase {
+    private var interfaceAddressIterator: InterfaceAddressIterator!
 
     // We must manage memory by ourselves because they are out of ARC.
     private var socketAddress = sockaddr.in(family: AF_INET, address: INADDR_ANY, port: 80)
@@ -28,20 +28,15 @@ class NetworkInterfaceListTests: XCTestCase {
         en2 = ifaddrs(name: &en2Name, flags: flags, addr: &socketAddress)
         withUnsafeMutablePointer(to: &en1) { en0.ifa_next = $0 }
         withUnsafeMutablePointer(to: &en2) { en1.ifa_next = $0 }
-        self.networkInterfaceList = withUnsafeMutablePointer(to: &en0, NetworkInterfaceList.init(addressPointer:))
+        self.interfaceAddressIterator = withUnsafeMutablePointer(to: &en0) {
+            InterfaceAddressIterator(initialPointer: $0) { _ in }
+        }
     }
 
-    func testMakeIterator() {
-        // Make sure each iterators are independent.
-        let iterator1 = networkInterfaceList.makeIterator()
-        let iterator2 = networkInterfaceList.makeIterator()
-        XCTAssertEqual("en0", iterator1.next()?.name)
-        XCTAssertEqual("en0", iterator2.next()?.name)
-        XCTAssertEqual("en1", iterator1.next()?.name)
-        XCTAssertEqual("en1", iterator2.next()?.name)
-        XCTAssertEqual("en2", iterator1.next()?.name)
-        XCTAssertEqual("en2", iterator2.next()?.name)
-        XCTAssertNil(iterator1.next())
-        XCTAssertNil(iterator2.next())
+    func testNext() {
+        XCTAssertEqual("en0", interfaceAddressIterator.next()?.name)
+        XCTAssertEqual("en1", interfaceAddressIterator.next()?.name)
+        XCTAssertEqual("en2", interfaceAddressIterator.next()?.name)
+        XCTAssertNil(interfaceAddressIterator.next())
     }
 }

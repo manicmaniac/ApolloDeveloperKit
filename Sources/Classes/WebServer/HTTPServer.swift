@@ -133,10 +133,11 @@ final class HTTPServer {
     }
 
     private var primaryIPAddress: String? {
+        guard let iterator = try? InterfaceAddressIterator() else { return nil }
         let expectedInterfaceNames = primaryNetworkInterfaceNames
-        return NetworkInterfaceList.current?.first { networkInterface in
-            networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
-        }?.ipv4Address
+        return IteratorSequence(iterator).first {
+            $0.isUp && $0.socketFamily == AF_INET && expectedInterfaceNames.contains($0.name)
+        }?.hostName
     }
 
     private var primaryNetworkInterfaceNames: Set<String> {
