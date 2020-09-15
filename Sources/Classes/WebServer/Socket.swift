@@ -11,6 +11,7 @@ import Foundation
 protocol SocketDelegate: class {
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data)
     func socket(_ socket: Socket, didReceive data: Data, address: Data)
+    func socketDidBecomeWritable(_ socket: Socket)
 }
 
 /**
@@ -44,6 +45,10 @@ final class Socket {
         return CFSocketCopyAddress(cfSocket) as Data
     }
 
+    func enableCallBacks(_ callbacks: CFSocketCallBackType) {
+        CFSocketEnableCallBacks(cfSocket, callbacks.rawValue)
+    }
+
     func disableCallBacks(_ callbacks: CFSocketCallBackType) {
         CFSocketDisableCallBacks(cfSocket, callbacks.rawValue)
     }
@@ -71,11 +76,15 @@ final class Socket {
         CFSocketInvalidate(cfSocket)
     }
 
-    func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws {
+    func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws -> Bool {
         errno = 0
         guard CFSocketSendData(cfSocket, address as CFData?, data as CFData, timeout) == .success else {
-            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
+            if let code = POSIXErrorCode(rawValue: errno) {
+                throw POSIXError(code)
+            }
+            return false
         }
+        return true
     }
 
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
@@ -93,6 +102,8 @@ private func socketCallBack(cfSocket: CFSocket!, callbackType: CFSocketCallBackT
     case .dataCallBack:
         let data = Unmanaged<CFData>.fromOpaque(data!).takeUnretainedValue() as Data
         socket.delegate?.socket(socket, didReceive: data, address: address! as Data)
+    case .writeCallBack:
+        socket.delegate?.socketDidBecomeWritable(socket)
     default:
         assertionFailure("Received unhandled callback type (\(callbackType.rawValue)).")
     }

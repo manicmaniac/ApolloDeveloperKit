@@ -22,6 +22,7 @@ final class HTTPConnection {
     weak var delegate: HTTPConnectionDelegate?
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
+    private var dataQueue = ArraySlice<Data>()
 
     init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
         self.httpVersion = httpVersion
@@ -40,16 +41,28 @@ final class HTTPConnection {
 
 extension HTTPConnection: HTTPOutputStream {
     func write(data: Data) {
-        do {
-            try socket.send(data: data, timeout: 60)
-        } catch {
-            close()
-        }
+        dataQueue.append(data)
+        tryFlush()
     }
 
     func close() {
         delegate?.httpConnectionWillClose(self)
         socket.invalidate()
+    }
+
+    private func tryFlush() {
+        do {
+            while let data = dataQueue.popFirst() {
+                guard try socket.send(data: data, timeout: .leastNonzeroMagnitude) else {
+                    dataQueue.insert(data, at: dataQueue.startIndex)
+                    socket.enableCallBacks(.writeCallBack)
+                    return
+                }
+            }
+            socket.disableCallBacks(.writeCallBack)
+        } catch {
+            close()
+        }
     }
 }
 
@@ -91,5 +104,9 @@ extension HTTPConnection: SocketDelegate {
         }
         socket.disableCallBacks(.dataCallBack)
         delegate?.httpConnection(self, didReceive: incomingRequest)
+    }
+
+    func socketDidBecomeWritable(_ socket: Socket) {
+        tryFlush()
     }
 }

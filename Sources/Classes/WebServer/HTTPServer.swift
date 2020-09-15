@@ -192,4 +192,8 @@ extension HTTPServer: SocketDelegate {
     func socket(_ socket: Socket, didReceive data: Data, address: Data) {
         assertionFailure("'data' callback must be disabled.")
     }
+
+    func socketDidBecomeWritable(_ socket: Socket) {
+        assertionFailure("'write' callback must be disabled.")
+    }
 }
