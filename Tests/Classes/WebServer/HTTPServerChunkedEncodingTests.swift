@@ -52,7 +52,7 @@ class HTTPServerChunkedEncodingTests: XCTestCase {
             expectation.fulfill()
         }
         task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
+        waitForExpectations(timeout: 10.0, handler: nil)
     }
 }
 
