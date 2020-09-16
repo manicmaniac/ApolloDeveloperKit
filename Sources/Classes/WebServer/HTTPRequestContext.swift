@@ -72,14 +72,10 @@ final class HTTPRequestContext {
     }
 
     func respondDocument(rootURL: URL, withBody: Bool) {
-        let documentURL = rootURL.appendingPathComponent(requestURL.path)
         do {
-            let resourceValues = try documentURL.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
-            guard !resourceValues.isDirectory! else {
-                return respondDocument(rootURL: documentURL.appendingPathComponent("index.html"), withBody: withBody)
-            }
+            let (documentURL, fileSize) = try normalizedDocumentURLAndFileSize(for: rootURL.appendingPathComponent(requestURL.path))
             setContentType(MIMEType(pathExtension: documentURL.pathExtension, encoding: .utf8))
-            setContentLength(resourceValues.fileSize!)
+            setContentLength(fileSize)
             let stream = respond(statusCode: 200)
             if withBody {
                 try stream.writeAndClose(contentsOf: documentURL)
@@ -127,5 +123,13 @@ final class HTTPRequestContext {
 
     func setValue(_ value: String, forResponse headerField: String) {
         responseHeaderFields[headerField] = value
+    }
+
+    private func normalizedDocumentURLAndFileSize(for url: URL) throws -> (URL, Int) {
+        let resourceValues = try url.resourceValues(forKeys: [.fileSizeKey, .isDirectoryKey])
+        guard !resourceValues.isDirectory! else {
+            return try normalizedDocumentURLAndFileSize(for: url.appendingPathComponent("index.html"))
+        }
+        return (url, resourceValues.fileSize!)
     }
 }
