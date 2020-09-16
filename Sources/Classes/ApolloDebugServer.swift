@@ -196,6 +196,9 @@ extension ApolloDebugServer: HTTPServerDelegate {
     }
 
     func server(_ server: HTTPServer, didFailToHandle context: HTTPRequestContext, error: Error) {
+        if case HTTPServerError.unsupportedBodyEncoding = error {
+            return context.respondError(statusCode: 415, withBody: true)
+        }
         let body = Data(error.localizedDescription.utf8)
         context.respondError(statusCode: 500, contentType: .plainText(.utf8), body: body)
     }
