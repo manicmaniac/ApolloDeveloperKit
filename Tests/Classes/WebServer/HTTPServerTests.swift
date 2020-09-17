@@ -91,26 +91,26 @@ private class MockHTTPServerDelegate: HTTPServerDelegate {
     func server(_ server: HTTPServer, didStartListeningTo port: UInt16) {
     }
 
-    func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
-        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: [
-            "Content-Length": String(request.httpBody?.count ?? 0),
-            "Content-Type": "text/plain; charset=utf-8",
-            "X-Request-Method": request.httpMethod!,
-            "X-Request-Url": request.url!.absoluteString
-        ])!
-        connection.write(response: response, body: request.httpBody)
-        connection.close()
+    func server(_ server: HTTPServer, didReceiveRequest context: HTTPRequestContext) {
+        context.setContentLength(context.requestBody?.count ?? 0)
+        context.setContentType(.plainText(.utf8))
+        context.setValue(context.requestMethod, forResponse: "X-Request-Method")
+        context.setValue(context.requestURL.absoluteString, forResponse: "X-Request-Url")
+        let stream = context.respond(statusCode: 200)
+        if let body = context.requestBody {
+            stream.write(data: body)
+        }
+        stream.close()
     }
 
-    func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error) {
+    func server(_ server: HTTPServer, didFailToHandle context: HTTPRequestContext, error: Error) {
         let body = Data(error.localizedDescription.utf8)
-        let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: connection.httpVersion, headerFields: [
-            "Content-Length": String(body.count),
-            "Content-Type": "text/plain; charset=utf-8",
-            "X-Request-Method": request.httpMethod!,
-            "X-Request-Url": request.url!.absoluteString
-        ])!
-        connection.write(response: response, body: body)
-        connection.close()
+        context.setContentLength(body.count)
+        context.setContentType(.plainText(.utf8))
+        context.setValue(context.requestMethod, forResponse: "X-Request-Method")
+        context.setValue(context.requestURL.absoluteString, forResponse: "X-Request-Url")
+        let stream = context.respond(statusCode: 500)
+        stream.write(data: body)
+        stream.close()
     }
 }

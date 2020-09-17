@@ -19,6 +19,10 @@ final class HTTPRequestMessage {
         return CFHTTPMessageCopyBody(message)?.takeRetainedValue() as Data?
     }
 
+    var version: String {
+        return CFHTTPMessageCopyVersion(message).takeRetainedValue() as String
+    }
+
     var isHeaderComplete: Bool {
         return CFHTTPMessageIsHeaderComplete(message)
     }

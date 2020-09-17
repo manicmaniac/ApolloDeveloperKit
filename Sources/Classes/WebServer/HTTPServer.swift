@@ -27,20 +27,18 @@ protocol HTTPServerDelegate: class {
      * Invoked when the server receives a HTTP request.
      *
      * - Parameter server: The server receiving a HTTP request.
-     * - Parameter request: A raw HTTP request including header and complete body.
-     * - Parameter connection: An HTTP connection where the request received.
+     * - Parameter context: A raw HTTP request context including header and complete body.
      */
-    func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection)
+    func server(_ server: HTTPServer, didReceiveRequest context: HTTPRequestContext)
 
     /**
      * Invoked when a server error occurs in a HTTP connection.
      *
      * - Parameter server: The server receiving a HTTP request.
-     * - Parameter request: An HTTP request which caused the error. It must not have body part.
-     * - Parameter connection: An HTTP connection where the error occurred.
+     * - Parameter context: An HTTP request context which caused the error. It must not have body part.
      * - Parameter error: An error object describing why the server couldn't handle the request.     *
      */
-    func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error)
+    func server(_ server: HTTPServer, didFailToHandle context: HTTPRequestContext, error: Error)
 }
 
 /**
@@ -135,10 +133,11 @@ final class HTTPServer {
     }
 
     private var primaryIPAddress: String? {
+        guard let iterator = try? InterfaceAddressIterator() else { return nil }
         let expectedInterfaceNames = primaryNetworkInterfaceNames
-        return NetworkInterfaceList.current?.first { networkInterface in
-            networkInterface.isUp && networkInterface.socketFamily == AF_INET && expectedInterfaceNames.contains(networkInterface.name)
-        }?.ipv4Address
+        return IteratorSequence(iterator).first {
+            $0.isUp && $0.socketFamily == AF_INET && expectedInterfaceNames.contains($0.name)
+        }?.hostName
     }
 
     private var primaryNetworkInterfaceNames: Set<String> {
@@ -164,16 +163,18 @@ final class HTTPServer {
 // MARK: HTTPConnectionDelegate
 
 extension HTTPServer: HTTPConnectionDelegate {
-    func httpConnection(_ connection: HTTPConnection, didReceive request: URLRequest) {
-        delegate?.server(self, didReceiveRequest: request, connection: connection)
+    func httpConnection(_ connection: HTTPConnection, didReceive request: HTTPRequestMessage) {
+        let context = HTTPRequestContext(request: request, connection: connection)
+        delegate?.server(self, didReceiveRequest: context)
     }
 
     func httpConnectionWillClose(_ connection: HTTPConnection) {
         connections.remove(connection)
     }
 
-    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: URLRequest, error: Error) {
-        delegate?.server(self, didFailToHandle: request, connection: connection, error: error)
+    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: HTTPRequestMessage, error: Error) {
+        let context = HTTPRequestContext(request: request, connection: connection)
+        delegate?.server(self, didFailToHandle: context, error: error)
     }
 }
 
@@ -191,5 +192,9 @@ extension HTTPServer: SocketDelegate {
 
     func socket(_ socket: Socket, didReceive data: Data, address: Data) {
         assertionFailure("'data' callback must be disabled.")
+    }
+
+    func socketDidBecomeWritable(_ socket: Socket) {
+        assertionFailure("'write' callback must be disabled.")
     }
 }

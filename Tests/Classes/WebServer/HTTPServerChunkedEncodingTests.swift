@@ -52,7 +52,7 @@ class HTTPServerChunkedEncodingTests: XCTestCase {
             expectation.fulfill()
         }
         task.resume()
-        waitForExpectations(timeout: 0.25, handler: nil)
+        waitForExpectations(timeout: 10.0, handler: nil)
     }
 }
 
@@ -75,31 +75,28 @@ private class MockHTTPServerDelegate: HTTPServerDelegate {
     func server(_ server: HTTPServer, didStartListeningTo port: UInt16) {
     }
 
-    func server(_ server: HTTPServer, didReceiveRequest request: URLRequest, connection: HTTPConnection) {
-        var headerFields: [String: String] = [
-            "X-Request-Method": request.httpMethod!,
-            "X-Request-Url": request.url!.absoluteString
-        ]
-        if let contentType = request.value(forHTTPHeaderField: "Content-Type") {
-            headerFields["Content-Type"] = contentType
+    func server(_ server: HTTPServer, didReceiveRequest context: HTTPRequestContext) {
+        context.setValue(context.requestMethod, forResponse: "X-Request-Method")
+        context.setValue(context.requestURL.absoluteString, forResponse: "X-Request-Url")
+        if let contentType = context.value(forRequest: "Content-Type") {
+            context.setValue(contentType, forResponse: "Content-Type")
         }
-        if let contentLength = request.httpBody?.count {
-            headerFields["Content-Length"] = String(contentLength)
+        if let contentLength = context.requestBody?.count {
+            context.setValue(String(contentLength), forResponse: "Content-Length")
         }
-        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: connection.httpVersion, headerFields: headerFields)!
-        connection.write(response: response, body: request.httpBody)
-        connection.close()
+        let stream = context.respond(statusCode: 200)
+        stream.write(data: context.requestBody ?? Data())
+        stream.close()
     }
 
-    func server(_ server: HTTPServer, didFailToHandle request: URLRequest, connection: HTTPConnection, error: Error) {
+    func server(_ server: HTTPServer, didFailToHandle context: HTTPRequestContext, error: Error) {
         let body = Data(error.localizedDescription.utf8)
-        let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: connection.httpVersion, headerFields: [
-            "Content-Length": String(body.count),
-            "Content-Type": "text/plain; charset=utf-8",
-            "X-Request-Method": request.httpMethod!,
-            "X-Request-Url": request.url!.absoluteString
-        ])!
-        connection.write(response: response, body: body)
-        connection.close()
+        context.setContentLength(body.count)
+        context.setContentType(.plainText(.utf8))
+        context.setValue(context.requestMethod, forResponse: "X-Request-Method")
+        context.setValue(context.requestURL.absoluteString, forResponse: "X-Request-Url")
+        let stream = context.respond(statusCode: 500)
+        stream.write(data: body)
+        stream.close()
     }
 }

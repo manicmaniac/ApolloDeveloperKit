@@ -11,6 +11,7 @@ import Foundation
 protocol SocketDelegate: class {
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data)
     func socket(_ socket: Socket, didReceive data: Data, address: Data)
+    func socketDidBecomeWritable(_ socket: Socket)
 }
 
 /**
@@ -23,6 +24,7 @@ final class Socket {
     init(protocolFamily: Int32, socketType: Int32, `protocol`: Int32, callbackTypes: CFSocketCallBackType) throws {
         let pointerToSelf = Unmanaged.passUnretained(self).toOpaque()
         var context = CFSocketContext(version: 0, info: pointerToSelf, retain: nil, release: nil, copyDescription: nil)
+        errno = 0
         guard let cfSocket = CFSocketCreate(kCFAllocatorDefault, protocolFamily, socketType, `protocol`, callbackTypes.rawValue, socketCallBack(cfSocket:callbackType:address:data:info:), &context) else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
@@ -32,6 +34,7 @@ final class Socket {
     init(nativeHandle: CFSocketNativeHandle, callbackTypes: CFSocketCallBackType) throws {
         let pointerToSelf = Unmanaged.passUnretained(self).toOpaque()
         var context = CFSocketContext(version: 0, info: pointerToSelf, retain: nil, release: nil, copyDescription: nil)
+        errno = 0
         guard let cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault, nativeHandle, callbackTypes.rawValue, socketCallBack(cfSocket:callbackType:address:data:info:), &context) else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
@@ -42,17 +45,23 @@ final class Socket {
         return CFSocketCopyAddress(cfSocket) as Data
     }
 
+    func enableCallBacks(_ callbacks: CFSocketCallBackType) {
+        CFSocketEnableCallBacks(cfSocket, callbacks.rawValue)
+    }
+
     func disableCallBacks(_ callbacks: CFSocketCallBackType) {
         CFSocketDisableCallBacks(cfSocket, callbacks.rawValue)
     }
 
     func setAddress(_ address: Data) throws {
+        errno = 0
         guard CFSocketSetAddress(cfSocket, address as CFData) == .success else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
     }
 
     func setValue<T>(_ value: inout T, for level: Int32, option: Int32) throws {
+        errno = 0
         guard setsockopt(CFSocketGetNative(cfSocket), level, option, &value, socklen_t(MemoryLayout.size(ofValue: value))) != -1 else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
@@ -67,10 +76,15 @@ final class Socket {
         CFSocketInvalidate(cfSocket)
     }
 
-    func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws {
+    func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws -> Bool {
+        errno = 0
         guard CFSocketSendData(cfSocket, address as CFData?, data as CFData, timeout) == .success else {
-            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
+            if let code = POSIXErrorCode(rawValue: errno) {
+                throw POSIXError(code)
+            }
+            return false
         }
+        return true
     }
 
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
@@ -88,6 +102,8 @@ private func socketCallBack(cfSocket: CFSocket!, callbackType: CFSocketCallBackT
     case .dataCallBack:
         let data = Unmanaged<CFData>.fromOpaque(data!).takeUnretainedValue() as Data
         socket.delegate?.socket(socket, didReceive: data, address: address! as Data)
+    case .writeCallBack:
+        socket.delegate?.socketDidBecomeWritable(socket)
     default:
         assertionFailure("Received unhandled callback type (\(callbackType.rawValue)).")
     }

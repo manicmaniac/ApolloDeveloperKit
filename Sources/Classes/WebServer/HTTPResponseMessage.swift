@@ -15,14 +15,6 @@ final class HTTPResponseMessage {
         self.message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, statusDescription as CFString?, httpVersion as CFString).takeRetainedValue()
     }
 
-    convenience init(httpURLResponse: HTTPURLResponse, httpVersion: String) {
-        self.init(statusCode: httpURLResponse.statusCode, httpVersion: httpVersion)
-        assert(httpURLResponse.allHeaderFields is [String: String], "Just in case API changes")
-        for case (let headerField as String, let value as String) in httpURLResponse.allHeaderFields {
-            self.setValue(value, for: headerField)
-        }
-    }
-
     var isHeaderComplete: Bool {
         return CFHTTPMessageIsHeaderComplete(message)
     }

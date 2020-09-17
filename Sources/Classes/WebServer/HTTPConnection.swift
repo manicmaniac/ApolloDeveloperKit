@@ -9,9 +9,9 @@
 import Foundation
 
 protocol HTTPConnectionDelegate: class {
-    func httpConnection(_ connection: HTTPConnection, didReceive request: URLRequest)
+    func httpConnection(_ connection: HTTPConnection, didReceive request: HTTPRequestMessage)
     func httpConnectionWillClose(_ connection: HTTPConnection)
-    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: URLRequest, error: Error)
+    func httpConnection(_ connection: HTTPConnection, didFailToHandle request: HTTPRequestMessage, error: Error)
 }
 
 /**
@@ -22,6 +22,7 @@ final class HTTPConnection {
     weak var delegate: HTTPConnectionDelegate?
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
+    private var dataQueue = ArraySlice<Data>()
 
     init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
         self.httpVersion = httpVersion
@@ -34,36 +35,52 @@ final class HTTPConnection {
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
         socket.schedule(in: runLoop, forMode: mode)
     }
+}
 
-    func write(chunkedResponse: HTTPChunkedResponse) {
-        write(data: chunkedResponse.data)
-    }
+// MARK: HTTPOutputStream
 
-    func write(response: HTTPURLResponse, body: Data?) {
-        let message = HTTPResponseMessage(httpURLResponse: response, httpVersion: httpVersion)
-        message.setBody(body)
-        write(message: message)
-    }
-
-    func write(message: HTTPResponseMessage) {
-        assert(message.isHeaderComplete)
-        guard let data = message.serialize() else {
-            return
-        }
-        write(data: data)
-    }
-
+extension HTTPConnection: HTTPOutputStream {
     func write(data: Data) {
-        do {
-            try socket.send(data: data, timeout: 60)
-        } catch {
-            close()
-        }
+        dataQueue.append(data)
+        tryFlush()
+    }
+
+    func writeAndClose(contentsOf url: URL) throws {
+        let fileHandle = try FileHandle(forReadingFrom: url)
+        NotificationCenter.default.addObserver(self, selector: #selector(fileHandleDidReadToEndOfFileInBackground(_:)), name: .NSFileHandleReadToEndOfFileCompletion, object: fileHandle)
+        fileHandle.readToEndOfFileInBackgroundAndNotify()
     }
 
     func close() {
         delegate?.httpConnectionWillClose(self)
         socket.invalidate()
+    }
+
+    @objc private func fileHandleDidReadToEndOfFileInBackground(_ notification: Notification) {
+        defer {
+            NotificationCenter.default.removeObserver(self, name: .NSFileHandleReadToEndOfFileCompletion, object: notification.object)
+        }
+        guard let fileHandle = notification.object as? FileHandle,
+              let data = notification.userInfo?[NSFileHandleNotificationDataItem] as? Data
+        else { return }
+        fileHandle.closeFile()
+        write(data: data)
+        close()
+    }
+
+    private func tryFlush() {
+        do {
+            while let data = dataQueue.popFirst() {
+                guard try socket.send(data: data, timeout: .leastNonzeroMagnitude) else {
+                    dataQueue.insert(data, at: dataQueue.startIndex)
+                    socket.enableCallBacks(.writeCallBack)
+                    return
+                }
+            }
+            socket.disableCallBacks(.writeCallBack)
+        } catch {
+            close()
+        }
     }
 }
 
@@ -95,9 +112,7 @@ extension HTTPConnection: SocketDelegate {
         }
         guard incomingRequest.value(for: "Transfer-Encoding")?.lowercased() != "chunked" else {
             // As chunked encoding is not implemented yet, raise an error to notify the delegate.
-            var request = URLRequest(httpMessage: incomingRequest)
-            request.httpBody = nil
-            delegate?.httpConnection(self, didFailToHandle: request, error: HTTPServerError.unsupportedBodyEncoding("chunked"))
+            delegate?.httpConnection(self, didFailToHandle: incomingRequest, error: HTTPServerError.unsupportedBodyEncoding("chunked"))
             return
         }
         let contentLength = incomingRequest.body?.count ?? 0
@@ -106,7 +121,10 @@ extension HTTPConnection: SocketDelegate {
             return
         }
         socket.disableCallBacks(.dataCallBack)
-        let request = URLRequest(httpMessage: incomingRequest)
-        delegate?.httpConnection(self, didReceive: request)
+        delegate?.httpConnection(self, didReceive: incomingRequest)
+    }
+
+    func socketDidBecomeWritable(_ socket: Socket) {
+        tryFlush()
     }
 }

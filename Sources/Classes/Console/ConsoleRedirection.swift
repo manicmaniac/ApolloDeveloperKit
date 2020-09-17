@@ -90,6 +90,7 @@ final class ConsoleRedirection {
     private func postNotificationAfterCopying(from fileHandle: FileHandle, to destination: Destination) throws {
         guard let fileDescriptor = self.fileDescriptor(for: destination) else { return }
         let data = fileHandle.availableData
+        errno = 0
         let written = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
             guard let baseAddress = bytes.baseAddress else {
                 // I think data.withUnsafeBytes doesn't pass a null pointer but just in case, ignore it.
