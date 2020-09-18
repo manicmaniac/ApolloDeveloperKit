@@ -19,7 +19,7 @@ class PostListViewController: NSViewController {
     weak var delegate: PostListViewControllerDelegate?
     @IBOutlet private weak var tableView: NSTableView!
 
-    var posts: [AllPostsQuery.Data.Post]? {
+    var posts: [AllPostsQuery.Data.Post?]? {
         didSet {
             tableView.reloadData()
         }
@@ -50,7 +50,7 @@ class PostListViewController: NSViewController {
     @IBAction func upvote(_ sender: NSButton) {
         let tableCellView = sender.superview as! NSTableCellView
         let row = tableView.row(for: tableCellView)
-        guard let postId = posts?[row].fragments.postDetails.id else { return }
+        guard let postId = posts?[row]?.fragments.postDetails.id else { return }
         apollo.perform(mutation: UpvotePostMutation(postId: postId)) { result in
             if case .failure(let error) = result {
                 NSLog("Error while attempting to upvote post: \(error.localizedDescription)")
@@ -72,7 +72,7 @@ extension PostListViewController: NSTableViewDataSource {
 
 extension PostListViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        guard let identifier = tableColumn?.identifier, let post = posts?[row].fragments.postDetails else { return nil }
+        guard let identifier = tableColumn?.identifier, let post = posts?[row]?.fragments.postDetails else { return nil }
         let view = tableView.makeView(withIdentifier: identifier, owner: self) as! NSTableCellView
         switch identifier.rawValue {
         case "title":
