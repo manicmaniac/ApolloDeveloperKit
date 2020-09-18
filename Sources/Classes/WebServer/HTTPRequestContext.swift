@@ -6,6 +6,8 @@
 //  Copyright © 2020 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
+
 final class HTTPRequestContext {
     private static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
