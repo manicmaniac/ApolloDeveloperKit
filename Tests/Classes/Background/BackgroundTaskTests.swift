@@ -55,9 +55,7 @@ private class MockBackgroundTaskExecutor: BackgroundTaskExecutor {
     }
 
     func expireBackgroundTask(_ identifier: UIBackgroundTaskIdentifier) {
-        if let handler = expirationHandlersByActiveTaskIdentifier[identifier] {
-            handler()
-        }
+        expirationHandlersByActiveTaskIdentifier[identifier]?()
     }
 
     private func generateNewTaskIdentifier() -> UIBackgroundTaskIdentifier {
