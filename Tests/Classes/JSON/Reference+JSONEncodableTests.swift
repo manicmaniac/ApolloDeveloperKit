@@ -11,11 +11,9 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class Reference_JSONEncodableTests: XCTestCase {
-    func testJSONValue() {
+    func testJSONValue() throws {
         let reference = Reference(key: "foo")
-        guard let object = reference.jsonValue as? [String: Any] else {
-            return XCTFail()
-        }
+        let object = try XCTUnwrap(reference.jsonValue as? [String: Any])
         XCTAssertEqual(object["generated"] as? Bool, true)
         XCTAssertEqual(object["id"] as? String, "foo")
         XCTAssertEqual(object["type"] as? String, "id")

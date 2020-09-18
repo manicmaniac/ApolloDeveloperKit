@@ -32,9 +32,7 @@ class AnyGraphQLOperationTests: XCTestCase {
         XCTAssertEqual(request.operationType, .query)
         XCTAssertEqual(request.operationDefinition, "query { posts { id } }")
         XCTAssertEqual(request.variables?.count, 1)
-        guard let input = request.variables?["input"] as? [String: Any] else{
-            return XCTFail()
-        }
+        let input = try XCTUnwrap(request.variables?["input"] as? [String: Any])
         XCTAssertEqual(input["string"] as? String, "foo")
         XCTAssertEqual(input["integer"] as? Int, 42)
         XCTAssertEqual(input["float"] as? Double, 4.2)
