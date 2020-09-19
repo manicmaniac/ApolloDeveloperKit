@@ -79,16 +79,28 @@ final class HTTPServer {
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
-        let socket = try Socket(protocolFamily: PF_INET, socketType: SOCK_STREAM, protocol: IPPROTO_TCP, callbackTypes: .acceptCallBack)
+        var hints = addrinfo(ai_flags: AI_PASSIVE | AI_NUMERICSERV,
+                             ai_family: AF_INET6,
+                             ai_socktype: SOCK_STREAM,
+                             ai_protocol: IPPROTO_TCP,
+                             ai_addrlen: 0,
+                             ai_canonname: nil,
+                             ai_addr: nil,
+                             ai_next: nil)
+        var addressInfoPointer: UnsafeMutablePointer<addrinfo>!
+        if let code = AddressInfoErrorCode(rawValue: getaddrinfo(nil, String(port), &hints, &addressInfoPointer)) {
+            throw AddressInfoError(code)
+        }
+        defer { freeaddrinfo(addressInfoPointer) }
+        let addressInfo = addressInfoPointer.pointee
+        let socket = try Socket(protocolFamily: addressInfo.ai_family,
+                                socketType: addressInfo.ai_socktype,
+                                protocol: addressInfo.ai_protocol,
+                                callbackTypes: .acceptCallBack)
         socket.delegate = self
         try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
         try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
-        var address = sockaddr_in(sin_len: UInt8(MemoryLayout<sockaddr_in>.size),
-                                  sin_family: sa_family_t(AF_INET),
-                                  sin_port: port.bigEndian,
-                                  sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
-                                  sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-        let addressData = Data(bytes: &address, count: MemoryLayout.size(ofValue: address))
+        let addressData = Data(bytes: addressInfo.ai_addr, count: Int(addressInfo.ai_addrlen))
         try socket.setAddress(addressData)
         self.socket = socket
         socket.schedule(in: .current, forMode: .default)
