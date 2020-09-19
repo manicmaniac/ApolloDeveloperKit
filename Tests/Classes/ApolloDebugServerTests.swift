@@ -92,21 +92,6 @@ class ApolloDebugServerTests: XCTestCase {
         XCTAssertEqual(server.serverURL?.port, Int(port))
     }
 
-    func testServerURLs() {
-        XCTAssertGreaterThanOrEqual(server.serverURLs.count, 3)
-        let hostLines = server.serverURLs.compactMap { $0.host }.joined(separator: "\n")
-        let range = NSRange(location: 0, length: hostLines.utf16.count)
-        let ipv4Pattern = try! NSRegularExpression(pattern: #"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"#, options: .anchorsMatchLines)
-        let ipv6Pattern = try! NSRegularExpression(pattern: #"^([a-f0-9:]+:+)+[a-f0-9]+$"#, options: .anchorsMatchLines)
-        let localhostPattern = try! NSRegularExpression(pattern: #"^\w+\.local$"#, options: .anchorsMatchLines)
-        XCTAssertNotNil(ipv4Pattern.firstMatch(in: hostLines, range: range))
-        XCTAssertNotNil(ipv6Pattern.firstMatch(in: hostLines, range: range))
-        XCTAssertNotNil(localhostPattern.firstMatch(in: hostLines, range: range))
-        if testRun!.failureCount > 0 {
-            XCTFail("\(hostLines) doesn't match the given patterns.")
-        }
-    }
-
     func testServerURLs_containsServerURL() throws {
         XCTAssert(server.serverURLs.contains(try XCTUnwrap(server.serverURL)))
     }
