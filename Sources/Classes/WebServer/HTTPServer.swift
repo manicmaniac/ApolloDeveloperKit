@@ -55,11 +55,24 @@ final class HTTPServer {
 
     /**
      * The URL where the server is established.
+     *
+     * Only returns resolved hostname in IPv4 format.
+     * - SeeAlso: `HTTPServer.serverURLs`
      */
     var serverURL: URL? {
-        let address = socket?.address.withUnsafeBytes { $0.load(as: sockaddr_in.self) }
-        guard let port = address?.sin_port.bigEndian, let primaryIPAddress = primaryIPAddress else { return nil }
+        guard let port = port, let primaryIPAddress = primaryIPv4Address else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
+    }
+
+    /**
+     * The possible URLs where the server is established.
+     *
+     * The hostname may contain resolved IPv4 / IPv6 format.
+     */
+    var serverURLs: [URL] {
+        guard let port = port else { return [] }
+        let hosts = ipAddresses + [hostname].compactMap { $0 }
+        return hosts.compactMap { URL(string: "http://\($0):\(port)/") }
     }
 
     /**
@@ -79,19 +92,19 @@ final class HTTPServer {
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
-        let socket = try Socket(protocolFamily: PF_INET, socketType: SOCK_STREAM, protocol: IPPROTO_TCP, callbackTypes: .acceptCallBack)
-        socket.delegate = self
-        try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
-        try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
-        var address = sockaddr_in(sin_len: UInt8(MemoryLayout<sockaddr_in>.size),
-                                  sin_family: sa_family_t(AF_INET),
-                                  sin_port: port.bigEndian,
-                                  sin_addr: in_addr(s_addr: INADDR_ANY.bigEndian),
-                                  sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-        let addressData = Data(bytes: &address, count: MemoryLayout.size(ofValue: address))
-        try socket.setAddress(addressData)
-        self.socket = socket
-        socket.schedule(in: .current, forMode: .default)
+        self.socket = try withAddressInfo(port: port) { addressInfo in
+            let socket = try Socket(protocolFamily: addressInfo.ai_family,
+                                    socketType: addressInfo.ai_socktype,
+                                    protocol: addressInfo.ai_protocol,
+                                    callbackTypes: .acceptCallBack)
+            socket.delegate = self
+            try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
+            try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
+            let addressData = Data(bytes: addressInfo.ai_addr, count: Int(addressInfo.ai_addrlen))
+            try socket.setAddress(addressData)
+            socket.schedule(in: .current, forMode: .default)
+            return socket
+        }
     }
 
     /**
@@ -132,7 +145,37 @@ final class HTTPServer {
         socket = nil
     }
 
-    private var primaryIPAddress: String? {
+    private var port: UInt16? {
+        let address = socket?.address.withUnsafeBytes { $0.load(as: sockaddr_in.self) }
+        return address?.sin_port.bigEndian
+    }
+
+    private var hostname: String? {
+        var buffer = [CChar](repeating: 0, count: Int(MAXHOSTNAMELEN))
+        errno = 0
+        guard gethostname(&buffer, buffer.count) != -1 else {
+            return nil
+        }
+        return String(cString: buffer)
+    }
+
+    private var ipAddresses: [String] {
+        guard let iterator = try? InterfaceAddressIterator() else { return [] }
+        let families = Set([AF_INET, AF_INET6].map(sa_family_t.init(_:)))
+        let names = primaryNetworkInterfaceNames
+        return IteratorSequence(iterator)
+            .lazy
+            .filter { $0.isUp && families.contains($0.socketFamily) && names.contains($0.name) }
+            .compactMap { address in
+                if address.socketFamily == AF_INET6 {
+                    return address.hostName.flatMap { "[\($0)]" }
+                } else {
+                    return address.hostName
+                }
+        }
+    }
+
+    private var primaryIPv4Address: String? {
         guard let iterator = try? InterfaceAddressIterator() else { return nil }
         let expectedInterfaceNames = primaryNetworkInterfaceNames
         return IteratorSequence(iterator).first {
@@ -158,6 +201,22 @@ final class HTTPServer {
         #endif
     }
 
+    private func withAddressInfo<T>(port: UInt16, procedure: (addrinfo) throws -> T) throws -> T {
+        var hints = addrinfo(ai_flags: AI_PASSIVE | AI_NUMERICSERV,
+                             ai_family: PF_INET6,
+                             ai_socktype: SOCK_STREAM,
+                             ai_protocol: IPPROTO_TCP,
+                             ai_addrlen: 0,
+                             ai_canonname: nil,
+                             ai_addr: nil,
+                             ai_next: nil)
+        var pointer: UnsafeMutablePointer<addrinfo>!
+        if let code = AddressInfoErrorCode(rawValue: getaddrinfo(nil, String(port), &hints, &pointer)) {
+            throw AddressInfoError(code)
+        }
+        defer { freeaddrinfo(pointer) }
+        return try procedure(pointer.pointee)
+    }
 }
 
 // MARK: HTTPConnectionDelegate

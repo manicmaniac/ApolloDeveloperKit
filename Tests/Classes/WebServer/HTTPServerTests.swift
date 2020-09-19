@@ -61,6 +61,24 @@ class HTTPServerTests: XCTestCase {
         waitForExpectations(timeout: 0.25, handler: nil)
     }
 
+    func testGetRequest_withIPv6() {
+        let expectation = self.expectation(description: "receive response")
+        let url = URL(string: "http://[::1]:\(port)")!
+        let task = session.dataTask(with: url) { data, response, error in
+            let response = response as? HTTPURLResponse
+            XCTAssertEqual(response?.statusCode, 200)
+            XCTAssertNil(error)
+            let headerFields = response?.allHeaderFields as? [String: String]
+            XCTAssertEqual(headerFields?["Content-Type"], "text/plain; charset=utf-8")
+            XCTAssertEqual(headerFields?["X-Request-Method"], "GET")
+            XCTAssertEqual(headerFields?["X-Request-Url"], url.absoluteString + "/")
+            XCTAssertEqual(data?.count, 0)
+            expectation.fulfill()
+        }
+        task.resume()
+        waitForExpectations(timeout: 0.25, handler: nil)
+    }
+
     func testPostRequestWithContentLength() {
         let expectation = self.expectation(description: "receive response")
         let url = URL(string: "http://127.0.0.1:\(port)")!

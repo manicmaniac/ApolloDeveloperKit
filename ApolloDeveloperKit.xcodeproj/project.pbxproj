@@ -75,6 +75,7 @@
 		5B88CF0F237CEBD6000B97AA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */; };
 		5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B8D31CE2516929700BCC296 /* AddressInfoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8D31CD2516929700BCC296 /* AddressInfoError.swift */; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8F2B9522C059BC006922CE /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8E22C059BB006922CE /* PostTableViewCell.swift */; };
@@ -227,6 +228,7 @@
 		5B88CF07237CDD81000B97AA /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/Mac/Apollo.framework; sourceTree = "<group>"; };
 		5B88CF10237E29ED000B97AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
+		5B8D31CD2516929700BCC296 /* AddressInfoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfoError.swift; sourceTree = "<group>"; };
 		5B8F2B8A22C059BB006922CE /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		5B8F2B8B22C059BB006922CE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B8F2B8C22C059BB006922CE /* PostListViewController.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PostListViewController.graphql; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 				5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */,
 				5B9B3F84240600C9007E1A8B /* Socket.swift */,
 				5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */,
+				5B8D31CD2516929700BCC296 /* AddressInfoError.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
@@ -823,6 +826,7 @@
 				5BCE500724F4441900310E26 /* KeyedStack.swift in Sources */,
 				5BDB7DB62510318100BE4DE4 /* HTTPOutputStream.swift in Sources */,
 				5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */,
+				5B8D31CE2516929700BCC296 /* AddressInfoError.swift in Sources */,
 				5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */,
 				5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */,
 				5B2F84FA22B4C8F40025A211 /* Record+JSONEncodable.swift in Sources */,

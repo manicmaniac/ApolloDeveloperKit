@@ -92,6 +92,10 @@ class ApolloDebugServerTests: XCTestCase {
         XCTAssertEqual(server.serverURL?.port, Int(port))
     }
 
+    func testServerURLs_containsServerURL() throws {
+        XCTAssert(server.serverURLs.contains(try XCTUnwrap(server.serverURL)))
+    }
+
     func testHeadFavicon() {
         let url = server.serverURL!.appendingPathComponent("favicon.png")
         var request = URLRequest(url: url)
