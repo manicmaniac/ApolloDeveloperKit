@@ -59,12 +59,23 @@ public class ApolloDebugServer {
 
     /**
      * The URL where the server is established.
+     * Only returns resolved hostname in IPv4 format.
      *
      * - Warning: If running on a simulator, `serverURL` might return `nil`.
      * Since there's no way to access host machine's network interfaces, `ApolloDebugServer` assumes `en0` or `en1` is the only available interfaces.
+     * - SeeAlso: `ApolloDebugServer.serverURLs`
      */
     public var serverURL: URL? {
         return server.serverURL
+    }
+
+    /**
+     * The possible URLs where the server is established.
+     *
+     * The hostname may contain resolved IPv4 / IPv6 format.
+     */
+    public var serverURLs: [URL] {
+        return server.serverURLs
     }
 
     /**

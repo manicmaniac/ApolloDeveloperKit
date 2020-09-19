@@ -55,11 +55,24 @@ final class HTTPServer {
 
     /**
      * The URL where the server is established.
+     *
+     * Only returns resolved hostname in IPv4 format.
+     * - SeeAlso: `HTTPServer.serverURLs`
      */
     var serverURL: URL? {
-        let address = socket?.address.withUnsafeBytes { $0.load(as: sockaddr_in.self) }
-        guard let port = address?.sin_port.bigEndian, let primaryIPAddress = primaryIPAddress else { return nil }
+        guard let port = port, let primaryIPAddress = primaryIPv4Address else { return nil }
         return URL(string: "http://\(primaryIPAddress):\(port)/")
+    }
+
+    /**
+     * The possible URLs where the server is established.
+     *
+     * The hostname may contain resolved IPv4 / IPv6 format.
+     */
+    var serverURLs: [URL] {
+        guard let port = port else { return [] }
+        let hosts = ipAddresses + [hostname].compactMap { $0 }
+        return hosts.compactMap { URL(string: "http://\($0):\(port)/") }
     }
 
     /**
@@ -132,7 +145,37 @@ final class HTTPServer {
         socket = nil
     }
 
-    private var primaryIPAddress: String? {
+    private var port: UInt16? {
+        let address = socket?.address.withUnsafeBytes { $0.load(as: sockaddr_in.self) }
+        return address?.sin_port.bigEndian
+    }
+
+    private var hostname: String? {
+        var buffer = [CChar](repeating: 0, count: Int(MAXHOSTNAMELEN))
+        errno = 0
+        guard gethostname(&buffer, buffer.count) != -1 else {
+            return nil
+        }
+        return String(cString: buffer)
+    }
+
+    private var ipAddresses: [String] {
+        guard let iterator = try? InterfaceAddressIterator() else { return [] }
+        let families = Set([AF_INET, AF_INET6].map(sa_family_t.init(_:)))
+        let names = primaryNetworkInterfaceNames
+        return IteratorSequence(iterator)
+            .lazy
+            .filter { $0.isUp && families.contains($0.socketFamily) && names.contains($0.name) }
+            .compactMap { address in
+                if address.socketFamily == AF_INET6 {
+                    return address.hostName.flatMap { "[\($0)]" }
+                } else {
+                    return address.hostName
+                }
+        }
+    }
+
+    private var primaryIPv4Address: String? {
         guard let iterator = try? InterfaceAddressIterator() else { return nil }
         let expectedInterfaceNames = primaryNetworkInterfaceNames
         return IteratorSequence(iterator).first {
