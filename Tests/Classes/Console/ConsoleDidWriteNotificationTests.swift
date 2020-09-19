@@ -27,16 +27,14 @@ class ConsoleDidWriteNotificationTests: XCTestCase {
         XCTAssertEqual(notification.destination, destination)
     }
 
-    func testInitWithRawValue() {
+    func testInitWithRawValue() throws {
         let data = Data()
         let destination = ConsoleRedirection.Destination.standardOutput
         let rawValue = Notification(name: .consoleDidWrite, object: consoleRedirection, userInfo: [
             "data": data,
             "destination": destination
         ])
-        guard let notification = ConsoleDidWriteNotification(rawValue: rawValue) else {
-            return XCTFail()
-        }
+        let notification = try XCTUnwrap(ConsoleDidWriteNotification(rawValue: rawValue))
         XCTAssert(notification.object === consoleRedirection)
         XCTAssertEqual(notification.data, data)
         XCTAssertEqual(notification.destination, destination)

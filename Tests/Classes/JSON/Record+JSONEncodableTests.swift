@@ -11,7 +11,7 @@ import XCTest
 @testable import ApolloDeveloperKit
 
 class Record_JSONEncodableTests: XCTestCase {
-    func testJSONValue_whenValueIsSwiftStandardType() {
+    func testJSONValue_whenValueIsSwiftStandardType() throws {
         let record = Record(key: "key", [
             "String": "foo",
             "Int": 42,
@@ -22,9 +22,7 @@ class Record_JSONEncodableTests: XCTestCase {
             "[[Int]]": [[0, 42]],
             "[String: String]": ["foo": "bar"]
         ])
-        guard let object = record.jsonValue as? [String: Any] else {
-            return XCTFail()
-        }
+        let object = try XCTUnwrap(record.jsonValue as? [String: Any])
         XCTAssertEqual(object["String"] as? String, "foo")
         XCTAssertEqual(object["Int"] as? Int, 42)
         XCTAssertEqual(object["Double"] as? Double, 1.5)
@@ -35,7 +33,7 @@ class Record_JSONEncodableTests: XCTestCase {
         XCTAssertEqual(object["[String: String]"] as? [String: String], ["foo": "bar"])
     }
 
-    func testJSONValue_whenValueIsFoundationClass() {
+    func testJSONValue_whenValueIsFoundationClass() throws {
         let record = Record(key: "key", [
             "NSString": "foo" as NSString,
             "NSNumber-Int": 42 as NSNumber,
@@ -46,9 +44,7 @@ class Record_JSONEncodableTests: XCTestCase {
             "NSArray<NSArray<NSNumber>>": [[0 as NSNumber, 42 as NSNumber] as NSArray] as NSArray,
             "NSDictionary<NSString, NSString>": ["foo" as NSString: "bar" as NSString] as NSDictionary
         ])
-        guard let object = record.jsonValue as? [String: Any] else {
-            return XCTFail()
-        }
+        let object = try XCTUnwrap(record.jsonValue as? [String: Any])
         XCTAssertEqual(object["NSString"] as? NSString, "foo")
         XCTAssertEqual(object["NSNumber-Int"] as? NSNumber, 42)
         XCTAssertEqual(object["NSNumber-Double"] as? NSNumber, 1.5)
@@ -59,7 +55,7 @@ class Record_JSONEncodableTests: XCTestCase {
         XCTAssertEqual(object["NSDictionary<NSString, NSString>"] as? [String: String], ["foo": "bar"])
     }
 
-    func testJSONValue_whenValueIsCoreFoundationClass() {
+    func testJSONValue_whenValueIsCoreFoundationClass() throws {
         let record = Record(key: "key", [
             "CFString": "foo" as CFString,
             "CFNumber-Int": 42 as CFNumber,
@@ -70,9 +66,7 @@ class Record_JSONEncodableTests: XCTestCase {
             "CFArray<CFArray<CFNumber>>": [[0 as CFNumber, 42 as CFNumber] as CFArray] as CFArray,
             "CFDictionary<CFString, CFString>": ["foo" as CFString: "bar" as CFString] as CFDictionary
         ])
-        guard let object = record.jsonValue as? [String: CFTypeRef] else {
-            return XCTFail()
-        }
+        let object = try XCTUnwrap(record.jsonValue as? [String: CFTypeRef])
         XCTAssert(CFEqual(object["CFString"], "foo" as CFString))
         XCTAssert(CFEqual(object["CFNumber-Int"], 42 as CFNumber))
         XCTAssert(CFEqual(object["CFNumber-Double"], 1.5 as CFNumber))
@@ -83,14 +77,12 @@ class Record_JSONEncodableTests: XCTestCase {
         XCTAssert(CFEqual(object["CFDictionary<CFString, CFString>"], ["foo" as CFString: "bar" as CFString] as CFDictionary))
     }
 
-    func testJSONValue_whenValueIsHybridType() {
+    func testJSONValue_whenValueIsHybridType() throws {
         let record = Record(key: "key", [
             "[NSString]": ["foo" as NSString, "bar" as NSString],
             "[NSString: Int]": ["foo" as NSString: 42]
         ])
-        guard let object = record.jsonValue as? [String: Any] else {
-            return XCTFail()
-        }
+        let object = try XCTUnwrap(record.jsonValue as? [String: Any])
         XCTAssertEqual(object["[NSString]"] as? [NSString], ["foo", "bar"])
         XCTAssertEqual(object["[NSString: Int]"] as? [NSString: Int], ["foo": 42])
     }
