@@ -79,31 +79,19 @@ final class HTTPServer {
      */
     func start(port: UInt16) throws {
         precondition(Thread.isMainThread)
-        var hints = addrinfo(ai_flags: AI_PASSIVE | AI_NUMERICSERV,
-                             ai_family: AF_INET6,
-                             ai_socktype: SOCK_STREAM,
-                             ai_protocol: IPPROTO_TCP,
-                             ai_addrlen: 0,
-                             ai_canonname: nil,
-                             ai_addr: nil,
-                             ai_next: nil)
-        var addressInfoPointer: UnsafeMutablePointer<addrinfo>!
-        if let code = AddressInfoErrorCode(rawValue: getaddrinfo(nil, String(port), &hints, &addressInfoPointer)) {
-            throw AddressInfoError(code)
+        self.socket = try withAddressInfo(port: port) { addressInfo in
+            let socket = try Socket(protocolFamily: addressInfo.ai_family,
+                                    socketType: addressInfo.ai_socktype,
+                                    protocol: addressInfo.ai_protocol,
+                                    callbackTypes: .acceptCallBack)
+            socket.delegate = self
+            try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
+            try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
+            let addressData = Data(bytes: addressInfo.ai_addr, count: Int(addressInfo.ai_addrlen))
+            try socket.setAddress(addressData)
+            socket.schedule(in: .current, forMode: .default)
+            return socket
         }
-        defer { freeaddrinfo(addressInfoPointer) }
-        let addressInfo = addressInfoPointer.pointee
-        let socket = try Socket(protocolFamily: addressInfo.ai_family,
-                                socketType: addressInfo.ai_socktype,
-                                protocol: addressInfo.ai_protocol,
-                                callbackTypes: .acceptCallBack)
-        socket.delegate = self
-        try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
-        try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
-        let addressData = Data(bytes: addressInfo.ai_addr, count: Int(addressInfo.ai_addrlen))
-        try socket.setAddress(addressData)
-        self.socket = socket
-        socket.schedule(in: .current, forMode: .default)
     }
 
     /**
@@ -170,6 +158,22 @@ final class HTTPServer {
         #endif
     }
 
+    private func withAddressInfo<T>(port: UInt16, procedure: (addrinfo) throws -> T) throws -> T {
+        var hints = addrinfo(ai_flags: AI_PASSIVE | AI_NUMERICSERV,
+                             ai_family: PF_INET6,
+                             ai_socktype: SOCK_STREAM,
+                             ai_protocol: IPPROTO_TCP,
+                             ai_addrlen: 0,
+                             ai_canonname: nil,
+                             ai_addr: nil,
+                             ai_next: nil)
+        var pointer: UnsafeMutablePointer<addrinfo>!
+        if let code = AddressInfoErrorCode(rawValue: getaddrinfo(nil, String(port), &hints, &pointer)) {
+            throw AddressInfoError(code)
+        }
+        defer { freeaddrinfo(pointer) }
+        return try procedure(pointer.pointee)
+    }
 }
 
 // MARK: HTTPConnectionDelegate
