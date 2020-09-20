@@ -99,7 +99,7 @@ class OperationStoreControllerTests: XCTestCase {
 }
 
 private class MockOperationStore: OperationStore {
-    enum Invocation<Operation: GraphQLOperation> {
+    enum Invocation<Operation> where Operation: GraphQLOperation {
         case add(Operation)
         case setFailure(Operation, Error)
         case setSuccess(Operation, [Error])
