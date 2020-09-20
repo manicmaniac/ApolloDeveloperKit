@@ -54,8 +54,16 @@ final class Socket {
     }
 
     func setAddress(_ address: Data) throws {
+        // Do not use `CFSocketSetAddress()` because it doesn't report errors properly.
+        // https://opensource.apple.com/source/CF/CF-1153.18/CFSocket.c.auto.html
+        let fileDescriptor = CFSocketGetNative(cfSocket)
         errno = 0
-        guard CFSocketSetAddress(cfSocket, address as CFData) == .success else {
+        let result = address.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int32 in
+            let pointer = bytes.bindMemory(to: sockaddr.self).baseAddress
+            return bind(fileDescriptor, pointer, socklen_t(bytes.count))
+        }
+        let backlog = Int32(256) // The same value used in CFSocketSetAddress()
+        guard result != -1 && listen(fileDescriptor, backlog) != -1 else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
     }
