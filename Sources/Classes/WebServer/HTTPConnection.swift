@@ -26,8 +26,9 @@ final class HTTPConnection {
 
     init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
         self.httpVersion = httpVersion
-        let socket = try Socket(nativeHandle: nativeHandle, callbackTypes: .dataCallBack)
+        let socket = try Socket(nativeHandle: nativeHandle, callbackTypes: [.dataCallBack, .writeCallBack])
         self.socket = socket
+        socket.isNonBlocking = true
         try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
         socket.delegate = self
     }
@@ -71,13 +72,11 @@ extension HTTPConnection: HTTPOutputStream {
     private func tryFlush() {
         do {
             while let data = dataQueue.popFirst() {
-                guard try socket.send(data: data, timeout: .leastNonzeroMagnitude) else {
+                guard try socket.send(data: data, timeout: 0) else {
                     dataQueue.insert(data, at: dataQueue.startIndex)
-                    socket.enableCallBacks(.writeCallBack)
                     return
                 }
             }
-            socket.disableCallBacks(.writeCallBack)
         } catch {
             close()
         }

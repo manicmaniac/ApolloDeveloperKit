@@ -100,6 +100,7 @@ final class HTTPServer {
             socket.delegate = self
             try socket.setValue(1, for: SOL_SOCKET, option: SO_REUSEADDR)
             try socket.setValue(1, for: SOL_SOCKET, option: SO_NOSIGPIPE)
+            socket.isNonBlocking = true
             let addressData = Data(bytes: addressInfo.ai_addr, count: Int(addressInfo.ai_addrlen))
             try socket.setAddress(addressData)
             socket.schedule(in: .current, forMode: .default)

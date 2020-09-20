@@ -45,6 +45,21 @@ final class Socket {
         return CFSocketCopyAddress(cfSocket) as Data
     }
 
+    var isNonBlocking: Bool {
+        get {
+            return (fcntl(nativeHandle, F_GETFL) & O_NONBLOCK) != 0
+        }
+        set {
+            var flags = fcntl(nativeHandle, F_GETFL)
+            if newValue {
+                flags |= O_NONBLOCK
+            } else {
+                flags &= ~O_NONBLOCK
+            }
+            _ = fcntl(nativeHandle, F_SETFL, flags)
+        }
+    }
+
     func enableCallBacks(_ callbacks: CFSocketCallBackType) {
         CFSocketEnableCallBacks(cfSocket, callbacks.rawValue)
     }
@@ -87,7 +102,7 @@ final class Socket {
     func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws -> Bool {
         errno = 0
         guard CFSocketSendData(cfSocket, address as CFData?, data as CFData, timeout) == .success else {
-            if let code = POSIXErrorCode(rawValue: errno) {
+            if let code = POSIXErrorCode(rawValue: errno), code != .EAGAIN, code != .EWOULDBLOCK {
                 throw POSIXError(code)
             }
             return false
@@ -98,6 +113,10 @@ final class Socket {
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
         let source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, cfSocket, 0)
         CFRunLoopAddSource(runLoop.getCFRunLoop(), source, CFRunLoopMode(mode.rawValue as CFString))
+    }
+
+    private var nativeHandle: Int32 {
+        return CFSocketGetNative(cfSocket)
     }
 }
 
