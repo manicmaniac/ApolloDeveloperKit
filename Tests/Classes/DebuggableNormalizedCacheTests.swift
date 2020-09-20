@@ -118,20 +118,16 @@ class DebuggableNormalizedCacheTests: XCTestCase {
         let expectation = self.expectation(description: "callback should be called.")
         cache.merge(records: cachedRecords, callbackQueue: nil) { result in
             do {
-                switch result {
-                case .success(let cacheKeys):
-                    try cache.clearImmediately()
-                    cache.loadRecords(forKeys: Array(cacheKeys), callbackQueue: nil) { result in
-                        defer { expectation.fulfill() }
-                        switch result {
-                        case .success(let records):
-                            XCTAssert(records.compactMap { $0 }.isEmpty)
-                        case .failure(let error):
-                            XCTFail(String(describing: error))
-                        }
+                let cacheKeys = try result.get()
+                try cache.clearImmediately()
+                cache.loadRecords(forKeys: Array(cacheKeys), callbackQueue: nil) { result in
+                    defer { expectation.fulfill() }
+                    switch result {
+                    case .success(let records):
+                        XCTAssert(records.compactMap { $0 }.isEmpty)
+                    case .failure(let error):
+                        XCTFail(String(describing: error))
                     }
-                case .failure(let error):
-                    throw error
                 }
             } catch let error {
                 XCTFail(String(describing: error))
