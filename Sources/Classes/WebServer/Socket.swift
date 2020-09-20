@@ -45,6 +45,21 @@ final class Socket {
         return CFSocketCopyAddress(cfSocket) as Data
     }
 
+    var isNonBlocking: Bool {
+        get {
+            return (fcntl(nativeHandle, F_GETFL) & O_NONBLOCK) != 0
+        }
+        set {
+            var flags = fcntl(nativeHandle, F_GETFL)
+            if newValue {
+                flags |= O_NONBLOCK
+            } else {
+                flags &= ~O_NONBLOCK
+            }
+            _ = fcntl(nativeHandle, F_SETFL, flags)
+        }
+    }
+
     func enableCallBacks(_ callbacks: CFSocketCallBackType) {
         CFSocketEnableCallBacks(cfSocket, callbacks.rawValue)
     }
@@ -54,8 +69,16 @@ final class Socket {
     }
 
     func setAddress(_ address: Data) throws {
+        // Do not use `CFSocketSetAddress()` because it doesn't report errors properly.
+        // https://opensource.apple.com/source/CF/CF-1153.18/CFSocket.c.auto.html
+        let fileDescriptor = CFSocketGetNative(cfSocket)
         errno = 0
-        guard CFSocketSetAddress(cfSocket, address as CFData) == .success else {
+        let result = address.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int32 in
+            let pointer = bytes.bindMemory(to: sockaddr.self).baseAddress
+            return bind(fileDescriptor, pointer, socklen_t(bytes.count))
+        }
+        let backlog = Int32(256) // The same value used in CFSocketSetAddress()
+        guard result != -1 && listen(fileDescriptor, backlog) != -1 else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
     }
@@ -79,7 +102,7 @@ final class Socket {
     func send(address: Data? = nil, data: Data, timeout: TimeInterval) throws -> Bool {
         errno = 0
         guard CFSocketSendData(cfSocket, address as CFData?, data as CFData, timeout) == .success else {
-            if let code = POSIXErrorCode(rawValue: errno) {
+            if let code = POSIXErrorCode(rawValue: errno), code != .EAGAIN, code != .EWOULDBLOCK {
                 throw POSIXError(code)
             }
             return false
@@ -90,6 +113,10 @@ final class Socket {
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
         let source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, cfSocket, 0)
         CFRunLoopAddSource(runLoop.getCFRunLoop(), source, CFRunLoopMode(mode.rawValue as CFString))
+    }
+
+    private var nativeHandle: Int32 {
+        return CFSocketGetNative(cfSocket)
     }
 }
 
