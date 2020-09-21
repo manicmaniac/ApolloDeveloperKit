@@ -18,5 +18,5 @@ Pod::Spec.new do |spec|
   spec.resource = "Sources/Assets"
   spec.cocoapods_version = '>= 1.7.0'
   spec.swift_versions = ['5.0', '5.1', '5.2']
-  spec.dependency "Apollo", ">= 0.29.0", "< 0.33.0"
+  spec.dependency "Apollo", ">= 0.29.0", "< 0.34.0"
 end
