@@ -391,22 +391,23 @@ class ApolloDebugServerTests: XCTestCase {
                 let jsonData = data.dropFirst(5)
                 let expected: NSDictionary = [
                     "state": [
-                        "queries": [:],
-                        "mutations": [:]
+                        "queries": [],
+                        "mutations": []
                     ],
-                    "action": [:],
                     "dataWithOptimisticResults": [:]
                 ]
-                XCTAssertNoThrow({
+                do {
                     let jsonObject = try JSONSerialization.jsonObject(with: jsonData) as? NSDictionary
                     XCTAssertEqual(jsonObject, expected)
-                })
+                } catch let error {
+                    XCTFail(String(describing: error))
+                }
             }
         }
         handler.urlSessionTaskDidCompleteWithError = { session, task, error in
             if let error = error as NSError? {
                 guard error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled else {
-                    return XCTFail(error.localizedDescription)
+                    return XCTFail(String(describing: error))
                 }
             }
         }

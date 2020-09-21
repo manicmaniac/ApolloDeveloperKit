@@ -28,7 +28,7 @@ class DebuggableNormalizedCacheTests: XCTestCase {
                 XCTAssertEqual(records.count, 1)
                 XCTAssertEqual(records.compactMap { $0 }.count, 0)
             case .failure(let error):
-                XCTFail(error.localizedDescription)
+                XCTFail(String(describing: error))
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
@@ -50,11 +50,11 @@ class DebuggableNormalizedCacheTests: XCTestCase {
                         let cachedRecord = Record(key: "foo", cachedFields)
                         XCTAssertEqual(records.first??.key, cachedRecord.key)
                     case .failure(let error):
-                        XCTFail(error.localizedDescription)
+                        XCTFail(String(describing: error))
                     }
                 }
             case .failure(let error):
-                XCTFail(error.localizedDescription)
+                XCTFail(String(describing: error))
                 expectation.fulfill()
             }
         }
@@ -72,7 +72,7 @@ class DebuggableNormalizedCacheTests: XCTestCase {
             case .success(let cacheKeys):
                 XCTAssertEqual(cacheKeys, ["foo.bar"])
             case .failure(let error):
-                XCTFail(error.localizedDescription)
+                XCTFail(String(describing: error))
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)
@@ -95,16 +95,16 @@ class DebuggableNormalizedCacheTests: XCTestCase {
                             case .success(let records):
                                 XCTAssertEqual(records.compactMap { $0 }.count, 0)
                             case .failure(let error):
-                                XCTFail(error.localizedDescription)
+                                XCTFail(String(describing: error))
                             }
                         }
                     case .failure(let error):
-                        XCTFail(error.localizedDescription)
+                        XCTFail(String(describing: error))
                         expectation.fulfill()
                     }
                 }
             case .failure(let error):
-                XCTFail(error.localizedDescription)
+                XCTFail(String(describing: error))
                 expectation.fulfill()
             }
         }
@@ -118,23 +118,19 @@ class DebuggableNormalizedCacheTests: XCTestCase {
         let expectation = self.expectation(description: "callback should be called.")
         cache.merge(records: cachedRecords, callbackQueue: nil) { result in
             do {
-                switch result {
-                case .success(let cacheKeys):
-                    try cache.clearImmediately()
-                    cache.loadRecords(forKeys: Array(cacheKeys), callbackQueue: nil) { result in
-                        defer { expectation.fulfill() }
-                        switch result {
-                        case .success(let records):
-                            XCTAssert(records.compactMap { $0 }.isEmpty)
-                        case .failure(let error):
-                            XCTFail(error.localizedDescription)
-                        }
+                let cacheKeys = try result.get()
+                try cache.clearImmediately()
+                cache.loadRecords(forKeys: Array(cacheKeys), callbackQueue: nil) { result in
+                    defer { expectation.fulfill() }
+                    switch result {
+                    case .success(let records):
+                        XCTAssert(records.compactMap { $0 }.isEmpty)
+                    case .failure(let error):
+                        XCTFail(String(describing: error))
                     }
-                case .failure(let error):
-                    throw error
                 }
             } catch let error {
-                XCTFail(error.localizedDescription)
+                XCTFail(String(describing: error))
                 expectation.fulfill()
             }
         }
@@ -153,7 +149,7 @@ class DebuggableNormalizedCacheTests: XCTestCase {
                 let storage = cache.extract()
                 XCTAssertEqual(storage.count, 1)
             case .failure(let error):
-                XCTFail(error.localizedDescription)
+                XCTFail(String(describing: error))
             }
         }
         waitForExpectations(timeout: 0.25, handler: nil)

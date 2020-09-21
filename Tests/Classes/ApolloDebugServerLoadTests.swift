@@ -78,7 +78,9 @@ private class MockHTTPURLProtocol: URLProtocol {
 
     override func startLoading() {
         guard !Thread.isMainThread else {
-            return queue.addOperation(startLoading)
+            return queue.addOperation { [weak self] in
+                self?.startLoading()
+            }
         }
         let headerFields = ["Content-Type": "text/plain; charset=utf-8"]
         let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: httpVersion, headerFields: headerFields)!

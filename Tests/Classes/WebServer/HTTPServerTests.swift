@@ -32,15 +32,12 @@ class HTTPServerTests: XCTestCase {
         XCTAssertTrue(server.isRunning)
     }
 
-    func testServerURL() {
-        let serverURL = server.serverURL
-        XCTAssertNotNil(serverURL)
-        if let serverURL = serverURL {
-            let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:\(port)")
-            let range = NSRange(location: 0, length: serverURL.absoluteString.count)
-            let matches = regularExpression.matches(in: serverURL.absoluteString, range: range)
-            XCTAssertFalse(matches.isEmpty)
-        }
+    func testServerURL() throws {
+        let serverURL = try XCTUnwrap(server.serverURL)
+        let regularExpression = try! NSRegularExpression(pattern: "http://\\d+\\.\\d+\\.\\d+\\.\\d+:\(port)")
+        let range = NSRange(location: 0, length: serverURL.absoluteString.count)
+        let matches = regularExpression.matches(in: serverURL.absoluteString, range: range)
+        XCTAssertFalse(matches.isEmpty)
     }
 
     func testGetRequest() {

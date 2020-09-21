@@ -46,7 +46,6 @@
 		5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */; };
 		5B3E177425102FB3000376FB /* HTTPOutputStreamSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E177325102FB3000376FB /* HTTPOutputStreamSet.swift */; };
 		5B41218622C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */; };
-		5B4B71192406E4B3009ADD7C /* URLRequest+HTTPMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */; };
 		5B4CA52F23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */; };
 		5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */; };
 		5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */; };
@@ -201,7 +200,6 @@
 		5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerTests.swift; sourceTree = "<group>"; };
 		5B3E177325102FB3000376FB /* HTTPOutputStreamSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPOutputStreamSet.swift; sourceTree = "<group>"; };
 		5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNormalizedCacheTests.swift; sourceTree = "<group>"; };
-		5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+HTTPMessage.swift"; sourceTree = "<group>"; };
 		5B4CA52E23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStoreTests.swift; sourceTree = "<group>"; };
 		5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockGraphQLOperations.swift; sourceTree = "<group>"; };
 		5B4F46082370A7D70039495A /* FileDescriptorDuplicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDescriptorDuplicator.swift; sourceTree = "<group>"; };
@@ -464,7 +462,6 @@
 				5B5EBB9D2510E32B00D0D025 /* InterfaceAddressIterator.swift */,
 				5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */,
 				5B9B3F84240600C9007E1A8B /* Socket.swift */,
-				5B4B71182406E4B3009ADD7C /* URLRequest+HTTPMessage.swift */,
 				5B8D31CD2516929700BCC296 /* AddressInfoError.swift */,
 			);
 			path = WebServer;
@@ -816,7 +813,6 @@
 			files = (
 				5BD3BEF524F1505C005D069A /* Schema+JSONDecodable.swift in Sources */,
 				5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */,
-				5B4B71192406E4B3009ADD7C /* URLRequest+HTTPMessage.swift in Sources */,
 				5B29A5A023F112A500475EEA /* InMemoryOperationStore.swift in Sources */,
 				5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */,
 				5B5EBB9C2510E31400D0D025 /* InterfaceAddress.swift in Sources */,

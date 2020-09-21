@@ -23,75 +23,60 @@ class OperationStoreControllerTests: XCTestCase {
 
     func testNetworkTransportWillSendOperation() {
         controller.networkTransport(networkTransport, willSendOperation: MockGraphQLQuery())
-        let expectation = self.expectation(description: "An invocation should be recoreded")
-        controller.queue.async {
-            defer { expectation.fulfill() }
-            XCTAssertEqual(self.store.invocationHistory.count, 1)
-            guard case .add? = self.store.invocationHistory.first else {
+        controller.queue.sync {
+            XCTAssertEqual(store.invocationHistory.count, 1)
+            guard case .add? = store.invocationHistory.first else {
                 return XCTFail()
             }
         }
-        waitForExpectations(timeout: 0.25, handler: nil)
     }
 
     func testNetworkTransportDidSendOperation_withSuccessfulQuery() {
         let query = MockGraphQLQuery()
         let response = GraphQLResponse(operation: query, body: [:])
         controller.networkTransport(networkTransport, didSendOperation: query, result: .success(response))
-        let expectation = self.expectation(description: "An invocation should be recoreded")
-        controller.queue.async {
-            defer { expectation.fulfill() }
-            XCTAssertEqual(self.store.invocationHistory.count, 1)
-            guard case .setSuccess(_, let errors)? = self.store.invocationHistory.first, errors.isEmpty else {
+        controller.queue.sync {
+            XCTAssertEqual(store.invocationHistory.count, 1)
+            guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.isEmpty else {
                 return XCTFail()
             }
         }
-        waitForExpectations(timeout: 0.25, handler: nil)
     }
 
     func testNetworkTransportDidSendOperation_withSuccessfulMutation() {
         let mutation = MockGraphQLMutation()
         let response = GraphQLResponse(operation: mutation, body: [:])
         controller.networkTransport(networkTransport, didSendOperation: mutation, result: .success(response))
-        let expectation = self.expectation(description: "An invocation should be recoreded")
-        controller.queue.async {
-            defer { expectation.fulfill() }
-            XCTAssertEqual(self.store.invocationHistory.count, 1)
-            guard case .setSuccess(_, let errors)? = self.store.invocationHistory.first, errors.isEmpty else {
+        controller.queue.sync {
+            XCTAssertEqual(store.invocationHistory.count, 1)
+            guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.isEmpty else {
                 return XCTFail()
             }
         }
-        waitForExpectations(timeout: 0.25, handler: nil)
     }
 
     func testNetworkTransportDidSendOperation_withSuccessfulSubscription() {
         let subscription = MockGraphQLSubscription()
         let response = GraphQLResponse(operation: subscription, body: [:])
         controller.networkTransport(networkTransport, didSendOperation: subscription, result: .success(response))
-        let expectation = self.expectation(description: "An invocation should be recoreded")
-        controller.queue.async {
-            defer { expectation.fulfill() }
-            XCTAssertEqual(self.store.invocationHistory.count, 1)
-            guard case .setSuccess(_, let errors)? = self.store.invocationHistory.first, errors.isEmpty else {
+        controller.queue.sync {
+            XCTAssertEqual(store.invocationHistory.count, 1)
+            guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.isEmpty else {
                 return XCTFail()
             }
         }
-        waitForExpectations(timeout: 0.25, handler: nil)
     }
 
     func testNetworkTransportDidSendOperation_withNetworkErrorQuery() {
         let query = MockGraphQLQuery()
         let error = URLError(.notConnectedToInternet)
         controller.networkTransport(networkTransport, didSendOperation: query, result: .failure(error))
-        let expectation = self.expectation(description: "An invocation should be recoreded")
-        controller.queue.async {
-            defer { expectation.fulfill() }
-            XCTAssertEqual(self.store.invocationHistory.count, 1)
-            guard case .setFailure(_, URLError.notConnectedToInternet)? = self.store.invocationHistory.first else {
+        controller.queue.sync {
+            XCTAssertEqual(store.invocationHistory.count, 1)
+            guard case .setFailure(_, URLError.notConnectedToInternet)? = store.invocationHistory.first else {
                 return XCTFail()
             }
         }
-        waitForExpectations(timeout: 0.25, handler: nil)
     }
 
     func testNetworkTransportDidSendOperation_withGraphQLErrorQuery() {
@@ -104,20 +89,17 @@ class OperationStoreControllerTests: XCTestCase {
             ]
         ])
         controller.networkTransport(networkTransport, didSendOperation: query, result: .success(response))
-        let expectation = self.expectation(description: "An invocation should be recoreded")
-        controller.queue.async {
-            defer { expectation.fulfill() }
-            XCTAssertEqual(self.store.invocationHistory.count, 1)
-            guard case .setSuccess(_, let errors)? = self.store.invocationHistory.first, errors.count == 1 else {
+        controller.queue.sync {
+            XCTAssertEqual(store.invocationHistory.count, 1)
+            guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.count == 1 else {
                 return XCTFail()
             }
         }
-        waitForExpectations(timeout: 0.25, handler: nil)
     }
 }
 
 private class MockOperationStore: OperationStore {
-    enum Invocation<Operation: GraphQLOperation> {
+    enum Invocation<Operation> where Operation: GraphQLOperation {
         case add(Operation)
         case setFailure(Operation, Error)
         case setSuccess(Operation, [Error])
