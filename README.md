@@ -1,7 +1,7 @@
 ApolloDeveloperKit
 ==================
 
-[![Build Status](https://travis-ci.org/manicmaniac/ApolloDeveloperKit.svg?branch=master)](https://travis-ci.org/manicmaniac/ApolloDeveloperKit)
+[![Build Status](https://github.com/manicmaniac/ApolloDeveloperKit/workflows/Test/badge.svg)](https://github.com/manicmaniac/ApolloDeveloperKit/actions?query=workflow%3A"Test")
 [![Maintainability](https://api.codeclimate.com/v1/badges/c45fc7657ce194edee35/maintainability)](https://codeclimate.com/github/manicmaniac/ApolloDeveloperKit/maintainability)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg)](https://cocoapods.org/pods/ApolloDeveloperKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
