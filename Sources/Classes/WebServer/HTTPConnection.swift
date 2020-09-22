@@ -80,20 +80,25 @@ extension HTTPConnection: HTTPOutputStream {
     }
 
     private func tryFlush() {
-        do {
-            while let event = eventQueue.popFirst() {
-                switch event {
-                case .write(let data):
-                    guard try socket.send(data: data, timeout: 0) else {
-                        eventQueue.insert(.write(data), at: eventQueue.startIndex)
-                        return
-                    }
-                case .close:
-                    closeImmediately()
-                }
+        switch eventQueue.first {
+        case .write(let data)?:
+            if sendOrClose(data: data, timeout: 0) {
+                eventQueue = eventQueue[eventQueue.startIndex.advanced(by: 1)..<eventQueue.endIndex]
+                tryFlush()
             }
+        case .close?:
+            closeImmediately()
+        case nil:
+            break
+        }
+    }
+
+    private func sendOrClose(data: Data, timeout: TimeInterval) -> Bool {
+        do {
+            return try socket.send(data: data, timeout: timeout)
         } catch {
             closeImmediately()
+            return false
         }
     }
 }
