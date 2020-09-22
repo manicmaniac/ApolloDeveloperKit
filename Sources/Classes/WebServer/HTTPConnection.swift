@@ -18,11 +18,16 @@ protocol HTTPConnectionDelegate: class {
  * `HTTPConnection` represents an individual connection of HTTP transmissions.
  */
 final class HTTPConnection {
+    private enum Event {
+        case write(Data)
+        case close
+    }
+
     let httpVersion: String
     weak var delegate: HTTPConnectionDelegate?
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
-    private var dataQueue = ArraySlice<Data>()
+    private var eventQueue = ArraySlice<Event>()
 
     init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
         self.httpVersion = httpVersion
@@ -42,7 +47,7 @@ final class HTTPConnection {
 
 extension HTTPConnection: HTTPOutputStream {
     func write(data: Data) {
-        dataQueue.append(data)
+        eventQueue.append(.write(data))
         tryFlush()
     }
 
@@ -53,6 +58,11 @@ extension HTTPConnection: HTTPOutputStream {
     }
 
     func close() {
+        eventQueue.append(.close)
+        tryFlush()
+    }
+
+    func closeImmediately() {
         delegate?.httpConnectionWillClose(self)
         socket.invalidate()
     }
@@ -71,14 +81,19 @@ extension HTTPConnection: HTTPOutputStream {
 
     private func tryFlush() {
         do {
-            while let data = dataQueue.popFirst() {
-                guard try socket.send(data: data, timeout: 0) else {
-                    dataQueue.insert(data, at: dataQueue.startIndex)
-                    return
+            while let event = eventQueue.popFirst() {
+                switch event {
+                case .write(let data):
+                    guard try socket.send(data: data, timeout: 0) else {
+                        eventQueue.insert(.write(data), at: eventQueue.startIndex)
+                        return
+                    }
+                case .close:
+                    closeImmediately()
                 }
             }
         } catch {
-            close()
+            closeImmediately()
         }
     }
 }
@@ -104,7 +119,7 @@ extension HTTPConnection: SocketDelegate {
 
     func socket(_ socket: Socket, didReceive data: Data, address: Data) {
         guard !data.isEmpty, incomingRequest.append(data) else {
-            return close()
+            return closeImmediately()
         }
         guard incomingRequest.isHeaderComplete else {
             return

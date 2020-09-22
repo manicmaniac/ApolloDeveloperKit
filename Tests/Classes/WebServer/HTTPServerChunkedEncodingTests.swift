@@ -35,7 +35,7 @@ class HTTPServerChunkedEncodingTests: XCTestCase {
         let url = URL(string: "http://127.0.0.1:\(port)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBodyStream = InputStream(data: Data(repeating: 0x41, count: 1024))
+        request.httpBodyStream = InputStream(data: Data(repeating: 0x41, count: 32768))
         request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         request.setValue("keep-alive", forHTTPHeaderField: "Connection")
         let task = session.dataTask(with: request) { data, response, error in
@@ -52,7 +52,7 @@ class HTTPServerChunkedEncodingTests: XCTestCase {
             expectation.fulfill()
         }
         task.resume()
-        waitForExpectations(timeout: 10.0, handler: nil)
+        waitForExpectations(timeout: 2.0, handler: nil)
     }
 }
 
