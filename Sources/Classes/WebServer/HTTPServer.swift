@@ -140,7 +140,7 @@ final class HTTPServer {
         precondition(Thread.isMainThread)
         guard isRunning else { return }
         for connection in connections {
-            connection.close()
+            connection.closeImmediately()
         }
         socket?.invalidate()
         socket = nil

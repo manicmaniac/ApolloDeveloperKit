@@ -29,7 +29,6 @@
 		5B2E1B2D230CC93C003C85CB /* InterfaceAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */; };
 		5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */; };
 		5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */; };
-		5B2EFC7F240BBAAA003EC9D3 /* HTTPServerChunkedEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2EFC7E240BBAAA003EC9D3 /* HTTPServerChunkedEncodingTests.swift */; };
 		5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */; };
 		5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */; };
@@ -184,7 +183,6 @@
 		5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressTests.swift; sourceTree = "<group>"; };
 		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
 		5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "sockaddr+Factory.swift"; sourceTree = "<group>"; };
-		5B2EFC7E240BBAAA003EC9D3 /* HTTPServerChunkedEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerChunkedEncodingTests.swift; sourceTree = "<group>"; };
 		5B2F821322B430A80025A211 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
 		5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCache.swift; sourceTree = "<group>"; };
 		5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransport.swift; sourceTree = "<group>"; };
@@ -472,7 +470,6 @@
 			children = (
 				5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */,
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
-				5B2EFC7E240BBAAA003EC9D3 /* HTTPServerChunkedEncodingTests.swift */,
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
 				5B9645DC236BB8BF00F0926D /* MIMETypeTests.swift */,
 				5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */,
@@ -870,7 +867,6 @@
 				5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */,
 				5BA76BC2240ABAB600501193 /* BackgroundTaskTests.swift in Sources */,
 				5B2E1B29230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift in Sources */,
-				5B2EFC7F240BBAAA003EC9D3 /* HTTPServerChunkedEncodingTests.swift in Sources */,
 				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
 				5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */,
 				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
