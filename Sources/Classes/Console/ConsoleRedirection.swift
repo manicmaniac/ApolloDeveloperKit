@@ -17,7 +17,11 @@ final class ConsoleRedirection {
         case standardError
     }
 
-    static let shared = ConsoleRedirection(notificationCenter: .default, queue: .main, duplicator: defaultFileDescriptorDuplicator)
+    static let shared = ConsoleRedirection(standardOutputFileDescriptor: STDOUT_FILENO,
+                                           standardErrorFileDescriptor: STDERR_FILENO,
+                                           notificationCenter: .default,
+                                           queue: .main,
+                                           duplicator: defaultFileDescriptorDuplicator)
     private static let defaultFileDescriptorDuplicator = DarwinFileDescriptorDuplicator()
 
     private let notificationCenter: NotificationCenter
@@ -26,8 +30,10 @@ final class ConsoleRedirection {
     private let standardOutputPipe = Pipe()
     private let standardErrorPipe = Pipe()
     private let observerLock = NSLock()
-    private var standardOutputFileDescriptor: Int32?
-    private var standardErrorFileDescriptor: Int32?
+    private let standardOutputFileDescriptor: Int32
+    private let standardErrorFileDescriptor: Int32
+    private var duplicatedStandardOutputFileDescriptor: Int32?
+    private var duplicatedStandardErrorFileDescriptor: Int32?
     private var observersCount = 0
 
     /**
@@ -35,7 +41,13 @@ final class ConsoleRedirection {
      *
      * DO NOT use this constructor. It is only visible for testing purpose.
      */
-    init(notificationCenter: NotificationCenter, queue: DispatchQueue, duplicator: FileDescriptorDuplicator) {
+    init(standardOutputFileDescriptor: Int32,
+         standardErrorFileDescriptor: Int32,
+         notificationCenter: NotificationCenter,
+         queue: DispatchQueue,
+         duplicator: FileDescriptorDuplicator) {
+        self.standardOutputFileDescriptor = standardOutputFileDescriptor
+        self.standardErrorFileDescriptor = standardErrorFileDescriptor
         self.notificationCenter = notificationCenter
         self.queue = queue
         self.duplicator = duplicator
@@ -66,24 +78,24 @@ final class ConsoleRedirection {
     }
 
     private func start() {
-        self.standardOutputFileDescriptor = duplicator.dup(STDOUT_FILENO)
-        self.standardErrorFileDescriptor = duplicator.dup(STDERR_FILENO)
-        duplicator.dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, STDOUT_FILENO)
+        self.duplicatedStandardOutputFileDescriptor = duplicator.dup(standardOutputFileDescriptor)
+        self.duplicatedStandardErrorFileDescriptor = duplicator.dup(standardErrorFileDescriptor)
+        duplicator.dup2(standardOutputPipe.fileHandleForWriting.fileDescriptor, standardOutputFileDescriptor)
         standardOutputPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
             try? self?.postNotificationAfterCopying(from: fileHandle, to: .standardOutput)
         }
-        duplicator.dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, STDERR_FILENO)
+        duplicator.dup2(standardErrorPipe.fileHandleForWriting.fileDescriptor, standardErrorFileDescriptor)
         standardErrorPipe.fileHandleForReading.readabilityHandler = { [weak self] fileHandle in
             try? self?.postNotificationAfterCopying(from: fileHandle, to: .standardError)
         }
     }
 
     private func stop() {
-        if let fileDescriptor = standardOutputFileDescriptor {
-            duplicator.dup2(fileDescriptor, STDOUT_FILENO)
+        if let fileDescriptor = duplicatedStandardOutputFileDescriptor {
+            duplicator.dup2(fileDescriptor, standardOutputFileDescriptor)
         }
-        if let fileDescriptor = standardErrorFileDescriptor {
-            duplicator.dup2(fileDescriptor, STDERR_FILENO)
+        if let fileDescriptor = duplicatedStandardErrorFileDescriptor {
+            duplicator.dup2(fileDescriptor, standardErrorFileDescriptor)
         }
     }
 
@@ -112,9 +124,9 @@ final class ConsoleRedirection {
     private func fileDescriptor(for destination: Destination) -> Int32? {
         switch destination {
         case .standardOutput:
-            return standardOutputFileDescriptor
+            return duplicatedStandardOutputFileDescriptor
         case .standardError:
-            return standardErrorFileDescriptor
+            return duplicatedStandardErrorFileDescriptor
         }
     }
 }

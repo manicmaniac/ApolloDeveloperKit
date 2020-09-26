@@ -41,6 +41,10 @@ final class Socket {
         self.cfSocket = cfSocket
     }
 
+    var nativeHandle: CFSocketNativeHandle {
+        return CFSocketGetNative(cfSocket)
+    }
+
     var address: Data {
         return CFSocketCopyAddress(cfSocket) as Data
     }
@@ -58,10 +62,6 @@ final class Socket {
             }
             _ = fcntl(nativeHandle, F_SETFL, flags)
         }
-    }
-
-    func enableCallBacks(_ callbacks: CFSocketCallBackType) {
-        CFSocketEnableCallBacks(cfSocket, callbacks.rawValue)
     }
 
     func disableCallBacks(_ callbacks: CFSocketCallBackType) {
@@ -83,9 +83,17 @@ final class Socket {
         }
     }
 
+    func getValue<T>(_ value: inout T, for level: Int32, option: Int32) throws {
+        var size = UInt32(MemoryLayout.size(ofValue: value))
+        errno = 0
+        guard getsockopt(nativeHandle, level, option, &value, &size) != -1 else {
+            throw POSIXError(POSIXErrorCode(rawValue: errno)!)
+        }
+    }
+
     func setValue<T>(_ value: inout T, for level: Int32, option: Int32) throws {
         errno = 0
-        guard setsockopt(CFSocketGetNative(cfSocket), level, option, &value, socklen_t(MemoryLayout.size(ofValue: value))) != -1 else {
+        guard setsockopt(nativeHandle, level, option, &value, socklen_t(MemoryLayout.size(ofValue: value))) != -1 else {
             throw POSIXError(POSIXErrorCode(rawValue: errno)!)
         }
     }
@@ -113,10 +121,6 @@ final class Socket {
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
         let source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, cfSocket, 0)
         CFRunLoopAddSource(runLoop.getCFRunLoop(), source, CFRunLoopMode(mode.rawValue as CFString))
-    }
-
-    private var nativeHandle: Int32 {
-        return CFSocketGetNative(cfSocket)
     }
 }
 

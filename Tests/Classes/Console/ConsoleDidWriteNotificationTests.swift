@@ -15,7 +15,11 @@ class ConsoleDidWriteNotificationTests: XCTestCase {
     override func setUp() {
         let notificationCenter = NotificationCenter()
         let duplicator = MockFileDescriptorDuplicator()
-        self.consoleRedirection = ConsoleRedirection(notificationCenter: notificationCenter, queue: .main, duplicator: duplicator)
+        self.consoleRedirection = ConsoleRedirection(standardOutputFileDescriptor: STDOUT_FILENO,
+                                                     standardErrorFileDescriptor: STDERR_FILENO,
+                                                     notificationCenter: notificationCenter,
+                                                     queue: .main,
+                                                     duplicator: duplicator)
     }
 
     func testInitWithObjectDataDestination() {
