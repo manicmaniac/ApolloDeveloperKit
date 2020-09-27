@@ -1,20 +1,20 @@
+---
 name: Release
-
 on:
   release:
-    types: [published]
-
+    types:
+    - published
 jobs:
   publish-to-cocoapods:
     runs-on: macOS-latest
     env:
-      COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-      DEVELOPER_DIR: /Applications/Xcode_11.3.app/Contents/Developer
+      COCOAPODS_TRUNK_TOKEN: "${{ secrets.COCOAPODS_TRUNK_TOKEN }}"
+      DEVELOPER_DIR: "/Applications/Xcode_11.3.app/Contents/Developer"
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: bundle install --without=documentation --without=test --jobs=4 --retry=3
-      - name: Set up CocoaPods repository
-        run: bundle exec pod setup
-      - name: Publish to CocoaPods
-        run: bundle exec pod trunk push --swift-version=5.1 --verbose ApolloDeveloperKit.podspec
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: bundle install --without=documentation --without=test --jobs=4 --retry=3
+    - name: Set up CocoaPods repository
+      run: bundle exec pod setup
+    - name: Publish to CocoaPods
+      run: bundle exec pod trunk push --swift-version=5.1 --verbose ApolloDeveloperKit.podspec
