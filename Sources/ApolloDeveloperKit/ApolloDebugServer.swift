@@ -16,7 +16,11 @@ import Foundation
  * When the server is released, it stops itself automatically.
  */
 public class ApolloDebugServer {
+    #if SWIFT_PACKAGE
+    private static let documentRootURL = Bundle.module.url(forResource: "Assets", withExtension: nil)!
+    #else
     private static let documentRootURL = Bundle(for: ApolloDebugServer.self).url(forResource: "Assets", withExtension: nil)!
+    #endif
     private let networkTransport: DebuggableNetworkTransport
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
