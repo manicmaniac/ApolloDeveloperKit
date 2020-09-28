@@ -4,7 +4,9 @@ on:
 - push
 jobs:
   unit-test:
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
+    env:
+      DEVELOPER_DIR: "/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     strategy:
       fail-fast: false
       matrix:
@@ -60,30 +62,31 @@ jobs:
           destination: platform=OS X,arch=x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Select Xcode
-      run: echo "::set-env name=DEVELOPER_DIR::/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     - name: Modify Cartfile.resolved
-      run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
+      run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
     - name: Install dependencies
       run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
     - name: Run unit tests
-      run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.app/Contents/Developer
+      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
     - name: Run install tests
       run: make -C InstallTests carthage
   lint-podspec:
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.app/Contents/Developer
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      BUNDLE_WITHOUT: documentation:test
+      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: bundle install --without=documentation --without=test --jobs=4 --retry=3
+      run: bundle install
     - name: Lint podspec
       run: bundle exec pod lib lint --verbose
   frontend-test:
