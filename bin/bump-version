@@ -9,6 +9,6 @@ fi
 
 agvtool new-version "${1%.*}"
 agvtool new-marketing-version "$1"
-ruby -pi -e "sub(/[0-9]+[.][0-9]+[.][0-9]+/,'$1') if /spec[.]version *=/" ApolloDeveloperKit.podspec
-ruby -pi -e "sub(/[0-9]+[.][0-9]+[.][0-9]+/,'$1') if /pod 'ApolloDeveloperKit',/" README.md
+sed -i '' -E "/spec[.]version *=/s/[0-9]+[.][0-9]+[.][0-9]+/$1/" ApolloDeveloperKit.podspec
+sed -i '' -E "/pod 'ApolloDeveloperKit',/s/[0-9]+[.][0-9]+[.][0-9]+/$1/" README.md
 npm version --no-git-tag-version "$1"

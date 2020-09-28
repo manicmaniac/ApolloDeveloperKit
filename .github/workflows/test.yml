@@ -63,7 +63,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Modify Cartfile.resolved
-      run: ruby -pi -e 'sub(/"([\d.])+"/, %q("${{ matrix.apollo }}")) if /apollographql\/apollo-ios/' Cartfile.resolved
+      run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
     - name: Install dependencies
       run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
     - name: Run unit tests
