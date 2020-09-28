@@ -23,6 +23,7 @@ public class ApolloDebugServer {
     private let server = HTTPServer()
     private let operationStoreController = OperationStoreController(store: InMemoryOperationStore())
     private let backgroundTask = BackgroundTask()
+    private let consoleRedirection = ConsoleRedirection.shared
     private var eventStreams = HTTPOutputStreamSet()
     private weak var timer: Timer?
 
@@ -88,9 +89,9 @@ public class ApolloDebugServer {
     public var enableConsoleRedirection = false {
         didSet {
             if enableConsoleRedirection {
-                ConsoleRedirection.shared.addObserver(self, selector: #selector(didReceiveConsoleDidWriteNotification(_:)))
+                consoleRedirection.addObserver(self, selector: #selector(didReceiveConsoleDidWriteNotification(_:)))
             } else {
-                ConsoleRedirection.shared.removeObserver(self)
+                consoleRedirection.removeObserver(self)
             }
         }
     }
