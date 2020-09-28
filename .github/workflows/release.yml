@@ -6,7 +6,7 @@ on:
     - published
 jobs:
   publish-to-cocoapods:
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
     env:
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
