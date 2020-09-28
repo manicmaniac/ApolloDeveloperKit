@@ -5,6 +5,8 @@ on:
 jobs:
   unit-test:
     runs-on: macOS-latest
+    env:
+      DEVELOPER_DIR: "/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     strategy:
       fail-fast: false
       matrix:
@@ -60,8 +62,6 @@ jobs:
           destination: platform=OS X,arch=x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Select Xcode
-      run: echo "::set-env name=DEVELOPER_DIR::/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     - name: Modify Cartfile.resolved
       run: ruby -pi -e 'sub(/"([\d.])+"/, %q("${{ matrix.apollo }}")) if /apollographql\/apollo-ios/' Cartfile.resolved
     - name: Install dependencies
