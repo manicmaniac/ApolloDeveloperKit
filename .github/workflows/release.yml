@@ -10,7 +10,7 @@ jobs:
     env:
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
-      BUNDLE_WITHOUT: "documentation:test"
+      BUNDLE_WITHOUT: documentation:test
       COCOAPODS_TRUNK_TOKEN: "${{ secrets.COCOAPODS_TRUNK_TOKEN }}"
       DEVELOPER_DIR: "/Applications/Xcode_11.3.app/Contents/Developer"
     steps:
