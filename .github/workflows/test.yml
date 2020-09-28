@@ -67,7 +67,7 @@ jobs:
     - name: Install dependencies
       run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
     - name: Run unit tests
-      run: set -o pipefail && xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
   install-test:
     runs-on: macOS-latest
     env:
