@@ -21,7 +21,6 @@ public class ApolloDebugServer {
     private let cache: DebuggableNormalizedCache
     private let keepAliveInterval: TimeInterval
     private let server = HTTPServer()
-    private let dateFormatter = DateFormatter()
     private let operationStoreController = OperationStoreController(store: InMemoryOperationStore())
     private let backgroundTask = BackgroundTask()
     private var eventStreams = HTTPOutputStreamSet()
