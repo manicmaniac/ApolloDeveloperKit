@@ -63,7 +63,7 @@ jobs:
     - name: Select Xcode
       run: echo "::set-env name=DEVELOPER_DIR::/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
     - name: Modify Cartfile.resolved
-      run: perl -pi -e 's/"[\d.]+"$/"${{ matrix.apollo }}"/ if /apollographql\/apollo-ios/' Cartfile.resolved
+      run: ruby -pi -e 'sub(/"([\d.])+"/, %q("${{ matrix.apollo }}")) if /apollographql\/apollo-ios/' Cartfile.resolved
     - name: Install dependencies
       run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
     - name: Run unit tests
