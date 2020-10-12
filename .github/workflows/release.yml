@@ -12,7 +12,7 @@ jobs:
       BUNDLE_RETRY: 3
       BUNDLE_WITHOUT: documentation:test
       COCOAPODS_TRUNK_TOKEN: "${{ secrets.COCOAPODS_TRUNK_TOKEN }}"
-      DEVELOPER_DIR: "/Applications/Xcode_11.3.app/Contents/Developer"
+      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
@@ -20,4 +20,4 @@ jobs:
     - name: Set up CocoaPods repository
       run: bundle exec pod setup
     - name: Publish to CocoaPods
-      run: bundle exec pod trunk push --swift-version=5.1 --verbose ApolloDeveloperKit.podspec
+      run: bundle exec pod trunk push --swift-version=5.3 --verbose ApolloDeveloperKit.podspec

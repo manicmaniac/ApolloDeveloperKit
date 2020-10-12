@@ -3,6 +3,6 @@ platform :ios, 10
 target 'ApolloDeveloperKitInstallTests-iOS-CocoaPods' do
   use_frameworks!
 
-  pod 'Apollo', podspec: 'https://raw.githubusercontent.com/CocoaPods/Specs/d37a562afd379b334d18e0f202c775cf290ba68a/Specs/a/6/c/Apollo/0.33.0/Apollo.podspec.json'
+  pod 'Apollo', '0.34.1'
   pod 'ApolloDeveloperKit', path: '../', configurations: ['Debug']
 end

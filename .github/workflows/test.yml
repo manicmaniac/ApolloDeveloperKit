@@ -11,63 +11,18 @@ jobs:
       fail-fast: false
       matrix:
         apollo:
-        - 0.34.0
-        - 0.33.0
-        - 0.32.0
-        - 0.31.0
-        - 0.30.0
-        - 0.29.0
+        - 0.34.1
         sdk:
         - iphonesimulator
         - macosx
         include:
-        - apollo: 0.34.0
+        - apollo: 0.34.1
           sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.33.0
-          sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.32.0
-          sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.31.0
-          sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.30.0
-          sdk: iphonesimulator
-          xcode: '11.4'
-          destination: platform=iOS Simulator,OS=13.4,name=iPhone 11
-        - apollo: 0.29.0
-          sdk: iphonesimulator
-          xcode: '11.4'
-          destination: platform=iOS Simulator,OS=13.4,name=iPhone 11
-        - apollo: 0.34.0
+          xcode: '12'
+          destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
+        - apollo: 0.34.1
           sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.33.0
-          sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.32.0
-          sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.31.0
-          sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.30.0
-          sdk: macosx
-          xcode: '11.4'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.29.0
-          sdk: macosx
-          xcode: '11.4'
+          xcode: '12'
           destination: platform=OS X,arch=x86_64
     steps:
     - uses: actions/checkout@v2
