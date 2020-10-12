@@ -35,10 +35,6 @@ final class HTTPRequestMessage {
         return CFHTTPMessageCopyRequestMethod(message)?.takeRetainedValue() as String?
     }
 
-    var allHeaderFields: [String: String]? {
-        return CFHTTPMessageCopyAllHeaderFields(message)?.takeRetainedValue() as? [String: String]
-    }
-
     func value(for headerField: String) -> String? {
         return CFHTTPMessageCopyHeaderFieldValue(message, headerField as CFString)?.takeRetainedValue() as String?
     }

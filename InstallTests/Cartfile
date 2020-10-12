@@ -1,1 +1,2 @@
+github "apollographql/apollo-ios" "0.33.0"
 git "./ApolloDeveloperKit" "HEAD"

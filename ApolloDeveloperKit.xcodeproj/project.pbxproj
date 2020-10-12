@@ -14,6 +14,7 @@
 		5B15067424F149960081B1E8 /* Schema+JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */; };
 		5B15067624F14B520081B1E8 /* ErrorLike+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B15067524F14B520081B1E8 /* ErrorLike+Error.swift */; };
 		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */; };
+		5B1DFA0E2526377E00594E80 /* AddressInfoErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1DFA0D2526377E00594E80 /* AddressInfoErrorTests.swift */; };
 		5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */; };
 		5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */; };
 		5B21028524C2F3D000053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028424C2F3D000053E9D /* ApolloCore.framework */; };
@@ -165,6 +166,7 @@
 		5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONEncodable.swift"; sourceTree = "<group>"; };
 		5B15067524F14B520081B1E8 /* ErrorLike+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorLike+Error.swift"; sourceTree = "<group>"; };
 		5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockNetworkTransport.swift; sourceTree = "<group>"; };
+		5B1DFA0D2526377E00594E80 /* AddressInfoErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfoErrorTests.swift; sourceTree = "<group>"; };
 		5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponse.swift; sourceTree = "<group>"; };
 		5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponseTests.swift; sourceTree = "<group>"; };
 		5B21028224C2F34E00053E9D /* ApolloCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloCore.framework; path = Carthage/Build/iOS/ApolloCore.framework; sourceTree = "<group>"; };
@@ -449,6 +451,7 @@
 		5B3A83A522C87F3B002B4FFB /* WebServer */ = {
 			isa = PBXGroup;
 			children = (
+				5B8D31CD2516929700BCC296 /* AddressInfoError.swift */,
 				5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */,
 				5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */,
 				5BDB7DB52510318100BE4DE4 /* HTTPOutputStream.swift */,
@@ -462,7 +465,6 @@
 				5B5EBB9D2510E32B00D0D025 /* InterfaceAddressIterator.swift */,
 				5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */,
 				5B9B3F84240600C9007E1A8B /* Socket.swift */,
-				5B8D31CD2516929700BCC296 /* AddressInfoError.swift */,
 			);
 			path = WebServer;
 			sourceTree = "<group>";
@@ -470,6 +472,7 @@
 		5B3A83AB22C9333A002B4FFB /* WebServer */ = {
 			isa = PBXGroup;
 			children = (
+				5B1DFA0D2526377E00594E80 /* AddressInfoErrorTests.swift */,
 				5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */,
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
@@ -881,6 +884,7 @@
 				5B442302251C2F1300760DB7 /* SocketTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
 				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */,
+				5B1DFA0E2526377E00594E80 /* AddressInfoErrorTests.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
 				5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* AnyGraphQLOperationTests.swift in Sources */,

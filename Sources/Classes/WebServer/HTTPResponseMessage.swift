@@ -15,12 +15,8 @@ final class HTTPResponseMessage {
         self.message = CFHTTPMessageCreateResponse(kCFAllocatorDefault, statusCode, statusDescription as CFString?, httpVersion as CFString).takeRetainedValue()
     }
 
-    var isHeaderComplete: Bool {
-        return CFHTTPMessageIsHeaderComplete(message)
-    }
-
-    func setBody(_ body: Data?) {
-        CFHTTPMessageSetBody(message, (body ?? Data()) as CFData)
+    func setBody(_ body: Data) {
+        CFHTTPMessageSetBody(message, body as CFData)
     }
 
     func setValue(_ value: String, for headerField: String) {
