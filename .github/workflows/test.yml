@@ -32,6 +32,7 @@ jobs:
       run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+      shell: bash # to enable pipefail
   install-test:
     runs-on: macOS-10.15
     env:
