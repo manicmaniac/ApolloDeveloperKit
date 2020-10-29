@@ -22,16 +22,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let url = URL(string: "http://localhost:8080/graphql")!
         #if DEBUG
-        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         let store = ApolloStore(cache: cache)
+        let interceptorProvider = LegacyInterceptorProvider(store: store)
+        let underlyingNetworkTransport = RequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
+        let networkTransport = DebuggableNetworkTransport(networkTransport: underlyingNetworkTransport)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
         server.enableConsoleRedirection = true
         try! server.start(port: 8081)
         #else
-        let networkTransport = HTTPNetworkTransport(url: url)
         let cache = InMemoryNormalizedCache()
         let store = ApolloStore(cache: cache)
+        let interceptorProvider = LegacyInterceptorProvider()
+        let networkTransport = RequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
         #endif
         apollo = ApolloClient(networkTransport: networkTransport, store: store)
         apollo.cacheKeyForObject = { $0["id"] }

@@ -254,11 +254,11 @@ extension ApolloDebugServer: HTTPServerDelegate {
             let jsonObject = try JSONSerialization.jsonObject(with: body)
             let operationJSONObject = try Operation(jsonValue: jsonObject)
             let operation = AnyGraphQLOperation(operation: operationJSONObject)
-            _ = networkTransport.send(operation: operation) { [weak self] result in
+            _ = networkTransport.send(operation: operation, cachePolicy: .fetchIgnoringCacheCompletely, contextIdentifier: nil, callbackQueue: .global()) { [weak self] result in
                 guard let self = self else { return }
                 do {
-                    let response = try result.get()
-                    let body = try JSONSerialization.data(withJSONObject: response.body)
+                    let graphQLResult = try result.get()
+                    let body = try JSONSerialization.data(withJSONObject: graphQLResult.jsonValue)
                     context.respondJSONData(body)
                 } catch let error as GraphQLHTTPResponseError {
                     let stream = context.respond(proxying: error.response)
@@ -295,7 +295,7 @@ extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
         eventStreams.broadcast(data: chunk.data)
     }
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResponse<Operation.Data>, Error>) where Operation: GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, didSendOperation: operation, result: result)
         let chunk = chunkForCurrentState()

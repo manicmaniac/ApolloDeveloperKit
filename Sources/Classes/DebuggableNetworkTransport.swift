@@ -10,7 +10,7 @@ import Apollo
 
 protocol DebuggableNetworkTransportDelegate: class {
     func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation)
-    func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResponse<Operation.Data>, Error>)
+    func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>)
 }
 
 /**
@@ -41,9 +41,9 @@ public class DebuggableNetworkTransport {
 // MARK: NetworkTransport
 
 extension DebuggableNetworkTransport: NetworkTransport {
-    public func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation.Data>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
+    public func send<Operation>(operation: Operation, cachePolicy: CachePolicy, contextIdentifier: UUID?, callbackQueue: DispatchQueue, completionHandler: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
-        return networkTransport.send(operation: operation) { [weak self] result in
+        return networkTransport.send(operation: operation, cachePolicy: cachePolicy, contextIdentifier: contextIdentifier, callbackQueue: callbackQueue) { [weak self] result in
             if let self = self {
                 self.delegate?.networkTransport(self, didSendOperation: operation, result: result)
             }
