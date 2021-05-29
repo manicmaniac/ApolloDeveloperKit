@@ -28,6 +28,7 @@ final class HTTPConnection {
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
     private var eventQueue = ArraySlice<Event>()
+    private let eventQueueLock = NSLock()
 
     init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
         self.httpVersion = httpVersion
@@ -47,7 +48,9 @@ final class HTTPConnection {
 
 extension HTTPConnection: HTTPOutputStream {
     func write(data: Data) {
+        eventQueueLock.lock()
         eventQueue.append(.write(data))
+        eventQueueLock.unlock()
         tryFlush()
     }
 
@@ -58,7 +61,9 @@ extension HTTPConnection: HTTPOutputStream {
     }
 
     func close() {
+        eventQueueLock.lock()
         eventQueue.append(.close)
+        eventQueueLock.unlock()
         tryFlush()
     }
 
@@ -80,16 +85,21 @@ extension HTTPConnection: HTTPOutputStream {
     }
 
     private func tryFlush() {
+        eventQueueLock.lock()
         switch eventQueue.first {
         case .write(let data)?:
             if sendOrClose(data: data, timeout: 0) {
                 eventQueue = eventQueue[eventQueue.startIndex.advanced(by: 1)..<eventQueue.endIndex]
+                eventQueueLock.unlock()
                 tryFlush()
+            } else {
+                eventQueueLock.unlock()
             }
         case .close?:
             closeImmediately()
+            eventQueueLock.unlock()
         case nil:
-            break
+            eventQueueLock.unlock()
         }
     }
 
