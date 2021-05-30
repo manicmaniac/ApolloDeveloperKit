@@ -19,12 +19,16 @@ class ApolloDebugServerTests: XCTestCase {
     private var session: URLSession!
 
     override func setUp() {
+        let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
+        store = ApolloStore(cache: cache)
         let url = URL(string: "http://localhost/graphql")!
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
-        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, client: URLSessionClient(sessionConfiguration: configuration), sendOperationIdentifiers: false))
-        let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
-        store = ApolloStore(cache: cache)
+        let urlSessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
+        let interceptorProvider = LegacyInterceptorProvider(client: urlSessionClient,
+                                                            shouldInvalidateClientOnDeinit: true,
+                                                            store: store)
+        let networkTransport = DebuggableRequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
         client = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 0.25)
         port = try! server.start(randomPortIn: 49152...65535)
