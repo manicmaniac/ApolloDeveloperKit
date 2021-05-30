@@ -26,11 +26,11 @@ class MockNetworkTransport: NetworkTransport {
         results.append(.failure(error))
     }
 
-    func send<Operation>(operation: Operation, completionHandler: @escaping (Result<GraphQLResponse<Operation.Data>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+    func send<Operation>(operation: Operation, cachePolicy: CachePolicy, contextIdentifier: UUID?, callbackQueue: DispatchQueue, completionHandler: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
         let result = results.popFirst()
         switch result {
-        case .success(let response as GraphQLResponse<Operation.Data>)?:
-            completionHandler(.success(response))
+        case .success(let graphQLResult as GraphQLResult<Operation.Data>)?:
+            completionHandler(.success(graphQLResult))
         case .failure(let error)?:
             completionHandler(.failure(error))
         case .success:
