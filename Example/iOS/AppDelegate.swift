@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #if DEBUG
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         let store = ApolloStore(cache: cache)
-        let interceptorProvider = LegacyInterceptorProvider(store: store)
+        let interceptorProvider = DebuggableInterceptorProvider(LegacyInterceptorProvider(store: store))
         let underlyingNetworkTransport = RequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
         let networkTransport = DebuggableNetworkTransport(networkTransport: underlyingNetworkTransport)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
