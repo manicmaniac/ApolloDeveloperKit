@@ -10,7 +10,7 @@
 		5B05890824EB53220071DB57 /* ConsoleDidWriteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */; };
 		5B05890A24EB5DC60071DB57 /* HTTPRequestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890924EB5DC60071DB57 /* HTTPRequestMessage.swift */; };
 		5B05890C24EB5DCF0071DB57 /* HTTPResponseMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890B24EB5DCF0071DB57 /* HTTPResponseMessage.swift */; };
-		5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */; };
+		5B0EC95E22B6D728003D7933 /* DebuggableRequestChainNetworkTransportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EC95D22B6D728003D7933 /* DebuggableRequestChainNetworkTransportTests.swift */; };
 		5B15067424F149960081B1E8 /* Schema+JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */; };
 		5B15067624F14B520081B1E8 /* ErrorLike+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B15067524F14B520081B1E8 /* ErrorLike+Error.swift */; };
 		5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */; };
@@ -167,7 +167,7 @@
 		5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleDidWriteNotification.swift; sourceTree = "<group>"; };
 		5B05890924EB5DC60071DB57 /* HTTPRequestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestMessage.swift; sourceTree = "<group>"; };
 		5B05890B24EB5DCF0071DB57 /* HTTPResponseMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseMessage.swift; sourceTree = "<group>"; };
-		5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableNetworkTransportTests.swift; sourceTree = "<group>"; };
+		5B0EC95D22B6D728003D7933 /* DebuggableRequestChainNetworkTransportTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DebuggableRequestChainNetworkTransportTests.swift; sourceTree = "<group>"; };
 		5B15067324F149960081B1E8 /* Schema+JSONEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+JSONEncodable.swift"; sourceTree = "<group>"; };
 		5B15067524F14B520081B1E8 /* ErrorLike+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorLike+Error.swift"; sourceTree = "<group>"; };
 		5B16DECC23F45C5300EFEA16 /* MockNetworkTransport.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MockNetworkTransport.swift; sourceTree = "<group>"; };
@@ -322,7 +322,7 @@
 				5B3A83AB22C9333A002B4FFB /* WebServer */,
 				5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */,
 				5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */,
-				5B0EC95D22B6D728003D7933 /* DebuggableNetworkTransportTests.swift */,
+				5B0EC95D22B6D728003D7933 /* DebuggableRequestChainNetworkTransportTests.swift */,
 				5B41218522C58EC800D01EE9 /* DebuggableNormalizedCacheTests.swift */,
 			);
 			path = Classes;
@@ -909,7 +909,7 @@
 				5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */,
 				5BA76BC2240ABAB600501193 /* BackgroundTaskTests.swift in Sources */,
 				5B2E1B29230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift in Sources */,
-				5B0EC95E22B6D728003D7933 /* DebuggableNetworkTransportTests.swift in Sources */,
+				5B0EC95E22B6D728003D7933 /* DebuggableRequestChainNetworkTransportTests.swift in Sources */,
 				5B16DECD23F45C5300EFEA16 /* MockNetworkTransport.swift in Sources */,
 				5B3A839322C72197002B4FFB /* Reference+JSONEncodableTests.swift in Sources */,
 				5B53B15524FBFD0D00A946D4 /* ApolloDeveloperKitTests.swift in Sources */,

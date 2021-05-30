@@ -33,11 +33,11 @@ open class DebuggableRequestChainNetworkTransport: RequestChainNetworkTransport,
 }
 
 extension DebuggableRequestChainNetworkTransport: DebuggableInterceptorProviderDelegate {
-    func interceptorProvider<Operation>(_ interceptorProvider: DebuggableInterceptorProvider, willSendOperation operation: Operation) where Operation : GraphQLOperation {
+    func interceptorProvider<Operation>(_ interceptorProvider: InterceptorProvider, willSendOperation operation: Operation) where Operation : GraphQLOperation {
         delegate?.networkTransport(self, willSendOperation: operation)
     }
 
-    func interceptorProvider<Operation>(_ interceptorProvider: DebuggableInterceptorProvider, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
+    func interceptorProvider<Operation>(_ interceptorProvider: InterceptorProvider, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
         delegate?.networkTransport(self, didSendOperation: operation, result: result)
     }
 }

@@ -10,8 +10,8 @@ import Apollo
 import Foundation
 
 protocol DebuggableInterceptorProviderDelegate: class {
-    func interceptorProvider<Operation>(_ interceptorProvider: DebuggableInterceptorProvider, willSendOperation operation: Operation) where Operation: GraphQLOperation
-    func interceptorProvider<Operation>(_ interceptorProvider: DebuggableInterceptorProvider, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation
+    func interceptorProvider<Operation>(_ interceptorProvider: InterceptorProvider, willSendOperation operation: Operation) where Operation: GraphQLOperation
+    func interceptorProvider<Operation>(_ interceptorProvider: InterceptorProvider, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation
 }
 
 public class DebuggableInterceptorProvider: InterceptorProvider {
