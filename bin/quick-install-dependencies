@@ -6,10 +6,11 @@ set -e
 
 show_help() {
     cat <<-EOS
-Usage: quick-install-dependencies [-h] [-f] <SDK>
+Usage: quick-install-dependencies [-h] [-d] [-f] <SDK>
 
 Options:
     -h, --help   Show this help and exit
+    -d, --debug  Build with Debug configuration [default: release]
     -f, --force  Force build ignoring cache
 
 Arguments:
@@ -17,11 +18,12 @@ Arguments:
 EOS
 }
 
-if [ $# -eq 0 -o $# -gt 2 ]; then
-    echo "error: wrong number of arguments ($# for 1..2)." >&2
+if [ $# -eq 0 -o $# -gt 3 ]; then
+    echo "error: wrong number of arguments ($# for 1..3)." >&2
     show_help >&2
     exit 1
 fi
+configuration=Release
 force=0
 sdk=
 carthage_build_dir=
@@ -33,6 +35,10 @@ do
             show_help
             exit
             ;;
+        -d|--debug)
+            configuration=Debug
+            shift
+            ;;
         -f|--force)
             force=1
             shift
@@ -40,19 +46,19 @@ do
         macosx)
             sdk=macosx
             carthage_build_dir=Carthage/Build/Mac
-            release_dir=Release
+            release_dir="$configuration"
             shift
             ;;
         iphoneos)
             sdk=iphoneos
             carthage_build_dir=Carthage/Build/iOS
-            release_dir=Release-iphoneos
+            release_dir="$configuration-iphoneos"
             shift
             ;;
         iphonesimulator)
             sdk=iphonesimulator
             carthage_build_dir=Carthage/Build/iOS
-            release_dir=Release-iphonesimulator
+            release_dir="$configuration-iphonesimulator"
             shift
             ;;
         '')
@@ -65,7 +71,7 @@ do
     esac
 done
 if [ -z "$sdk" ]; then
-    echo "error: wrong number of arguments ($# for 1..2)." >&2
+    echo "error: wrong number of arguments ($# for 1..3)." >&2
     show_help >&2
     exit 1
 fi
@@ -89,7 +95,7 @@ do
     xcodebuild build \
         -project Carthage/Checkouts/apollo-ios/Apollo.xcodeproj \
         -scheme "$scheme" \
-        -configuration Release \
+        -configuration "$configuration" \
         -derivedDataPath "$derived_data_dir" \
         -sdk "$sdk" \
         -quiet \
