@@ -8,7 +8,7 @@
 
 import Apollo
 
-protocol DebuggableNetworkTransportDelegate: class {
+public protocol DebuggableNetworkTransportDelegate: class {
     func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation)
     func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>)
 }
@@ -18,36 +18,6 @@ protocol DebuggableNetworkTransportDelegate: class {
  *
  * You should instantiate both `ApolloDebugServer` and `ApolloClient` with the same instance of this class.
  */
-public class DebuggableNetworkTransport {
-    public var clientName: String
-    public var clientVersion: String
-    weak var delegate: DebuggableNetworkTransportDelegate?
-    private let networkTransport: NetworkTransport
-
-    /**
-     * Initializes the receiver with the underlying network transport object.
-     *
-     * - Parameter networkTransport: The underlying network transport.
-     */
-    public init(networkTransport: NetworkTransport) {
-        self.networkTransport = networkTransport
-        // Copies `clientName` and `clientVersion` in case someone wants to set
-        // a different name or version from the original network transport.
-        self.clientName = networkTransport.clientName
-        self.clientVersion = networkTransport.clientVersion
-    }
-}
-
-// MARK: NetworkTransport
-
-extension DebuggableNetworkTransport: NetworkTransport {
-    public func send<Operation>(operation: Operation, cachePolicy: CachePolicy, contextIdentifier: UUID?, callbackQueue: DispatchQueue, completionHandler: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) -> Cancellable where Operation: GraphQLOperation {
-        delegate?.networkTransport(self, willSendOperation: operation)
-        return networkTransport.send(operation: operation, cachePolicy: cachePolicy, contextIdentifier: contextIdentifier, callbackQueue: callbackQueue) { [weak self] result in
-            if let self = self {
-                self.delegate?.networkTransport(self, didSendOperation: operation, result: result)
-            }
-            completionHandler(result)
-        }
-    }
+public protocol DebuggableNetworkTransport: NetworkTransport {
+    var delegate: DebuggableNetworkTransportDelegate? { get set }
 }

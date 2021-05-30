@@ -24,9 +24,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         #if DEBUG
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         let store = ApolloStore(cache: cache)
-        let interceptorProvider = DebuggableInterceptorProvider(LegacyInterceptorProvider(store: store))
-        let underlyingNetworkTransport = RequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
-        let networkTransport = DebuggableNetworkTransport(networkTransport: underlyingNetworkTransport)
+        let interceptorProvider = LegacyInterceptorProvider(store: store)
+        let networkTransport = DebuggableRequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
         server.enableConsoleRedirection = true
         try! server.start(port: 8081)

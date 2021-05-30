@@ -88,7 +88,9 @@
 		5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */; };
 		5BBA278F2662F56100EBE185 /* DebuggableResultTranslateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA278E2662F56100EBE185 /* DebuggableResultTranslateInterceptor.swift */; };
 		5BBA27982662FDAA00EBE185 /* DebuggableInterceptorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA27972662FDAA00EBE185 /* DebuggableInterceptorProvider.swift */; };
+		5BBA27A02663149A00EBE185 /* DebugInitializeInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBA279F2663149900EBE185 /* DebugInitializeInterceptor.swift */; };
 		5BBBF5E02340CAF500D64D7A /* MIMEType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */; };
+		5BBF34EA2663A04C003D606A /* DebuggableRequestChainNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF34E92663A04C003D606A /* DebuggableRequestChainNetworkTransport.swift */; };
 		5BBF4C8223F19DDF00FDC452 /* OperationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF4C8123F19DDF00FDC452 /* OperationStore.swift */; };
 		5BBF4C8423F24E6B00FDC452 /* OperationStoreControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF4C8323F24E6B00FDC452 /* OperationStoreControllerTests.swift */; };
 		5BC65865234E9F790019CF57 /* ConsoleRedirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */; };
@@ -247,7 +249,9 @@
 		5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionConfiguration+Test.swift"; sourceTree = "<group>"; };
 		5BBA278E2662F56100EBE185 /* DebuggableResultTranslateInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableResultTranslateInterceptor.swift; sourceTree = "<group>"; };
 		5BBA27972662FDAA00EBE185 /* DebuggableInterceptorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableInterceptorProvider.swift; sourceTree = "<group>"; };
+		5BBA279F2663149900EBE185 /* DebugInitializeInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugInitializeInterceptor.swift; sourceTree = "<group>"; };
 		5BBBF5DF2340CAF500D64D7A /* MIMEType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEType.swift; sourceTree = "<group>"; };
+		5BBF34E92663A04C003D606A /* DebuggableRequestChainNetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableRequestChainNetworkTransport.swift; sourceTree = "<group>"; };
 		5BBF4C8123F19DDF00FDC452 /* OperationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStore.swift; sourceTree = "<group>"; };
 		5BBF4C8323F24E6B00FDC452 /* OperationStoreControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStoreControllerTests.swift; sourceTree = "<group>"; };
 		5BC65864234E9F790019CF57 /* ConsoleRedirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleRedirection.swift; sourceTree = "<group>"; };
@@ -420,6 +424,7 @@
 				5B3A83A522C87F3B002B4FFB /* WebServer */,
 				5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */,
 				5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */,
+				5BBF34E92663A04C003D606A /* DebuggableRequestChainNetworkTransport.swift */,
 				5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */,
 			);
 			path = Classes;
@@ -612,6 +617,7 @@
 		5BBA27952662FD0C00EBE185 /* Interceptor */ = {
 			isa = PBXGroup;
 			children = (
+				5BBA279F2663149900EBE185 /* DebugInitializeInterceptor.swift */,
 				5BBA278E2662F56100EBE185 /* DebuggableResultTranslateInterceptor.swift */,
 				5BBA27972662FDAA00EBE185 /* DebuggableInterceptorProvider.swift */,
 			);
@@ -848,6 +854,7 @@
 				5B9B3F85240600C9007E1A8B /* Socket.swift in Sources */,
 				5B15067424F149960081B1E8 /* Schema+JSONEncodable.swift in Sources */,
 				5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */,
+				5BBA27A02663149A00EBE185 /* DebugInitializeInterceptor.swift in Sources */,
 				5BBA27982662FDAA00EBE185 /* DebuggableInterceptorProvider.swift in Sources */,
 				5BCE500724F4441900310E26 /* KeyedStack.swift in Sources */,
 				5BDB7DB62510318100BE4DE4 /* HTTPOutputStream.swift in Sources */,
@@ -877,6 +884,7 @@
 				5B5EBB9E2510E32B00D0D025 /* InterfaceAddressIterator.swift in Sources */,
 				5B4F460B2370A8540039495A /* DarwinFileDescriptorDuplicator.swift in Sources */,
 				5BB8BE2B2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift in Sources */,
+				5BBF34EA2663A04C003D606A /* DebuggableRequestChainNetworkTransport.swift in Sources */,
 				5BCF219F250F419400279D4E /* HTTPRequestContext.swift in Sources */,
 				5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */,
 				5BBF4C8223F19DDF00FDC452 /* OperationStore.swift in Sources */,
