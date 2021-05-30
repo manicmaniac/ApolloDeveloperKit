@@ -288,14 +288,14 @@ extension ApolloDebugServer: DebuggableNormalizedCacheDelegate {
 // MARK: DebuggableNetworkTransportDelegate
 
 extension ApolloDebugServer: DebuggableNetworkTransportDelegate {
-    public func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
+    public func networkTransport<Operation>(_ networkTransport: NetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, willSendOperation: operation)
         let chunk = chunkForCurrentState()
         eventStreams.broadcast(data: chunk.data)
     }
 
-    public func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation {
+    public func networkTransport<Operation>(_ networkTransport: NetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation {
         if operation is AnyGraphQLOperation { return }
         operationStoreController.networkTransport(networkTransport, didSendOperation: operation, result: result)
         let chunk = chunkForCurrentState()

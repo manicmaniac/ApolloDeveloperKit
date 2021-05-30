@@ -9,8 +9,8 @@
 import Apollo
 
 public protocol DebuggableNetworkTransportDelegate: class {
-    func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation)
-    func networkTransport<Operation: GraphQLOperation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>)
+    func networkTransport<Operation: GraphQLOperation>(_ networkTransport: NetworkTransport, willSendOperation operation: Operation)
+    func networkTransport<Operation: GraphQLOperation>(_ networkTransport: NetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>)
 }
 
 /**

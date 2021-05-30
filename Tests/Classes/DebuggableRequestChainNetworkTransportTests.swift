@@ -65,14 +65,14 @@ private class MockInterceptorProvider: InterceptorProvider {
 }
 
 private class DebuggableNetworkTransportDelegateHandler: DebuggableNetworkTransportDelegate {
-    var networkTransportWillSendOperation: ((DebuggableNetworkTransport, AnyGraphQLOperation) -> Void)?
-    var networkTransportDidSendOperation: ((DebuggableNetworkTransport, AnyGraphQLOperation, Result<GraphQLResult<AnyGraphQLOperation.Data>, Error>) -> Void)?
+    var networkTransportWillSendOperation: ((NetworkTransport, AnyGraphQLOperation) -> Void)?
+    var networkTransportDidSendOperation: ((NetworkTransport, AnyGraphQLOperation, Result<GraphQLResult<AnyGraphQLOperation.Data>, Error>) -> Void)?
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation : GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: NetworkTransport, willSendOperation operation: Operation) where Operation : GraphQLOperation {
         networkTransportWillSendOperation?(networkTransport, AnyGraphQLOperation(operation))
     }
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: NetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
         let typeErasedResult = result.map { (graphQLResult) -> GraphQLResult<AnyGraphQLOperation.Data> in
             return GraphQLResult(data: try? graphQLResult.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
                                  extensions: graphQLResult.extensions,
