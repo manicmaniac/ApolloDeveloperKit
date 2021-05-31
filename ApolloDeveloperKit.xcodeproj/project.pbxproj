@@ -27,6 +27,7 @@
 		5B29A5A023F112A500475EEA /* InMemoryOperationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29A59F23F112A500475EEA /* InMemoryOperationStore.swift */; };
 		5B29A5A423F1309300475EEA /* OperationStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29A5A323F1309300475EEA /* OperationStoreController.swift */; };
 		5B2D4841266474FC006A8151 /* DebugInitializeInterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */; };
+		5B2D484726647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2D484626647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift */; };
 		5B2E1B29230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B28230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift */; };
 		5B2E1B2D230CC93C003C85CB /* InterfaceAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */; };
 		5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */; };
@@ -189,6 +190,7 @@
 		5B29A59F23F112A500475EEA /* InMemoryOperationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStore.swift; sourceTree = "<group>"; };
 		5B29A5A323F1309300475EEA /* OperationStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStoreController.swift; sourceTree = "<group>"; };
 		5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugInitializeInterceptorTests.swift; sourceTree = "<group>"; };
+		5B2D484626647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableResultTranslateInterceptorTests.swift; sourceTree = "<group>"; };
 		5B2E1B28230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressIteratorTests.swift; sourceTree = "<group>"; };
 		5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressTests.swift; sourceTree = "<group>"; };
 		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */,
+				5B2D484626647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift */,
 			);
 			path = Interceptor;
 			sourceTree = "<group>";
@@ -938,6 +941,7 @@
 				5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */,
 				5B442302251C2F1300760DB7 /* SocketTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
+				5B2D484726647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift in Sources */,
 				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */,
 				5B1DFA0E2526377E00594E80 /* AddressInfoErrorTests.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
