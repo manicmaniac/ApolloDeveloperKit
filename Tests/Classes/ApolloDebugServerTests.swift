@@ -545,7 +545,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let response = response as? HTTPURLResponse else {
                 return XCTFail("unexpected response type")
             }
-            XCTAssertEqual(response.statusCode, 400)
+            XCTAssertEqual(response.statusCode, 200)
             XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/json")
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
@@ -626,7 +626,7 @@ private class MockHTTPURLProtocol: URLProtocol {
         } else if query.hasPrefix("mutation") {
             sendDataResponse(url: url, data: mutationResponse)
         } else if query.hasPrefix("serverError") {
-            sendDataResponse(url: url, data: serverErrorResponse, statusCode: 400)
+            sendDataResponse(url: url, data: serverErrorResponse, statusCode: 200)
         } else {
             sendErrorResponse(url: url, statusCode: 400)
         }

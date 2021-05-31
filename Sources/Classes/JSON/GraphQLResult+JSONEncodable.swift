@@ -11,13 +11,12 @@ import Foundation
 
 extension GraphQLResult: GraphQLInputValue, JSONEncodable where Data: GraphQLSelectionSet {
     public var jsonValue: JSONValue {
-        var dictionary = [String: Any]()
         if let data = data {
-            dictionary["data"] = data.jsonObject
+            return data.jsonObject
         }
         if let errors = errors {
-            dictionary["errors"] = errors
+            return errors
         }
-        return dictionary
+        return NSNull()
     }
 }
