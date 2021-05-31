@@ -26,6 +26,7 @@
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
 		5B29A5A023F112A500475EEA /* InMemoryOperationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29A59F23F112A500475EEA /* InMemoryOperationStore.swift */; };
 		5B29A5A423F1309300475EEA /* OperationStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B29A5A323F1309300475EEA /* OperationStoreController.swift */; };
+		5B2D4841266474FC006A8151 /* DebugInitializeInterceptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */; };
 		5B2E1B29230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B28230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift */; };
 		5B2E1B2D230CC93C003C85CB /* InterfaceAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */; };
 		5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */; };
@@ -187,6 +188,7 @@
 		5B26FC4822B3DB5800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B29A59F23F112A500475EEA /* InMemoryOperationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryOperationStore.swift; sourceTree = "<group>"; };
 		5B29A5A323F1309300475EEA /* OperationStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStoreController.swift; sourceTree = "<group>"; };
+		5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugInitializeInterceptorTests.swift; sourceTree = "<group>"; };
 		5B2E1B28230C2CE0003C85CB /* InterfaceAddressIteratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressIteratorTests.swift; sourceTree = "<group>"; };
 		5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressTests.swift; sourceTree = "<group>"; };
 		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				5B53B15124F9C32700A946D4 /* EventStreamMessage */,
 				5B3A836F22C66A64002B4FFB /* GraphQL */,
 				5B3A838B22C6855C002B4FFB /* JSON */,
+				5B2D483E266474BD006A8151 /* Network */,
 				5B3A839422C7221D002B4FFB /* Store */,
 				5B3A83AB22C9333A002B4FFB /* WebServer */,
 				5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */,
@@ -395,6 +398,22 @@
 				5B88CF07237CDD81000B97AA /* Apollo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5B2D483E266474BD006A8151 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				5B2D483F266474C9006A8151 /* Interceptor */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		5B2D483F266474C9006A8151 /* Interceptor */ = {
+			isa = PBXGroup;
+			children = (
+				5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */,
+			);
+			path = Interceptor;
 			sourceTree = "<group>";
 		};
 		5B2E1B34230CD19E003C85CB /* TestHelpers */ = {
@@ -922,6 +941,7 @@
 				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */,
 				5B1DFA0E2526377E00594E80 /* AddressInfoErrorTests.swift in Sources */,
 				5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */,
+				5B2D4841266474FC006A8151 /* DebugInitializeInterceptorTests.swift in Sources */,
 				5B9645DD236BB8BF00F0926D /* MIMETypeTests.swift in Sources */,
 				5B3A837122C66A7D002B4FFB /* AnyGraphQLOperationTests.swift in Sources */,
 				5B4CA52F23F37DF3007E5FE0 /* InMemoryOperationStoreTests.swift in Sources */,
