@@ -41,11 +41,11 @@ public class DebuggableInterceptorProvider: InterceptorProvider {
 }
 
 extension DebuggableInterceptorProvider: DebugInitializeInterceptorDelegate {
-    func interceptor<Operation>(_ interceptor: DebugInitializeInterceptor, willSendOperation operation: Operation) where Operation : GraphQLOperation {
+    func interceptor<Operation>(_ interceptor: ApolloInterceptor, willSendOperation operation: Operation) where Operation : GraphQLOperation {
         delegate?.interceptorProvider(self, willSendOperation: operation)
     }
 
-    func interceptor<Operation>(_ interceptor: DebugInitializeInterceptor, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
+    func interceptor<Operation>(_ interceptor: ApolloInterceptor, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
         delegate?.interceptorProvider(self, didSendOperation: operation, result: result)
     }
 }

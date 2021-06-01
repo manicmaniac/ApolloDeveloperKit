@@ -60,14 +60,14 @@ class DebugInitializeInterceptorTests: XCTestCase {
 }
 
 class DebugInitializeInterceptorDelegateHandler: DebugInitializeInterceptorDelegate {
-    var interceptorWillSendOperation: ((DebugInitializeInterceptor, AnyGraphQLOperation) -> Void)?
-    var interceptorDidSendOperation: ((DebugInitializeInterceptor, AnyGraphQLOperation, Result<GraphQLResult<AnyGraphQLOperation.Data>, Error>) -> Void)?
+    var interceptorWillSendOperation: ((ApolloInterceptor, AnyGraphQLOperation) -> Void)?
+    var interceptorDidSendOperation: ((ApolloInterceptor, AnyGraphQLOperation, Result<GraphQLResult<AnyGraphQLOperation.Data>, Error>) -> Void)?
 
-    func interceptor<Operation>(_ interceptor: DebugInitializeInterceptor, willSendOperation operation: Operation) where Operation : GraphQLOperation {
+    func interceptor<Operation>(_ interceptor: ApolloInterceptor, willSendOperation operation: Operation) where Operation : GraphQLOperation {
         interceptorWillSendOperation?(interceptor, AnyGraphQLOperation(operation))
     }
 
-    func interceptor<Operation>(_ interceptor: DebugInitializeInterceptor, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
+    func interceptor<Operation>(_ interceptor: ApolloInterceptor, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
         let typeErasedResult = result.map { (graphQLResult) -> GraphQLResult<AnyGraphQLOperation.Data> in
             return GraphQLResult(data: try? graphQLResult.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
                                  extensions: graphQLResult.extensions,

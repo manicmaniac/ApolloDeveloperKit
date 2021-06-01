@@ -63,6 +63,7 @@
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
+		5B6BF4FA26651175006360AE /* DebuggableInterceptorProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BF4F926651175006360AE /* DebuggableInterceptorProviderTests.swift */; };
 		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */; };
@@ -225,6 +226,7 @@
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
 		5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLOperation.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
+		5B6BF4F926651175006360AE /* DebuggableInterceptorProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableInterceptorProviderTests.swift; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
 		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 			children = (
 				5B2D4840266474FC006A8151 /* DebugInitializeInterceptorTests.swift */,
 				5B2D484626647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift */,
+				5B6BF4F926651175006360AE /* DebuggableInterceptorProviderTests.swift */,
 			);
 			path = Interceptor;
 			sourceTree = "<group>";
@@ -927,6 +930,7 @@
 				5B2E1B2D230CC93C003C85CB /* InterfaceAddressTests.swift in Sources */,
 				5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */,
 				5BBF4C8423F24E6B00FDC452 /* OperationStoreControllerTests.swift in Sources */,
+				5B6BF4FA26651175006360AE /* DebuggableInterceptorProviderTests.swift in Sources */,
 				5BD3BEFB24F1566D005D069A /* Schema+JSONEncodableTests.swift in Sources */,
 				5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */,
 				5BA76BC2240ABAB600501193 /* BackgroundTaskTests.swift in Sources */,
