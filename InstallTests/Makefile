@@ -5,7 +5,7 @@ all: carthage cocoapods
 clean: carthage-clean cocoapods-clean
 
 carthage:
-	./ApolloDeveloperKit/bin/carthage-xcode12-workaround bootstrap --platform iOS --no-use-binaries --cache-builds
+	carthage bootstrap --platform iOS --no-use-binaries --cache-builds --use-xcframeworks
 	set -o pipefail && xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-iOS-Carthage -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 11' build | xcpretty
 
 carthage-clean:
