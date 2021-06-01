@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,10 +17,6 @@
 		5B1DFA0E2526377E00594E80 /* AddressInfoErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1DFA0D2526377E00594E80 /* AddressInfoErrorTests.swift */; };
 		5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */; };
 		5B207732236E0FD800817E45 /* HTTPChunkedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */; };
-		5B21028524C2F3D000053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028424C2F3D000053E9D /* ApolloCore.framework */; };
-		5B21028624C2F40400053E9D /* ApolloCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028424C2F3D000053E9D /* ApolloCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5B21028724C2F41800053E9D /* ApolloCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; };
-		5B21028824C2F41B00053E9D /* ApolloCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B21028224C2F34E00053E9D /* ApolloCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B26FC2D22B3DB0800359E63 /* ApolloDeveloperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B26FC4422B3DB5800359E63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4322B3DB5800359E63 /* Assets.xcassets */; };
 		5B26FC4722B3DB5800359E63 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B26FC4522B3DB5800359E63 /* LaunchScreen.storyboard */; };
@@ -32,7 +28,6 @@
 		5B2E1B2D230CC93C003C85CB /* InterfaceAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */; };
 		5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */; };
 		5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */; };
-		5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; };
 		5B2F84E522B4321E0025A211 /* DebuggableNormalizedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */; };
 		5B2F84E722B432730025A211 /* DebuggableNetworkTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */; };
 		5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */; };
@@ -64,6 +59,16 @@
 		5B67343A22BFC53A00A09DF7 /* AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */; };
 		5B67343C22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */; };
 		5B6BF4FA26651175006360AE /* DebuggableInterceptorProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6BF4F926651175006360AE /* DebuggableInterceptorProviderTests.swift */; };
+		5B6BF50B2665CEC4006360AE /* Apollo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5092665CEC4006360AE /* Apollo.xcframework */; };
+		5B6BF50D2665CEC4006360AE /* ApolloCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */; };
+		5B6BF5202665D999006360AE /* Apollo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5092665CEC4006360AE /* Apollo.xcframework */; };
+		5B6BF5212665D999006360AE /* Apollo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5092665CEC4006360AE /* Apollo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B6BF5222665D999006360AE /* ApolloCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */; };
+		5B6BF5232665D999006360AE /* ApolloCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B6BF5282665D9A7006360AE /* Apollo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5092665CEC4006360AE /* Apollo.xcframework */; };
+		5B6BF5292665D9A7006360AE /* Apollo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5092665CEC4006360AE /* Apollo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B6BF52A2665D9A7006360AE /* ApolloCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */; };
+		5B6BF52B2665D9A7006360AE /* ApolloCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B71522022DA007400002BA6 /* HTTPServerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71521F22DA007400002BA6 /* HTTPServerError.swift */; };
 		5B71522222DA00CB00002BA6 /* HTTPServerErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */; };
 		5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */; };
@@ -71,13 +76,10 @@
 		5B88CEF9237CDB69000B97AA /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88CEF8237CDB69000B97AA /* PostListViewController.swift */; };
 		5B88CEFB237CDB6C000B97AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEFA237CDB6C000B97AA /* Assets.xcassets */; };
 		5B88CEFE237CDB6C000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEFC237CDB6C000B97AA /* Main.storyboard */; };
-		5B88CF0A237CDDC4000B97AA /* Apollo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88CF07237CDD81000B97AA /* Apollo.framework */; };
-		5B88CF0B237CDDC4000B97AA /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88CF07237CDD81000B97AA /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B88CF0D237CDDC5000B97AA /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5B88CF0E237CDDC5000B97AA /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B88CF0F237CEBD6000B97AA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
 		5B8983CE237A3E3A00C857D6 /* BackgroundTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */; };
-		5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2F821322B430A80025A211 /* Apollo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B8D31CE2516929700BCC296 /* AddressInfoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8D31CD2516929700BCC296 /* AddressInfoError.swift */; };
 		5B8F2B9222C059BC006922CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8B22C059BB006922CE /* AppDelegate.swift */; };
 		5B8F2B9422C059BC006922CE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F2B8D22C059BB006922CE /* API.swift */; };
@@ -144,8 +146,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5B88CF0B237CDDC4000B97AA /* Apollo.framework in Embed Frameworks */,
-				5B21028624C2F40400053E9D /* ApolloCore.framework in Embed Frameworks */,
+				5B6BF5212665D999006360AE /* Apollo.xcframework in Embed Frameworks */,
+				5B6BF5232665D999006360AE /* ApolloCore.xcframework in Embed Frameworks */,
 				5B88CF0E237CDDC5000B97AA /* ApolloDeveloperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -157,8 +159,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5B8983D5237A445F00C857D6 /* Apollo.framework in Embed Frameworks */,
-				5B21028824C2F41B00053E9D /* ApolloCore.framework in Embed Frameworks */,
+				5B6BF5292665D9A7006360AE /* Apollo.xcframework in Embed Frameworks */,
+				5B6BF52B2665D9A7006360AE /* ApolloCore.xcframework in Embed Frameworks */,
 				5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -177,8 +179,6 @@
 		5B1DFA0D2526377E00594E80 /* AddressInfoErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfoErrorTests.swift; sourceTree = "<group>"; };
 		5B20772F236E098700817E45 /* HTTPChunkedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponse.swift; sourceTree = "<group>"; };
 		5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPChunkedResponseTests.swift; sourceTree = "<group>"; };
-		5B21028224C2F34E00053E9D /* ApolloCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloCore.framework; path = Carthage/Build/iOS/ApolloCore.framework; sourceTree = "<group>"; };
-		5B21028424C2F3D000053E9D /* ApolloCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloCore.framework; path = Carthage/Build/Mac/ApolloCore.framework; sourceTree = "<group>"; };
 		5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApolloDeveloperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B26FC1F22B3DB0800359E63 /* ApolloDeveloperKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApolloDeveloperKit.h; sourceTree = "<group>"; };
 		5B26FC2022B3DB0800359E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -196,7 +196,6 @@
 		5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressTests.swift; sourceTree = "<group>"; };
 		5B2E1B35230CD1BA003C85CB /* ifaddrs+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ifaddrs+Factory.swift"; sourceTree = "<group>"; };
 		5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "sockaddr+Factory.swift"; sourceTree = "<group>"; };
-		5B2F821322B430A80025A211 /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/iOS/Apollo.framework; sourceTree = "<group>"; };
 		5B2F84E422B4321E0025A211 /* DebuggableNormalizedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNormalizedCache.swift; sourceTree = "<group>"; };
 		5B2F84E622B432730025A211 /* DebuggableNetworkTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableNetworkTransport.swift; sourceTree = "<group>"; };
 		5B2F84F022B4378B0025A211 /* ApolloDebugServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDebugServer.swift; sourceTree = "<group>"; };
@@ -227,6 +226,8 @@
 		5B67343922BFC53A00A09DF7 /* AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLOperation.swift; sourceTree = "<group>"; };
 		5B67343B22BFEFA500A09DF7 /* AnyGraphQLSelectionSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyGraphQLSelectionSet.swift; sourceTree = "<group>"; };
 		5B6BF4F926651175006360AE /* DebuggableInterceptorProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggableInterceptorProviderTests.swift; sourceTree = "<group>"; };
+		5B6BF5092665CEC4006360AE /* Apollo.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Apollo.xcframework; path = Carthage/Build/Apollo.xcframework; sourceTree = "<group>"; };
+		5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ApolloCore.xcframework; path = Carthage/Build/ApolloCore.xcframework; sourceTree = "<group>"; };
 		5B71521F22DA007400002BA6 /* HTTPServerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerError.swift; sourceTree = "<group>"; };
 		5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerErrorTests.swift; sourceTree = "<group>"; };
 		5B7AE3932375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerLoadTests.swift; sourceTree = "<group>"; };
@@ -236,7 +237,6 @@
 		5B88CEFA237CDB6C000B97AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B88CEFD237CDB6C000B97AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B88CEFF237CDB6C000B97AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5B88CF07237CDD81000B97AA /* Apollo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Apollo.framework; path = Carthage/Build/Mac/Apollo.framework; sourceTree = "<group>"; };
 		5B88CF10237E29ED000B97AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5B8983CD237A3E3A00C857D6 /* BackgroundTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTask.swift; sourceTree = "<group>"; };
 		5B8D31CD2516929700BCC296 /* AddressInfoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfoError.swift; sourceTree = "<group>"; };
@@ -289,8 +289,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B2F821822B430A80025A211 /* Apollo.framework in Frameworks */,
-				5B21028724C2F41800053E9D /* ApolloCore.framework in Frameworks */,
+				5B6BF5282665D9A7006360AE /* Apollo.xcframework in Frameworks */,
+				5B6BF52A2665D9A7006360AE /* ApolloCore.xcframework in Frameworks */,
 				5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,8 +299,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B88CF0A237CDDC4000B97AA /* Apollo.framework in Frameworks */,
-				5B21028524C2F3D000053E9D /* ApolloCore.framework in Frameworks */,
+				5B6BF5202665D999006360AE /* Apollo.xcframework in Frameworks */,
+				5B6BF5222665D999006360AE /* ApolloCore.xcframework in Frameworks */,
 				5B88CF0D237CDDC5000B97AA /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,6 +309,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B6BF50B2665CEC4006360AE /* Apollo.xcframework in Frameworks */,
+				5B6BF50D2665CEC4006360AE /* ApolloCore.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,10 +398,8 @@
 		5B26FC4E22B3DCF400359E63 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5B21028224C2F34E00053E9D /* ApolloCore.framework */,
-				5B21028424C2F3D000053E9D /* ApolloCore.framework */,
-				5B2F821322B430A80025A211 /* Apollo.framework */,
-				5B88CF07237CDD81000B97AA /* Apollo.framework */,
+				5B6BF5092665CEC4006360AE /* Apollo.xcframework */,
+				5B6BF50A2665CEC4006360AE /* ApolloCore.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -707,7 +707,6 @@
 				5B26FC2122B3DB0800359E63 /* Sources */,
 				5B26FC2222B3DB0800359E63 /* Frameworks */,
 				5B26FC2322B3DB0800359E63 /* Resources */,
-				5BB24731237A55E9001C6578 /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -841,29 +840,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5BB24731237A55E9001C6578 /* Carthage Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(CARTHAGE_ROOT)/Apollo.framework",
-				"$(CARTHAGE_ROOT)/ApolloCore.framework",
-			);
-			name = "Carthage Copy Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./bin/copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5B26FC1822B3DB0800359E63 /* Sources */ = {
@@ -1022,9 +998,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1090,9 +1063,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CARTHAGE_ROOT[sdk=iphoneos*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				"CARTHAGE_ROOT[sdk=iphonesimulator*]" = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				"CARTHAGE_ROOT[sdk=macosx*]" = "$(PROJECT_DIR)/Carthage/Build/Mac";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1156,10 +1126,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 0.15;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(CARTHAGE_ROOT)",
-				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
@@ -1177,10 +1143,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Apollo,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1204,10 +1166,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 0.15;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(CARTHAGE_ROOT)",
-				);
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "";
@@ -1225,10 +1183,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Apollo,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.manicmaniac.ApolloDeveloperKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1248,10 +1202,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(CARTHAGE_ROOT)",
-				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = (
@@ -1286,10 +1236,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(CARTHAGE_ROOT)",
-				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]" = (
@@ -1324,10 +1270,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = Example/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1347,10 +1289,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = Example/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1368,10 +1306,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
 				INFOPLIST_FILE = Example/macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1388,10 +1322,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
 				INFOPLIST_FILE = Example/macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
