@@ -12,15 +12,17 @@ jobs:
       matrix:
         apollo:
         - 0.34.1
-        sdk:
-        - iphonesimulator
-        - macosx
+        platform:
+        - iOS
+        - macOS
         include:
         - apollo: 0.34.1
+          platform: iOS
           sdk: iphonesimulator
           xcode: '12'
           destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
         - apollo: 0.34.1
+          platform: macOS
           sdk: macosx
           xcode: '12'
           destination: platform=OS X,arch=x86_64
@@ -29,7 +31,7 @@ jobs:
     - name: Modify Cartfile.resolved
       run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
     - name: Install dependencies
-      run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
+      run: carthage bootstrap --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
       shell: bash # to enable pipefail
