@@ -110,6 +110,7 @@
 		5BD3BEF924F154FE005D069A /* Schema+JSONDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEF824F154FE005D069A /* Schema+JSONDecodableTests.swift */; };
 		5BD3BEFB24F1566D005D069A /* Schema+JSONEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD3BEFA24F1566D005D069A /* Schema+JSONEncodableTests.swift */; };
 		5BDB7DB62510318100BE4DE4 /* HTTPOutputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDB7DB52510318100BE4DE4 /* HTTPOutputStream.swift */; };
+		5BE9863F26669B5C0092B251 /* Apollo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5092665CEC4006360AE /* Apollo.xcframework */; };
 		5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */; };
 		5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -281,6 +282,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BE9863F26669B5C0092B251 /* Apollo.xcframework in Frameworks */,
 				5B3A837722C674C0002B4FFB /* ApolloDeveloperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
