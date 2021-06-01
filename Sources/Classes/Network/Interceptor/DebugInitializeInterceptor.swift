@@ -17,7 +17,7 @@ protocol DebugInitializeInterceptorDelegate: class {
 public class DebugInitializeInterceptor: ApolloInterceptor {
     weak var delegate: DebugInitializeInterceptorDelegate?
 
-    public func interceptAsync<Operation>(chain: RequestChain, request: HTTPRequest<Operation>, response: HTTPResponse<Operation>?, completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) where Operation : GraphQLOperation {
+    public func interceptAsync<Operation>(chain: RequestChain, request: HTTPRequest<Operation>, response: HTTPResponse<Operation>?, completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) where Operation: GraphQLOperation {
         delegate?.interceptor(self, willSendOperation: request.operation)
         chain.proceedAsync(request: request,
                            response: response) { [weak self] result in

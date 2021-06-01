@@ -21,7 +21,7 @@ public class DebuggableResultTranslateInterceptor: ApolloInterceptor {
         }
     }
 
-    public func interceptAsync<Operation>(chain: RequestChain, request: HTTPRequest<Operation>, response: HTTPResponse<Operation>?, completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) where Operation : GraphQLOperation {
+    public func interceptAsync<Operation>(chain: RequestChain, request: HTTPRequest<Operation>, response: HTTPResponse<Operation>?, completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) where Operation: GraphQLOperation {
         guard request.operation is AnyGraphQLOperation else {
             return chain.proceedAsync(request: request, response: response, completion: completion)
         }
