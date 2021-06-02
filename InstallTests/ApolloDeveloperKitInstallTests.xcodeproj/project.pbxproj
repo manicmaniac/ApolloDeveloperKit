@@ -11,8 +11,8 @@
 		5B6BF53C2666730A006360AE /* Apollo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF5392666730A006360AE /* Apollo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B6BF53D2666730A006360AE /* ApolloCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF53A2666730A006360AE /* ApolloCore.xcframework */; };
 		5B6BF53E2666730A006360AE /* ApolloCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B6BF53A2666730A006360AE /* ApolloCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5B75996C22E7622D002DE460 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; };
-		5B75996D22E7622D002DE460 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B75996C22E7622D002DE460 /* ApolloDeveloperKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.xcframework */; };
+		5B75996D22E7622D002DE460 /* ApolloDeveloperKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B88CEEC237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
 		5B88CEED237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
 		5BE2448622E0FB75008EDAAD /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
@@ -38,7 +38,7 @@
 			files = (
 				5B6BF53E2666730A006360AE /* ApolloCore.xcframework in Embed Frameworks */,
 				5B6BF53C2666730A006360AE /* Apollo.xcframework in Embed Frameworks */,
-				5B75996D22E7622D002DE460 /* ApolloDeveloperKit.framework in Embed Frameworks */,
+				5B75996D22E7622D002DE460 /* ApolloDeveloperKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,7 +48,7 @@
 /* Begin PBXFileReference section */
 		5B6BF5392666730A006360AE /* Apollo.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Apollo.xcframework; path = Carthage/Build/Apollo.xcframework; sourceTree = "<group>"; };
 		5B6BF53A2666730A006360AE /* ApolloCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ApolloCore.xcframework; path = Carthage/Build/ApolloCore.xcframework; sourceTree = "<group>"; };
-		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApolloDeveloperKit.framework; path = Carthage/Build/iOS/ApolloDeveloperKit.framework; sourceTree = "<group>"; };
+		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ApolloDeveloperKit.xcframework; path = Carthage/Build/ApolloDeveloperKit.xcframework; sourceTree = "<group>"; };
 		5B88CEEB237C9EC9000B97AA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-iOS-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BE2447822E0FB75008EDAAD /* PostListViewController.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 			files = (
 				5B6BF53D2666730A006360AE /* ApolloCore.xcframework in Frameworks */,
 				5B6BF53B2666730A006360AE /* Apollo.xcframework in Frameworks */,
-				5B75996C22E7622D002DE460 /* ApolloDeveloperKit.framework in Frameworks */,
+				5B75996C22E7622D002DE460 /* ApolloDeveloperKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +104,7 @@
 			children = (
 				5B6BF5392666730A006360AE /* Apollo.xcframework */,
 				5B6BF53A2666730A006360AE /* ApolloCore.xcframework */,
-				5B75996A22E7622D002DE460 /* ApolloDeveloperKit.framework */,
+				5B75996A22E7622D002DE460 /* ApolloDeveloperKit.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
