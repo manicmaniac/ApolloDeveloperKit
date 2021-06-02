@@ -13,12 +13,12 @@ import XCTest
 class OperationStoreControllerTests: XCTestCase {
     private var store: MockOperationStore!
     private var controller: OperationStoreController!
-    private var networkTransport: DebuggableNetworkTransport!
+    private var networkTransport: NetworkTransport!
 
     override func setUp() {
         store = MockOperationStore()
         controller = OperationStoreController(store: store)
-        networkTransport = DebuggableNetworkTransport(networkTransport: MockNetworkTransport())
+        networkTransport = MockNetworkTransport()
     }
 
     func testNetworkTransportWillSendOperation() {
@@ -33,8 +33,12 @@ class OperationStoreControllerTests: XCTestCase {
 
     func testNetworkTransportDidSendOperation_withSuccessfulQuery() {
         let query = MockGraphQLQuery()
-        let response = GraphQLResponse(operation: query, body: [:])
-        controller.networkTransport(networkTransport, didSendOperation: query, result: .success(response))
+        let graphQLResult = GraphQLResult<MockGraphQLQuery.Data>(data: nil,
+                                                                 extensions: nil,
+                                                                 errors: nil,
+                                                                 source: .server,
+                                                                 dependentKeys: nil)
+        controller.networkTransport(networkTransport, didSendOperation: query, result: .success(graphQLResult))
         controller.queue.sync {
             XCTAssertEqual(store.invocationHistory.count, 1)
             guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.isEmpty else {
@@ -45,8 +49,12 @@ class OperationStoreControllerTests: XCTestCase {
 
     func testNetworkTransportDidSendOperation_withSuccessfulMutation() {
         let mutation = MockGraphQLMutation()
-        let response = GraphQLResponse(operation: mutation, body: [:])
-        controller.networkTransport(networkTransport, didSendOperation: mutation, result: .success(response))
+        let graphQLResult = GraphQLResult<MockGraphQLMutation.Data>(data: nil,
+                                                                    extensions: nil,
+                                                                    errors: nil,
+                                                                    source: .server,
+                                                                    dependentKeys: nil)
+        controller.networkTransport(networkTransport, didSendOperation: mutation, result: .success(graphQLResult))
         controller.queue.sync {
             XCTAssertEqual(store.invocationHistory.count, 1)
             guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.isEmpty else {
@@ -57,8 +65,12 @@ class OperationStoreControllerTests: XCTestCase {
 
     func testNetworkTransportDidSendOperation_withSuccessfulSubscription() {
         let subscription = MockGraphQLSubscription()
-        let response = GraphQLResponse(operation: subscription, body: [:])
-        controller.networkTransport(networkTransport, didSendOperation: subscription, result: .success(response))
+        let graphQLResult = GraphQLResult<MockGraphQLSubscription.Data>(data: nil,
+                                                                        extensions: nil,
+                                                                        errors: nil,
+                                                                        source: .server,
+                                                                        dependentKeys: nil)
+        controller.networkTransport(networkTransport, didSendOperation: subscription, result: .success(graphQLResult))
         controller.queue.sync {
             XCTAssertEqual(store.invocationHistory.count, 1)
             guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.isEmpty else {
@@ -81,14 +93,19 @@ class OperationStoreControllerTests: XCTestCase {
 
     func testNetworkTransportDidSendOperation_withGraphQLErrorQuery() {
         let query = MockGraphQLQuery()
-        let response = GraphQLResponse(operation: query, body: [
+        let error = GraphQLError([
             "errors": [
                 [
                     "message": "Name for character with ID 1002 could not be fetched."
                 ]
             ]
         ])
-        controller.networkTransport(networkTransport, didSendOperation: query, result: .success(response))
+        let graphQLResult = GraphQLResult<MockGraphQLQuery.Data>(data: nil,
+                                                                 extensions: nil,
+                                                                 errors: [error],
+                                                                 source: .server,
+                                                                 dependentKeys: nil)
+        controller.networkTransport(networkTransport, didSendOperation: query, result: .success(graphQLResult))
         controller.queue.sync {
             XCTAssertEqual(store.invocationHistory.count, 1)
             guard case .setSuccess(_, let errors)? = store.invocationHistory.first, errors.count == 1 else {

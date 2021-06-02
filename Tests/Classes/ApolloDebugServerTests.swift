@@ -19,12 +19,16 @@ class ApolloDebugServerTests: XCTestCase {
     private var session: URLSession!
 
     override func setUp() {
+        let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
+        store = ApolloStore(cache: cache)
         let url = URL(string: "http://localhost/graphql")!
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockHTTPURLProtocol.self]
-        let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url, client: URLSessionClient(sessionConfiguration: configuration), sendOperationIdentifiers: false))
-        let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
-        store = ApolloStore(cache: cache)
+        let urlSessionClient = URLSessionClient(sessionConfiguration: configuration, callbackQueue: nil)
+        let interceptorProvider = LegacyInterceptorProvider(client: urlSessionClient,
+                                                            shouldInvalidateClientOnDeinit: true,
+                                                            store: store)
+        let networkTransport = DebuggableRequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
         client = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 0.25)
         port = try! server.start(randomPortIn: 49152...65535)
@@ -541,7 +545,7 @@ class ApolloDebugServerTests: XCTestCase {
             guard let response = response as? HTTPURLResponse else {
                 return XCTFail("unexpected response type")
             }
-            XCTAssertEqual(response.statusCode, 400)
+            XCTAssertEqual(response.statusCode, 200)
             XCTAssertEqual(response.allHeaderFields["Content-Type"] as? String, "application/json")
             guard let data = data else {
                 fatalError("URLSession.dataTask(with:) must pass either of error or data")
@@ -572,6 +576,28 @@ class ApolloDebugServerTests: XCTestCase {
                 return XCTFail("unexpected response type")
             }
             XCTAssertEqual(response.statusCode, 400)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
+
+    func testPostRequest_withServerInternalError() {
+        let url = server.serverURL!.appendingPathComponent("request")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = serverInternalError
+        let expectation = self.expectation(description: "response should be received")
+        let task = session.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 500)
         }
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
@@ -622,7 +648,9 @@ private class MockHTTPURLProtocol: URLProtocol {
         } else if query.hasPrefix("mutation") {
             sendDataResponse(url: url, data: mutationResponse)
         } else if query.hasPrefix("serverError") {
-            sendDataResponse(url: url, data: serverErrorResponse, statusCode: 400)
+            sendDataResponse(url: url, data: serverErrorResponse, statusCode: 200)
+        } else if query.hasPrefix("serverInternalError") {
+            sendErrorResponse(url: url, statusCode: 500)
         } else {
             sendErrorResponse(url: url, statusCode: 400)
         }
@@ -775,3 +803,10 @@ private let serverErrorResponse = Data("""
     """.utf8)
 
 private let serverErrorResponseJSONObject = try! JSONSerialization.jsonObject(with: serverErrorResponse) as! NSDictionary
+
+private let serverInternalError = Data("""
+    {
+        "operationName": "serverInternalError",
+        "query": "serverInternalError"
+    }
+    """.utf8)

@@ -11,63 +11,30 @@ jobs:
       fail-fast: false
       matrix:
         apollo:
-        - 0.33.0
-        - 0.32.0
-        - 0.31.0
-        - 0.30.0
-        - 0.29.0
-        sdk:
-        - iphonesimulator
-        - macosx
+        - 0.34.1
+        platform:
+        - iOS
+        - macOS
         include:
-        - apollo: 0.33.0
+        - apollo: 0.34.1
+          platform: iOS
           sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.32.0
-          sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.31.0
-          sdk: iphonesimulator
-          xcode: '11.5'
-          destination: platform=iOS Simulator,OS=13.5,name=iPhone 11
-        - apollo: 0.30.0
-          sdk: iphonesimulator
-          xcode: '11.4'
-          destination: platform=iOS Simulator,OS=13.4,name=iPhone 11
-        - apollo: 0.29.0
-          sdk: iphonesimulator
-          xcode: '11.4'
-          destination: platform=iOS Simulator,OS=13.4,name=iPhone 11
-        - apollo: 0.33.0
+          xcode: '12'
+          destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
+        - apollo: 0.34.1
+          platform: macOS
           sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.32.0
-          sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.31.0
-          sdk: macosx
-          xcode: '11.5'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.30.0
-          sdk: macosx
-          xcode: '11.4'
-          destination: platform=OS X,arch=x86_64
-        - apollo: 0.29.0
-          sdk: macosx
-          xcode: '11.4'
+          xcode: '12'
           destination: platform=OS X,arch=x86_64
     steps:
     - uses: actions/checkout@v2
     - name: Modify Cartfile.resolved
       run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
     - name: Install dependencies
-      run: "./bin/quick-install-dependencies -f '${{ matrix.sdk }}'"
+      run: carthage bootstrap --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+      shell: bash # to enable pipefail
   install-test:
     runs-on: macOS-10.15
     env:

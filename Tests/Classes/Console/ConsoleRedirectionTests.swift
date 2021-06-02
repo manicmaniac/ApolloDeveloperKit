@@ -95,7 +95,7 @@ class ConsoleRedirectionTests: XCTestCase {
             XCTAssertEqual(receivedData, data)
             XCTAssertEqual(receivedDestination, .standardOutput)
         }
-        if #available(macOS 10.15, *, iOS 13.4, *) {
+        if #available(macOS 10.15.4, *, iOS 13.4, *) {
             try standardOutputFileHandle.write(contentsOf: data)
         } else {
             standardOutputFileHandle.write(data)
@@ -118,7 +118,7 @@ class ConsoleRedirectionTests: XCTestCase {
             XCTAssertEqual(receivedData, data)
             XCTAssertEqual(receivedDestination, .standardError)
         }
-        if #available(macOS 10.15, *, iOS 13.4, *) {
+        if #available(macOS 10.15.4, *, iOS 13.4, *) {
             try standardErrorFileHandle.write(contentsOf: data)
         } else {
             standardErrorFileHandle.write(data)

@@ -31,18 +31,17 @@ final class OperationStoreController {
 // MARK: DebuggableNetworkTransportDelegate
 
 extension OperationStoreController: DebuggableNetworkTransportDelegate {
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: NetworkTransport, willSendOperation operation: Operation) where Operation: GraphQLOperation {
         queue.async(flags: .barrier) { [weak self] in
             self?.store.add(operation)
         }
     }
 
-    func networkTransport<Operation>(_ networkTransport: DebuggableNetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResponse<Operation.Data>, Error>) where Operation: GraphQLOperation {
+    func networkTransport<Operation>(_ networkTransport: NetworkTransport, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation {
         queue.async(flags: .barrier) { [weak self] in
             switch result {
-            case .success(let response):
-                let graphQLErrors = (response.body["errors"] as? [JSONObject])?.map(GraphQLError.init(_:)) ?? []
-                self?.store.setSuccess(for: operation, graphQLErrors: graphQLErrors)
+            case .success(let graphQLResult):
+                self?.store.setSuccess(for: operation, graphQLErrors: graphQLResult.errors ?? [])
             case .failure(let error):
                 self?.store.setFailure(for: operation, networkError: error)
             }
