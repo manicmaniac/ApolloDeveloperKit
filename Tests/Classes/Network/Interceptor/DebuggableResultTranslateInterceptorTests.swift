@@ -124,11 +124,7 @@ private class MockInterceptor: ApolloInterceptor, ApolloErrorInterceptor {
                                                        clientVersion: "",
                                                        additionalHeaders: [:])
         if let response = response, let parsedResponse = response.parsedResponse {
-            let typeErasedParsedResponse = GraphQLResult<AnyGraphQLOperation.Data>(data: try? parsedResponse.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
-                                                                                   extensions: parsedResponse.extensions,
-                                                                                   errors: parsedResponse.errors,
-                                                                                   source: .server,
-                                                                                   dependentKeys: nil)
+            let typeErasedParsedResponse = GraphQLResult(parsedResponse)
             let typeErasedResponse = HTTPResponse<AnyGraphQLOperation>(response: response.httpResponse,
                                                                        rawData: response.rawData,
                                                                        parsedResponse: typeErasedParsedResponse)
@@ -150,11 +146,7 @@ private class MockInterceptor: ApolloInterceptor, ApolloErrorInterceptor {
                                                        clientVersion: "",
                                                        additionalHeaders: [:])
         if let response = response, let parsedResponse = response.parsedResponse {
-            let typeErasedParsedResponse = GraphQLResult<AnyGraphQLOperation.Data>(data: try? parsedResponse.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
-                                                                                   extensions: parsedResponse.extensions,
-                                                                                   errors: parsedResponse.errors,
-                                                                                   source: .server,
-                                                                                   dependentKeys: nil)
+            let typeErasedParsedResponse = GraphQLResult(parsedResponse)
             let typeErasedResponse = HTTPResponse<AnyGraphQLOperation>(response: response.httpResponse,
                                                                        rawData: response.rawData,
                                                                        parsedResponse: typeErasedParsedResponse)
