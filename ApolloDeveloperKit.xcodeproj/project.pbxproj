@@ -114,6 +114,7 @@
 		5BF1E71226682BB80071E99A /* GraphQLResult+AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF1E71126682BB80071E99A /* GraphQLResult+AnyGraphQLOperation.swift */; };
 		5BF8112E2344FD7000115EB7 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */; };
 		5BFAFFD4266846AA008B7BDA /* HTTPRequest+AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFAFFD3266846AA008B7BDA /* HTTPRequest+AnyGraphQLOperation.swift */; };
+		5BFAFFD826684931008B7BDA /* HTTPResponse+AnyGraphQLOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BFAFFD726684931008B7BDA /* HTTPResponse+AnyGraphQLOperation.swift */; };
 		5BFF016722DF8BA600944131 /* ApolloDeveloperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; };
 		5BFF016822DF8BA600944131 /* ApolloDeveloperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B26FC1C22B3DB0800359E63 /* ApolloDeveloperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -279,6 +280,7 @@
 		5BF1E71126682BB80071E99A /* GraphQLResult+AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GraphQLResult+AnyGraphQLOperation.swift"; sourceTree = "<group>"; };
 		5BF8112D2344FD7000115EB7 /* HTTPConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
 		5BFAFFD3266846AA008B7BDA /* HTTPRequest+AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPRequest+AnyGraphQLOperation.swift"; sourceTree = "<group>"; };
+		5BFAFFD726684931008B7BDA /* HTTPResponse+AnyGraphQLOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPResponse+AnyGraphQLOperation.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -435,6 +437,7 @@
 				5B2E1B37230CD1D0003C85CB /* sockaddr+Factory.swift */,
 				5BF1E71126682BB80071E99A /* GraphQLResult+AnyGraphQLOperation.swift */,
 				5BFAFFD3266846AA008B7BDA /* HTTPRequest+AnyGraphQLOperation.swift */,
+				5BFAFFD726684931008B7BDA /* HTTPResponse+AnyGraphQLOperation.swift */,
 				5BB8BE2A2377CB3A004D93B3 /* URLSessionConfiguration+Test.swift */,
 				5BCE500C24F4C01400310E26 /* MockFileDescriptorDuplicator.swift */,
 				5B4CA53023F37EAB007E5FE0 /* MockGraphQLOperations.swift */,
@@ -931,6 +934,7 @@
 				5B4F460E2370AAB50039495A /* ConsoleRedirectionTests.swift in Sources */,
 				5B442302251C2F1300760DB7 /* SocketTests.swift in Sources */,
 				5B3A838F22C71F6F002B4FFB /* Record+JSONEncodableTests.swift in Sources */,
+				5BFAFFD826684931008B7BDA /* HTTPResponse+AnyGraphQLOperation.swift in Sources */,
 				5B2D484726647A70006A8151 /* DebuggableResultTranslateInterceptorTests.swift in Sources */,
 				5B4CA53223F37EAE007E5FE0 /* MockGraphQLOperations.swift in Sources */,
 				5B1DFA0E2526377E00594E80 /* AddressInfoErrorTests.swift in Sources */,
