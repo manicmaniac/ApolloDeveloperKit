@@ -260,10 +260,10 @@ extension ApolloDebugServer: HTTPServerDelegate {
                     let graphQLResult = try result.get()
                     let body = try JSONSerialization.data(withJSONObject: graphQLResult.jsonValue)
                     context.respondJSONData(body)
-                } catch let error as GraphQLHTTPResponseError {
-                    let stream = context.respond(proxying: error.response)
-                    if let body = error.body {
-                        stream.write(data: body)
+                } catch ResponseCodeInterceptor.ResponseCodeError.invalidResponseCode(let response?, let rawData) {
+                    let stream = context.respond(proxying: response)
+                    if let rawData = rawData {
+                        stream.write(data: rawData)
                     }
                     stream.close()
                 } catch let error {

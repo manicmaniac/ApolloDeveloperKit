@@ -580,6 +580,28 @@ class ApolloDebugServerTests: XCTestCase {
         task.resume()
         waitForExpectations(timeout: 10.0, handler: nil)
     }
+
+    func testPostRequest_withServerInternalError() {
+        let url = server.serverURL!.appendingPathComponent("request")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = serverInternalError
+        let expectation = self.expectation(description: "response should be received")
+        let task = session.dataTask(with: request) { data, response, error in
+            defer { expectation.fulfill() }
+            if let error = error {
+                return XCTFail(String(describing: error))
+            }
+            guard let response = response as? HTTPURLResponse else {
+                return XCTFail("unexpected response type")
+            }
+            XCTAssertEqual(response.statusCode, 500)
+        }
+        task.resume()
+        waitForExpectations(timeout: 10.0, handler: nil)
+    }
 }
 
 private class MockHTTPURLProtocol: URLProtocol {
@@ -627,6 +649,8 @@ private class MockHTTPURLProtocol: URLProtocol {
             sendDataResponse(url: url, data: mutationResponse)
         } else if query.hasPrefix("serverError") {
             sendDataResponse(url: url, data: serverErrorResponse, statusCode: 200)
+        } else if query.hasPrefix("serverInternalError") {
+            sendErrorResponse(url: url, statusCode: 500)
         } else {
             sendErrorResponse(url: url, statusCode: 400)
         }
@@ -779,3 +803,10 @@ private let serverErrorResponse = Data("""
     """.utf8)
 
 private let serverErrorResponseJSONObject = try! JSONSerialization.jsonObject(with: serverErrorResponse) as! NSDictionary
+
+private let serverInternalError = Data("""
+    {
+        "operationName": "serverInternalError",
+        "query": "serverInternalError"
+    }
+    """.utf8)
