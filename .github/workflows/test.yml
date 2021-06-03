@@ -46,7 +46,7 @@ jobs:
   swiftpm-test:
     runs-on: macOS-10.15
     env:
-      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
+      DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
     steps:
       - uses: actions/checkout@v2
       - name: Run unit tests
