@@ -15,15 +15,6 @@
 		5B75996D22E7622D002DE460 /* ApolloDeveloperKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B75996A22E7622D002DE460 /* ApolloDeveloperKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B88CEEC237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
 		5B88CEED237C9EC9000B97AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
-		5BD9D2952669687D0069C8AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448422E0FB75008EDAAD /* AppDelegate.swift */; };
-		5BD9D2962669687D0069C8AB /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
-		5BD9D2972669687D0069C8AB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448322E0FB75008EDAAD /* API.swift */; };
-		5BD9D2982669687D0069C8AB /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2448222E0FB75008EDAAD /* PostTableViewCell.swift */; };
-		5BD9D29E2669687D0069C8AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B88CEEB237C9EC9000B97AA /* Main.storyboard */; };
-		5BD9D29F2669687D0069C8AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
-		5BD9D2A02669687D0069C8AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
-		5BD9D2AF26696AF40069C8AB /* ApolloDeveloperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5BD9D2AE26696AF40069C8AB /* ApolloDeveloperKit */; };
-		5BD9D2B526696B3A0069C8AB /* ApolloDeveloperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5BD9D2B426696B3A0069C8AB /* ApolloDeveloperKit */; };
 		5BE2448622E0FB75008EDAAD /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE2447822E0FB75008EDAAD /* PostListViewController.swift */; };
 		5BE2448722E0FB75008EDAAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447922E0FB75008EDAAD /* Assets.xcassets */; };
 		5BE2448922E0FB75008EDAAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BE2447B22E0FB75008EDAAD /* LaunchScreen.storyboard */; };
@@ -59,7 +50,6 @@
 		5B6BF53A2666730A006360AE /* ApolloCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ApolloCore.xcframework; path = Carthage/Build/ApolloCore.xcframework; sourceTree = "<group>"; };
 		5B75996A22E7622D002DE460 /* ApolloDeveloperKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ApolloDeveloperKit.xcframework; path = Carthage/Build/ApolloDeveloperKit.xcframework; sourceTree = "<group>"; };
 		5B88CEEB237C9EC9000B97AA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		5BD9D2A82669687D0069C8AB /* ApolloDeveloperKitInstallTests-iOS-SwiftPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-iOS-SwiftPM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ApolloDeveloperKitInstallTests-iOS-Carthage.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BE2447822E0FB75008EDAAD /* PostListViewController.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; fileEncoding = 4; path = PostListViewController.swift; sourceTree = "<group>"; };
 		5BE2447922E0FB75008EDAAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,14 +65,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5BD9D2992669687D0069C8AB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5BD9D2B526696B3A0069C8AB /* ApolloDeveloperKit in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BE2445F22E0FA88008EDAAD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,7 +72,6 @@
 				5B6BF53D2666730A006360AE /* ApolloCore.xcframework in Frameworks */,
 				5B6BF53B2666730A006360AE /* Apollo.xcframework in Frameworks */,
 				5B75996C22E7622D002DE460 /* ApolloDeveloperKit.xcframework in Frameworks */,
-				5BD9D2AF26696AF40069C8AB /* ApolloDeveloperKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,7 +124,6 @@
 			children = (
 				5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */,
 				5BE244A022E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods.app */,
-				5BD9D2A82669687D0069C8AB /* ApolloDeveloperKitInstallTests-iOS-SwiftPM.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,26 +151,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5BD9D2932669687D0069C8AB /* ApolloDeveloperKitInstallTests-iOS-SwiftPM */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5BD9D2A52669687D0069C8AB /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-SwiftPM" */;
-			buildPhases = (
-				5BD9D2942669687D0069C8AB /* Sources */,
-				5BD9D2992669687D0069C8AB /* Frameworks */,
-				5BD9D29D2669687D0069C8AB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "ApolloDeveloperKitInstallTests-iOS-SwiftPM";
-			packageProductDependencies = (
-				5BD9D2B426696B3A0069C8AB /* ApolloDeveloperKit */,
-			);
-			productName = ApolloDeveloperKitInstallTests;
-			productReference = 5BD9D2A82669687D0069C8AB /* ApolloDeveloperKitInstallTests-iOS-SwiftPM.app */;
-			productType = "com.apple.product-type.application";
-		};
 		5BE2446122E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BE2447422E0FA88008EDAAD /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-Carthage" */;
@@ -205,9 +165,6 @@
 			dependencies = (
 			);
 			name = "ApolloDeveloperKitInstallTests-iOS-Carthage";
-			packageProductDependencies = (
-				5BD9D2AE26696AF40069C8AB /* ApolloDeveloperKit */,
-			);
 			productName = ApolloDeveloperKitInstallTests;
 			productReference = 5BE2446222E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage.app */;
 			productType = "com.apple.product-type.application";
@@ -253,31 +210,17 @@
 				Base,
 			);
 			mainGroup = 5BE2445922E0FA88008EDAAD;
-			packageReferences = (
-				5BD9D2AD26696AF40069C8AB /* XCRemoteSwiftPackageReference "ApolloDeveloperKit" */,
-			);
 			productRefGroup = 5BE2446322E0FA88008EDAAD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				5BE2446122E0FA88008EDAAD /* ApolloDeveloperKitInstallTests-iOS-Carthage */,
 				5BE2449222E0FBCA008EDAAD /* ApolloDeveloperKitInstallTests-iOS-CocoaPods */,
-				5BD9D2932669687D0069C8AB /* ApolloDeveloperKitInstallTests-iOS-SwiftPM */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5BD9D29D2669687D0069C8AB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5BD9D29E2669687D0069C8AB /* Main.storyboard in Resources */,
-				5BD9D29F2669687D0069C8AB /* LaunchScreen.storyboard in Resources */,
-				5BD9D2A02669687D0069C8AB /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BE2446022E0FA88008EDAAD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,17 +244,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5BD9D2942669687D0069C8AB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5BD9D2952669687D0069C8AB /* AppDelegate.swift in Sources */,
-				5BD9D2962669687D0069C8AB /* PostListViewController.swift in Sources */,
-				5BD9D2972669687D0069C8AB /* API.swift in Sources */,
-				5BD9D2982669687D0069C8AB /* PostTableViewCell.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BE2445E22E0FA88008EDAAD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -348,42 +280,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5BD9D2A62669687D0069C8AB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Sources/iOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		5BD9D2A72669687D0069C8AB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = Sources/iOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Ryosuke-Ito.ApolloDeveloperKitInstallTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		5BE2447222E0FA88008EDAAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -585,15 +481,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5BD9D2A52669687D0069C8AB /* Build configuration list for PBXNativeTarget "ApolloDeveloperKitInstallTests-iOS-SwiftPM" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5BD9D2A62669687D0069C8AB /* Debug */,
-				5BD9D2A72669687D0069C8AB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5BE2445D22E0FA88008EDAAD /* Build configuration list for PBXProject "ApolloDeveloperKitInstallTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -622,30 +509,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		5BD9D2AD26696AF40069C8AB /* XCRemoteSwiftPackageReference "ApolloDeveloperKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file://..";
-			requirement = {
-				branch = HEAD;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5BD9D2AE26696AF40069C8AB /* ApolloDeveloperKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5BD9D2AD26696AF40069C8AB /* XCRemoteSwiftPackageReference "ApolloDeveloperKit" */;
-			productName = ApolloDeveloperKit;
-		};
-		5BD9D2B426696B3A0069C8AB /* ApolloDeveloperKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5BD9D2AD26696AF40069C8AB /* XCRemoteSwiftPackageReference "ApolloDeveloperKit" */;
-			productName = ApolloDeveloperKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5BE2445A22E0FA88008EDAAD /* Project object */;
 }
