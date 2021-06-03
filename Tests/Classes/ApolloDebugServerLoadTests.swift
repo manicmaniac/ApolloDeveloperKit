@@ -17,7 +17,7 @@ class ApolloDebugServerLoadTests: XCTestCase {
     private var port = UInt16(0)
     private var session: URLSession!
 
-    override func setUp() {
+    override func setUpWithError() throws {
         let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
         store = ApolloStore(cache: cache)
         let url = URL(string: "https://localhost/graphql")!
@@ -30,7 +30,7 @@ class ApolloDebugServerLoadTests: XCTestCase {
         let networkTransport = DebuggableRequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
         client = ApolloClient(networkTransport: networkTransport, store: store)
         server = ApolloDebugServer(networkTransport: networkTransport, cache: cache, keepAliveInterval: 0.25)
-        port = try! server.start(randomPortIn: 49152...65535)
+        port = try server.start(randomPortIn: 49152...65535)
         session = URLSession(configuration: .test)
     }
 

@@ -12,53 +12,37 @@ import XCTest
 class MIMETypeTests: XCTestCase {
     func testInitWithPathExtensionEncoding_withHTML() {
         let mimeType = MIMEType(pathExtension: "html", encoding: .utf8)
-        guard case MIMEType.html(let encoding) = mimeType else {
-            return XCTFail()
-        }
-        XCTAssertEqual(encoding, .utf8)
+        XCTAssertEqual(mimeType, .html(.utf8))
     }
 
     func testInitWithPathExtensionEncoding_withJavaScript() {
         let mimeType = MIMEType(pathExtension: "js", encoding: nil)
-        guard case MIMEType.javascript = mimeType else {
-            return XCTFail()
-        }
+        XCTAssertEqual(mimeType, .javascript)
     }
 
     func testInitWithPathExtensionEncoding_withJSON() {
         let mimeType = MIMEType(pathExtension: "json", encoding: nil)
-        guard case MIMEType.json = mimeType else {
-            return XCTFail()
-        }
+        XCTAssertEqual(mimeType, .json)
     }
 
     func testInitWithPathExtensionEncoding_withCSS() {
         let mimeType = MIMEType(pathExtension: "css", encoding: nil)
-        guard case MIMEType.css = mimeType else {
-            return XCTFail()
-        }
+        XCTAssertEqual(mimeType, .css)
     }
 
     func testInitWithPathExtensionEncoding_withPlainText() {
         let mimeType = MIMEType(pathExtension: "txt", encoding: .utf8)
-        guard case MIMEType.plainText(let encoding) = mimeType else {
-            return XCTFail()
-        }
-        XCTAssertEqual(encoding, .utf8)
+        XCTAssertEqual(mimeType, .plainText(.utf8))
     }
 
     func testInitWithPathExtensionEncoding_withPNG() {
         let mimeType = MIMEType(pathExtension: "png", encoding: nil)
-        guard case MIMEType.png = mimeType else {
-            return XCTFail()
-        }
+        XCTAssertEqual(mimeType, .png)
     }
 
     func testInitWithPathExtensionEncoding_withUnknownFileExtension() {
         let mimeType = MIMEType(pathExtension: "zip", encoding: nil)
-        guard case MIMEType.octetStream = mimeType else {
-            return XCTFail()
-        }
+        XCTAssertEqual(mimeType, .octetStream)
     }
 
     func testDescription_withHTML() {
