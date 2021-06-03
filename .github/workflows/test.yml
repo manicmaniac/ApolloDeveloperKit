@@ -31,10 +31,7 @@ jobs:
     - name: Modify Cartfile.resolved
       run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
     - name: Install dependencies
-      run: |
-        carthage checkout
-        rm Carthage/Checkouts/apollo-ios/Package.swift # Workaround for Carthage's timeout error while reading xcodeproj.
-        carthage build --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
+      run: carthage bootstrap --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
       shell: bash # to enable pipefail
