@@ -8,7 +8,7 @@ let package = Package(
     products: [
         .library(
             name: "ApolloDeveloperKit",
-            targets: ["ApolloDeveloperKit"]),
+            targets: ["ApolloDeveloperKit"])
     ],
     dependencies: [
         .package(name: "Apollo", url: "https://github.com/apollographql/apollo-ios.git", "0.34.0"..<"0.35.0")
@@ -21,6 +21,6 @@ let package = Package(
         .testTarget(
             name: "ApolloDeveloperKitTests",
             dependencies: ["ApolloDeveloperKit"],
-            exclude: ["ApolloDeveloperKitTests.swift"]),
+            exclude: ["ApolloDeveloperKitTests.swift"])
     ]
 )
