@@ -17,35 +17,25 @@ class ConsoleRedirectionTests: XCTestCase {
     private var standardOutputFileHandle: FileHandle!
     private var standardErrorFileHandle: FileHandle!
 
-    override func setUp() {
+    override func setUpWithError() throws {
         notificationCenter = NotificationCenter()
         delegateHandler = ConsoleRedirectionDelegateHandler()
         mockDuplicator = MockFileDescriptorDuplicator()
         let fileManager = FileManager.default
-        do {
-            temporaryDirectoryURL = try fileManager.url(for: .itemReplacementDirectory,
-                                                        in: .userDomainMask,
-                                                        appropriateFor: URL(fileURLWithPath: NSTemporaryDirectory()),
-                                                        create: true)
-            let standardOutputURL = temporaryDirectoryURL.appendingPathComponent("stdout")
-            fileManager.createFile(atPath: standardOutputURL.path, contents: nil)
-            standardOutputFileHandle = try FileHandle(forWritingTo: standardOutputURL)
-            let standardErrorURL = temporaryDirectoryURL.appendingPathComponent("stderr")
-            fileManager.createFile(atPath: standardErrorURL.path, contents: nil)
-            standardErrorFileHandle = try FileHandle(forWritingTo: standardErrorURL)
-        } catch let error {
-            continueAfterFailure = false
-            XCTFail(String(describing: error))
-        }
+        temporaryDirectoryURL = try fileManager.url(for: .itemReplacementDirectory,
+                                                    in: .userDomainMask,
+                                                    appropriateFor: URL(fileURLWithPath: NSTemporaryDirectory()),
+                                                    create: true)
+        let standardOutputURL = temporaryDirectoryURL.appendingPathComponent("stdout")
+        fileManager.createFile(atPath: standardOutputURL.path, contents: nil)
+        standardOutputFileHandle = try FileHandle(forWritingTo: standardOutputURL)
+        let standardErrorURL = temporaryDirectoryURL.appendingPathComponent("stderr")
+        fileManager.createFile(atPath: standardErrorURL.path, contents: nil)
+        standardErrorFileHandle = try FileHandle(forWritingTo: standardErrorURL)
     }
 
-    override func tearDown() {
-        do {
-            try FileManager.default.removeItem(at: temporaryDirectoryURL)
-        } catch let error {
-            continueAfterFailure = false
-            XCTFail(String(describing: error))
-        }
+    override func tearDownWithError() throws {
+        try FileManager.default.removeItem(at: temporaryDirectoryURL)
     }
 
     func testInit() {
