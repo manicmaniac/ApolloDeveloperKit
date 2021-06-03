@@ -258,7 +258,13 @@ extension ApolloDebugServer: HTTPServerDelegate {
                 guard let self = self else { return }
                 do {
                     let graphQLResult = try result.get()
-                    let body = try JSONSerialization.data(withJSONObject: graphQLResult.jsonValue)
+                    let options: JSONSerialization.WritingOptions
+                    if #available(macOS 10.13, *, iOS 11, *) {
+                        options = .sortedKeys
+                    } else {
+                        options = []
+                    }
+                    let body = try JSONSerialization.data(withJSONObject: graphQLResult.jsonValue, options: options)
                     context.respondJSONData(body)
                 } catch ResponseCodeInterceptor.ResponseCodeError.invalidResponseCode(let response?, let rawData) {
                     let stream = context.respond(proxying: response)
