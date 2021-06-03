@@ -13,7 +13,7 @@ import CoreFoundation
  *
  * - SeeAlso: https://www.iana.org/assignments/media-types/media-types.xhtml
  */
-enum MIMEType {
+enum MIMEType: Equatable {
     case html(String.Encoding?)
     case javascript
     case json
