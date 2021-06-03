@@ -68,13 +68,6 @@ class DebugInitializeInterceptorDelegateHandler: DebugInitializeInterceptorDeleg
     }
 
     func interceptor<Operation>(_ interceptor: ApolloInterceptor, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
-        let typeErasedResult = result.map { (graphQLResult) -> GraphQLResult<AnyGraphQLOperation.Data> in
-            return GraphQLResult(data: try? graphQLResult.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
-                                 extensions: graphQLResult.extensions,
-                                 errors: graphQLResult.errors,
-                                 source: .server,
-                                 dependentKeys: nil)
-        }
-        interceptorDidSendOperation?(interceptor, AnyGraphQLOperation(operation), typeErasedResult)
+        interceptorDidSendOperation?(interceptor, AnyGraphQLOperation(operation), result.map(GraphQLResult.init(_:)))
     }
 }

@@ -91,14 +91,7 @@ private class DebuggableInterceptorProviderDelegateHandler: DebuggableIntercepto
     }
 
     func interceptorProvider<Operation>(_ interceptorProvider: InterceptorProvider, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation : GraphQLOperation {
-        let typeErasedResult = result.map { graphQLResult in
-            return GraphQLResult(data: try? graphQLResult.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
-                                 extensions: graphQLResult.extensions,
-                                 errors: graphQLResult.errors,
-                                 source: .server,
-                                 dependentKeys: nil)
-        }
-        didSendOperation?(interceptorProvider, AnyGraphQLOperation(operation), typeErasedResult)
+        didSendOperation?(interceptorProvider, AnyGraphQLOperation(operation), result.map(GraphQLResult.init(_:)))
     }
 }
 

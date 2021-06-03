@@ -117,54 +117,14 @@ private class MockInterceptor: ApolloInterceptor, ApolloErrorInterceptor {
     var handleError: ((Error, RequestChain, HTTPRequest<AnyGraphQLOperation>, HTTPResponse<AnyGraphQLOperation>?, (Result<GraphQLResult<AnyGraphQLOperation.Data>, Error>) -> Void) -> Void)?
 
     func interceptAsync<Operation>(chain: RequestChain, request: HTTPRequest<Operation>, response: HTTPResponse<Operation>?, completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) where Operation : GraphQLOperation {
-        let typeErasedRequest = HTTPRequest<AnyGraphQLOperation>(graphQLEndpoint: request.graphQLEndpoint,
-                                                       operation: AnyGraphQLOperation(request.operation),
-                                                       contentType: "",
-                                                       clientName: "",
-                                                       clientVersion: "",
-                                                       additionalHeaders: [:])
-        if let response = response, let parsedResponse = response.parsedResponse {
-            let typeErasedParsedResponse = GraphQLResult<AnyGraphQLOperation.Data>(data: try? parsedResponse.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
-                                                                                   extensions: parsedResponse.extensions,
-                                                                                   errors: parsedResponse.errors,
-                                                                                   source: .server,
-                                                                                   dependentKeys: nil)
-            let typeErasedResponse = HTTPResponse<AnyGraphQLOperation>(response: response.httpResponse,
-                                                                       rawData: response.rawData,
-                                                                       parsedResponse: typeErasedParsedResponse)
-            intercept?(chain, typeErasedRequest, typeErasedResponse) { result in
-                // Do nothing.
-            }
-        } else {
-            intercept?(chain, typeErasedRequest, nil) { result in
-                // Do nothing.
-            }
+        intercept?(chain, HTTPRequest(request), response.flatMap(HTTPResponse.init(_:))) { result in
+            // Do nothing.
         }
     }
 
     func handleErrorAsync<Operation>(error: Error, chain: RequestChain, request: HTTPRequest<Operation>, response: HTTPResponse<Operation>?, completion: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) where Operation : GraphQLOperation {
-        let typeErasedRequest = HTTPRequest<AnyGraphQLOperation>(graphQLEndpoint: request.graphQLEndpoint,
-                                                       operation: AnyGraphQLOperation(request.operation),
-                                                       contentType: "",
-                                                       clientName: "",
-                                                       clientVersion: "",
-                                                       additionalHeaders: [:])
-        if let response = response, let parsedResponse = response.parsedResponse {
-            let typeErasedParsedResponse = GraphQLResult<AnyGraphQLOperation.Data>(data: try? parsedResponse.data.flatMap(AnyGraphQLOperation.Data.init(_:)),
-                                                                                   extensions: parsedResponse.extensions,
-                                                                                   errors: parsedResponse.errors,
-                                                                                   source: .server,
-                                                                                   dependentKeys: nil)
-            let typeErasedResponse = HTTPResponse<AnyGraphQLOperation>(response: response.httpResponse,
-                                                                       rawData: response.rawData,
-                                                                       parsedResponse: typeErasedParsedResponse)
-            handleError?(error, chain, typeErasedRequest, typeErasedResponse) { result in
-                // Do nothing.
-            }
-        } else {
-            handleError?(error, chain, typeErasedRequest, nil) { result in
-                // Do nothing.
-            }
+        handleError?(error, chain, HTTPRequest(request), response.flatMap(HTTPResponse.init(_:))) { result in
+            // Do nothing.
         }
     }
 }
