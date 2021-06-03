@@ -31,7 +31,7 @@ Prerequisites
 Installation
 ------------
 
-### Install from CocoaPods
+### CocoaPods
 
 Add the following lines to your Podfile.
 
@@ -42,7 +42,7 @@ pod 'ApolloDeveloperKit', '~> 0.15.0', configurations: ['Debug']
 
 Then run `pod install`.
 
-### Install from Carthage
+### Carthage
 
 Add the following lines to your Cartfile.
 
@@ -52,6 +52,12 @@ github "manicmaniac/ApolloDeveloperKit"
 ```
 
 Then run `carthage update --platform iOS` or `carthage update --platform Mac`.
+
+### Swift Package Manager
+
+Add `https://github.com/manicmaniac/ApolloDeveloperKit` to your dependencies.
+
+Since Xcode 12 has only limited support for resources installed via Swift Package Manager, I recommend to use Xcode 12.4 or newer for Swift Package Manager users.
 
 Setup
 -----
