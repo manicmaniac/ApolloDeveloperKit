@@ -109,3 +109,23 @@ jobs:
       run: npm run build
     - name: Check differences
       run: git diff --exit-code .
+  report-coverages:
+    needs:
+    - unit-test
+    - frontend-test
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Install dependencies
+      run: |
+        curl -LSso cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
+        chmod +x cc-test-reporter
+    - uses: actions/download-artifact@v2
+      with:
+        path: coverage
+    - name: Sum coverages
+      run: |
+        ./cc-test-reporter format-coverage --input-type=cobertura --output=coverage/unit-test.json coverage/cobertura.xml
+        ./cc-test-reporter format-coverage --input-type=clover --output=coverage/frontend-test.json coverage/clover.xml
+        ./cc-test-reporter sum-coverage coverage/unit-test.json coverage/frontend-test.json
+    - name: Upload coverages
+      run: ./cc-test-reporter upload-coverage
