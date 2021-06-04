@@ -3,7 +3,17 @@ name: Test
 on:
 - push
 jobs:
+  prepare-test:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Install dependencies
+      run: |
+        curl -LSso cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
+        chmod +x cc-test-reporter
+    - name: Notify before build
+      run: ./cc-test-reporter before-build
   unit-test:
+    needs: prepare-test
     runs-on: macOS-10.15
     env:
       DEVELOPER_DIR: "/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
@@ -68,6 +78,7 @@ jobs:
     - name: Lint podspec
       run: bundle exec pod lib lint --verbose
   frontend-test:
+    needs: prepare-test
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
