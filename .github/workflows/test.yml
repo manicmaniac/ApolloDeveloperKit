@@ -9,6 +9,7 @@ env:
   BUNDLE_JOBS: 4
   BUNDLE_RETRY: 3
   BUNDLE_WITHOUT: documentation:test
+  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
   DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
 jobs:
   prepare-test:
