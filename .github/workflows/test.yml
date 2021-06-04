@@ -10,14 +10,21 @@ env:
   BUNDLE_RETRY: 3
   BUNDLE_WITHOUT: documentation:test
   CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  CC_TEST_REPORTER_URL: https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
   DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
 jobs:
   prepare-test:
     runs-on: ubuntu-18.04
     steps:
+    - uses: actions/cache@v2
+      id: cache-cc-test-reporter
+      with:
+        path: cc-test-reporter
+        key: ${{ env.CC_TEST_REPORTER_URL }}
     - name: Install dependencies
+      if: steps.cache-cc-test-reporter.outputs.cache-hit != 'true'
       run: |
-        curl -LSso cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
+        curl -LSso cc-test-reporter ${{ env.CC_TEST_REPORTER_URL }}
         chmod +x cc-test-reporter
     - name: Notify before build
       run: ./cc-test-reporter before-build
@@ -130,10 +137,10 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        curl -LSso cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
-        chmod +x cc-test-reporter
+    - uses: actions/cache@v2
+      with:
+        path: cc-test-reporter
+        key: ${{ env.CC_TEST_REPORTER_URL }}
     - uses: actions/download-artifact@v2
       with:
         name: coverage
