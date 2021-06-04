@@ -2,6 +2,14 @@
 name: Test
 on:
 - push
+defaults:
+  run:
+    shell: bash # to enable pipefail
+env:
+  BUNDLE_JOBS: 4
+  BUNDLE_RETRY: 3
+  BUNDLE_WITHOUT: documentation:test
+  DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
 jobs:
   prepare-test:
     runs-on: ubuntu-18.04
@@ -47,34 +55,24 @@ jobs:
         carthage build --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
-      shell: bash # to enable pipefail
   install-test:
     runs-on: macOS-10.15
-    env:
-      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
     - name: Run install tests
       run: make -C InstallTests carthage
   swiftpm-test:
     runs-on: macOS-10.15
-    env:
-      DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
     steps:
       - uses: actions/checkout@v2
       - name: Run unit tests
         run: swift test
   lint-podspec:
     runs-on: macOS-10.15
-    env:
-      BUNDLE_JOBS: 4
-      BUNDLE_RETRY: 3
-      BUNDLE_WITHOUT: documentation:test
-      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: bundle install
+      run: bundle install --without=documentation:test
     - name: Lint podspec
       run: bundle exec pod lib lint --verbose
   frontend-test:
