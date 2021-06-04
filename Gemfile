@@ -11,5 +11,6 @@ group :documentation do
 end
 
 group :test do
+  gem 'slather'
   gem 'xcpretty'
 end
