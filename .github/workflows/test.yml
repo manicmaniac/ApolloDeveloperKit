@@ -63,6 +63,7 @@ jobs:
       run: bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
     - uses: actions/upload-artifact@v2
       with:
+        name: coverage
         path: cobertura.xml
   install-test:
     runs-on: macOS-10.15
@@ -97,6 +98,7 @@ jobs:
       run: npm test -- --coverage
     - uses: actions/upload-artifact@v2
       with:
+        name: coverage
         path: coverage/clover.xml
   frontend-rebuild:
     runs-on: ubuntu-18.04
@@ -122,6 +124,7 @@ jobs:
         chmod +x cc-test-reporter
     - uses: actions/download-artifact@v2
       with:
+        name: coverage
         path: coverage
     - name: Sum coverages
       run: |
