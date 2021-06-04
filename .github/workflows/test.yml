@@ -118,6 +118,7 @@ jobs:
     - frontend-test
     runs-on: ubuntu-18.04
     steps:
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         curl -LSso cc-test-reporter https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
