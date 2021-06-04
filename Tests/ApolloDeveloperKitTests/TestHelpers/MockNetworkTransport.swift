@@ -7,6 +7,7 @@
 //
 
 import Apollo
+import Foundation
 
 class MockNetworkTransport: NetworkTransport {
     var clientName = "clientName"

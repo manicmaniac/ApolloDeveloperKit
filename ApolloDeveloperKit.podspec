@@ -14,8 +14,8 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = '9.0'
   spec.osx.deployment_target = '10.10'
   spec.source = { :git => "https://github.com/manicmaniac/ApolloDeveloperKit.git", :tag => "#{spec.version}" }
-  spec.source_files = "Sources/Classes/**/*.swift"
-  spec.resource = "Sources/Assets"
+  spec.source_files = "Sources/ApolloDeveloperKit/**/*.swift"
+  spec.resource = "Sources/ApolloDeveloperKit/Assets"
   spec.cocoapods_version = '>= 1.7.0'
   spec.swift_versions = ['5.0', '5.1', '5.2', '5.3']
   spec.dependency "Apollo", ">= 0.29.0", "< 0.35.0"

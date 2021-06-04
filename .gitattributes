@@ -1,5 +1,5 @@
 Example/API.swift -diff linguist-generated
-Sources/Assets/bundle.js -diff linguist-generated
-Sources/Classes/Schema/Schema.swift -diff linguist-generated
+Sources/ApolloDeveloperKit/Assets/bundle.js -diff linguist-generated
+Sources/ApolloDeveloperKit/Schema/Schema.swift -diff linguist-generated
 docs/** -diff linguist-documentation
 src/schema.ts -diff linguist-generated
