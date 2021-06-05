@@ -79,11 +79,13 @@ jobs:
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
     - name: Collect coverages
-      run: bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
+      run: |
+        bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
+        mv cobertura.xml 'cobertura-${{ matrix.apollo }}-${{ matrix.sdk }}.xml'
     - uses: actions/upload-artifact@v2
       with:
         name: coverage
-        path: cobertura.xml
+        path: cobertura-${{ matrix.apollo }}-${{ matrix.sdk }}.xml
   install-test:
     runs-on: macOS-10.15
     steps:
@@ -158,8 +160,8 @@ jobs:
         path: coverage
     - name: Sum coverages
       run: |
-        ./cc-test-reporter format-coverage --input-type=cobertura --output=coverage/unit-test.json coverage/cobertura.xml
-        ./cc-test-reporter format-coverage --input-type=clover --output=coverage/frontend-test.json coverage/clover.xml
-        ./cc-test-reporter sum-coverage coverage/unit-test.json coverage/frontend-test.json
+        for path in coverage/cobertura-*.xml; do ./cc-test-reporter format-coverage --input-type=cobertura --output="coverage/codeclimate-$(basename "$path" .xml).json" "$path"; done
+        ./cc-test-reporter format-coverage --input-type=clover --output=coverage/codeclimate-frontend.json coverage/clover.xml
+        ./cc-test-reporter sum-coverage coverage/codeclimate-*.json
     - name: Upload coverages
       run: ./cc-test-reporter upload-coverage
