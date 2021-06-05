@@ -2,8 +2,31 @@
 name: Test
 on:
 - push
+defaults:
+  run:
+    shell: bash # to enable pipefail
+env:
+  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  CC_TEST_REPORTER_URL: https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
+  DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
 jobs:
+  prepare-test:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/cache@v2
+      id: cache-cc-test-reporter
+      with:
+        path: cc-test-reporter
+        key: ${{ env.CC_TEST_REPORTER_URL }}
+    - name: Install dependencies
+      if: steps.cache-cc-test-reporter.outputs.cache-hit != 'true'
+      run: |
+        curl -LSso cc-test-reporter ${{ env.CC_TEST_REPORTER_URL }}
+        chmod +x cc-test-reporter
+    - name: Notify before build
+      run: ./cc-test-reporter before-build
   unit-test:
+    needs: prepare-test
     runs-on: macOS-10.15
     env:
       DEVELOPER_DIR: "/Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer"
@@ -30,51 +53,74 @@ jobs:
     - uses: actions/checkout@v2
     - name: Modify Cartfile.resolved
       run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
-    - name: Install dependencies
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+        bundler-cache: true
+      env:
+        BUNDLE_WITHOUT: development:documentation
+    - uses: actions/cache@v2
+      id: cache-carthage-build
+      with:
+        path: Carthage/Build
+        key: ${{ matrix.platform }}-${{ hashFiles('Cartfile.resolved') }}
+    - name: Install Carthage dependencies
+      if: steps.cache-carthage-build.outputs.cache-hit != 'true'
       run: |
         carthage checkout
         ( cd Carthage/Checkouts/apollo-ios && swift package resolve ) # Workaround for Carthage's timeout error while reading xcodeproj.
         carthage build --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
-      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
-      shell: bash # to enable pipefail
+      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | bundle exec xcpretty
+    - name: Collect coverages
+      run: bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
+    - uses: actions/upload-artifact@v2
+      with:
+        name: coverage
+        path: cobertura.xml
   install-test:
     runs-on: macOS-10.15
-    env:
-      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+        bundler-cache: true
+      env:
+        BUNDLE_WITHOUT: development:documentation
     - name: Run install tests
-      run: make -C InstallTests carthage
+      run: bundle exec make -C InstallTests carthage
   swiftpm-test:
     runs-on: macOS-10.15
-    env:
-      DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
     steps:
       - uses: actions/checkout@v2
       - name: Run unit tests
         run: swift test
   lint-podspec:
     runs-on: macOS-10.15
-    env:
-      BUNDLE_JOBS: 4
-      BUNDLE_RETRY: 3
-      BUNDLE_WITHOUT: documentation:test
-      DEVELOPER_DIR: "/Applications/Xcode_12.app/Contents/Developer"
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: bundle install
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+        bundler-cache: true
+      env:
+        BUNDLE_WITHOUT: documentation:test
     - name: Lint podspec
       run: bundle exec pod lib lint --verbose
   frontend-test:
+    needs: prepare-test
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: npm install
     - name: Run frontend tests
-      run: npm test
+      run: npm test -- --coverage
+    - uses: actions/upload-artifact@v2
+      with:
+        name: coverage
+        path: coverage/clover.xml
   frontend-rebuild:
     runs-on: ubuntu-18.04
     steps:
@@ -87,3 +133,25 @@ jobs:
       run: npm run build
     - name: Check differences
       run: git diff --exit-code .
+  report-coverages:
+    needs:
+    - unit-test
+    - frontend-test
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: cc-test-reporter
+        key: ${{ env.CC_TEST_REPORTER_URL }}
+    - uses: actions/download-artifact@v2
+      with:
+        name: coverage
+        path: coverage
+    - name: Sum coverages
+      run: |
+        ./cc-test-reporter format-coverage --input-type=cobertura --output=coverage/unit-test.json coverage/cobertura.xml
+        ./cc-test-reporter format-coverage --input-type=clover --output=coverage/frontend-test.json coverage/clover.xml
+        ./cc-test-reporter sum-coverage coverage/unit-test.json coverage/frontend-test.json
+    - name: Upload coverages
+      run: ./cc-test-reporter upload-coverage
