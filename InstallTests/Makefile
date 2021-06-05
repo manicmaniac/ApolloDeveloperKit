@@ -19,5 +19,5 @@ cocoapods:
 cocoapods-clean:
 	pod deintegrate
 
-Cartfile.resolved::
+Cartfile.resolved:
 	carthage update --no-build
