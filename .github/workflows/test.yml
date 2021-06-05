@@ -91,11 +91,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Resolve dependencies
-      run: make -C InstallTests Cartfile.resolved
+      run: |
+        make -C InstallTests Cartfile.resolved
+        fgrep -v .. InstallTests/Cartfile.resolved >InstallTests/Cartfile.private
     - uses: actions/cache@v2
       with:
         path: InstallTests/Carthage/Build
-        key: ${{ hashFiles('InstallTests/Cartfile.resolved') }}
+        key: ${{ hashFiles('InstallTests/Cartfile.private') }}
     - name: Run install tests
       run: make -C InstallTests carthage
   swiftpm-test:
