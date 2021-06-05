@@ -6,6 +6,9 @@ defaults:
   run:
     shell: bash # to enable pipefail
 env:
+  BUNDLE_JOBS: 4
+  BUNDLE_PATH: vendor/bundle
+  BUNDLE_RETRY: 3
   CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
   CC_TEST_REPORTER_URL: https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
   DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
@@ -53,12 +56,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Modify Cartfile.resolved
       run: sed -i '' -E '/apollographql\/apollo-ios/s/"[0-9.]+"/"${{ matrix.apollo }}"/' Cartfile.resolved
-    - uses: ruby/setup-ruby@v1
+    - uses: actions/cache@v2
+      id: cache-bundler
       with:
-        ruby-version: 2.6
-        bundler-cache: true
-      env:
-        BUNDLE_WITHOUT: development:documentation
+        path: vendor/bundle
+        key: ${{ hashFiles('Gemfile.lock') }}
+    - name: Install Ruby dependencies
+      if: steps.cache-bundler.outputs.cache-hit != 'true'
+      run: bundle install
     - uses: actions/cache@v2
       id: cache-carthage-build
       with:
@@ -71,7 +76,7 @@ jobs:
         ( cd Carthage/Checkouts/apollo-ios && swift package resolve ) # Workaround for Carthage's timeout error while reading xcodeproj.
         carthage build --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
-      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | bundle exec xcpretty
+      run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
     - name: Collect coverages
       run: bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
     - uses: actions/upload-artifact@v2
@@ -82,14 +87,8 @@ jobs:
     runs-on: macOS-10.15
     steps:
     - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.6
-        bundler-cache: true
-      env:
-        BUNDLE_WITHOUT: development:documentation
     - name: Run install tests
-      run: bundle exec make -C InstallTests carthage
+      run: make -C InstallTests carthage
   swiftpm-test:
     runs-on: macOS-10.15
     steps:
@@ -100,12 +99,14 @@ jobs:
     runs-on: macOS-10.15
     steps:
     - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
+    - uses: actions/cache@v2
+      id: cache-bundler
       with:
-        ruby-version: 2.6
-        bundler-cache: true
-      env:
-        BUNDLE_WITHOUT: documentation:test
+        path: vendor/bundle
+        key: ${{ hashFiles('Gemfile.lock') }}
+    - name: Install Ruby dependencies
+      if: steps.cache-bundler.outputs.cache-hit != 'true'
+      run: bundle install
     - name: Lint podspec
       run: bundle exec pod lib lint --verbose
   frontend-test:
