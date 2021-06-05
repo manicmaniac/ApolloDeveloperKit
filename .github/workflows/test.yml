@@ -88,6 +88,12 @@ jobs:
     runs-on: macOS-10.15
     steps:
     - uses: actions/checkout@v2
+    - name: Resolve dependencies
+      run: make -C InstallTests Cartfile.resolved
+    - uses: actions/cache@v2
+      with:
+        path: InstallTests/Carthage/Build
+        key: ${{ hashFiles('InstallTests/Cartfile.resolved') }}
     - name: Run install tests
       run: make -C InstallTests carthage
   swiftpm-test:

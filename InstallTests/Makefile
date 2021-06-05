@@ -4,8 +4,7 @@ all: carthage cocoapods
 
 clean: carthage-clean cocoapods-clean
 
-carthage:
-	carthage update --no-build
+carthage: Cartfile.resolved
 	cd Carthage/Checkouts/apollo-ios && swift package resolve # Workaround for Carthage's timeout error while reading xcodeproj.
 	carthage build --platform iOS --no-use-binaries --cache-builds --use-xcframeworks
 	set -o pipefail && xcodebuild -project ApolloDeveloperKitInstallTests.xcodeproj -scheme ApolloDeveloperKitInstallTests-iOS-Carthage -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 11' build | xcpretty
@@ -19,3 +18,6 @@ cocoapods:
 
 cocoapods-clean:
 	pod deintegrate
+
+Cartfile.resolved::
+	carthage update --no-build
