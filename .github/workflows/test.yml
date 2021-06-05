@@ -9,6 +9,7 @@ env:
   BUNDLE_JOBS: 4
   BUNDLE_PATH: vendor/bundle
   BUNDLE_RETRY: 3
+  BUNDLE_WITHOUT: documentation
   CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
   CC_TEST_REPORTER_URL: https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
   DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
