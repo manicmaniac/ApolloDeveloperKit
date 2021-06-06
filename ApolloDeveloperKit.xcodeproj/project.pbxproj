@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B00A17D266D0132009A4DCD /* HTTPConnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B00A17C266D0132009A4DCD /* HTTPConnectionTests.swift */; };
 		5B05890824EB53220071DB57 /* ConsoleDidWriteNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */; };
 		5B05890A24EB5DC60071DB57 /* HTTPRequestMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890924EB5DC60071DB57 /* HTTPRequestMessage.swift */; };
 		5B05890C24EB5DCF0071DB57 /* HTTPResponseMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B05890B24EB5DCF0071DB57 /* HTTPResponseMessage.swift */; };
@@ -173,6 +174,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B00A17C266D0132009A4DCD /* HTTPConnectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPConnectionTests.swift; sourceTree = "<group>"; };
 		5B05890724EB53220071DB57 /* ConsoleDidWriteNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleDidWriteNotification.swift; sourceTree = "<group>"; };
 		5B05890924EB5DC60071DB57 /* HTTPRequestMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestMessage.swift; sourceTree = "<group>"; };
 		5B05890B24EB5DCF0071DB57 /* HTTPResponseMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseMessage.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 			children = (
 				5B1DFA0D2526377E00594E80 /* AddressInfoErrorTests.swift */,
 				5B207731236E0FD800817E45 /* HTTPChunkedResponseTests.swift */,
+				5B00A17C266D0132009A4DCD /* HTTPConnectionTests.swift */,
 				5B3A83AC22C93361002B4FFB /* HTTPServerTests.swift */,
 				5B71522122DA00CB00002BA6 /* HTTPServerErrorTests.swift */,
 				5B2E1B2C230CC93C003C85CB /* InterfaceAddressTests.swift */,
@@ -910,6 +913,7 @@
 				5BF1E71226682BB80071E99A /* GraphQLResult+AnyGraphQLOperation.swift in Sources */,
 				5B7AE3942375F38A00EF6D43 /* ApolloDebugServerLoadTests.swift in Sources */,
 				5B3A837322C6721D002B4FFB /* AnyGraphQLSelectionSetTests.swift in Sources */,
+				5B00A17D266D0132009A4DCD /* HTTPConnectionTests.swift in Sources */,
 				5B3A83AD22C93361002B4FFB /* HTTPServerTests.swift in Sources */,
 				5B2E1B38230CD1D0003C85CB /* sockaddr+Factory.swift in Sources */,
 				5B2E1B36230CD1BA003C85CB /* ifaddrs+Factory.swift in Sources */,
