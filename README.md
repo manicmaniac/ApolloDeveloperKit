@@ -51,7 +51,9 @@ github "apollographql/apollo-ios"
 github "manicmaniac/ApolloDeveloperKit"
 ```
 
-Then run `carthage update --platform iOS` or `carthage update --platform Mac`.
+Then run `carthage update --platform iOS --use-xcframeworks` or `carthage update --platform Mac --use-xcframeworks`.
+
+You just need to drag and drop `ApolloDeveloperKit.xcframework` to your project.
 
 ### Swift Package Manager
 
