@@ -4,13 +4,13 @@ on:
 - push
 defaults:
   run:
-    shell: bash # to enable pipefail
+    shell: bash
 env:
   BUNDLE_JOBS: 4
   BUNDLE_PATH: vendor/bundle
   BUNDLE_RETRY: 3
   BUNDLE_WITHOUT: documentation
-  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  CC_TEST_REPORTER_ID: "${{ secrets.CC_TEST_REPORTER_ID }}"
   CC_TEST_REPORTER_URL: https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64
   DEVELOPER_DIR: "/Applications/Xcode_12.4.app/Contents/Developer"
 jobs:
@@ -21,14 +21,14 @@ jobs:
       id: cache-cc-test-reporter
       with:
         path: cc-test-reporter
-        key: ${{ env.CC_TEST_REPORTER_URL }}
+        key: "${{ env.CC_TEST_REPORTER_URL }}"
     - name: Install dependencies
       if: steps.cache-cc-test-reporter.outputs.cache-hit != 'true'
       run: |
         curl -LSso cc-test-reporter ${{ env.CC_TEST_REPORTER_URL }}
         chmod +x cc-test-reporter
     - name: Notify before build
-      run: ./cc-test-reporter before-build
+      run: "./cc-test-reporter before-build"
   unit-test:
     needs: prepare-test
     runs-on: macOS-10.15
@@ -38,16 +38,27 @@ jobs:
       fail-fast: false
       matrix:
         apollo:
+        - 0.35.0
         - 0.34.1
         platform:
         - iOS
         - macOS
         include:
+        - apollo: 0.35.0
+          platform: iOS
+          sdk: iphonesimulator
+          xcode: '12'
+          destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
         - apollo: 0.34.1
           platform: iOS
           sdk: iphonesimulator
           xcode: '12'
           destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
+        - apollo: 0.35.0
+          platform: macOS
+          sdk: macosx
+          xcode: '12'
+          destination: platform=OS X,arch=x86_64
         - apollo: 0.34.1
           platform: macOS
           sdk: macosx
@@ -61,7 +72,7 @@ jobs:
       id: cache-bundler
       with:
         path: vendor/bundle
-        key: ${{ hashFiles('Gemfile.lock') }}
+        key: "${{ hashFiles('Gemfile.lock') }}"
     - name: Install Ruby dependencies
       if: steps.cache-bundler.outputs.cache-hit != 'true'
       run: bundle install
@@ -69,7 +80,7 @@ jobs:
       id: cache-carthage-build
       with:
         path: Carthage/Build
-        key: ${{ matrix.platform }}-${{ hashFiles('Cartfile.resolved') }}
+        key: "${{ matrix.platform }}-${{ hashFiles('Cartfile.resolved') }}"
     - name: Install Carthage dependencies
       if: steps.cache-carthage-build.outputs.cache-hit != 'true'
       run: |
@@ -97,15 +108,15 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: InstallTests/Carthage/Build
-        key: ${{ hashFiles('InstallTests/Cartfile.private') }}
+        key: "${{ hashFiles('InstallTests/Cartfile.private') }}"
     - name: Run install tests
       run: make -C InstallTests carthage
   swiftpm-test:
     runs-on: macOS-10.15
     steps:
-      - uses: actions/checkout@v2
-      - name: Run unit tests
-        run: swift test
+    - uses: actions/checkout@v2
+    - name: Run unit tests
+      run: swift test
   lint-podspec:
     runs-on: macOS-10.15
     steps:
@@ -114,7 +125,7 @@ jobs:
       id: cache-bundler
       with:
         path: vendor/bundle
-        key: ${{ hashFiles('Gemfile.lock') }}
+        key: "${{ hashFiles('Gemfile.lock') }}"
     - name: Install Ruby dependencies
       if: steps.cache-bundler.outputs.cache-hit != 'true'
       run: bundle install
@@ -155,7 +166,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: cc-test-reporter
-        key: ${{ env.CC_TEST_REPORTER_URL }}
+        key: "${{ env.CC_TEST_REPORTER_URL }}"
     - uses: actions/download-artifact@v2
       with:
         name: coverage
@@ -166,4 +177,4 @@ jobs:
         ./cc-test-reporter format-coverage --input-type=clover --output=coverage/codeclimate-frontend.json coverage/clover.xml
         ./cc-test-reporter sum-coverage coverage/codeclimate-*.json
     - name: Upload coverages
-      run: ./cc-test-reporter upload-coverage
+      run: "./cc-test-reporter upload-coverage"
