@@ -22,6 +22,9 @@ import Foundation
  * Typically you don't need to use this class directly but if you want to assemble your custom interceptor chain, you need to put this class at the right place.
  */
 public class DebuggableResultTranslateInterceptor: ApolloInterceptor {
+    /**
+     * `DebuggableResultTranslateError` is an error kind thrown by `DebuggableResultTranslateInterceptor`.
+     */
     public enum DebuggableResultTranslateError: Error, LocalizedError {
         /**
          * Indicates a logic error that is caused by putting `DebuggableResultTranslateInterceptor` before parsing a response.
