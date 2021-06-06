@@ -14,6 +14,11 @@ protocol DebuggableInterceptorProviderDelegate: class {
     func interceptorProvider<Operation>(_ interceptorProvider: InterceptorProvider, didSendOperation operation: Operation, result: Result<GraphQLResult<Operation.Data>, Error>) where Operation: GraphQLOperation
 }
 
+/**
+ * `DebuggableInterceptorProvider` wraps another interceptor and provides interceptors configured for `ApolloDeveloperKit`.
+ *
+ * `DebuggableInterceptorProvider` prepends `DebugInitializeInterceptor` at first, then appends `DebuggableResultTranslateInterceptor` at last only when the operation comes from `ApolloDeveloperKit`.
+ */
 public class DebuggableInterceptorProvider: InterceptorProvider {
     weak var delegate: DebuggableInterceptorProviderDelegate?
     private let interceptorProvider: InterceptorProvider
