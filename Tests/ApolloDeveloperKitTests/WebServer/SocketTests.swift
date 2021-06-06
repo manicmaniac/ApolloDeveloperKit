@@ -74,7 +74,7 @@ class SocketTests: XCTestCase {
             }
             XCTAssertNotEqual(writtenSize, -1)
         }
-        socket.schedule(in: .current, forMode: .default)
+        socket.schedule(in: .current, forMode: .common)
         let port = socket.address.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int in
             return Int(bytes.load(as: sockaddr_in.self).sin_port.bigEndian)
         }
