@@ -27,11 +27,13 @@ final class HTTPConnection {
     weak var delegate: HTTPConnectionDelegate?
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
-    private var eventQueue = ArraySlice<Event>()
-    private let eventQueueLock = NSLock()
+    private let operationQueue = OperationQueue()
 
-    init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
+    init(httpVersion: String, nativeHandle: CFSocketNativeHandle, queue: DispatchQueue) throws {
         self.httpVersion = httpVersion
+        self.operationQueue.maxConcurrentOperationCount = 1
+        self.operationQueue.qualityOfService = .userInitiated
+        self.operationQueue.underlyingQueue = queue
         let socket = try Socket(nativeHandle: nativeHandle, callbackTypes: [.dataCallBack, .writeCallBack])
         self.socket = socket
         socket.isNonBlocking = true
@@ -48,10 +50,9 @@ final class HTTPConnection {
 
 extension HTTPConnection: HTTPOutputStream {
     func write(data: Data) {
-        eventQueueLock.lock()
-        eventQueue.append(.write(data))
-        eventQueueLock.unlock()
-        tryFlush()
+        operationQueue.addOperation { [weak self] in
+            self?.sendOrSuspend(data: data, timeout: 0)
+        }
     }
 
     func writeAndClose(contentsOf url: URL) throws {
@@ -61,13 +62,13 @@ extension HTTPConnection: HTTPOutputStream {
     }
 
     func close() {
-        eventQueueLock.lock()
-        eventQueue.append(.close)
-        eventQueueLock.unlock()
-        tryFlush()
+        operationQueue.addOperation { [weak self] in
+            self?.closeImmediately()
+        }
     }
 
     func closeImmediately() {
+        operationQueue.cancelAllOperations()
         delegate?.httpConnectionWillClose(self)
         socket.invalidate()
     }
@@ -84,31 +85,16 @@ extension HTTPConnection: HTTPOutputStream {
         close()
     }
 
-    private func tryFlush() {
-        eventQueueLock.lock()
-        switch eventQueue.first {
-        case .write(let data)?:
-            if sendOrClose(data: data, timeout: 0) {
-                eventQueue = eventQueue[eventQueue.startIndex.advanced(by: 1)..<eventQueue.endIndex]
-                eventQueueLock.unlock()
-                tryFlush()
-            } else {
-                eventQueueLock.unlock()
-            }
-        case .close?:
-            closeImmediately()
-            eventQueueLock.unlock()
-        case nil:
-            eventQueueLock.unlock()
-        }
-    }
-
-    private func sendOrClose(data: Data, timeout: TimeInterval) -> Bool {
+    private func sendOrSuspend(data: Data, timeout: TimeInterval) {
         do {
-            return try socket.send(data: data, timeout: timeout)
+            if try !socket.send(data: data, timeout: timeout) {
+                operationQueue.isSuspended = true
+                operationQueue.addOperation { [weak self] in
+                    self?.sendOrSuspend(data: data, timeout: timeout)
+                }
+            }
         } catch {
             closeImmediately()
-            return false
         }
     }
 }
@@ -154,6 +140,6 @@ extension HTTPConnection: SocketDelegate {
     }
 
     func socketDidBecomeWritable(_ socket: Socket) {
-        tryFlush()
+        operationQueue.isSuspended = false
     }
 }

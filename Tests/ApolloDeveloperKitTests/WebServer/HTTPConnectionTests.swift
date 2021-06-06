@@ -11,6 +11,7 @@ import XCTest
 
 class HTTPConnectionTests: XCTestCase {
     private let httpVersion = kCFHTTPVersion1_1 as String
+    private var queue: DispatchQueue!
     private var writerFileDescriptor: Int32!
     private var readerFileDescriptor: Int32!
 
@@ -24,6 +25,10 @@ class HTTPConnectionTests: XCTestCase {
         readerFileDescriptor = fileDescriptors[1]
     }
 
+    override func setUp() {
+        queue = DispatchQueue(label: "com.github.manicmaniac.ApolloDeveloperKitTests.HTTPConnectionTests")
+    }
+
     override func tearDownWithError() throws {
         for case let handle? in [writerFileDescriptor, readerFileDescriptor] {
             errno = 0
@@ -34,7 +39,7 @@ class HTTPConnectionTests: XCTestCase {
     }
 
     func testWrite() throws {
-        let connection = try HTTPConnection(httpVersion: httpVersion, nativeHandle: writerFileDescriptor)
+        let connection = try HTTPConnection(httpVersion: httpVersion, nativeHandle: writerFileDescriptor, queue: queue)
         connection.write(data: httpGetRequestMessage)
         connection.close()
         let fileHandle = FileHandle(fileDescriptor: readerFileDescriptor)
@@ -48,7 +53,7 @@ class HTTPConnectionTests: XCTestCase {
     }
 
     func testWrite_threadSafety() throws {
-        let connection = try HTTPConnection(httpVersion: httpVersion, nativeHandle: writerFileDescriptor)
+        let connection = try HTTPConnection(httpVersion: httpVersion, nativeHandle: writerFileDescriptor, queue: queue)
         let iterations = 100
         for _ in 0..<iterations {
             let thread: Thread
@@ -96,7 +101,7 @@ class HTTPConnectionTests: XCTestCase {
         }
         let temporaryFileURL = itemReplacementURL.appendingPathComponent(ProcessInfo().globallyUniqueString)
         try httpGetRequestMessage.write(to: temporaryFileURL)
-        let connection = try HTTPConnection(httpVersion: httpVersion, nativeHandle: writerFileDescriptor)
+        let connection = try HTTPConnection(httpVersion: httpVersion, nativeHandle: writerFileDescriptor, queue: queue)
         let fileHandle = FileHandle(fileDescriptor: readerFileDescriptor)
         expectation(forNotification: .NSFileHandleReadToEndOfFileCompletion, object: fileHandle) { notification in
             let data = notification.userInfo?[NSFileHandleNotificationDataItem] as? Data
