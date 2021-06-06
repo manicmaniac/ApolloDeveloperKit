@@ -64,66 +64,51 @@ Since Xcode 12 has only limited support for resources installed via Swift Packag
 Setup
 -----
 
-First, in order to hook Apollo's cache and network layer, you need to use `DebuggableNetworkTransport` and `DebuggableInMemoryNormalizedCache` instead of usual ones.
+First, you need to declare a long-lived variable where `ApolloDebugServer` belongs to, because as soon as you release the server, it stops running.
 
-```swift
-let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
-let cache = DebuggableInMemoryNormalizedCache()
+The following code assumes you already have a procedure that instantiates `ApolloClient` in `AppDelegate`.
+
+```
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    private var server: ApolloDebugServer!
+    private var client: ApolloClient!
+}
 ```
 
-Second, instantiate `ApolloStore` and `ApolloClient` with debuggable ingredients.
+In order to hook Apollo's cache and network layer, you need to use `DebuggableRequestChainNetworkTransport` and `DebuggableNormalizedCache` instead of usual `RequestChainNetworkTransport` and `NormalizedCache`.
+
+So the second step is to declare `ApolloStore` using `DebuggableNormalizedCache`.
+
+Normally it should be put in the beginning of application, like `UIApplication.application(_:didFinishLaunchingWithOptions:)`.
 
 ```swift
+let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
 let store = ApolloStore(cache: cache)
-let client = ApolloClient(networkTransport: networkTransport: store: store)
+```
+
+Third, configure network layer and instantiate `ApolloClient` with debuggable ingredients.
+
+```swift
+let interceptorProvider = LegacyInterceptorProvider(store: store)
+let networkTransport = DebuggableRequestChainNetworkTransport(interceptorProvider: interceptorProvider, endpointURL: url)
+self.client = ApolloClient(networkTransport: networkTransport: store: store)
 ```
 
 Finally, create `ApolloDebugServer` and run.
 
 ```swift
-let debugServer = ApolloDebugServer(cache: cache, networkTransport: networkTransport)
-self.debugServer = debugServer // Note: you need to retain debugServer's reference
-debugServer.start(port: 8081)
+self.server = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
+self.server.start(port: 8081)
 ```
 
-Full example:
-
-```swift
-import Apollo
-import ApolloDeveloperKit
-import UIKit
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-    private var client: ApolloClient!
-    private var debugServer: ApolloDebugServer?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let url = URL(string: "https://example.com/graphql")!
-        #if DEBUG
-            let networkTransport = DebuggableNetworkTransport(networkTransport: HTTPNetworkTransport(url: url))
-            let cache = DebuggableNormalizedCache(cache: InMemoryNormalizedCache())
-            let store = ApolloStore(cache: cache)
-            client = ApolloClient(networkTransport: networkTransport, store: store)
-            debugServer = ApolloDebugServer(networkTransport: networkTransport, cache: cache)
-            do {
-                try debugServer.start(port: 8081)
-            } catch let error {
-                print(error)
-            }
-        #else
-            client = ApolloClient(url: url)
-        #endif
-        return true
-    }
-}
-```
+See `Example/{iOS,macOS}/AppDelegate.swift` for full examples.
 
 Usage
 -----
 
 **If you don't have [Apollo Client Developer Tools](https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools), install it before proceeding the following steps.**
+
+**Currently `ApolloDeveloperKit` supports only version 2.x of Apollo Client Developer Tools.**
 
 1. Launch your app on your device or simulator.
 2. Open your browser and jump to the server's URL (in case your app runs the above example on a simulator, the URL would be `http://localhost:8081`).
