@@ -1,0 +1,187 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/ApolloDebugServer.swift",
+      "line": 301,
+      "symbol": "ApolloDebugServer.networkTransport(_:willSendOperation:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/ApolloDebugServer.swift",
+      "line": 308,
+      "symbol": "ApolloDebugServer.networkTransport(_:didSendOperation:result:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableNetworkTransport.swift",
+      "line": 11,
+      "symbol": "DebuggableNetworkTransportDelegate",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableNetworkTransport.swift",
+      "line": 12,
+      "symbol": "DebuggableNetworkTransportDelegate.networkTransport(_:willSendOperation:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableNetworkTransport.swift",
+      "line": 13,
+      "symbol": "DebuggableNetworkTransportDelegate.networkTransport(_:didSendOperation:result:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableNetworkTransport.swift",
+      "line": 22,
+      "symbol": "DebuggableNetworkTransport.delegate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableNormalizedCache.swift",
+      "line": 69,
+      "symbol": "DebuggableNormalizedCache.clearImmediately()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableRequestChainNetworkTransport.swift",
+      "line": 12,
+      "symbol": "DebuggableRequestChainNetworkTransport",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/DebuggableRequestChainNetworkTransport.swift",
+      "line": 13,
+      "symbol": "DebuggableRequestChainNetworkTransport.delegate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/GraphQLResult+JSONEncodable.swift",
+      "line": 13,
+      "symbol": "GraphQLResult.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 22,
+      "symbol": "NSString.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 28,
+      "symbol": "NSNumber.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 41,
+      "symbol": "NSDictionary.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 47,
+      "symbol": "NSArray.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 53,
+      "symbol": "NSNull.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 59,
+      "symbol": "CFString.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 65,
+      "symbol": "CFNumber.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 71,
+      "symbol": "CFBoolean.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 77,
+      "symbol": "CFDictionary.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 83,
+      "symbol": "CFArray.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/JSONCocoaTypeConversions.swift",
+      "line": 89,
+      "symbol": "CFNull.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/Record+JSONEncodable.swift",
+      "line": 12,
+      "symbol": "Record.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/JSON/Reference+JSONEncodable.swift",
+      "line": 12,
+      "symbol": "Reference.jsonValue",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/Network/Interceptor/DebuggableInterceptorProvider.swift",
+      "line": 28,
+      "symbol": "DebuggableInterceptorProvider.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/Network/Interceptor/DebuggableResultTranslateInterceptor.swift",
+      "line": 25,
+      "symbol": "DebuggableResultTranslateInterceptor.DebuggableResultTranslateError",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit/Sources/ApolloDeveloperKit/WebServer/HTTPServerError.swift",
+      "line": 17,
+      "symbol": "HTTPServerError.unsupportedBodyEncoding(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/rito/Projects/manicmaniac/ApolloDeveloperKit"
+}

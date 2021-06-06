@@ -16,7 +16,7 @@
     <a title="ApolloDeveloperKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ApolloDeveloperKit 0.15.0 Docs</a> (75% documented)</p>
+        <p><a href="index.html">ApolloDeveloperKit 0.15.0 Docs</a> (67% documented)</p>
         <p class="header-right">
           <form role="search" action="search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -41,10 +41,22 @@
                 <a href="Classes/ApolloDebugServer.html">ApolloDebugServer</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a>
+                <a href="Classes/DebugInitializeInterceptor.html">DebugInitializeInterceptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DebuggableInterceptorProvider.html">DebuggableInterceptorProvider</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DebuggableRequestChainNetworkTransport.html">DebuggableRequestChainNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DebuggableResultTranslateInterceptor.html">DebuggableResultTranslateInterceptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DebuggableResultTranslateInterceptor/DebuggableResultTranslateError.html">– DebuggableResultTranslateError</a>
               </li>
             </ul>
           </li>
@@ -78,6 +90,9 @@
                 <a href="Extensions/CFString.html">CFString</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/GraphQLResult.html">GraphQLResult</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/NSArray.html">NSArray</a>
               </li>
               <li class="nav-group-task">
@@ -97,6 +112,17 @@
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/Reference.html">Reference</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/DebuggableNetworkTransportDelegate.html">DebuggableNetworkTransportDelegate</a>
               </li>
             </ul>
           </li>
@@ -126,12 +152,12 @@
 <h2 id='prerequisites' class='heading'>Prerequisites</h2>
 
 <ul>
-<li>Xcode <code>&gt;= 11.2.1</code></li>
-<li><a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a> <code>&gt;= 0.29.0</code>, <code>&lt; 0.34.0</code></li>
+<li>Xcode <code>&gt;= 12.0</code></li>
+<li><a href="https://github.com/apollographql/apollo-ios">Apollo iOS</a> <code>&gt;= 0.34.0</code>, <code>&lt; 0.38.0</code></li>
 <li><a href="https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools">Apollo Client Devtools</a></li>
 </ul>
 <h2 id='installation' class='heading'>Installation</h2>
-<h3 id='install-from-cocoapods' class='heading'>Install from CocoaPods</h3>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
 <p>Add the following lines to your Podfile.</p>
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'Apollo'</span>
@@ -139,7 +165,7 @@
 </code></pre>
 
 <p>Then run <code>pod install</code>.</p>
-<h3 id='install-from-carthage' class='heading'>Install from Carthage</h3>
+<h3 id='carthage' class='heading'>Carthage</h3>
 
 <p>Add the following lines to your Cartfile.</p>
 <pre class="highlight plaintext"><code>github "apollographql/apollo-ios"
@@ -147,9 +173,14 @@ github "manicmaniac/ApolloDeveloperKit"
 </code></pre>
 
 <p>Then run <code>carthage update --platform iOS</code> or <code>carthage update --platform Mac</code>.</p>
+<h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
+
+<p>Add <code>https://github.com/manicmaniac/ApolloDeveloperKit</code> to your dependencies.</p>
+
+<p>Since Xcode 12 has only limited support for resources installed via Swift Package Manager, I recommend to use Xcode 12.4 or newer for Swift Package Manager users.</p>
 <h2 id='setup' class='heading'>Setup</h2>
 
-<p>First, in order to hook Apollo&rsquo;s cache and network layer, you need to use <code><a href="Classes/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a></code> and <code>DebuggableInMemoryNormalizedCache</code> instead of usual ones.</p>
+<p>First, in order to hook Apollo&rsquo;s cache and network layer, you need to use <code><a href="Protocols/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a></code> and <code>DebuggableInMemoryNormalizedCache</code> instead of usual ones.</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">networkTransport</span> <span class="o">=</span> <span class="kt">DebuggableNetworkTransport</span><span class="p">(</span><span class="nv">networkTransport</span><span class="p">:</span> <span class="kt">HTTPNetworkTransport</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">))</span>
 <span class="k">let</span> <span class="nv">cache</span> <span class="o">=</span> <span class="kt">DebuggableInMemoryNormalizedCache</span><span class="p">()</span>
 </code></pre>
@@ -292,7 +323,7 @@ See LICENSE for more detail.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2020-09-26)</p>
+          <p>&copy; 2021 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2021-06-06)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

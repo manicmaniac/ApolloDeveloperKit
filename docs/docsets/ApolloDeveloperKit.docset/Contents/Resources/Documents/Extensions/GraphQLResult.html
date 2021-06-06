@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GraphQLResult Extension Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Extension/GraphQLResult" class="dashAnchor"></a>
+    <a title="GraphQLResult Extension Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">ApolloDeveloperKit 0.15.0 Docs</a> (67% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">ApolloDeveloperKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GraphQLResult Extension Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ApolloDebugServer.html">ApolloDebugServer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebugInitializeInterceptor.html">DebugInitializeInterceptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableInterceptorProvider.html">DebuggableInterceptorProvider</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableNormalizedCache.html">DebuggableNormalizedCache</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableRequestChainNetworkTransport.html">DebuggableRequestChainNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableResultTranslateInterceptor.html">DebuggableResultTranslateInterceptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DebuggableResultTranslateInterceptor/DebuggableResultTranslateError.html">– DebuggableResultTranslateError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/HTTPServerError.html">HTTPServerError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/CFArray.html">CFArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CFBoolean.html">CFBoolean</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CFDictionary.html">CFDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CFNull.html">CFNull</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CFNumber.html">CFNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CFString.html">CFString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/GraphQLResult.html">GraphQLResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSArray.html">NSArray</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSDictionary.html">NSDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSNull.html">NSNull</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSNumber.html">NSNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSString.html">NSString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Record.html">Record</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Reference.html">Reference</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/DebuggableNetworkTransport.html">DebuggableNetworkTransport</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DebuggableNetworkTransportDelegate.html">DebuggableNetworkTransportDelegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GraphQLResult</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">GraphQLResult</span><span class="p">:</span> <span class="kt">GraphQLInputValue</span><span class="p">,</span> <span class="kt">JSONEncodable</span> <span class="k">where</span> <span class="kt">Data</span><span class="p">:</span> <span class="kt">GraphQLSelectionSet</span></code></pre>
+
+                </div>
+              </div>
+            
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Available%20where%20%60Data%60%3A%20%60GraphQLSelectionSet%60"></a>
+                <a name="//apple_ref/swift/Section/Available where `Data`: `GraphQLSelectionSet`" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Available%20where%20%60Data%60%3A%20%60GraphQLSelectionSet%60"></a>
+                  <h3 class="section-name"><p>Available where <code>Data</code>: <code>GraphQLSelectionSet</code></p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Apollo13GraphQLResultV0A12DeveloperKitAA0B14QLSelectionSetRzlE9jsonValueypvp"></a>
+                    <a name="//apple_ref/swift/Property/jsonValue" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Apollo13GraphQLResultV0A12DeveloperKitAA0B14QLSelectionSetRzlE9jsonValueypvp">jsonValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">jsonValue</span><span class="p">:</span> <span class="kt">JSONValue</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="https://github.com/manicmaniac/ApolloDeveloperKit" target="_blank" rel="external">Ryosuke Ito</a>. All rights reserved. (Last updated: 2021-06-06)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
