@@ -38,6 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         apollo:
+        - 0.38.2
         - 0.37.0
         - 0.36.0
         - 0.35.0
@@ -46,6 +47,11 @@ jobs:
         - iOS
         - macOS
         include:
+        - apollo: 0.38.2
+          platform: iOS
+          sdk: iphonesimulator
+          xcode: '12'
+          destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
         - apollo: 0.37.0
           platform: iOS
           sdk: iphonesimulator
@@ -66,6 +72,11 @@ jobs:
           sdk: iphonesimulator
           xcode: '12'
           destination: platform=iOS Simulator,OS=14.0,name=iPhone 11
+        - apollo: 0.38.2
+          platform: macOS
+          sdk: macosx
+          xcode: '12'
+          destination: platform=OS X,arch=x86_64
         - apollo: 0.37.0
           platform: macOS
           sdk: macosx
