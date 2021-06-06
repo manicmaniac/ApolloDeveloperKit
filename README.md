@@ -28,6 +28,11 @@ Prerequisites
 - [Apollo iOS](https://github.com/apollographql/apollo-ios) `>= 0.34.0`, `< 0.38.0`
 - [Apollo Client Devtools](https://www.apollographql.com/docs/react/development-testing/developer-tooling/#apollo-client-devtools) `~> 2.0`
 
+Compatibility
+-------------
+
+If your are using `Apollo < 0.34.0`, use `ApolloDeveloperKit <= 0.15.0`.
+
 Installation
 ------------
 
