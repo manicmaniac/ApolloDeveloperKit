@@ -6,6 +6,7 @@ ApolloDeveloperKit
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c45fc7657ce194edee35/test_coverage)](https://codeclimate.com/github/manicmaniac/ApolloDeveloperKit/test_coverage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/ApolloDeveloperKit.svg)](https://cocoapods.org/pods/ApolloDeveloperKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Swift Package Manager Compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/ApolloDeveloperKit.svg?style=flat)](https://manicmaniac.github.io/ApolloDeveloperKit/)
 
 [Apollo Client Devtools](https://github.com/apollographql/apollo-client-devtools) bridge for [Apollo iOS](https://github.com/apollographql/apollo-ios).
