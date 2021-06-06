@@ -16,14 +16,15 @@ import Foundation
  *  and when I use those utility extensions on them, `fatalError()` occurs because it doesn't conform to `JSONEncodable`.
  *  So to avoid this problem, `ApolloDeveloperKit` have to prepare some more extensions for Cocoa types.
  */
+protocol ExtendedJSONEncodable: JSONEncodable {}
 
-extension NSString: JSONEncodable {
+extension NSString: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as String).jsonValue
     }
 }
 
-extension NSNumber: JSONEncodable {
+extension NSNumber: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         switch CFGetTypeID(self) {
         case CFBooleanGetTypeID():
@@ -36,55 +37,55 @@ extension NSNumber: JSONEncodable {
     }
 }
 
-extension NSDictionary: JSONEncodable {
+extension NSDictionary: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as [NSObject: AnyObject]).jsonValue
     }
 }
 
-extension NSArray: JSONEncodable {
+extension NSArray: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as [AnyObject]).jsonValue
     }
 }
 
-extension NSNull: JSONEncodable {
+extension NSNull: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return self
     }
 }
 
-extension CFString: JSONEncodable {
+extension CFString: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as NSString).jsonValue
     }
 }
 
-extension CFNumber: JSONEncodable {
+extension CFNumber: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as NSNumber).jsonValue
     }
 }
 
-extension CFBoolean: JSONEncodable {
+extension CFBoolean: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return CFBooleanGetValue(self).jsonValue
     }
 }
 
-extension CFDictionary: JSONEncodable {
+extension CFDictionary: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as NSDictionary).jsonValue
     }
 }
 
-extension CFArray: JSONEncodable {
+extension CFArray: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return (self as NSArray).jsonValue
     }
 }
 
-extension CFNull: JSONEncodable {
+extension CFNull: ExtendedJSONEncodable {
     public var jsonValue: JSONValue {
         return self as NSNull
     }
