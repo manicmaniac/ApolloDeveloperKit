@@ -140,3 +140,15 @@ private class MockOperationStore: OperationStore {
         return State(mutations: [], queries: [])
     }
 }
+
+private class MockNetworkTransport: NetworkTransport {
+    func send<Operation>(operation: Operation, cachePolicy: CachePolicy, contextIdentifier: UUID?, callbackQueue: DispatchQueue, completionHandler: @escaping (Result<GraphQLResult<Operation.Data>, Error>) -> Void) -> Cancellable where Operation : GraphQLOperation {
+        return MockCancellable()
+    }
+}
+
+private class MockCancellable: Cancellable {
+    func cancel() {
+        // Do nothing.
+    }
+}
