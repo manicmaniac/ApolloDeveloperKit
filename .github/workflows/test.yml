@@ -115,6 +115,13 @@ jobs:
       run: |
         bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
         mv cobertura.xml 'cobertura-${{ matrix.apollo }}-${{ matrix.sdk }}.xml'
+    - name: Find xcresult
+      id: find-xcresult
+      run: ./bin/find-last-xcresult --set-output
+    - uses: actions/upload-artifact@v2
+      with:
+        name: xcresult
+        path: ${{ steps.find-xcresult.outputs.path }}
     - uses: actions/upload-artifact@v2
       with:
         name: coverage
