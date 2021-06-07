@@ -26,9 +26,28 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
       systemAttachmentLifetime = "keepAlways"
       codeCoverageEnabled = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5B26FC1B22B3DB0800359E63"
+            BuildableName = "ApolloDeveloperKit.framework"
+            BlueprintName = "ApolloDeveloperKit"
+            ReferencedContainer = "container:ApolloDeveloperKit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5B26FC1B22B3DB0800359E63"
+            BuildableName = "ApolloDeveloperKit.framework"
+            BlueprintName = "ApolloDeveloperKit"
+            ReferencedContainer = "container:ApolloDeveloperKit.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO"
@@ -42,17 +61,6 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5B26FC1B22B3DB0800359E63"
-            BuildableName = "ApolloDeveloperKit.framework"
-            BlueprintName = "ApolloDeveloperKit"
-            ReferencedContainer = "container:ApolloDeveloperKit.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -73,8 +81,6 @@
             ReferencedContainer = "container:ApolloDeveloperKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
