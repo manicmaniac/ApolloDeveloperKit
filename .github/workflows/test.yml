@@ -111,17 +111,15 @@ jobs:
         carthage build --platform '${{ matrix.platform }}' --use-xcframeworks --no-use-binaries
     - name: Run unit tests
       run: xcodebuild test -project ApolloDeveloperKit.xcodeproj -scheme ApolloDeveloperKit -sdk '${{ matrix.sdk }}' -destination '${{ matrix.destination }}' | xcpretty
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: ${{ matrix.sdk }}.xcresult
+        path: ~/Library/Developer/Xcode/DerivedData/ApolloDeveloperKit-*/Logs/Test/Test-ApolloDeveloperKit-*.xcresult
     - name: Collect coverages
       run: |
         bundle exec slather coverage -x --scheme ApolloDeveloperKit ApolloDeveloperKit.xcodeproj
         mv cobertura.xml 'cobertura-${{ matrix.apollo }}-${{ matrix.sdk }}.xml'
-    - name: Find xcresult
-      id: find-xcresult
-      run: ./bin/find-last-xcresult --set-output
-    - uses: actions/upload-artifact@v2
-      with:
-        name: xcresult
-        path: ${{ steps.find-xcresult.outputs.path }}
     - uses: actions/upload-artifact@v2
       with:
         name: coverage
