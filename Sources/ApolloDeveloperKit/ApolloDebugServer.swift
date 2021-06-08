@@ -258,6 +258,7 @@ extension ApolloDebugServer: HTTPServerDelegate {
             let jsonObject = try JSONSerialization.jsonObject(with: body)
             let operationJSONObject = try Operation(jsonValue: jsonObject)
             let operation = AnyGraphQLOperation(operation: operationJSONObject)
+            Logger.apollo?.info("Sending operation \(operation.operationName).")
             _ = networkTransport.send(operation: operation, cachePolicy: .fetchIgnoringCacheCompletely, contextIdentifier: nil, callbackQueue: .global()) { [weak self] result in
                 guard let self = self else { return }
                 do {
@@ -269,18 +270,22 @@ extension ApolloDebugServer: HTTPServerDelegate {
                         options = []
                     }
                     let body = try JSONSerialization.data(withJSONObject: graphQLResult.jsonValue, options: options)
+                    Logger.apollo?.info("Received result \(body) for operation \(operation.operationName)")
                     context.respondJSONData(body)
                 } catch ResponseCodeInterceptor.ResponseCodeError.invalidResponseCode(let response?, let rawData) {
+                    Logger.apollo?.info("Received error response \(response.statusCode) for operation \(operation.operationName)")
                     let stream = context.respond(proxying: response)
                     if let rawData = rawData {
                         stream.write(data: rawData)
                     }
                     stream.close()
                 } catch let error {
+                    Logger.apollo?.info("Received error \(error) for operation \(operation.operationName)")
                     self.respondBadRequest(context, jsError: ErrorLike(error: error))
                 }
             }
         } catch let error {
+            Logger.apollo?.info("Failed to parse GraphQL request \(error).")
             respondBadRequest(context, jsError: ErrorLike(error: error))
         }
     }
