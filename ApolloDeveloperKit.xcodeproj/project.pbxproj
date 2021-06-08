@@ -53,6 +53,7 @@
 		5B53B14D24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */; };
 		5B53B15324F9C33E00A946D4 /* EventStreamMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */; };
 		5B53B15524FBFD0D00A946D4 /* ApolloDeveloperKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B53B15424FBFD0D00A946D4 /* ApolloDeveloperKitTests.swift */; };
+		5B57D689267004F600269F68 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B57D688267004F600269F68 /* Logger.swift */; };
 		5B5EBB9C2510E31400D0D025 /* InterfaceAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5EBB9B2510E31400D0D025 /* InterfaceAddress.swift */; };
 		5B5EBB9E2510E32B00D0D025 /* InterfaceAddressIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5EBB9D2510E32B00D0D025 /* InterfaceAddressIterator.swift */; };
 		5B60660122D64790002A2013 /* ApolloDebugServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */; };
@@ -224,6 +225,7 @@
 		5B53B14C24F9BFA000A946D4 /* Schema+EventStreamMessageConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schema+EventStreamMessageConvertible.swift"; sourceTree = "<group>"; };
 		5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStreamMessageTests.swift; sourceTree = "<group>"; };
 		5B53B15424FBFD0D00A946D4 /* ApolloDeveloperKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloDeveloperKitTests.swift; sourceTree = "<group>"; };
+		5B57D688267004F600269F68 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		5B5EBB9B2510E31400D0D025 /* InterfaceAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddress.swift; sourceTree = "<group>"; };
 		5B5EBB9D2510E32B00D0D025 /* InterfaceAddressIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceAddressIterator.swift; sourceTree = "<group>"; };
 		5B60660022D64790002A2013 /* ApolloDebugServerTests.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = ApolloDebugServerTests.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				5B53B14924F9BB7C00A946D4 /* EventStreamMessage */,
 				5B67343D22BFF02200A09DF7 /* GraphQL */,
 				5B7C983622BABA06000F4D7B /* JSON */,
+				5B57D687267004E500269F68 /* Logger */,
 				5BBA27942662FCFE00EBE185 /* Network */,
 				5B53B15024F9C27A00A946D4 /* Schema */,
 				5B7C983422BAB9E3000F4D7B /* Store */,
@@ -566,6 +569,14 @@
 				5B53B15224F9C33E00A946D4 /* EventStreamMessageTests.swift */,
 			);
 			path = EventStreamMessage;
+			sourceTree = "<group>";
+		};
+		5B57D687267004E500269F68 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				5B57D688267004F600269F68 /* Logger.swift */,
+			);
+			path = Logger;
 			sourceTree = "<group>";
 		};
 		5B67343D22BFF02200A09DF7 /* GraphQL */ = {
@@ -880,6 +891,7 @@
 				5B4F46092370A7D70039495A /* FileDescriptorDuplicator.swift in Sources */,
 				5B05890A24EB5DC60071DB57 /* HTTPRequestMessage.swift in Sources */,
 				5B207730236E098700817E45 /* HTTPChunkedResponse.swift in Sources */,
+				5B57D689267004F600269F68 /* Logger.swift in Sources */,
 				5B53B14B24F9BB9700A946D4 /* EventStreamMessage.swift in Sources */,
 				5B2F84F122B4378B0025A211 /* ApolloDebugServer.swift in Sources */,
 				5B3A83A722C87FA2002B4FFB /* HTTPServer.swift in Sources */,
