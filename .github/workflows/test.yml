@@ -114,7 +114,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: ${{ matrix.sdk }}.xcresult
+        name: Test-ApolloDeveloperKit-${{ matrix.apollo }}-${{ matrix.sdk }}.xcresult
         path: ~/Library/Developer/Xcode/DerivedData/ApolloDeveloperKit-*/Logs/Test/Test-ApolloDeveloperKit-*.xcresult
     - name: Collect coverages
       run: |
