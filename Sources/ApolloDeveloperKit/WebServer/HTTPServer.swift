@@ -50,6 +50,7 @@ protocol HTTPServerDelegate: class {
  */
 final class HTTPServer {
     weak var delegate: HTTPServerDelegate?
+    private let connectionQueue = DispatchQueue(label: "com.github.manicmaniac.ApolloDeveloperKit.HTTPConnection")
     private var socket: Socket?
     private var connections = Set<HTTPConnection>()
 
@@ -242,7 +243,7 @@ extension HTTPServer: HTTPConnectionDelegate {
 
 extension HTTPServer: SocketDelegate {
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data) {
-        guard let connection = try? HTTPConnection(httpVersion: kCFHTTPVersion1_1 as String, nativeHandle: nativeHandle) else {
+        guard let connection = try? HTTPConnection(httpVersion: kCFHTTPVersion1_1 as String, nativeHandle: nativeHandle, queue: connectionQueue) else {
             return
         }
         connection.delegate = self
