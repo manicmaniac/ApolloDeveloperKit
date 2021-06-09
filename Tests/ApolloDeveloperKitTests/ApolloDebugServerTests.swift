@@ -51,9 +51,12 @@ class ApolloDebugServerTests: XCTestCase {
             <!DOCTYPE html>
             <title>.</title>
             <script>
+            window.onerror = (message, url, line, column, error) => {
+                webkit.messageHandlers.onerror.postMessage(JSON.stringify(error));
+            };
             const eventSource = new EventSource('events');
-            eventSource.onerror = () => {
-                webkit.messageHandlers.onerror.postMessage();
+            eventSource.onerror = error => {
+                webkit.messageHandlers.onerror.postMessage(JSON.stringify(error));
             };
             eventSource.onmessage = event => {
                 webkit.messageHandlers.onmessage.postMessage(event.data);
@@ -61,11 +64,17 @@ class ApolloDebugServerTests: XCTestCase {
             eventSource.addEventListener('stdout', event => {
                 webkit.messageHandlers.onstdout.postMessage(event.data);
             });
+            webkit.messageHandlers.onload.postMessage({});
             </script>
             """
         let configuration = WKWebViewConfiguration()
+        configuration.preferences.javaScriptEnabled = true
+        let expectationOnLoad = expectation(description: "'load' event should fire")
         configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
-            XCTFail("Couldn't establish connection for Server-Sent Events")
+            expectationOnLoad.fulfill()
+        }, name: "onload")
+        configuration.userContentController.add(ScriptMessageHandlerBlock { _, message in
+            XCTFail(String(describing: message.body))
         }, name: "onerror")
         let expectationOnMessage = expectation(description: "'message' event should fire")
         configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
@@ -78,7 +87,7 @@ class ApolloDebugServerTests: XCTestCase {
         }, name: "onstdout")
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.loadHTMLString(html, baseURL: server.serverURL!)
-        wait(for: [expectationOnMessage], timeout: 5.0)
+        wait(for: [expectationOnLoad, expectationOnMessage], timeout: 5.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
             "data": Data(consoleMessage.utf8),
             "destination": ConsoleRedirection.Destination.standardOutput
