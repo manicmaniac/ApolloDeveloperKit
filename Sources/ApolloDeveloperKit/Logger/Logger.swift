@@ -27,16 +27,16 @@ struct Logger {
         }
     }
 
-    func debug(_ message: String) {
-        log(level: .debug, message)
+    func debug(_ message: @autoclosure () -> String) {
+        log(level: .debug, message())
     }
 
-    func info(_ message: String) {
-        log(level: .info, message)
+    func info(_ message: @autoclosure () -> String) {
+        log(level: .info, message())
     }
 
-    func error(_ message: String) {
-        log(level: .error, message)
+    func error(_ message: @autoclosure () -> String) {
+        log(level: .error, message())
     }
 
     private func log(level: LogLevel, _ message: String) {
