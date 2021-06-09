@@ -67,7 +67,7 @@ extension HTTPConnection: CustomStringConvertible {
             numericAddress = String(cString: buffer)
             port = address.sin6_port.bigEndian
         default:
-            fatalError("Unexpected address family: \("address.sin_family").")
+            fatalError("Unexpected address family: \(address.sa_family).")
         }
         return "HTTP connection to (\(numericAddress):\(port))"
     }
