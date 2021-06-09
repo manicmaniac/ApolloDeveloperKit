@@ -9,11 +9,12 @@
 import asl
 import os.log
 
-struct Logger {
+final class Logger {
     static let apollo = Logger(category: "apollo")
     static let http = Logger(category: "http")
 
     private let logger: Any
+    private var isSuspending = false
 
     init?(category: String) {
         guard ProcessInfo().environment.keys.contains("APOLLO_DEVELOPER_KIT_DIAGNOSTICS") else {
@@ -39,7 +40,14 @@ struct Logger {
         log(level: .error, message())
     }
 
+    func withSuspending(_ body: () throws -> Void) rethrows {
+        isSuspending = true
+        defer { isSuspending = false }
+        try body()
+    }
+
     private func log(level: LogLevel, _ message: String) {
+        if isSuspending { return }
         if #available(macOS 10.12, iOS 10, *) {
             os_log("%@", log: logger as! OSLog, type: level.osLogType, message)
         } else {
