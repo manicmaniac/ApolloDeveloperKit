@@ -6,6 +6,7 @@
 //  Copyright © 2021 Ryosuke Ito. All rights reserved.
 //
 
+import Foundation
 import asl
 import os.log
 
