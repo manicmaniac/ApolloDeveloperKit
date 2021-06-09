@@ -87,7 +87,7 @@ class ApolloDebugServerTests: XCTestCase {
         }, name: "onstdout")
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.loadHTMLString(html, baseURL: server.serverURL!)
-        wait(for: [expectationOnLoad, expectationOnMessage], timeout: 5.0)
+        wait(for: [expectationOnLoad, expectationOnMessage], timeout: 20.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
             "data": Data(consoleMessage.utf8),
             "destination": ConsoleRedirection.Destination.standardOutput
