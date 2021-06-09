@@ -56,7 +56,7 @@ final class HTTPRequestContext {
     }
 
     func respond(statusCode: Int) -> HTTPOutputStream {
-        defer { Logger.http?.info("Send status \(statusCode).") }
+        defer { Logger.http?.info("Send status \(statusCode) in \(connection).") }
         let message = HTTPResponseMessage(statusCode: statusCode, statusDescription: nil, httpVersion: version)
         for (headerField, value) in responseHeaderFields {
             message.setValue(value, for: headerField)
