@@ -70,21 +70,25 @@ class ApolloDebugServerTests: XCTestCase {
         let configuration = WKWebViewConfiguration()
         configuration.preferences.javaScriptEnabled = true
         let expectationOnLoad = expectation(description: "'load' event should fire")
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
+        let onLoadHandler = ScriptMessageHandlerBlock { _, _ in
             expectationOnLoad.fulfill()
-        }, name: "onload")
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, message in
+        }
+        configuration.userContentController.add(onLoadHandler, name: "onload")
+        let onErrorHandler = ScriptMessageHandlerBlock { _, message in
             XCTFail(String(describing: message.body))
-        }, name: "onerror")
+        }
+        configuration.userContentController.add(onErrorHandler, name: "onerror")
         let expectationOnMessage = expectation(description: "'message' event should fire")
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
+        let onMessageHandler = ScriptMessageHandlerBlock { _, _ in
             expectationOnMessage.fulfill()
-        }, name: "onmessage")
+        }
+        configuration.userContentController.add(onMessageHandler, name: "onmessage")
         let expectationOnStdout = expectation(description: "'stdout' event should fire")
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, message in
+        let onStdoutHandler = ScriptMessageHandlerBlock { _, message in
             XCTAssertEqual(message.body as? String, consoleMessage)
             expectationOnStdout.fulfill()
-        }, name: "onstdout")
+        }
+        configuration.userContentController.add(onStdoutHandler, name: "onstdout")
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.loadHTMLString(html, baseURL: server.serverURL!)
         wait(for: [expectationOnLoad, expectationOnMessage], timeout: 20.0)
