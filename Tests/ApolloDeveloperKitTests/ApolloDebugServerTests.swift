@@ -90,14 +90,43 @@ class ApolloDebugServerTests: XCTestCase {
         }
         configuration.userContentController.add(onStdoutHandler, name: "onstdout")
         let webView = WKWebView(frame: .zero, configuration: configuration)
+        let navigationDelegateHandler = NavigationDelegateHandler()
+        let expectationWebViewToCommit = expectation(description: "Web view should commit")
+        navigationDelegateHandler.didCommit = { _, _ in
+            expectationWebViewToCommit.fulfill()
+        }
+        let expectationWebViewToStartProvisionalNavigation = expectation(description: "Web view should start provisional navigation")
+        navigationDelegateHandler.didStartProvisionalNavigation = { _, _ in
+            expectationWebViewToStartProvisionalNavigation.fulfill()
+        }
+        let expectationWebViewToFinish = expectation(description: "Web view should finish")
+        navigationDelegateHandler.didFinish = { _, _ in
+            expectationWebViewToFinish.fulfill()
+        }
+        navigationDelegateHandler.didFailWithError = { _, _, error in
+            XCTFail(String(describing: error))
+        }
+        navigationDelegateHandler.didFailProvisionalNavigation = { _, _, error in
+            XCTFail(String(describing: error))
+        }
+        navigationDelegateHandler.webContentProcessDidTerminate = { _ in
+            XCTFail("The web content process terminated before the current test finishes.")
+        }
+        webView.navigationDelegate = navigationDelegateHandler
         webView.loadHTMLString(html, baseURL: server.serverURL!)
-        wait(for: [expectationOnLoad, expectationOnMessage], timeout: 20.0)
+        wait(for: [expectationWebViewToCommit,
+                   expectationWebViewToStartProvisionalNavigation,
+                   expectationWebViewToFinish],
+             timeout: 5.0)
+        wait(for: [expectationOnLoad, expectationOnMessage],timeout: 20.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
             "data": Data(consoleMessage.utf8),
             "destination": ConsoleRedirection.Destination.standardOutput
         ])
         server.didReceiveConsoleDidWriteNotification(notification)
         wait(for: [expectationOnStdout], timeout: 5.0)
+        webView.navigationDelegate = nil
+        webView.stopLoading()
     }
 
     func testIsRunning() {
@@ -727,6 +756,39 @@ private class ScriptMessageHandlerBlock: NSObject, WKScriptMessageHandler {
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         block(userContentController, message)
+    }
+}
+
+private class NavigationDelegateHandler: NSObject, WKNavigationDelegate {
+    var didCommit: ((WKWebView, WKNavigation) -> Void)?
+    var didStartProvisionalNavigation: ((WKWebView, WKNavigation) -> Void)?
+    var didFailWithError: ((WKWebView, WKNavigation, Error) -> Void)?
+    var didFailProvisionalNavigation: ((WKWebView, WKNavigation, Error) -> Void)?
+    var didFinish: ((WKWebView, WKNavigation) -> Void)?
+    var webContentProcessDidTerminate: ((WKWebView) -> Void)?
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        didCommit?(webView, navigation)
+    }
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        didStartProvisionalNavigation?(webView, navigation)
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        didFailWithError?(webView, navigation, error)
+    }
+
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        didFailProvisionalNavigation?(webView, navigation, error)
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        didFinish?(webView, navigation)
+    }
+
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        webContentProcessDidTerminate?(webView)
     }
 }
 
