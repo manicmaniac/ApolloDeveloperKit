@@ -15,7 +15,7 @@ final class Logger {
     static let http = Logger(category: "http")
 
     private let logger: Any
-    private var isSuspending = false
+    private var isSuppressed = false
 
     init?(category: String) {
         guard ProcessInfo().environment.keys.contains("APOLLO_DEVELOPER_KIT_DIAGNOSTICS") else {
@@ -29,10 +29,10 @@ final class Logger {
         }
     }
 
-    static func withSuspending(_ logger: Logger?, body: () throws -> Void) rethrows {
+    static func withSuppressing(_ logger: Logger?, body: () throws -> Void) rethrows {
         try withExtendedLifetime(logger) {
-            logger?.isSuspending = true
-            defer { logger?.isSuspending = false }
+            logger?.isSuppressed = true
+            defer { logger?.isSuppressed = false }
             try body()
         }
     }
@@ -50,7 +50,7 @@ final class Logger {
     }
 
     private func log(level: LogLevel, _ message: String) {
-        if isSuspending { return }
+        if isSuppressed { return }
         if #available(macOS 10.12, iOS 10, *) {
             os_log("%@", log: logger as! OSLog, type: level.osLogType, message)
         } else {

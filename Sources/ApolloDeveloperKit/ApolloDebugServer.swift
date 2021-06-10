@@ -178,7 +178,7 @@ public class ApolloDebugServer {
             let message = String(data: notification.data, encoding: .utf8) else { return }
         let event = ConsoleEvent(data: message, type: eventType(for: notification.destination))
         let chunk = HTTPChunkedResponse(event: event)
-        Logger.withSuspending(.http) {
+        Logger.withSuppressing(.http) {
             eventStreams.broadcast(data: chunk.data)
         }
     }
