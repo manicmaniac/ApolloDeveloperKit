@@ -29,6 +29,14 @@ final class Logger {
         }
     }
 
+    static func withSuspending(_ logger: Logger?, body: () throws -> Void) rethrows {
+        try withExtendedLifetime(logger) {
+            logger?.isSuspending = true
+            defer { logger?.isSuspending = false }
+            try body()
+        }
+    }
+
     func debug(_ message: @autoclosure () -> String) {
         log(level: .debug, message())
     }
@@ -39,12 +47,6 @@ final class Logger {
 
     func error(_ message: @autoclosure () -> String) {
         log(level: .error, message())
-    }
-
-    func withSuspending(_ body: () throws -> Void) rethrows {
-        isSuspending = true
-        defer { isSuspending = false }
-        try body()
     }
 
     private func log(level: LogLevel, _ message: String) {
