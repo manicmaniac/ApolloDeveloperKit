@@ -106,6 +106,7 @@ final class HTTPServer {
             socket.schedule(in: .current, forMode: .default)
             return socket
         }
+        Logger.http?.info("Server has been started at port \(port).")
     }
 
     /**
@@ -144,6 +145,7 @@ final class HTTPServer {
         }
         socket?.invalidate()
         socket = nil
+        Logger.http?.info("Server has been stopped.")
     }
 
     private var port: UInt16? {
@@ -226,15 +228,18 @@ extension HTTPServer: HTTPConnectionDelegate {
     func httpConnection(_ connection: HTTPConnection, didReceive request: HTTPRequestMessage) {
         let context = HTTPRequestContext(request: request, connection: connection)
         delegate?.server(self, didReceiveRequest: context)
+        Logger.http?.info("Received \(request.requestMethod ?? "unknown method") \(request.requestURL?.absoluteString ?? "unknown URL") in \(connection).")
     }
 
     func httpConnectionWillClose(_ connection: HTTPConnection) {
         connections.remove(connection)
+        Logger.http?.info("Closed \(connection).")
     }
 
     func httpConnection(_ connection: HTTPConnection, didFailToHandle request: HTTPRequestMessage, error: Error) {
         let context = HTTPRequestContext(request: request, connection: connection)
         delegate?.server(self, didFailToHandle: context, error: error)
+        Logger.http?.info("Failed to handle \(request.requestMethod ?? "unknown method") \(request.requestURL?.absoluteString ?? "unknown URL") in \(connection).")
     }
 }
 
@@ -242,7 +247,7 @@ extension HTTPServer: HTTPConnectionDelegate {
 
 extension HTTPServer: SocketDelegate {
     func socket(_ socket: Socket, didAccept nativeHandle: CFSocketNativeHandle, address: Data) {
-        guard let connection = try? HTTPConnection(httpVersion: kCFHTTPVersion1_1 as String, nativeHandle: nativeHandle) else {
+        guard let connection = try? HTTPConnection(httpVersion: kCFHTTPVersion1_1 as String, nativeHandle: nativeHandle, address: address) else {
             return
         }
         connection.delegate = self

@@ -51,9 +51,12 @@ class ApolloDebugServerTests: XCTestCase {
             <!DOCTYPE html>
             <title>.</title>
             <script>
+            window.onerror = (message, url, line, column, error) => {
+                webkit.messageHandlers.onerror.postMessage(JSON.stringify(error));
+            };
             const eventSource = new EventSource('events');
-            eventSource.onerror = () => {
-                webkit.messageHandlers.onerror.postMessage();
+            eventSource.onerror = error => {
+                webkit.messageHandlers.onerror.postMessage(JSON.stringify(error));
             };
             eventSource.onmessage = event => {
                 webkit.messageHandlers.onmessage.postMessage(event.data);
@@ -61,30 +64,69 @@ class ApolloDebugServerTests: XCTestCase {
             eventSource.addEventListener('stdout', event => {
                 webkit.messageHandlers.onstdout.postMessage(event.data);
             });
+            webkit.messageHandlers.onload.postMessage({});
             </script>
             """
         let configuration = WKWebViewConfiguration()
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
-            XCTFail("Couldn't establish connection for Server-Sent Events")
-        }, name: "onerror")
+        configuration.preferences.javaScriptEnabled = true
+        let expectationOnLoad = expectation(description: "'load' event should fire")
+        let onLoadHandler = ScriptMessageHandlerBlock { _, _ in
+            expectationOnLoad.fulfill()
+        }
+        configuration.userContentController.add(onLoadHandler, name: "onload")
+        let onErrorHandler = ScriptMessageHandlerBlock { _, message in
+            XCTFail(String(describing: message.body))
+        }
+        configuration.userContentController.add(onErrorHandler, name: "onerror")
         let expectationOnMessage = expectation(description: "'message' event should fire")
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, _ in
+        let onMessageHandler = ScriptMessageHandlerBlock { _, _ in
             expectationOnMessage.fulfill()
-        }, name: "onmessage")
+        }
+        configuration.userContentController.add(onMessageHandler, name: "onmessage")
         let expectationOnStdout = expectation(description: "'stdout' event should fire")
-        configuration.userContentController.add(ScriptMessageHandlerBlock { _, message in
+        let onStdoutHandler = ScriptMessageHandlerBlock { _, message in
             XCTAssertEqual(message.body as? String, consoleMessage)
             expectationOnStdout.fulfill()
-        }, name: "onstdout")
+        }
+        configuration.userContentController.add(onStdoutHandler, name: "onstdout")
         let webView = WKWebView(frame: .zero, configuration: configuration)
+        let navigationDelegateHandler = NavigationDelegateHandler()
+        let expectationWebViewToCommit = expectation(description: "Web view should commit")
+        navigationDelegateHandler.didCommit = { _, _ in
+            expectationWebViewToCommit.fulfill()
+        }
+        let expectationWebViewToStartProvisionalNavigation = expectation(description: "Web view should start provisional navigation")
+        navigationDelegateHandler.didStartProvisionalNavigation = { _, _ in
+            expectationWebViewToStartProvisionalNavigation.fulfill()
+        }
+        let expectationWebViewToFinish = expectation(description: "Web view should finish")
+        navigationDelegateHandler.didFinish = { _, _ in
+            expectationWebViewToFinish.fulfill()
+        }
+        navigationDelegateHandler.didFailWithError = { _, _, error in
+            XCTFail(String(describing: error))
+        }
+        navigationDelegateHandler.didFailProvisionalNavigation = { _, _, error in
+            XCTFail(String(describing: error))
+        }
+        navigationDelegateHandler.webContentProcessDidTerminate = { _ in
+            XCTFail("The web content process terminated before the current test finishes.")
+        }
+        webView.navigationDelegate = navigationDelegateHandler
         webView.loadHTMLString(html, baseURL: server.serverURL!)
-        wait(for: [expectationOnMessage], timeout: 5.0)
+        wait(for: [expectationWebViewToCommit,
+                   expectationWebViewToStartProvisionalNavigation,
+                   expectationWebViewToFinish],
+             timeout: 5.0)
+        wait(for: [expectationOnLoad, expectationOnMessage],timeout: 5.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
             "data": Data(consoleMessage.utf8),
             "destination": ConsoleRedirection.Destination.standardOutput
         ])
         server.didReceiveConsoleDidWriteNotification(notification)
         wait(for: [expectationOnStdout], timeout: 5.0)
+        webView.navigationDelegate = nil
+        webView.stopLoading()
     }
 
     func testIsRunning() {
@@ -714,6 +756,39 @@ private class ScriptMessageHandlerBlock: NSObject, WKScriptMessageHandler {
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         block(userContentController, message)
+    }
+}
+
+private class NavigationDelegateHandler: NSObject, WKNavigationDelegate {
+    var didCommit: ((WKWebView, WKNavigation) -> Void)?
+    var didStartProvisionalNavigation: ((WKWebView, WKNavigation) -> Void)?
+    var didFailWithError: ((WKWebView, WKNavigation, Error) -> Void)?
+    var didFailProvisionalNavigation: ((WKWebView, WKNavigation, Error) -> Void)?
+    var didFinish: ((WKWebView, WKNavigation) -> Void)?
+    var webContentProcessDidTerminate: ((WKWebView) -> Void)?
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        didCommit?(webView, navigation)
+    }
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        didStartProvisionalNavigation?(webView, navigation)
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        didFailWithError?(webView, navigation, error)
+    }
+
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        didFailProvisionalNavigation?(webView, navigation, error)
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        didFinish?(webView, navigation)
+    }
+
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        webContentProcessDidTerminate?(webView)
     }
 }
 

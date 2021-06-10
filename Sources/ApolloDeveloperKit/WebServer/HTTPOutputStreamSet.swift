@@ -19,6 +19,7 @@ final class HTTPOutputStreamSet: Sequence {
         for stream in self {
             stream.write(data: data)
         }
+        Logger.http?.debug("Broadcasted \(data) to \(hashTable.count) streams.")
     }
 
     func makeIterator() -> AnyIterator<HTTPOutputStream> {

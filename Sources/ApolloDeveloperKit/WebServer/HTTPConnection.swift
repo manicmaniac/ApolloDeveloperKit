@@ -27,11 +27,13 @@ final class HTTPConnection {
     weak var delegate: HTTPConnectionDelegate?
     private let incomingRequest = HTTPRequestMessage()
     private let socket: Socket
+    private let address: Data
     private var eventQueue = ArraySlice<Event>()
     private let eventQueueLock = NSLock()
 
-    init(httpVersion: String, nativeHandle: CFSocketNativeHandle) throws {
+    init(httpVersion: String, nativeHandle: CFSocketNativeHandle, address: Data) throws {
         self.httpVersion = httpVersion
+        self.address = address
         let socket = try Socket(nativeHandle: nativeHandle, callbackTypes: [.dataCallBack, .writeCallBack])
         self.socket = socket
         socket.isNonBlocking = true
@@ -41,6 +43,33 @@ final class HTTPConnection {
 
     func schedule(in runLoop: RunLoop, forMode mode: RunLoop.Mode) {
         socket.schedule(in: runLoop, forMode: mode)
+    }
+}
+
+// MARK: CustomStringConvertible
+
+extension HTTPConnection: CustomStringConvertible {
+    var description: String {
+        let address = self.address.withUnsafeBytes { $0.load(as: sockaddr.self) }
+        let numericAddress: String
+        let port: in_port_t
+        switch Int32(address.sa_family) {
+        case AF_INET:
+            var buffer = [CChar](repeating: 0, count: Int(INET_ADDRSTRLEN))
+            var address = self.address.withUnsafeBytes { $0.load(as: sockaddr_in.self) }
+            inet_ntop(AF_INET, &address.sin_addr, &buffer, socklen_t(buffer.count))
+            numericAddress = String(cString: buffer)
+            port = address.sin_port.bigEndian
+        case AF_INET6:
+            var buffer = [CChar](repeating: 0, count: Int(INET6_ADDRSTRLEN))
+            var address = self.address.withUnsafeBytes { $0.load(as: sockaddr_in6.self) }
+            inet_ntop(AF_INET6, &address.sin6_addr, &buffer, socklen_t(buffer.count))
+            numericAddress = String(cString: buffer)
+            port = address.sin6_port.bigEndian
+        default:
+            fatalError("Unexpected address family: \(address.sa_family).")
+        }
+        return "HTTP connection to (\(numericAddress):\(port))"
     }
 }
 
