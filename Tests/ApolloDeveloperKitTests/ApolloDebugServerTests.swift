@@ -118,7 +118,7 @@ class ApolloDebugServerTests: XCTestCase {
                    expectationWebViewToStartProvisionalNavigation,
                    expectationWebViewToFinish],
              timeout: 5.0)
-        wait(for: [expectationOnLoad, expectationOnMessage],timeout: 20.0)
+        wait(for: [expectationOnLoad, expectationOnMessage],timeout: 5.0)
         let notification = Notification(name: .consoleDidWrite, object: ConsoleRedirection.shared, userInfo: [
             "data": Data(consoleMessage.utf8),
             "destination": ConsoleRedirection.Destination.standardOutput
