@@ -17,10 +17,11 @@ let package = Package(
         .target(
             name: "ApolloDeveloperKit",
             dependencies: ["Apollo"],
+            exclude: ["Info.plist"],
             resources: [.copy("Assets")]),
         .testTarget(
             name: "ApolloDeveloperKitTests",
             dependencies: ["ApolloDeveloperKit"],
-            exclude: ["ApolloDeveloperKitTests.swift"])
+            exclude: ["ApolloDeveloperKitTests.swift", "Info.plist"])
     ]
 )
